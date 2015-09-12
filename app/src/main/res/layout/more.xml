@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:background="@drawable/tps_tabbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical|center_horizontal">
+
+        <TextView
+            android:text="@string/more_seetong"
+            android:textSize="25sp"
+            android:textColor="@color/green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/more_alarm_img"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/tps_more_alarm"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content" />
+            
+            <Button
+                android:id="@+id/more_alarm_button"
+                android:layout_toRightOf="@id/more_alarm_img"
+                android:layout_marginLeft="20dp"
+                android:text="@string/more_alarm"
+                android:textSize="15sp"
+                android:gravity="left|center_vertical"
+                android:background="#00000000"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:src="@drawable/tps_more_goto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/more_alarm_button"
+                android:layout_toEndOf="@+id/more_alarm_button" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:src="@drawable/tps_more_grayline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/more_setting_img"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/tps_more_set"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/more_setting_button"
+                android:layout_toRightOf="@id/more_setting_img"
+                android:layout_marginLeft="20dp"
+                android:text="@string/more_setting"
+                android:textSize="15sp"
+                android:gravity="left|center_vertical"
+                android:background="#00000000"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:src="@drawable/tps_more_goto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/more_setting_button"
+                android:layout_toEndOf="@+id/more_setting_button" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:src="@drawable/tps_more_grayline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/more_about_img"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/tps_more_about"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/more_about_button"
+                android:layout_toRightOf="@id/more_about_img"
+                android:layout_marginLeft="20dp"
+                android:text="@string/more_about"
+                android:textSize="15sp"
+                android:gravity="left|center_vertical"
+                android:background="#00000000"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:src="@drawable/tps_more_goto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/more_about_button"
+                android:layout_toEndOf="@+id/more_about_button" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:src="@drawable/tps_more_grayline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/more_exit_button"
+        android:text="@string/more_exit"
+        android:textSize="20sp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

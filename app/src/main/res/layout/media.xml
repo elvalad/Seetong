@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@drawable/tps_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:background="@drawable/tps_tabbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal">
+
+            <ImageButton
+                android:id="@+id/media_back"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:scaleType="fitXY"
+                android:background="#00000000"
+                android:src="@drawable/tps_register_back"
+                android:layout_marginLeft="25dp"
+                android:layout_centerVertical="true" />
+
+            <LinearLayout
+                android:layout_centerInParent="true"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/media_picture"
+                    android:text="@string/media_picture"
+                    android:textSize="20sp"
+                    android:textColor="@color/green"
+                    android:background="#00000000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/media_video"
+                    android:text="@string/media_video"
+                    android:textSize="20sp"
+                    android:textColor="@color/green"
+                    android:background="#00000000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/media_edit"
+                android:text="@string/media_edit"
+                android:textSize="15sp"
+                android:textColor="@color/green"
+                android:background="#00000000"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/media_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </FrameLayout>
+
+    </LinearLayout>
+</RelativeLayout>
