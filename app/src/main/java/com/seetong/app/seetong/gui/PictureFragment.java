@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import com.seetong.app.seetong.R;
 
 /**
- * Created by Administrator on 2015/9/13.
+ * PictureFragment 是用于显示图片的 Fragment，它嵌套与 MediaFragment 中.
+ *
+ * Created by gmk on 2015/9/13.
  */
 public class PictureFragment extends Fragment {
 

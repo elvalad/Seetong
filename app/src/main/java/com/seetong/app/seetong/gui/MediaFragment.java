@@ -11,7 +11,12 @@ import com.seetong.app.seetong.R;
 
 
 /**
- * Created by Administrator on 2015/9/11.
+ * MediaFragment 主要用于显示多媒体文件列表的 Fragment，它也是包含在 MainActivity 的 TabHost 中，
+ * 它自身又嵌套包含两个子的 Fragment, 分别为 PictureFragment 和 VideoFragment 用于显示图片文件和
+ * 录像文件.当用户点击不同的 Button 时会通过 getChildFragmentManager 显示不同的 Fragment.
+ * 此 Fragment 默认显示 PictureFragment.
+ *
+ * Created by gmk on 2015/9/11.
  */
 public class MediaFragment extends Fragment {
 

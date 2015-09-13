@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import com.seetong.app.seetong.R;
 
 /**
- * Created by Administrator on 2015/9/13.
+ * VideoFragment 是用于显示录像列表的 Fragment， 它和 PictureFragment一样都嵌套在 MediaFragment 中.
+ *
+ * Created by gmk on 2015/9/13.
  */
 public class VideoFragment extends Fragment {
 

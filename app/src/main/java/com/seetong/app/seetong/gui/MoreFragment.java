@@ -11,7 +11,10 @@ import android.widget.Button;
 import com.seetong.app.seetong.R;
 
 /**
- * Created by Administrator on 2015/9/11.
+ * MoreFragment 是更多页面的 Fragment，它也是包含于 MainActivity 的 Tabhost 中，它自身包含一些基本的
+ * 组件来完成相关的操作，通过点击相关 Button，会进入到其他 Activity.
+ *
+ * Created by gmk on 2015/9/11.
  */
 public class MoreFragment extends Fragment {
     @Override

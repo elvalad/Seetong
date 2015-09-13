@@ -3,7 +3,9 @@ package com.seetong.app.seetong;
 import android.app.Application;
 
 /**
- * Created by Administrator on 2015/9/11.
+ * Seetong 应用程序的入口.
+ *
+ * Created by gmk on 2015/9/11.
  */
 public class SeetongApplication extends Application {
     @Override

@@ -11,7 +11,11 @@ import android.widget.Button;
 import com.seetong.app.seetong.R;
 
 /**
- * Created by Administrator on 2015/9/11.
+ * LoginActivity 是首次进入 Seetong 后的第一个页面，用于让用户注册登录 Seetong.
+ * 此页面包含几个相关的 Button，点击之后会进入不容的 Activity.
+ * 需要和服务器端交互用于登录用户信息的检查，主页新的用户，忘记密码等信息.
+ *
+ * Created by gmk on 2015/9/11.
  */
 public class LoginActivity extends Activity {
     @Override
@@ -22,6 +26,7 @@ public class LoginActivity extends Activity {
         initWidget();
     }
 
+    // TODO:需要和服务器交互完成用户账号密码检查，用户注册等操作
     private void initWidget() {
         Button loginButton = (Button) findViewById(R.id.login_login);
         loginButton.setOnClickListener(new View.OnClickListener() {

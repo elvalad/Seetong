@@ -7,20 +7,17 @@ import android.view.Window;
 import com.seetong.app.seetong.R;
 
 /**
- * SettingActivity 主要用于设置一些 Seetong 的信息，会控制一些 Seetong 的全局变量来对
- * 整个应用产生影响.
+ * PlayerActivity 是播放设备录像的 Activity，它在 DeviceFragment 包含设备信息时，点击会进入.
+ * 它自身包括播放一个窗口的录像和四个窗口的录像.
  *
- * Created by gmk on 2015/9/12.
+ * Created by gmk on 2015/9/13.
  */
-public class SettingActivity extends Activity {
+public class PlayerActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_setting);
-        initWidget();
+        setContentView(R.layout.activity_player);
     }
-
-    private void initWidget() {}
 }

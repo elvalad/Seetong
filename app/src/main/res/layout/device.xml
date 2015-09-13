@@ -31,6 +31,13 @@
             android:layout_marginEnd="15dp" />
     </RelativeLayout>
 
+    <FrameLayout
+        android:id="@+id/device_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+
+    <!--
     <RelativeLayout
         android:background="@drawable/tps_background"
         android:layout_width="match_parent"
@@ -55,4 +62,5 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
+    -->
 </LinearLayout>

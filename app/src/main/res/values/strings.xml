@@ -27,6 +27,8 @@
 
     <string name="device_device_list">设备列表</string>
     <string name="device_no_msg">暂无消息</string>
+    <string name="device_state_on">在线</string>
+    <string name="device_state_off">离线</string>
     
     <string name="more_seetong">Seetong</string>
     <string name="more_alarm">报警消息</string>
