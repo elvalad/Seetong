@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@android:color/black">
+    <ImageView
+        android:id="@+id/id_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_margin="-50sp"/>
+    <TextView
+        android:id="@+id/id_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_margin="0sp"
+        android:background="@color/blue"
+        android:textColor="#ff0000"
+        android:textSize="13sp"
+        style="bold"/>
+</LinearLayout>-->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+    android:clickable="true">
+    <Button android:id="@+id/btn_small_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/msg_prompt"
+            android:layout_gravity="top|right"
+            android:text="1"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:clickable="false"
+            android:visibility="gone"/>
+    <Button android:id="@+id/btn_disable_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/umeng_update_close_bg_normal"
+            android:layout_gravity="center"
+            android:clickable="false"
+            android:visibility="gone"/>
+    <ImageView
+        android:id="@+id/id_image_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/activeted_tab_bar"
+        android:visibility="gone"/>
+    <ImageView
+        android:id="@+id/id_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_marginBottom="5dp"/>
+    <TextView
+        android:id="@+id/id_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_margin="0sp"
+        android:textColor="#fff"
+        android:textSize="13sp"
+        style="bold"/>
+</FrameLayout>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:background="#006d99ff"
+              android:orientation="vertical">
+
+        <RelativeLayout
+                android:id="@+id/add_device_tabbar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/tps_register_tabbar"
+                android:layout_gravity="center_horizontal">
+
+                <ImageButton
+                        android:id="@+id/add_device_back"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:scaleType="fitXY"
+                        android:background="#00000000"
+                        android:src="@drawable/tps_register_back"
+                        android:layout_marginLeft="25dp"
+                        android:layout_centerVertical="true" />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/device_add_device"
+                        android:textSize="20sp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+                android:id="@+id/mix_device_id"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_below="@+id/add_device_tabbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                        android:text="@string/device_add_id"
+                        android:textSize="15sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                <com.seetong.app.seetong.ui.ext.RegexpEditText
+                        android:id="@+id/device_add_id"
+                        android:layout_marginLeft="80dp"
+                        android:background="@null"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/device_add_id_hint_text"
+                        android:textSize="12sp"
+                        android:textColorHint="#dddddd" />
+
+        </RelativeLayout>
+
+        <ImageView
+                android:id="@+id/device_id_line"
+                android:src="@drawable/line"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_below="@+id/mix_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        <RelativeLayout
+                android:id="@+id/mix_device_account"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_below="@+id/device_id_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                        android:text="@string/device_add_account"
+                        android:textSize="15sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                <com.seetong.app.seetong.ui.ext.RegexpEditText
+                        android:id="@+id/device_add_account"
+                        android:layout_marginLeft="80dp"
+                        android:background="@null"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/device_add_account_hint_text"
+                        android:textSize="12sp"
+                        android:textColorHint="#dddddd" />
+
+        </RelativeLayout>
+
+        <ImageView
+                android:id="@+id/device_account_line"
+                android:src="@drawable/line"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_below="@+id/mix_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        <RelativeLayout
+                android:id="@+id/mix_device_password"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_below="@+id/device_account_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                        android:text="@string/device_add_password"
+                        android:textSize="15sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                <com.seetong.app.seetong.ui.ext.RegexpEditText
+                        android:id="@+id/device_add_password"
+                        android:layout_marginLeft="80dp"
+                        android:background="@null"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/device_add_password_hint_text"
+                        android:textSize="12sp"
+                        android:textColorHint="#dddddd" />
+
+        </RelativeLayout>
+
+        <ImageView
+                android:id="@+id/device_password_line"
+                android:src="@drawable/line"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_below="@+id/mix_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        <LinearLayout
+                android:id="@+id/device_add_mix_button"
+                android:orientation="horizontal"
+                android:layout_below="@+id/device_password_line"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                        android:id="@+id/device_add_scan"
+                        android:text="@string/device_add_scan"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/tps_register_loginbtn"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp" />
+
+                <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"/>
+
+                <Button
+                        android:id="@+id/device_add_add"
+                        android:text="@string/device_add_add"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp"
+                        android:layout_weight="1"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/tps_register_loginbtn"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp" />
+
+        </LinearLayout>
+
+</LinearLayout>

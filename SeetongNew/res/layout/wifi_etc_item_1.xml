@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center_vertical"
+    android:padding="10dp">
+
+    <View
+        android:id="@+id/vNetFlags"
+        android:layout_width="10dp"
+        android:visibility="gone"
+        android:layout_alignParentLeft="true"
+        android:background="#00cc00"
+        android:layout_height="45dp" />
+
+    <ImageView
+        android:id="@+id/ivWifiState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/vNetFlags"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_wifi_lock_signal_4"
+        android:visibility="visible" />
+
+    <RelativeLayout
+        android:id="@+id/rlDeviceInfoItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/imgDelete"
+        android:layout_toRightOf="@+id/ivWifiState"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tvWifiName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="Wifi_SSID"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvWifiEncrypted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tvWifiName"
+            android:layout_below="@+id/tvWifiName"
+            android:singleLine="true"
+            android:text="通过WPA/WPA2进行保护"
+            android:textColor="#828282"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imgDelete"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/vInterl"
+        android:src="@drawable/cell_accessory_edit_n"
+        android:visibility="gone" />
+
+    <View
+        android:id="@+id/vInterl"
+        android:layout_width="1dp"
+        android:layout_height="28dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/ivWifiInfo"
+        android:background="#00cccccc" />
+
+    <ImageView
+        android:id="@+id/ivWifiInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/icon_link_n" />
+
+</RelativeLayout>

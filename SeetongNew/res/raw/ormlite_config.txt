@@ -1,0 +1,78 @@
+#
+# generated on 2012/11/13 05:42:59
+#
+# --table-start--
+dataClass=innoview.itouchviewcivil.db.vo.Group
+tableName=device_group
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=groupName
+# --field-end--
+# --field-start--
+fieldName=onlineDeviceNum
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=innoview.itouchviewcivil.db.vo.Device
+tableName=device
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=name
+# --field-end--
+# --field-start--
+fieldName=pinyin
+# --field-end--
+# --field-start--
+fieldName=uid
+# --field-end--
+# --field-start--
+fieldName=password
+# --field-end--
+# --field-start--
+fieldName=maxChancel
+defaultValue=3
+# --field-end--
+# --field-start--
+fieldName=group
+foreign=true
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=innoview.itouchviewcivil.db.vo.Event
+tableName=event
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=time
+# --field-end--
+# --field-start--
+fieldName=name
+# --field-end--
+# --field-start--
+fieldName=content
+# --field-end--
+# --field-start--
+fieldName=level
+# --field-end--
+# --field-start--
+fieldName=device
+foreign=true
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################

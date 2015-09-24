@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    style="@style/rlMainBk"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <include
+        android:id="@+id/llTitle"
+        layout="@layout/global_title" />
+
+    <LinearLayout
+        android:id="@+id/llLoginTypes"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/llTitle"
+        android:background="#ffffff"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvWifiInfo"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/tv_by_device"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
+            android:background="#1B880B" />
+
+        <TextView
+            android:id="@+id/tvDeviceWifi"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="#f0ffff"
+            android:gravity="center"
+            android:text="@string/tv_by_user"
+            android:textColor="@color/st_item_font"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/svDevices"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llLoginTypes"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/normal_interval"
+        android:background="@drawable/st_rounded_rectangle"
+        android:padding="@dimen/small_interval"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/llContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/st_rounded_rectangle"
+            android:padding="10dp"
+            android:visibility="visible">
+
+            <com.seetong.app.seetong.ui.aid.ClearEditText
+                android:id="@+id/etUserName"
+                style="@style/etNodeSetting"
+                android:drawableLeft="@drawable/imgleft_user"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:hint="@string/et_form_user"
+                android:includeFontPadding="false"
+                android:maxLength="@integer/user_name_max_length" />
+
+            <com.seetong.app.seetong.ui.aid.ClearEditText
+                android:id="@+id/etUserPassword"
+                style="@style/etNodeSetting"
+                android:layout_below="@+id/etUserName"
+                android:layout_marginTop="5dp"
+                android:drawableLeft="@drawable/imgleft_pwd"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:hint="@string/et_form_user_pwd"
+                android:inputType="textPassword"
+                android:maxLength="@integer/user_pwd_max_length" />
+
+            <CheckBox
+                android:id="@+id/cbSavePassword"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/nodeSettingHeight"
+                android:layout_alignBaseline="@+id/btnEtcFinish"
+                android:gravity="center_vertical"
+                android:text="@string/tv_form_save_pwd"
+                android:textColor="#008214" />
+
+            <Button
+                android:id="@+id/btnEtcFinish"
+                style="@style/rightButton"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/etUserPassword"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="@string/login" />
+
+            <Button
+                android:id="@+id/btnRegister"
+                style="@style/rightButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnEtcFinish"
+                android:layout_gravity="right"
+                android:layout_marginTop="45dp"
+                android:padding="10dp"
+                android:text="@string/tv_form_register_text"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/btnWifiEtc"
+                style="@style/rightButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnRegister"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:text="@string/form_wifi_btn_etc_wifi"
+                android:textColor="#ff0000"
+                android:visibility="visible" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/ll_qrcode"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/tv_qrcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/qrcode"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <include
+        android:id="@+id/llDeviceForm"
+        layout="@layout/device_info_form"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llLoginTypes"
+        android:visibility="visible" />
+
+</RelativeLayout>

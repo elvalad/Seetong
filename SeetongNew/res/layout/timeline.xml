@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white">
+    <LinearLayout android:orientation="horizontal" android:background="@color/white" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <ImageButton
+                android:id="@+id/btn_calendar"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/calender"
+                android:visibility="visible"/>
+        <TextView android:orientation="horizontal"
+                  android:background="@color/white"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                android:visibility="visible"/>
+        <ImageButton
+                android:id="@+id/btnZoomIn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/timeline_zoomin"/>
+        <ImageButton
+                android:id="@+id/btnZoomOut"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/timeline_zoomout"/>
+    </LinearLayout>
+    <com.seetong.app.seetong.ui.ext.TimeLine android:orientation="horizontal" android:id="@+id/wgtTimeline"
+                                             android:layout_width="fill_parent" android:layout_height="100.0dip"/>
+</LinearLayout>

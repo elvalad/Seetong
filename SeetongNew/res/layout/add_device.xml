@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/layout_media"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/title_main">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/add_device"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/title_font_size" />
+
+        <Button
+            android:id="@+id/btn_title_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/btn_back"
+            android:text="@string/back"
+            android:textColor="@android:color/white"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/add_device_top_margin"
+            android:layout_marginBottom="@dimen/add_device_bottom_margin"
+            android:layout_marginLeft="@dimen/add_device_left_margin">
+
+            <TextView
+                android:layout_width="@dimen/add_device_lable_width"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/ip_addr"
+                android:textSize="@dimen/add_device_text_size"
+                android:textColor="@color/add_device_item_label"/>
+
+            <com.seetong.app.seetong.ui.ext.RegexpEditText
+                android:id="@+id/txt_ip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/add_device_text_size"
+                android:singleLine="true"
+                android:hint="@string/require"
+                android:textColorHint="@color/add_device_item_hint"
+                android:background="@null"
+                android:inputType="numberDecimal"
+                android:digits="1234567890."/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/add_device_left_margin"
+            android:background="@drawable/line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/add_device_top_margin"
+            android:layout_marginBottom="@dimen/add_device_bottom_margin"
+            android:layout_marginLeft="@dimen/add_device_left_margin">
+
+            <TextView
+                android:layout_width="@dimen/add_device_lable_width"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/ptz_port"
+                android:textSize="@dimen/add_device_text_size"
+                android:textColor="@color/add_device_item_label"/>
+
+            <com.seetong.app.seetong.ui.ext.IntegerEditText
+                android:id="@+id/txt_ptz_port"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/add_device_text_size"
+                android:singleLine="true"
+                android:hint="@string/require"
+                android:textColorHint="@color/add_device_item_hint"
+                android:background="@null"
+                android:inputType="number"
+                android:maxLength="5"/>
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/add_device_left_margin"
+                android:background="@drawable/line" />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/add_device_top_margin"
+                android:layout_marginBottom="@dimen/add_device_bottom_margin"
+                android:layout_marginLeft="@dimen/add_device_left_margin">
+
+            <TextView
+                    android:layout_width="@dimen/add_device_lable_width"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/video_port"
+                    android:textSize="@dimen/add_device_text_size"
+                    android:textColor="@color/add_device_item_label"/>
+
+            <com.seetong.app.seetong.ui.ext.IntegerEditText
+                    android:id="@+id/txt_video_port"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/add_device_text_size"
+                    android:singleLine="true"
+                    android:hint="@string/require"
+                    android:textColorHint="@color/add_device_item_hint"
+                    android:background="@null"
+                    android:inputType="number"
+                    android:maxLength="5"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/add_device_left_margin"
+            android:background="@drawable/line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/add_device_top_margin"
+            android:layout_marginBottom="@dimen/add_device_bottom_margin"
+            android:layout_marginLeft="@dimen/add_device_left_margin">
+
+            <TextView
+                android:layout_width="@dimen/add_device_lable_width"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/device_name"
+                android:textSize="@dimen/add_device_text_size"
+                android:textColor="@color/add_device_item_label"/>
+
+            <com.seetong.app.seetong.ui.ext.RegexpEditText
+                android:id="@+id/txt_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/add_device_text_size"
+                android:singleLine="true"
+                android:hint="@string/require"
+                android:textColorHint="@color/add_device_item_hint"
+                android:background="@null"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/add_device_left_margin"
+            android:background="@drawable/line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/add_device_top_margin"
+            android:layout_marginBottom="@dimen/add_device_bottom_margin"
+            android:layout_marginLeft="@dimen/add_device_left_margin">
+
+            <TextView
+                android:layout_width="@dimen/add_device_lable_width"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/user_pwd"
+                android:textSize="@dimen/add_device_text_size"
+                android:textColor="@color/add_device_item_label"/>
+
+            <com.seetong.app.seetong.ui.ext.RegexpEditText
+                android:id="@+id/txt_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/add_device_text_size"
+                android:singleLine="true"
+                android:hint="@string/require"
+                android:textColorHint="@color/add_device_item_hint"
+                android:background="@null"
+                android:password="true"
+                android:inputType="textPassword" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/add_device_left_margin"
+            android:background="@drawable/line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/add_device_top_margin"
+            android:layout_marginBottom="@dimen/add_device_bottom_margin">
+            <Button
+                android:id="@+id/btn_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/add_device_left_margin"
+                android:layout_marginRight="@dimen/add_device_left_margin"
+                android:background="@drawable/btn_ok"
+                android:text="@string/ok"
+                android:textSize="@dimen/add_device_button_text_size"
+                android:textColor="@android:color/white"/>
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/add_device_left_margin"
+                android:layout_marginRight="@dimen/add_device_left_margin"
+                android:background="@drawable/btn_cancle"
+                android:text="@string/cancel"
+                android:textSize="@dimen/add_device_button_text_size"
+                android:textColor="@android:color/white"/>
+            </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

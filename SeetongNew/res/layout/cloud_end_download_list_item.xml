@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relative"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/more_item_height"
+        android:background="@color/white"
+        android:descendantFocusability="blocksDescendants"
+        android:padding="@dimen/small_interval"
+            android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="@dimen/normal_interval"
+            android:padding="@dimen/small_interval"
+            android:background="@drawable/record"
+            android:scaleType="fitXY" />
+
+        <RelativeLayout
+            android:id="@+id/rlInfo"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/normal_interval">
+            <TextView
+                android:id="@+id/tvCaption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="144127-av-1-10.avi"
+                android:textColor="@color/txt_more_list_item_font"
+                android:textSize="@dimen/big" />
+            <ProgressBar
+                    android:id="@+id/id_pb_download"
+                    android:layout_width="fill_parent"
+                    android:layout_height="10dp"
+                    android:layout_below="@+id/tvCaption"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:progressDrawable="@drawable/seekbar_define_color_style"
+                    android:visibility="visible"/>
+        </RelativeLayout>
+        <ImageButton
+                android:id="@+id/btn_download"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/normal_interval"
+                android:background="@drawable/btn_download"
+                android:scaleType="fitXY"
+                android:visibility="gone"/>
+        <ImageButton
+                android:id="@+id/btn_delete"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/normal_interval"
+                android:padding="@dimen/small_interval"
+                android:background="@drawable/btn_delete_1"
+                android:scaleType="fitXY"
+                android:visibility="gone"/>
+    </LinearLayout>
+
+</RelativeLayout>

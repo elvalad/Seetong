@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.seetong.app.seetong"
+          android:versionCode="74"
+          android:versionName="4.2.2_20150915_001">
+
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="22"/>
+
+    <!-- 访问网络权限 -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
+    <!-- 在SDCard中创建与删除文件权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <!-- 往SDCard写入数据权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!-- 电源管理 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <!-- 读取Log权限 -->
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <!-- 读取手机状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <!-- 手机振动相关权限 -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <!-- 闪光灯及相机相关权限 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- 相机相关权限 -->
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <!-- 录音相关权限 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+
+    <uses-feature
+            android:glEsVersion="0x20000"
+            android:required="true"/>
+    <application
+            android:name="com.seetong.app.seetong.ui.App"
+            android:allowBackup="true"
+            android:configChanges="locale"
+            android:label="@string/app_name"
+            android:icon="@drawable/ico_launcher"
+            android:hardwareAccelerated="false"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
+        <activity
+                android:name="com.seetong.app.seetong.ui.LoginActivity"
+                android:launchMode="singleTop"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:windowSoftInputMode="stateHidden|adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+                android:name="com.seetong.app.seetong.ui.MainActivity2">
+        </activity>
+
+        <activity
+                android:name="com.seetong.app.seetong.ui.RegisterActivity">
+        </activity>
+
+        <activity
+                android:name="com.seetong.app.seetong.ui.AlarmActivity">
+        </activity>
+
+        <activity
+                android:name="com.seetong.app.seetong.ui.AboutActivity">
+        </activity>
+
+        <activity
+                android:name="com.seetong.app.seetong.ui.SettingActivity">
+        </activity>
+
+        <activity
+                android:name="com.seetong.app.seetong.ui.PlayerActivity">
+        </activity>
+
+        <activity
+                android:name="com.seetong.app.seetong.ui.AddDeviceActivity">
+        </activity>
+
+        <activity
+                android:name="com.seetong.app.seetong.ui.GalleryActivity">
+
+        </activity>
+
+        <activity
+                android:name="com.android.zxing.ui.CaptureTDCodeUI"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:name="com.seetong.app.seetong.ui.AlarmSettingUI"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.seetong.app.seetong.ui.MotionDetectUI"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.seetong.app.seetong.ui.SettingUI"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.seetong.app.seetong.ui.Message"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.seetong.app.seetong.ui.AlarmMessageUI"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.seetong.app.seetong.ui.StorageSettingUI"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:windowSoftInputMode="stateHidden"/>
+
+
+        <activity android:name="com.seetong.app.seetong.ui.Settings"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.seetong.app.seetong.ui.Help"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.seetong.app.seetong.ui.About"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.seetong.app.seetong.ui.SoftDescriptionUI"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.seetong.app.seetong.ui.TimeZoneUI"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:windowSoftInputMode="stateHidden">
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>-->
+        </activity>
+
+        <activity android:name="com.exina.android.calendar.CalendarActivity"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.PICK"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="vnd.android.cursor.dir/vnd.exina.android.calendar.date"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="vnd.android.cursor.dir/vnd.exina.android.calendar.date"/>
+            </intent-filter>
+        </activity>
+
+        <service android:name="com.seetong.service.MainService"/>
+        <receiver android:name="com.seetong.service.MainReceiver">
+            <intent-filter>
+                <action android:name="com.seetong.app.seetong.ALARM_EVENT"/>
+            </intent-filter>
+        </receiver>
+
+        <activity
+                android:name="com.umeng.update.UpdateDialogActivity"
+                android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
+
+        <!-- #################### 友盟数据接口调用...start #################### -->
+        <!-- Fb Activitys Start -->
+        <activity android:name="com.umeng.fb.ConversationActivity"
+                  android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity android:name="com.umeng.fb.ContactActivity"
+                  android:theme="@android:style/Theme.NoTitleBar"/>
+        <!-- Fb Activitys End -->
+
+
+        <!-- 友盟数据分析...start -->
+        <meta-data
+                android:name="UMENG_APPKEY"
+                android:value="@string/um_key">
+        </meta-data>
+        <meta-data
+                android:name="UMENG_CHANNEL"
+                android:value="@string/um_channel">
+        </meta-data>
+        <!-- 友盟数据分析...End -->
+
+        <service
+                android:name="com.umeng.update.net.DownloadingService"
+                android:process=":DownloadingService"/>
+        <!-- #################### 友盟数据接口调用...end #################### -->
+
+
+        <activity
+                android:name="com.mob.tools.MobUIShell"
+                android:theme="@android:style/Theme.Translucent.NoTitleBar"
+                android:configChanges="keyboardHidden|orientation|screenSize"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <data android:scheme="tencent100371282"/>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!--微信分享回调 -->
+        <activity
+                android:name="com.seetong.app.seetong.wxapi.WXEntryActivity"
+                android:theme="@android:style/Theme.Translucent.NoTitleBar"
+                android:configChanges="keyboardHidden|orientation|screenSize"
+                android:exported="true"
+                android:screenOrientation="portrait"/>
+
+        <!-- QQ客户端回调 -->
+        <activity
+                android:name="cn.sharesdk.tencent.qq.ResultReceiver"
+                android:launchMode="singleTask"
+                android:noHistory="true">
+            <!--
+            如果集成QQ分享，或者使用QQ客户端来进行QQ空间的分享，须要在此处添加一个对ACTION_VIEW
+            事件的过滤器，其中的scheme是“tencent”前缀再开发者应用的加上appId。如果此过滤器不设置，
+            则分享结束以后不能得到正确的回调
+            -->
+            <intent-filter android:priority="1000" >
+                <data android:scheme="tencent100371282" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+                android:name="com.umeng.message.NotificationProxyBroadcastReceiver"
+                android:exported="false">
+        </receiver>
+        <receiver android:name="com.umeng.message.RegistrationReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+
+                <data android:scheme="package"/>
+            </intent-filter>
+
+            <!--【可选】根据需要添加-->
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+
+        </receiver>
+        <receiver android:name="com.umeng.message.UmengBroadcastReceiver">
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.RECEIVE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.seetong.app.seetong.intent.action.COMMAND"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.RE_ELECTION_V2"/>
+            </intent-filter>
+        </receiver>
+        <service
+                android:name="com.umeng.message.UmengService"
+                android:exported="true"
+                android:process=":umengService_v1">
+            <intent-filter>
+                <action android:name="com.seetong.app.seetong.intent.action.START"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.seetong.app.seetong.intent.action.COCKROACH"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.PING"/>
+            </intent-filter>
+        </service>
+        <service
+                android:name="org.android.agoo.service.ElectionService"
+                android:exported="true"
+                android:process=":umengService_v1">
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.ELECTION_V2"/>
+            </intent-filter>
+        </service>
+        <service android:name="com.umeng.message.UmengIntentService"/>
+        <!-- V1.3.0添加的service，负责下载通知的资源 -->
+        <service android:name="com.umeng.message.UmengDownloadResourceService"/>
+
+        <meta-data
+                android:name="UMENG_MESSAGE_SECRET"
+                android:value="1c628e14f22e1eaa233f45a41c1c3fa6">
+        </meta-data>
+
+        <!-- push service client -->
+        <receiver android:name="com.seetong.service.MyPushMessageReceiver" android:exported="false">
+            <intent-filter>
+                <!--  接收 push 消息  -->
+                <action android:name="com.baidu.android.pushservice.action.MESSAGE"/>
+                <!--  接收 bind、setTags 等 method 的返回结果  -->
+                <action android:name="com.baidu.android.pushservice.action.RECEIVE"/>
+                <!--  可选。接受通知点击事件，和通知自定义内容  -->
+                <action android:name="com.baidu.android.pushservice.action.notification.CLICK"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- push必须的receviver和service声明 -->
+        <receiver android:name="com.baidu.android.pushservice.PushServiceReceiver"
+                  android:process=":bdservice_v1">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="com.baidu.android.pushservice.action.notification.SHOW"/>
+                <action android:name="com.baidu.android.pushservice.action.media.CLICK"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.baidu.android.pushservice.RegistrationReceiver"
+                  android:process=":bdservice_v1">
+            <intent-filter>
+                <action android:name="com.baidu.android.pushservice.action.METHOD"/>
+                <action android:name="com.baidu.android.pushservice.action.BIND_SYNC"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+        <service
+                android:name="com.baidu.android.pushservice.PushService"
+                android:exported="false"
+                android:process=":bdservice_v1">
+            <intent-filter>
+                <action android:name="com.baidu.android.pushservice.action.PUSH_SERVICE"/>
+            </intent-filter>
+        </service>
+        <!-- push结束 -->
+
+        <!-- 在百度开发者中心查询应用的API Key -->
+        <meta-data android:name="api_key" android:value="AmTyaZNSsxX2jgka6C3MgaLu"/>
+
+    </application>
+</manifest>

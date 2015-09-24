@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="stream_types">
+        <item>主码流</item>
+        <item>次码流</item>
+        <!-- <item>三码流</item> -->
+    </string-array>
+    <string-array name="gallery_types">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+    </string-array>
+    <string-array name="language_datas">
+        <item>随系统语言</item>
+        <item>中文(简体)</item>
+        <item>中文(繁體)</item>
+        <item>English(U.S)</item>
+    </string-array>
+    <string-array name="language_numbers">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="dlg_menu_search_ui">
+        <item>返回列表</item>
+        <item>修改设备</item>
+        <item>视频预览</item>
+    </string-array>
+    <!-- n_setting_ui -->
+    <string-array name="n_pic_setting">
+        <item>单画面</item>
+        <item>多画面</item>
+    </string-array>
+    <string-array name="n_Optimizer_types">
+        <item>实时性</item>
+        <item>流畅性</item>
+    </string-array>
+
+    <!-- seetong -->
+    <string-array name="t_login_modes">
+        <item>按用户登录</item>
+        <item>按设备登录</item>
+    </string-array>
+    <string-array name="t_view_types">
+        <item>1</item>
+        <item>4</item>
+        <!--<item>9</item>
+        <item>16</item>-->
+    </string-array>
+    <string-array name="string_ary_alarm_sound_name">
+        <item>报警声音1</item>
+        <item>报警声音2</item>
+        <item>报警声音3</item>
+        <item>报警声音4</item>
+        <item>报警声音5</item>
+        <item>报警声音6</item>
+        <item>报警声音7</item>
+        <item>报警声音8</item>
+        <item>报警声音9</item>
+        <item>报警声音10</item>
+    </string-array>
+    <string-array name="string_ary_share_video_time">
+        <item>3分钟</item>
+        <item>5分钟</item>
+        <item>10分钟</item>
+        <item>30分钟</item>
+        <item>无限制</item>
+    </string-array>
+    <string-array name="string_ary_month">
+        <item>1月</item>
+        <item>2月</item>
+        <item>3月</item>
+        <item>4月</item>
+        <item>5月</item>
+        <item>6月</item>
+        <item>7月</item>
+        <item>8月</item>
+        <item>9月</item>
+        <item>10月</item>
+        <item>11月</item>
+        <item>12月</item>
+    </string-array>
+    <string-array name="string_ary_week_num">
+        <item>第一个</item>
+        <item>第二个</item>
+        <item>第三个</item>
+        <item>第四个</item>
+        <item>最后一个</item>
+    </string-array>
+    <string-array name="string_ary_week">
+        <item>星期日</item>
+        <item>星期一</item>
+        <item>星期二</item>
+        <item>星期三</item>
+        <item>星期四</item>
+        <item>星期五</item>
+        <item>星期六</item>
+    </string-array>
+    <string-array name="string_ary_dst_offset">
+        <item>30分钟</item>
+        <item>60分钟</item>
+        <item>90分钟</item>
+        <item>120分钟</item>
+    </string-array>
+</resources>

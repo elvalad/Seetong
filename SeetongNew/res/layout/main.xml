@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_main"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/white">
+    <include layout="@layout/video" />
+    <include layout="@layout/bottom"/>
+</LinearLayout>-->
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/id_tab_host"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+    <LinearLayout
+            android:id="@+id/layout_main"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+            <include layout="@layout/video_fragment" />
+            <include layout="@layout/device_fragment" />
+            <include layout="@layout/friend_fragment" />
+            <!--<include layout="@layout/message_fragment" />-->
+            <include layout="@layout/media_fragment" />
+            <include layout="@layout/more_fragment" />
+        </FrameLayout>
+        <TabWidget android:id="@android:id/tabs"
+                   android:layout_width="match_parent"
+                   android:layout_height="60dp"
+                   android:background="@drawable/backgourd_tab_bar"/>
+    </LinearLayout>
+    </TabHost>

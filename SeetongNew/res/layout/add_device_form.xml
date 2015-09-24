@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:background="#006d99ff"
+              android:orientation="vertical">
+
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+        <RelativeLayout
+                style="@style/linearTitle"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_interval"
+                android:background="@color/clear"
+                android:tag="001">
+
+            <TextView
+                    android:id="@+id/tvWifiSSID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btnNBarHeight"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:text="@string/tv_form_device_id"
+                    android:textColor="#008214"
+                    android:textSize="@dimen/tvNodeSettingFontSize"/>
+
+            <com.seetong.app.seetong.ui.aid.ClearEditText
+                    android:id="@+id/etWifiName"
+                    style="@style/etNodeSetting"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_toLeftOf="@+id/tvDeviceFlag"
+                    android:layout_toRightOf="@+id/tvWifiSSID"
+                    android:hint="@string/et_form_device_id"
+                    android:inputType="number"
+                    android:maxLength="@integer/device_id_max_length"
+                    android:singleLine="true"/>
+
+            <TextView
+                    android:id="@+id/tvDeviceFlag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btnNBarHeight"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:text="*"
+                    android:textColor="#ff0000"
+                    android:textSize="@dimen/tvNodeSettingFontSize"
+                    android:visibility="gone"/>
+        </RelativeLayout>
+
+        <LinearLayout
+                android:id="@+id/llMoreDeviceInfo"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+            <RelativeLayout
+                    style="@style/linearTitle"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/small_interval"
+                    android:layout_marginTop="@dimen/big_interval"
+                    android:background="@color/clear"
+                    android:tag="003"
+                    android:visibility="visible">
+
+                <TextView
+                        android:id="@+id/tvDevName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/btnNBarHeight"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="@string/tv_form_deivce_user"
+                        android:textColor="#008214"
+                        android:textSize="@dimen/tvNodeSettingFontSize"/>
+
+                <com.seetong.app.seetong.ui.aid.ClearEditText
+                        android:id="@+id/etDevName"
+                        style="@style/etNodeSetting"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/big_interval"
+                        android:layout_toRightOf="@+id/tvDevName"
+                        android:hint="@string/et_form_deivce_user"
+                        android:maxLength="@integer/user_name_max_length"
+                        android:singleLine="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                    style="@style/linearTitle"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/small_interval"
+                    android:layout_marginTop="@dimen/big_interval"
+                    android:background="@color/clear"
+                    android:tag="004"
+                    android:visibility="visible">
+
+                <TextView
+                        android:id="@+id/tvWifiPwd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/btnNBarHeight"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="@string/tv_form_deivce_pwd"
+                        android:textColor="#008214"
+                        android:textSize="@dimen/tvNodeSettingFontSize"/>
+
+                <com.seetong.app.seetong.ui.aid.ClearEditText
+                        android:id="@+id/etWifiPwd"
+                        style="@style/etNodeSetting"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/big_interval"
+                        android:layout_toRightOf="@+id/tvWifiPwd"
+                        android:hint="@string/et_form_deivce_pwd"
+                        android:inputType="textPassword"
+                        android:maxLength="@integer/user_pwd_max_length"
+                        android:singleLine="true"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+                style="@style/linearTitle"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_interval"
+                android:layout_marginTop="@dimen/big_interval"
+                android:background="@color/clear"
+                android:tag="004"
+                android:visibility="visible">
+
+            <Button
+                    android:id="@+id/btnPreStepTo1"
+                    style="@style/rightButton4"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="false"
+                    android:layout_centerVertical="true"
+                    android:text="@string/td_btn_scan"/>
+            <!-- android:drawableLeft="@drawable/arrow" -->
+
+            <Button
+                    android:id="@+id/btnAddDevice"
+                    style="@style/rightButton"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/add"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

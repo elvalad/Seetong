@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relative"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/llVideoItemHeight"
+        android:background="@drawable/list_item_selector"
+        android:descendantFocusability="blocksDescendants"
+        android:padding="@dimen/small_interval">
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="@dimen/llVideoItemDelImg"
+            android:layout_height="@dimen/llVideoItemDelImg"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/normal_interval"
+            android:background="@drawable/cell_accessory_edit_n"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="@dimen/llVideoItemImg"
+            android:layout_height="@dimen/llVideoItemImg"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/normal_interval"
+            android:layout_toRightOf="@+id/btnDelete"
+            android:background="@drawable/video_thumb"
+            android:scaleType="fitXY" />
+
+        <RelativeLayout
+            android:id="@+id/rlInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/normal_interval"
+            android:layout_marginRight="@dimen/llVideoItemMarginRight"
+            android:layout_toRightOf="@+id/img">
+
+            <TextView
+                android:id="@+id/tvCaption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="dev1_20120726_0946.h264"
+                android:textColor="#ff000000"
+                android:textSize="@dimen/middle" />
+
+            <TextView
+                android:id="@+id/tvInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvCaption"
+                android:text="20120726 09:46"
+                android:textColor="@color/yellow"
+                android:textSize="@dimen/tiny" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btnShare"
+            android:layout_width="@dimen/llVideoItemDelImg"
+            android:layout_height="@dimen/llVideoItemDelImg"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/normal_interval"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/share"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- main_menu_ui -->
+    <style name="mainLayout" parent="@style/mainLayout_old">
+        <item name="android:background">@color/n_bg</item>
+    </style>
+
+    <style name="mainLayout_old">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@drawable/backgrounds</item>
+    </style>
+
+    <!-- #ff0f8bba-ccaaaaff-#ff1f8ff8 -->
+    <style name="linearTitle" parent="@style/linearTitle_old">
+        <item name="android:background">@drawable/umeng_fb_bar_bg</item>
+        <item name="android:layout_height">@dimen/titleBarHeight</item>
+    </style>
+
+    <style name="linearTitle_old">
+        <item name="android:background">@drawable/title_main</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/btnHeight</item>
+    </style>
+
+    <style name="rlTitle" parent="@style/rlTitle_old">
+        <item name="android:background">@drawable/umeng_fb_bar_bg</item>
+        <item name="android:layout_height">@dimen/titleBarHeight</item>
+    </style>
+
+    <style name="rlTitle_old">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/btnHeight</item>
+        <item name="android:background">@drawable/title_main</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:padding">@dimen/small_interval</item>
+    </style>
+
+    <style name="textTitle" parent="@style/textTitle_old">
+        <item name="android:textColor">@color/n_um_title_font</item>
+        <item name="android:background">@color/clear</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <!-- general-TextView-style 1557db -->
+    <style name="textTitle_old">
+        <item name="android:textColor">#FFffffff</item>
+        <item name="android:textSize">@dimen/tvTitleFontSize</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:shadowColor">#ff0f0f0f</item>
+        <item name="android:shadowDx">-1.5</item>
+        <item name="android:shadowDy">-1.5</item>
+        <item name="android:shadowRadius">1.0</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="rightButton" parent="@style/rightButton_old">
+        <item name="android:background">@drawable/n_round_tb_4</item>
+        <item name="android:layout_width">@dimen/btnNFourBtnWidth</item>
+        <item name="android:layout_height">@dimen/btnNBarHeight</item>
+        <item name="android:layout_marginRight">0dp</item>
+    </style>
+
+    <style name="rightButton4" parent="rightButton">
+        <item name="android:layout_width">@dimen/btnNFourBtnWidth4</item>
+        <item name="android:layout_marginRight">0dp</item>
+        <item name="android:layout_marginLeft">0dp</item>
+    </style>
+
+    <style name="rightButton_old" parent="@style/leftButton_old">
+        <item name="android:background">@drawable/button_four_title</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginRight">@dimen/small_interval</item>
+        <item name="android:layout_alignParentLeft">false</item>
+    </style>
+
+    <!-- <item name="android:background">@drawable/n_round_tb_4</item> android:text="@string/btn_back" -->
+    <style name="leftFourButton" parent="@style/leftButton_old">
+        <item name="android:text">@string/cancel</item>
+        <item name="android:background">@drawable/n_round_tb_4</item>
+        <item name="android:layout_width">@dimen/btnNFourBtnWidth</item>
+        <item name="android:layout_height">@dimen/btnNBarHeight</item>
+    </style>
+
+    <style name="leftButton" parent="@style/leftButton_old">
+        <item name="android:background">@drawable/n_sel_btn_back</item>
+        <item name="android:layout_width">@dimen/btnNBarHeight</item>
+        <item name="android:layout_height">@dimen/btnNBarHeight</item>
+    </style>
+
+    <!-- <item name="android:textColor">#FFffffff</item> -->
+    <style name="leftButton_old">
+        <item name="android:background">@drawable/button_five_title</item>
+        <item name="android:textSize">@dimen/tvFileTitleFontSize</item>
+        <item name="android:textColor">@color/n_round_tb_4_dd</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/small_interval</item>
+        <item name="android:paddingLeft">@dimen/small_interval</item>
+        <item name="android:paddingRight">@dimen/small_interval</item>
+        <item name="android:lines">1</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="spNodeSetting">
+        <item name="android:layout_width">wrap_content</item>
+        <!-- @dimen/nodeSettingHeight -->
+        <item name="android:textSize">@dimen/tvNodeSettingFontSize</item>
+        <item name="android:layout_height">@dimen/nodeSettingHeight</item>
+    </style>
+
+    <style name="tvNodeSetting">
+        <item name="android:textColor">#FF000000</item>
+        <item name="android:textSize">@dimen/tvNodeSettingFontSize</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <!-- @dimen/nodeSettingHeight -->
+        <item name="android:layout_height">@dimen/nodeSettingHeight</item>
+        <item name="android:layout_marginTop">@dimen/small_interval</item>
+    </style>
+
+    <style name="tvNodeItem">
+        <item name="android:textColor">#FF000000</item>
+        <item name="android:textSize">@dimen/tvNodetItemFontSize</item>
+        <item name="android:gravity">left</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/normal_interval</item>
+        <item name="android:paddingBottom">@dimen/normal_interval</item>
+        <item name="android:lines">1</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:ellipsize">marquee</item>
+    </style>
+
+    <style name="tvFileListTitle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:textSize">@dimen/tvFileTitleFontSize</item>
+        <!-- @dimen/fileTitleHeight -->
+        <item name="android:layout_height">@dimen/fileTitleHeight</item>
+        <item name="android:gravity">left</item>
+        <item name="android:paddingLeft">@dimen/small_interval</item>
+        <item name="android:background">#ff1f8ff8</item>
+        <item name="android:text">File Directory:</item>
+        <item name="android:textColor">#FFffffff</item>
+        <item name="android:lines">1</item>
+        <item name="android:ellipsize">middle</item>
+    </style>
+
+    <style name="tvTip">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:textSize">@dimen/tvTipFontSize</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">left</item>
+        <item name="android:padding">@dimen/small_interval</item>
+        <item name="android:text">@string/dlg_tip</item>
+        <item name="android:textColor">#ff000000</item>
+        <item name="android:background">#ffffffff</item>
+    </style>
+
+    <!-- general-ListView-style -->
+    <style name="lvNodeList">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">@dimen/normal_interval</item>
+        <item name="android:divider">#ff000000</item>
+        <item name="android:cacheColorHint">#00000000</item>
+        <item name="android:dividerHeight">1px</item>
+        <item name="android:choiceMode">singleChoice</item>
+        <item name="android:drawSelectorOnTop">false</item>
+    </style>
+
+    <!-- general-EditText-style -->
+    <style name="etNodeSetting">
+        <item name="android:layout_width">wrap_content</item>
+        <!-- @dimen/nodeSettingHeight -->
+        <item name="android:ems">100</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">@dimen/tvNodeSettingFontSize</item>
+        <item name="android:layout_height">@dimen/nodeSettingHeight</item>
+    </style>
+
+    <style name="etEventDetails">
+        <item name="android:layout_width">wrap_content</item>
+        <!-- @dimen/nodeSettingHeight -->
+        <item name="android:ems">100</item>
+        <item name="android:editable">false</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:focusable">false</item>
+        <item name="android:textSize">@dimen/tvNodeSettingFontSize</item>
+        <item name="android:layout_height">@dimen/nodeSettingHeight</item>
+    </style>
+
+    <item name="white" type="drawable">#ffffffff</item>
+
+    <style name="imgHelp">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="bottomMenu">
+        <item name="android:layout_width">10dip</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/small_interval</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- about_ui -->
+    <style name="f_18">
+        <item name="android:textSize">18.0sp</item>
+    </style>
+
+    <style name="f_18_black" parent="@style/f_18">
+        <item name="android:textColor">#ff000000</item>
+        <item name="android:autoLink">all</item>
+    </style>
+
+    <style name="f_16">
+        <item name="android:textSize">16.0sp</item>
+    </style>
+
+    <style name="f_16_black">
+        <item name="android:textColor">#ff000000</item>
+    </style>
+
+    <!-- video_ui -->
+    <style name="imgFunBtn">
+        <item name="android:layout_width">@dimen/funBtnHeight</item>
+        <item name="android:layout_height">@dimen/funBtnHeight</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:layout_marginLeft">@dimen/normal_interval</item>
+    </style>
+
+    <style name="imgMenuBtn">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
+    <!-- function_ui -->
+    <style name="imgGirdItem">
+        <item name="android:layout_width">@dimen/girdItemHeight</item>
+        <item name="android:layout_height">@dimen/girdItemHeight</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+    <!-- node_ui item -->
+    <style name="btnNodeItem" parent="@style/leftButton">
+        <item name="android:layout_width">@dimen/tdCodeBtnHeight</item>
+        <item name="android:layout_height">@dimen/tdCodeBtnHeight</item>
+    </style>
+    <!-- main_menu_ui -->
+    <style name="mainMenuBtn">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+    <!-- main_nvision_ui -->
+    <style name="nvisionMenuBtn">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:layout_margin">1px</item>
+        <item name="android:background">@color/n_bg</item>
+        <item name="android:padding">@dimen/big_interval</item>
+    </style>
+    <!-- n_setting_ui -->
+    <style name="n_item_key" parent="@style/tvNodeSetting">
+        <item name="android:layout_height">@dimen/btnNItemHeight</item>
+        <item name="android:layout_marginLeft">@dimen/big_interval</item>
+    </style>
+
+    <style name="n_item_value" parent="@style/etNodeSetting">
+        <item name="android:layout_height">@dimen/btnNItemHeight</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_marginLeft">@dimen/big_interval</item>
+        <item name="android:layout_marginRight">@dimen/big_interval</item>
+    </style>
+    <!-- ptzCtrl -->
+    <!-- <item name="android:layout_marginLeft">0dip</item> -->
+    <style name="n_btn_ctrl_2" parent="@style/leftButton">
+        <item name="android:background">@drawable/n_round_tb_4</item>
+        <item name="android:textSize">@dimen/btnNPTZFontSize</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_margin">@dimen/small_interval</item>
+        <item name="android:layout_weight">2.0</item>
+    </style>
+
+    <style name="n_btn_ctrl_1">
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_margin">1px</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">1.0</item>
+        <item name="android:background">#ffffff</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
+    <style name="n_btn_ctrl_1_h" parent="@style/n_btn_ctrl_1">
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_width">0dip</item>
+    </style>
+
+    <style name="media_param_ui_spinner">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/nodeSettingHeight</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">@dimen/tvNodeSettingFontSize</item>
+    </style>
+
+    <style name="media_param_ui_edit_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/nodeSettingHeight</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">@dimen/tvNodeSettingFontSize</item>
+    </style>
+
+    <style name="media_param_ui_textView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">#008214</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">@dimen/tvNodeSettingFontSize</item>
+        <item name="android:layout_marginLeft">10dp</item>
+    </style>
+
+    <style name="timezone_ui_table_row">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:background">@drawable/list_item_white_0</item>
+    </style>
+
+</resources>

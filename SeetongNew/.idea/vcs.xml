@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/../thirdpart/extras/PullToRefreshListFragment" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/../thirdpart/extras/PullToRefreshViewPager" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/../thirdpart/library" vcs="svn" />
+  </component>
+</project>

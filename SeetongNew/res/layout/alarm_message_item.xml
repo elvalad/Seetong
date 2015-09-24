@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relative"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/llVideoItemHeight"
+        android:background="@color/white"
+        android:descendantFocusability="blocksDescendants"
+        android:padding="@dimen/small_interval">
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="@dimen/llVideoItemDelImg"
+            android:layout_height="@dimen/llVideoItemDelImg"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/normal_interval"
+            android:background="@drawable/cell_accessory_edit_n"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="@dimen/llVideoItemImg"
+            android:layout_height="@dimen/llVideoItemImg"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/normal_interval"
+            android:layout_toRightOf="@+id/btnDelete"
+            android:background="@drawable/video_thumb"
+            android:scaleType="fitXY"
+            android:visibility="gone"/>
+
+        <RelativeLayout
+            android:id="@+id/rlInfo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/normal_interval"
+            android:layout_marginRight="@dimen/normal_interval"
+            android:layout_toRightOf="@+id/img">
+
+            <TextView
+                android:id="@+id/lab_dev_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#ff000000"
+                android:textSize="@dimen/middle" />
+
+            <TextView
+                android:id="@+id/lab_datetime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="100dp"
+                android:layout_below="@+id/lab_dev_name"
+                android:text=""
+                android:textColor="@color/yellow"
+                android:textSize="@dimen/tiny" />
+
+            <TextView
+                android:id="@+id/lab_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/lab_datetime"
+                android:text=""
+                android:textColor="#ff000000"
+                android:textSize="@dimen/middle" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

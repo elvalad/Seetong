@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        android:id="@+id/video_item"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray"
+        android:padding="1.0dip">
+
+    <com.android.opengles.OpenglesView
+            android:id="@+id/livePreview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"/>
+
+    <Button
+            android:id="@+id/btn_live_preview"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/add_camera"/>
+
+    <com.seetong.app.seetong.ui.aid.MarqueeTextView
+            android:id="@+id/tvMsgInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="1dp"
+            android:background="@color/transparent"
+            android:ellipsize="marquee"
+            android:scrollHorizontally="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="#ffffff"
+            android:visibility="gone"/>
+    <com.seetong.app.seetong.ui.aid.MarqueeTextView
+            android:id="@+id/tvLiveInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="1dp"
+            android:background="@color/transparent"
+            android:ellipsize="marquee"
+            android:scrollHorizontally="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:text="100241-channel01"
+            android:textColor="#ffffff"
+            android:visibility="gone"/>
+
+    <ImageView
+            android:id="@+id/imgAlarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/alarm_prompt"
+            android:visibility="invisible"/>
+
+    <ImageView
+            android:id="@+id/imgRecord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/imgAlarm"
+            android:background="@drawable/record_prompt_1"
+            android:visibility="invisible"/>
+</RelativeLayout>

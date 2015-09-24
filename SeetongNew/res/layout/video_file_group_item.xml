@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#a1000000"
+    android:gravity="center_vertical">
+
+    <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="@dimen/llVideoItemDelImg"
+            android:layout_height="@dimen/llVideoItemDelImg"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/normal_interval"
+            android:background="@drawable/cell_accessory_edit_n"
+            android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/imgGroupIco"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_toRightOf="@+id/btnDelete"
+        android:layout_margin="5dp"
+        android:src="@drawable/main_category_video" />
+
+    <TextView
+        android:id="@+id/tvGroupName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/imgGroupIco"
+        android:lines="1"
+        android:text="DeviceGroupName"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:textSize="18sp" />
+
+</RelativeLayout>

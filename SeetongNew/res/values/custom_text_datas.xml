@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- MainUI -->
+    <string name="app_name">Seetong</string>
+    <string name="tv_main_ui_title">Seetong</string>
+    <!-- helpUI -->
+    <string name="tv_help_wizard">Seetong V1.0 User Manual</string>
+    <!-- umeng_flags#google#anzhuo -->
+    <string name="um_key" translatable="false">5322d1c656240b03250d1032</string>
+    <string name="um_channel" translatable="false">anzhuo</string>
+</resources>

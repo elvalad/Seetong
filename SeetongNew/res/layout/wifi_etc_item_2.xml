@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#006d99ff"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:background="#323232"
+        android:padding="@dimen/small_interval"
+        android:text="@string/form_wifi_second_tip"
+        android:textColor="#ffffff"
+        android:textSize="12sp" />
+
+    <ScrollView
+        android:id="@+id/svDevices"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/normal_interval"
+        android:background="@drawable/st_rounded_rectangle"
+        android:padding="@dimen/small_interval"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#0099d86d"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <RelativeLayout
+                style="@style/linearTitle"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_interval"
+                android:background="@color/clear"
+                android:tag="001">
+
+                <TextView
+                    android:id="@+id/tvWifiSSID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btnNBarHeight"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:text="@string/form_wifi_tv_name"
+                    android:textColor="#008214"
+                    android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                <com.seetong.app.seetong.ui.aid.ClearEditText
+                    android:id="@+id/etWifiName"
+                    style="@style/etNodeSetting"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/small_interval"
+                    android:layout_toLeftOf="@+id/btnMoreWifi"
+                    android:layout_toRightOf="@+id/tvWifiSSID"
+                    android:background="#00000000"
+                    android:textColor="#0f0f0f"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:hint="@string/form_wifi_et_name"
+                    android:inputType="none"
+                    android:maxLength="@integer/wifi_name_max_length"
+                    android:paddingLeft="@dimen/small_interval"
+                    android:singleLine="true"
+                    android:text="Auto_Fill_SSID" />
+
+                <Button
+                    android:id="@+id/btnMoreWifi"
+                    style="@style/rightButton"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/small_interval"
+                    android:text="@string/form_wifi_btn_wifilist"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/llMoreDeviceInfo"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <RelativeLayout
+                    style="@style/linearTitle"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/small_interval"
+                    android:layout_marginTop="@dimen/big_interval"
+                    android:background="@color/clear"
+                    android:tag="002"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tvPicSetting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/tv_form_server_port"
+                        android:textColor="#008214"
+                        android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                    <com.seetong.app.seetong.ui.aid.ClearEditText
+                        android:id="@+id/etSerPort"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/small_interval"
+                        android:layout_toRightOf="@+id/tvPicSetting"
+                        android:hint="@string/et_form_server_port"
+                        android:inputType="number"
+                        android:maxLength="5"
+                        android:singleLine="true" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    style="@style/linearTitle"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/small_interval"
+                    android:layout_marginTop="@dimen/big_interval"
+                    android:background="@color/clear"
+                    android:tag="004"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/tvWifiPwd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/btnNBarHeight"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="@string/form_wifi_tv_pwd"
+                        android:textColor="#008214"
+                        android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                    <com.seetong.app.seetong.ui.aid.ClearEditText
+                        android:id="@+id/etWifiPwd"
+                        style="@style/etNodeSetting"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/small_interval"
+                        android:layout_toRightOf="@+id/tvWifiPwd"
+                        android:hint="@string/form_wifi_et_pwd"
+                        android:maxLength="@integer/wifi_pwd_max_length"
+                        android:singleLine="true"
+                        android:inputType="textPassword"
+                        android:text="">
+
+                        <requestFocus />
+                    </com.seetong.app.seetong.ui.aid.ClearEditText>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    style="@style/linearTitle"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/small_interval"
+                    android:layout_marginTop="@dimen/big_interval"
+                    android:background="@color/clear"
+                    android:tag="004"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/tvEncryptedTypes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/btnNBarHeight"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="@string/form_wifi_tv_encryp"
+                        android:textColor="#008214"
+                        android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                    <Spinner
+                        android:id="@+id/spEncryptedTypes"
+                        style="@style/etNodeSetting"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/small_interval"
+                        android:layout_toRightOf="@+id/tvEncryptedTypes"
+                        android:enabled="false"
+                        android:focusable="false"
+                        android:textColor="#0f0f0f"
+                        android:paddingLeft="@dimen/small_interval"
+                        android:background="#00000000"
+                        android:entries="@array/wifi_encrypted_types" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                style="@style/linearTitle"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_interval"
+                android:layout_marginTop="@dimen/big_interval"
+                android:background="@color/clear"
+                android:tag="004"
+                android:visibility="visible">
+
+                <Button
+                    android:id="@+id/btnPreStepTo1"
+                    style="@style/rightButton4"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="false"
+                    android:layout_centerVertical="true"
+                    android:text="@string/form_wifi_btn_pre"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/btnNextStepTo3"
+                    style="@style/rightButton"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/form_wifi_btn_next" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="user_name_max_length">32</integer>
+    <integer name="user_name_min_length">4</integer>
+    <integer name="user_pwd_max_length">32</integer>
+    <integer name="user_pwd_min_length">6</integer>
+    <integer name="device_id_max_length">32</integer>
+    <integer name="reg_code_max_length">5</integer>
+    <integer name="email_max_length">42</integer>
+    <integer name="phone_max_length">11</integer>
+
+    <integer name="wifi_name_max_length">32</integer>
+    <integer name="wifi_pwd_max_length">32</integer>
+    <integer name="wifi_pwd_min_length">8</integer>
+</resources>

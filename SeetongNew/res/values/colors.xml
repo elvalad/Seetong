@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="txt_more_list_item_font">#1B880B</color>
+    <color name="add_device_item_label">#5E5D5D</color>
+    <color name="add_device_item_hint">#BEBEBE</color>
+    <color name="st_ptz_bg_1">#ffffff</color>
+
+    <!-- A light Holo shade of blue -->
+    <color name="holo_blue_light">#ff33b5e5</color>
+    <!-- A light Holo shade of gray -->
+    <color name="holo_gray_light">#33999999</color>
+    <!-- A light Holo shade of green -->
+    <color name="holo_green_light">#ff99cc00</color>
+    <!-- A light Holo shade of red -->
+    <color name="holo_red_light">#ffff4444</color>
+    <!-- A dark Holo shade of blue -->
+    <color name="holo_blue_dark">#ff0099cc</color>
+    <!-- A dark Holo shade of green -->
+    <color name="holo_green_dark">#ff669900</color>
+    <!-- A dark Holo shade of red -->
+    <color name="holo_red_dark">#ffcc0000</color>
+    <!-- A Holo shade of purple -->
+    <color name="holo_purple">#ffaa66cc</color>
+    <!-- A light Holo shade of orange -->
+    <color name="holo_orange_light">#ffffbb33</color>
+    <!-- A dark Holo shade of orange -->
+    <color name="holo_orange_dark">#ffff8800</color>
+    <!-- A really bright Holo shade of blue -->
+    <color name="holo_blue_bright">#ff00ddff</color>
+    <!-- A really bright Holo shade of gray -->
+    <color name="holo_gray_bright">#33CCCCCC</color>
+
+    <color name="tab_tag_text_focus">#ff00e4ff</color>
+    <color name="white">#ffffffff</color>
+    <color name="clear">#00000000</color>
+    <color name="login_background">#ffff7e02</color>
+    <color name="text_black">#ff484947</color>
+    <color name="text_white">#ffffffff</color>
+    <color name="text_grey">#ffc3c3c3</color>
+    <color name="background_white">#fffff6ed</color>
+    <color name="seperator_grey">#ffc3c3c3</color>
+    <color name="tv_green">#ff23e135</color>
+    <color name="btn_blue">#ff546380</color>
+    <color name="black">#ff000000</color>
+    <color name="seekbar_background">#52b3acad</color>
+    <color name="pure_black">#ff000000</color>
+    <color name="help_gray">#b7000000</color>
+    <color name="list_seperator_gray">#ffa7a4a4</color>
+    <color name="blue">#ff0481f1</color>
+    <color name="yellow">#ffe9b709</color>
+    <color name="whiteTxt">#ffffffff</color>
+    <color name="green">#1DA838</color>
+    <color name="tv_selected">#cc000000</color>
+    <color name="tv_unselected">#5a5a5a</color>
+
+    <!-- 主应用程序 -->
+    <color name="title_icon">#ff000000</color>
+    <color name="text_minor">#ff666666</color>
+    <color name="application_backcolor">#fff6eade</color>
+    <color name="login_font">#3D3E40</color>
+    <color name="video_view_normal_border">@android:color/darker_gray</color>
+    <color name="video_view_focus_border">#00F400</color>
+
+    <!-- 日历 -->
+    <color name="calendar_background">#000000</color>
+    <color name="recordremind_background">#FFFFFF</color>
+    <color name="border_color">#FFFFFF</color>
+    <color name="weekname_color">#FFFFFF</color>
+    <color name="day_color">#FFFFFF</color>
+    <color name="inner_grid_color">#FFFFFF</color>
+    <color name="prev_next_month_day_color">#999999</color>
+    <color name="text_color">#FFFF00</color>
+    <color name="recordremindtext_color">#000000</color>
+    <color name="current_day_color">#FF0000</color>
+    <color name="today_background_color">#FF0000</color>
+    <color name="today_color">#FFFFFF</color>
+    <color name="sunday_saturday_color">#FF0000</color>
+    <color name="sunday_saturday_prev_next_month_day_color">#990000</color>
+    <color name="transparent_1">#50000000</color>
+    <color name="bgcolor">#ffffff</color>
+    <color name="txtcolor">#000000</color>
+    <color name="red">#ff0000</color>
+    <color name="Calendar_WeekBgColor">#EFE7DE</color>
+    <color name="Calendar_WeekFontColor">#8C8A8C</color>
+    <color name="Calendar_DayBgColor">#F7F7F7</color>
+    <color name="isHoliday_BgColor">#E0E0E0</color>
+    <color name="unPresentMonth_FontColor">#8C8A8C</color>
+    <color name="isPresentMonth_FontColor">#000000</color>
+    <color name="isToday_BgColor">#EBDCC1</color>
+    <color name="specialReminder">#FF0000</color>
+    <color name="commonReminder">#BDBAB5</color>
+    <color name="gray">#808080</color>
+
+    <!-- nvision red ui e6e7e9 -->
+    <color name="n_interval_bg">#f5f5f6</color>
+    <color name="n_logo_bg">#e8e8e8</color>
+    <color name="n_title_bg">#ffffff</color>
+    <color name="n_title_bg_dd">#1B880B</color>
+    <color name="n_title_font">#1B880B</color>
+    <color name="n_title_font_dd">#ffffff</color>
+    <color name="n_um_title_font">#565656</color>
+    <color name="n_bg">#e6e7e9</color>
+    <color name="n_um_bg">#EFEFEF</color>
+    <color name="n_bg_dd">#9d9d9d</color>
+    <!-- seetongUI -->
+    <color name="st_item_font">#1B880B</color>
+    <color name="st_item_font_dd">#ED995B</color>
+    <color name="st_item_bg">#DEEFCB</color>
+    <color name="st_ptz_bg">#A6D472</color>
+    <color name="st_bar_bg">#f0ffff</color>
+
+    <color name="txt_device_name">#00CC00</color>
+    <color name="txt_device_no">#820014</color>
+
+    <color name="txt_about_list_item_font">#1B880B</color>
+
+    <color name="timeline_schedule">#FF80FFFF</color>
+    <color name="timeline_alarm">#FFFFB000</color>
+    <color name="timeline_motion">#ffcba2ff</color>
+    <color name="timeline_indicator">#FFFF0000</color>
+    <color name="datetime_dialog_bg">#F7F7F7</color>
+</resources>

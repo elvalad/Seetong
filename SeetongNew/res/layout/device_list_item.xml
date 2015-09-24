@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00cccc00"
+                android:descendantFocusability="blocksDescendants"
+                android:gravity="center_vertical"
+                android:padding="10dp">
+
+    <ImageView
+            android:id="@+id/imgCheck"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5sp"
+            android:scaleType="centerInside"
+            android:src="@drawable/camera"/>
+
+    <RelativeLayout
+            android:id="@+id/rlDeviceInfoItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/imgDelete"
+            android:layout_toRightOf="@+id/imgCheck"
+            android:gravity="center_vertical">
+
+        <TextView
+                android:id="@+id/tvDeviceName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="DeviceName"
+                android:textColor="@color/txt_device_name"
+                android:textSize="18sp"/>
+
+        <TextView
+                android:id="@+id/tvDeviceNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tvDeviceName"
+                android:layout_below="@+id/tvDeviceName"
+                android:singleLine="true"
+                android:text="DeviceNo"
+                android:textColor="@color/txt_device_no"
+                android:textSize="12sp"/>
+    </RelativeLayout>
+    <ImageView
+            android:id="@+id/imgState"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/offline"/>
+    <Button
+            android:id="@+id/btnConfig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/icon_link_n"/>
+    <ImageView
+            android:id="@+id/imgDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:visibility="gone"
+            android:src="@drawable/del"/>
+
+</RelativeLayout>

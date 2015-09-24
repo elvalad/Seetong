@@ -1,0 +1,133 @@
+-optimizationpasses 5
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-dontpreverify
+-verbose
+
+-keep class com.loopj.**{*;}
+-dontwarn com.loopj.**
+-keep class net.tsz.afinal.**{*;}
+-dontwarn net.tsz.afinal.**
+
+#【保持xstream解析xml类】
+-keep class com.thoughtworks.**{*;}
+-dontwarn com.thoughtworks.**
+-keep class org.xmlpull.**{*;}
+-dontwarn org.xmlpull.**
+-keep class ipc.android.sdk.**{*;}
+-dontwarn ipc.android.sdk.**
+
+#【保持图形处理类】
+-keep class com.polites.android.**{*;}
+
+#【保持API欺诈类】
+-keep class android.app.**{*;}
+
+#【保持注解】
+-keep class **.R$*{*;}
+-keepattributes *Annotation*
+
+#【保持Android V4拓展包】
+-keep class android.support.**{*;}
+-dontwarn android.support.**
+
+#【保持UMENG统计】
+-keep class com.umeng.**{*;}
+
+#【保持Zxing】
+-keep class com.google.zxing.**{*;}
+
+#【保持Pinyin4J--注：需删除了jar包根目录下的demo目录】
+-keep class net.sourceforge.pinyin4j.**{*;}
+-keep class com.hp.hpl.sparta.**{*;}
+-dontwarn com.hp.hpl.sparta.**
+-dontwarn net.sourceforge.pinyin4j.**
+
+#【保持ORMlite框架 begin】
+-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
+-keep class com.j256.**
+-keepclassmembers class com.j256.** { *; }
+-keep enum com.j256.**
+-keepclassmembers enum com.j256.** { *; }
+-keep interface com.j256.**
+-keepclassmembers interface com.j256.** { *; }
+
+-keep class m.framework.**{*;}
+-dontwarn m.framework.**
+-keep class com.baidu.**{*;}
+-dontwarn com.baidu.**
+-keep class cn.sharesdk.**{*;}
+-dontwarn cn.sharesdk.**
+
+#helper类
+-keep public class * extends com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper
+-keepclassmembers class * extends com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper {
+    public <init>(android.content.Context);
+}
+
+#VO类--实体类
+-keep class innoview.n_vision.db.vo.**
+-keepclassmembers class innoview.n_vision.db.vo.** { *; }
+
+-keep enum innoview.n_vision.db.vo.**
+-keepclassmembers enum innoview.n_vision.db.vo.** { *; }
+
+-keep interface innoview.n_vision.db.vo.**
+-keepclassmembers interface innoview.n_vision.db.vo.** { *; }
+#【保持ORMlite框架 end】
+
+#【日志相关信息不输出--begin...】
+#android log is not output
+-assumenosideeffects class android.util.Log {
+	public static *** d(...);
+	public static *** v(...);
+	public static *** i(...);
+}
+
+#java print is not output
+-assumenosideeffects class java.io.PrintStream {
+	public *** println(...);
+}
+#【日志相关信息不输出--end...】
+
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep public class * extends android.app.backup.BackupAgentHelper
+-keep public class * extends android.preference.Preference
+-keep public class com.android.vending.licensing.ILicensingService
+
+-keep public class * extends android.view.View {
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+    public void set*(...);
+}
+
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+-keepclassmembers class * extends android.app.Activity {
+   public void *(android.view.View);
+}
+
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+-keep class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator *;
+}

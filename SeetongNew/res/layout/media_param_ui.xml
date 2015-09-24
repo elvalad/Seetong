@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/rlMainBk">
+
+    <include
+        android:id="@+id/llTitle"
+        layout="@layout/global_title" />
+
+    <ScrollView
+        android:id="@+id/sv_devices"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llTitle"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/small_interval"
+        android:background="@drawable/rounded_rectangle"
+        android:padding="@dimen/small_interval">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@color/st_ptz_bg">
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/tv_stream"
+                    style="@style/media_param_ui_textView"
+                    android:text="@string/tv_stream" />
+                <RadioGroup
+                    android:id="@+id/btn_group_stream"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal">
+                    <RadioButton
+                        android:id="@+id/btn_main_stream"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tv_main_stream"/>
+                    <RadioButton
+                        android:id="@+id/btn_sub_stream"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tv_sub_stream"/>
+                </RadioGroup>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/tv_resolution"
+                    style="@style/media_param_ui_textView"
+                    android:text="@string/tv_resolution"/>
+                <Spinner
+                    android:id="@+id/sp_resolution"
+                    style="@style/media_param_ui_spinner"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:entries="@array/t_view_types"
+                    android:layout_weight="1"/>
+            </TableRow>
+            <TableRow android:visibility="gone">
+                <TextView
+                    android:id="@+id/tv_bit_rate_control"
+                    style="@style/media_param_ui_textView"
+                    android:text="@string/tv_bit_rate_control"/>
+
+                <Spinner
+                    android:id="@+id/sp_bit_rate_control"
+                    style="@style/media_param_ui_spinner"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:entries="@array/t_view_types"
+                    android:layout_weight="1"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/tv_i_frame_interval"
+                    style="@style/media_param_ui_textView"
+                    android:text="@string/tv_i_frame_interval"/>
+
+                <Spinner
+                    android:id="@+id/sp_i_frame_interval"
+                    style="@style/media_param_ui_spinner"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_weight="1"
+                    android:visibility="gone"/>
+                <com.seetong.app.seetong.ui.ext.IntegerEditText
+                    android:id="@+id/txt_i_frame_interval"
+                    style="@style/media_param_ui_edit_text"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_weight="1"
+                    android:inputType="number"
+                    android:text="125"/>
+                <TextView
+                    android:id="@+id/tv_i_frame_interval_range"
+                    style="@style/media_param_ui_textView"
+                    android:text="(1-200)"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/tv_bit_rate"
+                    style="@style/media_param_ui_textView"
+                    android:text="@string/tv_bit_rate"/>
+
+                <Spinner
+                    android:id="@+id/sp_bit_rate"
+                    style="@style/media_param_ui_spinner"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_weight="1"
+                    android:visibility="gone"/>
+                <com.seetong.app.seetong.ui.ext.IntegerEditText
+                    android:id="@+id/txt_bit_rate"
+                    style="@style/media_param_ui_edit_text"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_weight="1"
+                    android:inputType="number"
+                    android:text="2048"/>
+                <TextView
+                    android:id="@+id/tv_bit_rate_range"
+                    style="@style/media_param_ui_textView"
+                    android:text="(500-8000)"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/tv_frame_rate"
+                    style="@style/media_param_ui_textView"
+                    android:text="@string/tv_frame_rate"/>
+
+                <Spinner
+                    android:id="@+id/sp_frame_rate"
+                    style="@style/media_param_ui_spinner"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_weight="1"/>
+            </TableRow>
+            </TableLayout>
+    </ScrollView>
+
+</RelativeLayout>

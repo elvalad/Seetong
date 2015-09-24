@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/rlMainBk">
+
+    <include
+        android:id="@+id/llTitle"
+        layout="@layout/global_title" />
+
+    <ScrollView
+        android:id="@+id/svDevices"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llTitle"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/normal_interval"
+        android:background="@drawable/st_rounded_rectangle"
+        android:padding="@dimen/small_interval"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/llRegisterInfo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#0099d86d"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <RelativeLayout
+                style="@style/linearTitle"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_interval"
+                android:background="@color/clear"
+                android:tag="001">
+
+                <TextView
+                    android:id="@+id/tvUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btnNBarHeight"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:text="@string/reg_tv_user_name"
+                    android:textColor="#008214"
+                    android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                <com.seetong.app.seetong.ui.aid.ClearEditText
+                    android:id="@+id/etUserName"
+                    style="@style/etNodeSetting"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_toRightOf="@+id/tvUserName"
+                    android:hint="@string/reg_et_user_name_hint"
+                    android:maxLength="@integer/user_name_max_length"
+                    android:inputType="text"
+                    android:singleLine="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/linearTitle"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_interval"
+                android:layout_marginTop="@dimen/big_interval"
+                android:background="@color/clear"
+                android:tag="003"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tvUserPwd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btnNBarHeight"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="@string/reg_tv_user_pwd"
+                    android:textColor="#008214"
+                    android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                <com.seetong.app.seetong.ui.aid.ClearEditText
+                    android:id="@+id/etUserPwd"
+                    style="@style/etNodeSetting"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_toRightOf="@+id/tvUserPwd"
+                    android:hint="@string/reg_et_pwd_hint"
+                    android:maxLength="@integer/user_pwd_max_length"
+                    android:inputType="textPassword"
+                    android:singleLine="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/linearTitle"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_interval"
+                android:layout_marginTop="@dimen/big_interval"
+                android:background="@color/clear"
+                android:tag="004"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tvConfigPwd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btnNBarHeight"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="@string/reg_tv_config_pwd"
+                    android:textColor="#008214"
+                    android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                <com.seetong.app.seetong.ui.aid.ClearEditText
+                    android:id="@+id/etConfigPwd"
+                    style="@style/etNodeSetting"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_toRightOf="@+id/tvConfigPwd"
+                    android:hint="@string/reg_et_pwd_hint"
+                    android:maxLength="@integer/user_pwd_max_length"
+                    android:inputType="textPassword"
+                    android:singleLine="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/linearTitle"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_interval"
+                android:layout_marginTop="@dimen/big_interval"
+                android:background="@color/clear"
+                android:tag="004"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tvEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btnNBarHeight"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="@string/reg_tv_email"
+                    android:textColor="#008214"
+                    android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                <com.seetong.app.seetong.ui.aid.ClearEditText
+                    android:id="@+id/etEmail"
+                    style="@style/etNodeSetting"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_toRightOf="@+id/tvEmail"
+                    android:hint="@string/reg_et_optional_hint"
+                    android:maxLength="@integer/email_max_length"
+                    android:inputType="text"
+                    android:singleLine="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/linearTitle"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_interval"
+                android:layout_marginTop="@dimen/big_interval"
+                android:background="@color/clear"
+                android:tag="004"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tvPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btnNBarHeight"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="@string/reg_tv_phone"
+                    android:textColor="#008214"
+                    android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                <com.seetong.app.seetong.ui.aid.ClearEditText
+                    android:id="@+id/etPhone"
+                    style="@style/etNodeSetting"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_toRightOf="@+id/tvPhone"
+                    android:hint="@string/reg_et_optional_hint"
+                    android:inputType="number"
+                    android:maxLength="@integer/phone_max_length"
+                    android:singleLine="true" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="#ffffff" />
+
+            <RelativeLayout
+                style="@style/linearTitle"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_interval"
+                android:layout_marginTop="@dimen/big_interval"
+                android:background="@color/clear"
+                android:tag="004"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tvRegCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btnNBarHeight"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="@string/reg_tv_code"
+                    android:textColor="#008214"
+                    android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                <com.seetong.app.seetong.ui.aid.ClearEditText
+                    android:id="@+id/etRegCode"
+                    style="@style/etNodeSetting"
+                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_toLeftOf="@+id/imgRegCode"
+                    android:layout_toRightOf="@+id/tvRegCode"
+                    android:maxLength="@integer/reg_code_max_length"
+                    android:hint="@string/reg_et_code_hint"
+                    android:inputType="number"
+                    android:singleLine="true" />
+
+                <!-- android:src="@drawable/st_regimg" -->
+
+                <ImageView
+                    android:id="@+id/imgRegCode"
+                    style="@style/etNodeSetting"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="@string/reg_img_code_hint"
+                    android:src="@drawable/st_regimg"
+                    android:layout_width="80dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/small_interval"
+                    android:background="#ffffff" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/linearTitle"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_interval"
+                android:layout_marginTop="@dimen/big_interval"
+                android:background="@color/clear"
+                android:tag="004"
+                android:visibility="visible">
+
+                <Button
+                    android:id="@+id/btnBackLogin"
+                    style="@style/rightButton4"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="false"
+                    android:layout_centerVertical="true"
+                    android:text="@string/reg_btn_back_login" />
+
+                <Button
+                    android:id="@+id/btnRegisterUser"
+                    style="@style/rightButton4"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/reg_btn_register_user" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

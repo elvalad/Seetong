@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/rlMainBk">
+
+    <include
+        android:id="@+id/llTitle"
+        layout="@layout/global_title" />
+
+    <ScrollView
+        android:id="@+id/svDevices"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llTitle"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/small_interval"
+        android:background="@drawable/rounded_rectangle"
+        android:padding="@dimen/small_interval">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:stretchColumns="0"
+            android:background="@color/st_ptz_bg">
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5sp"
+                android:layout_marginBottom="5sp">
+                <TextView
+                    style="@style/media_param_ui_textView"
+                    android:layout_column="0"
+                    android:text="@string/auto_receiver_alarm" />
+                <ToggleButton
+                    android:id="@+id/tb_enable_alarm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_marginRight="10sp"
+                    android:background="@drawable/n_sel_tb_autoplay"
+                    android:textOff=""
+                    android:textOn="" />
+            </TableRow>
+            <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginBottom="5sp">
+                <TextView
+                        style="@style/media_param_ui_textView"
+                        android:layout_column="0"
+                        android:text="@string/receiver_push_message" />
+                <ToggleButton
+                        android:id="@+id/tb_enable_push_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/big_interval"
+                        android:layout_marginRight="10sp"
+                        android:background="@drawable/n_sel_tb_autoplay"
+                        android:textOff=""
+                        android:textOn="" />
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/rlMainBk">
+
+    <include
+        android:id="@+id/llTitle"
+        layout="@layout/global_title" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_below="@+id/llTitle"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <RelativeLayout
+                style="@style/linearTitle"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_interval"
+                android:background="@color/clear"
+                android:tag="001">
+
+                <TextView
+                    android:id="@+id/tvPtzCtrl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/tv_ptz_speed"
+                    android:textColor="#008214"
+                    android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                <SeekBar
+                    android:id="@+id/sbPtzCtrl"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_marginRight="@dimen/small_interval"
+                    android:layout_toLeftOf="@+id/tvPtzCtrlValue"
+                    android:layout_toRightOf="@+id/tvPtzCtrl"
+                    android:max="10"
+                    android:progress="5" />
+
+                <TextView
+                    android:id="@+id/tvPtzCtrlValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="5/10"
+                    android:textColor="#008214"
+                    android:textSize="@dimen/tvNodeSettingFontSize" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/linearTitle"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_interval"
+                android:layout_marginTop="@dimen/big_interval"
+                android:background="@color/clear"
+                android:tag="002">
+
+                <TextView
+                    android:id="@+id/tvPicSetting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/tv_view_select"
+                    android:textColor="#008214"
+                    android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                <Spinner
+                    android:id="@+id/spPicSetting"
+                    style="@style/etNodeSetting"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_toRightOf="@+id/tvPicSetting"
+                    android:entries="@array/t_view_types" />
+
+                <RadioGroup
+                    android:id="@+id/rgViewSelect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_toRightOf="@+id/tvPicSetting"
+                    android:checkedButton="@+id/rbOneView"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <RadioButton
+                        android:id="@+id/rbOneView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        android:textColor="#008214" />
+
+                    <RadioButton
+                        android:id="@+id/rbFourView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/big_interval"
+                        android:text="4"
+                        android:textColor="#008214" />
+                </RadioGroup>
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/linearTitle"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_interval"
+                android:layout_marginTop="@dimen/big_interval"
+                android:background="@color/clear"
+                android:tag="003">
+
+                <TextView
+                    android:id="@+id/tvSerAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/tv_auto_play"
+                    android:textColor="#008214"
+                    android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                <ToggleButton
+                    android:id="@+id/tbAutoPlay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_toRightOf="@+id/tvSerAddress"
+                    android:background="@drawable/n_sel_tb_autoplay"
+                    android:textOff=""
+                    android:textOn="" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/linearTitle"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_interval"
+                android:layout_marginTop="@dimen/big_interval"
+                android:background="@color/clear"
+                android:tag="004"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tvUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/tv_login_modes"
+                    android:textColor="#008214"
+                    android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                <Spinner
+                    android:id="@+id/spLoginModes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_toRightOf="@+id/tvUserName"
+                    android:entries="@array/t_login_modes" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/linearTitle"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_interval"
+                android:layout_marginTop="@dimen/big_interval"
+                android:background="@color/clear"
+                android:tag="005"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tvRegCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/tv_optimize_types"
+                    android:textColor="#008214"
+                    android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                <Spinner
+                    android:id="@+id/spOpTypes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_toRightOf="@+id/tvRegCode"
+                    android:entries="@array/n_Optimizer_types" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:id="@+id/layout_in_call_mode"
+                    style="@style/linearTitle"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/small_interval"
+                    android:layout_marginTop="@dimen/big_interval"
+                    android:background="@color/clear"
+                    android:tag="007">
+
+                <TextView
+                        android:id="@+id/tv_in_call_mode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/tv_in_call_mode"
+                        android:textColor="#008214"
+                        android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                <ToggleButton
+                        android:id="@+id/tb_in_call_mode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/big_interval"
+                        android:layout_toRightOf="@+id/tv_in_call_mode"
+                        android:background="@drawable/n_sel_tb_autoplay"
+                        android:textOff=""
+                        android:textOn="" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/linearTitle"
+                android:layout_height="wrap_content"
+                android:layout_margin="15px"
+                android:layout_marginTop="30px"
+                android:background="@color/clear"
+                android:tag="006">
+
+                <TextView
+                    android:id="@+id/tv_enable_alarm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/tv_enable_alarm"
+                    android:textColor="#008214"
+                    android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                <ToggleButton
+                    android:id="@+id/tb_enable_alarm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_toRightOf="@+id/tv_enable_alarm"
+                    android:background="@drawable/n_sel_tb_autoplay"
+                    android:textOff=""
+                    android:textOn="" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_alarm_sound"
+                style="@style/linearTitle"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_interval"
+                android:layout_marginTop="@dimen/big_interval"
+                android:background="@color/clear"
+                android:tag="007">
+
+                <TextView
+                    android:id="@+id/tv_alarm_sound"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/tv_alarm_sound_select"
+                    android:textColor="#008214"
+                    android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                <Spinner
+                    android:id="@+id/sp_alarm_sound"
+                    style="@style/etNodeSetting"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/big_interval"
+                    android:layout_toRightOf="@+id/tv_alarm_sound" />
+            </RelativeLayout>
+        </LinearLayout>
+</RelativeLayout>

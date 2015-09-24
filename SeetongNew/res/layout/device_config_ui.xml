@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/rlMainBk">
+
+    <include
+        android:id="@+id/llTitle"
+        layout="@layout/global_title" />
+
+    <ExpandableListView
+        android:id="@+id/lv_config"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/llTitle"
+        android:background="#00cccccc"
+        android:fadeScrollbars="false"
+        android:cacheColorHint="#00000000">
+
+        </ExpandableListView>
+
+</RelativeLayout>

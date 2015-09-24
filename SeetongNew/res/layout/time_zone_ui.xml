@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                style="@style/rlMainBk">
+
+    <include
+            android:id="@+id/llTitle"
+            layout="@layout/global_title"/>
+
+    <ScrollView
+            android:id="@+id/svDevices"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/llTitle"
+            android:layout_gravity="center"
+            android:padding="@dimen/small_interval"
+            android:scrollbars="none">
+        <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="0">
+            <TableRow
+                    style="@style/timezone_ui_table_row">
+                <TextView
+                        style="@style/media_param_ui_textView"
+                        android:text="@string/tv_zone"/>
+                <TextView
+                        android:id="@+id/lab_zone_value"
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="16sp"
+                        />
+            </TableRow>
+            <TableRow
+                    style="@style/timezone_ui_table_row">
+                <TextView
+                        style="@style/media_param_ui_textView"
+                        android:text="@string/tv_time"/>
+                <TextView
+                        android:id="@+id/lab_time_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="16sp"/>
+            </TableRow>
+            <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp">
+                <TextView
+                        style="@style/media_param_ui_textView"
+                        android:layout_column="0"
+                        android:text="@string/tv_enable_dst"/>
+                <LinearLayout android:layout_gravity="right">
+                    <ToggleButton
+                            android:id="@+id/tb_dst"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/big_interval"
+                            android:background="@drawable/n_sel_tb_autoplay"
+                            android:textOff=""
+                            android:textOn=""/>
+                </LinearLayout>
+            </TableRow>
+            <TableRow android:id="@+id/tbr_dst_start_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:visibility="gone">
+                <TextView
+                        style="@style/media_param_ui_textView"
+                        android:layout_column="0"
+                        android:text="@string/tv_dst_start_date"/>
+                <LinearLayout android:orientation="horizontal" android:layout_gravity="end">
+                    <Button android:id="@+id/btn_start_month" android:layout_height="match_parent"
+                            android:layout_width="wrap_content"/>
+                    <Button android:id="@+id/btn_start_week_num" android:layout_height="match_parent"
+                            android:layout_width="wrap_content"/>
+                    <Button android:id="@+id/btn_start_week" android:layout_height="match_parent"
+                            android:layout_width="wrap_content"/>
+                </LinearLayout>
+            </TableRow>
+            <TableRow android:id="@+id/tbr_dst_start_time"
+                    style="@style/timezone_ui_table_row"
+                      android:visibility="gone">
+                <TextView
+                        style="@style/media_param_ui_textView"
+                        android:layout_column="0"
+                        android:text="@string/tv_dst_start_time"/>
+                <TextView
+                        android:id="@+id/lab_start_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="16sp"/>
+            </TableRow>
+            <TableRow android:id="@+id/tbr_dst_end_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginBottom="5sp"
+                      android:visibility="gone">
+                <TextView
+                        style="@style/media_param_ui_textView"
+                        android:layout_column="0"
+                        android:text="@string/tv_dst_end_date"/>
+                <LinearLayout android:orientation="horizontal" android:layout_gravity="end">
+                    <Button android:id="@+id/btn_end_month" android:layout_height="match_parent"
+                            android:layout_width="wrap_content"/>
+                    <Button android:id="@+id/btn_end_week_num" android:layout_height="match_parent"
+                            android:layout_width="wrap_content"/>
+                    <Button android:id="@+id/btn_end_week" android:layout_height="match_parent"
+                            android:layout_width="wrap_content"/>
+                </LinearLayout>
+            </TableRow>
+            <TableRow android:id="@+id/tbr_dst_end_time"
+                    style="@style/timezone_ui_table_row"
+                      android:visibility="gone">
+                <TextView
+                        style="@style/media_param_ui_textView"
+                        android:layout_column="0"
+                        android:text="@string/tv_dst_end_time"/>
+                <TextView
+                        android:id="@+id/lab_end_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="16sp"/>
+            </TableRow>
+            <TableRow android:id="@+id/tbr_dst_offset"
+                    style="@style/timezone_ui_table_row"
+                      android:visibility="gone">
+                <TextView
+                        style="@style/media_param_ui_textView"
+                        android:layout_column="0"
+                        android:text="@string/tv_dst_offset"/>
+                <TextView
+                        android:id="@+id/lab_dst_offset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="16sp"/>
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+
+    <!--<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:layout_alignParentBottom="true" android:visibility="visible"
+                  android:gravity="center"
+                  android:orientation="vertical" android:background="@color/white">
+        <TimePicker android:id="@+id/tp_time" android:layout_width="match_parent" android:layout_height="match_parent">
+        </TimePicker>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                android:orientation="horizontal" android:gravity="center">
+            <Button android:id="@+id/btn_ok" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="OK"/>
+            <Button android:id="@+id/btn_cancel" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Cancel"/>
+        </LinearLayout>
+    </LinearLayout>-->
+</RelativeLayout>

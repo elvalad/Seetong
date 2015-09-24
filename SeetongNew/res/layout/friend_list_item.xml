@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00cccc00"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center_vertical"
+    android:padding="10dp">
+
+    <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="@dimen/llVideoItemDelImg"
+            android:layout_height="@dimen/llVideoItemDelImg"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/normal_interval"
+            android:background="@drawable/cell_accessory_edit_n"
+            android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/imgCheck"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_toRightOf="@+id/btnDelete"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5sp"
+        android:scaleType="fitXY"
+        android:src="@drawable/head_img" />
+
+    <RelativeLayout
+        android:id="@+id/rlFriendInfoItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/imgDelete"
+        android:layout_toRightOf="@+id/imgCheck"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tvFriendName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="FriendName"
+            android:textColor="@color/txt_device_name"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvFriendNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tvFriendName"
+            android:layout_below="@+id/tvFriendName"
+            android:singleLine="true"
+            android:text="FriendNo"
+            android:textColor="@color/txt_device_no"
+            android:textSize="12sp" />
+        <TextView
+                android:id="@+id/tvAdditionMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tvFriendName"
+                android:layout_below="@+id/tvFriendNo"
+                android:singleLine="true"
+                android:text="addition msg"
+                android:textColor="@color/txt_device_no"
+                android:textSize="12sp"
+                android:visibility="gone"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imgState"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/offline"
+            android:visibility="gone"/>
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+        <Button
+                android:id="@+id/btn_accept"
+                style="@style/leftAndRightTitleBtn"
+                android:text="@string/accept"
+                android:visibility="visible"/>
+        <Button
+                android:id="@+id/btn_reject"
+                android:text="@string/reject"
+                style="@style/leftAndRightTitleBtn"
+                android:visibility="visible"/>
+        <Button android:id="@+id/btn_small_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/msg_prompt"
+                android:layout_gravity="top|right"
+                android:text="1"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:clickable="false"
+                android:visibility="gone"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/btnConfig"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/icon_link_n"
+            android:visibility="gone"/>
+
+</RelativeLayout>

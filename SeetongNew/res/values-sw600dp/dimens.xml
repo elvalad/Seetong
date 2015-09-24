@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 1280x800 xlager mpxi -->
+    <!-- interval size -->
+    <dimen name="big_interval">40px</dimen>
+    <dimen name="normal_interval">20px</dimen>
+    <dimen name="small_interval">15px</dimen>
+    <!-- font size -->
+    <dimen name="tvTitleFontSize">45px</dimen>
+    <dimen name="tvFileTitleFontSize">32px</dimen>
+    <dimen name="btnTitleFontSize">35px</dimen>
+    <dimen name="tvNodetItemFontSize">40px</dimen>
+    <dimen name="tvNodeSettingFontSize">40px</dimen>
+    <dimen name="tvTipFontSize">32px</dimen>
+    <dimen name="tvRegisterFontSize">50sp</dimen>
+    <!-- width-height -->
+    <dimen name="btnHeight">90px</dimen>
+    <dimen name="nodeSettingHeight">84px</dimen>
+    <dimen name="fileTitleHeight">48px</dimen>
+    <dimen name="girdViewItemWidth">180px</dimen>
+    <!-- add shot and player -->
+    <dimen name="big">40.0px</dimen>
+    <dimen name="middle">32.0px</dimen>
+    <dimen name="small">30.0px</dimen>
+    <dimen name="tiny">26.0px</dimen>
+    <dimen name="llVideoItemHeight">140px</dimen>
+    <dimen name="llVideoItemImg">100px</dimen>
+    <dimen name="llVideoItemDelImg">60px</dimen>
+    <dimen name="llVideoItemMarginRight">54.0px</dimen>
+    <!-- record -->
+    <dimen name="tvRecordItemHeight">200px</dimen>
+    <!-- album -->
+    <dimen name="imgAlbumItemHeight">180px</dimen>
+    <!-- function_ui -->
+    <dimen name="logoHeight">90px</dimen>
+    <dimen name="girdItemHeight">140px</dimen>
+    <!-- video_ui -->
+    <dimen name="funBtnHeight">72px</dimen>
+    <!-- node_ui item -->
+    <dimen name="tdCodeBtnHeight">64px</dimen>
+    <!-- calendar_select_ui -->
+    <dimen name="tvDateTitleFontSize">38px</dimen>
+    <dimen name="tvDateTitleWidth">300px</dimen>
+    <!-- main_nvision_ui -->
+    <dimen name="btnNSettingHeight">70px</dimen>
+    <dimen name="titleBarHeight">100px</dimen>
+    <!-- more_list_ui -->
+    <dimen name="btnNItemHeight">120px</dimen>
+    <!-- title bar -->
+    <dimen name="btnNBarHeight">70px</dimen>
+    <dimen name="btnNFourBtnWidth">120px</dimen>
+    <dimen name="btnNFourBtnWidth4">180px</dimen>
+    <!--n_video ui -->
+    <dimen name="btnNPTZFontSize">24px</dimen>
+</resources>

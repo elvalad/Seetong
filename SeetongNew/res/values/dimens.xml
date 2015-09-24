@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="title_font_size">24sp</dimen>
+    <dimen name="more_item_height">60dp</dimen>
+    <dimen name="add_device_left_margin">10sp</dimen>
+    <dimen name="add_device_top_margin">20sp</dimen>
+    <dimen name="add_device_bottom_margin">20sp</dimen>
+    <dimen name="add_device_text_size">30sp</dimen>
+    <dimen name="add_device_button_text_size">35sp</dimen>
+    <dimen name="add_device_lable_width">125sp</dimen>
+
+    <dimen name="scan_qr_code_tip_text">15sp</dimen>
+
+    <!-- interval size -->
+    <dimen name="big_interval">20dp</dimen>
+    <dimen name="normal_interval">10dp</dimen>
+    <dimen name="small_interval">5dp</dimen>
+    <!-- font size -->
+    <dimen name="tvTitleFontSize">22dp</dimen>
+    <dimen name="tvFileTitleFontSize">15sp</dimen>
+    <dimen name="btnTitleFontSize">20sp</dimen>
+    <dimen name="tvNodetItemFontSize">20sp</dimen>
+    <dimen name="tvNodeSettingFontSize">15sp</dimen>
+    <dimen name="tvTipFontSize">15sp</dimen>
+    <dimen name="tvRegisterFontSize">20sp</dimen>
+    <dimen name="tv_i_know_FontSize">25sp</dimen>
+    <!-- width-height -->
+    <dimen name="btnHeight">45dp</dimen>
+    <dimen name="nodeSettingHeight">40dp</dimen>
+    <dimen name="fileTitleHeight">20dp</dimen>
+    <dimen name="girdViewItemWidth">90dp</dimen>
+    <!-- add shot and player -->
+    <dimen name="big">20.0sp</dimen>
+    <dimen name="middle">16.0sp</dimen>
+    <dimen name="small">15.0sp</dimen>
+    <dimen name="tiny">13.0sp</dimen>
+    <dimen name="llVideoItemHeight">70dp</dimen>
+    <dimen name="llVideoItemImg">50dp</dimen>
+    <dimen name="llVideoItemDelImg">30dp</dimen>
+    <dimen name="llVideoItemMarginRight">27.0sp</dimen>
+
+    <dimen name="register_field_interval">10sp</dimen>
+    <!-- record -->
+    <dimen name="tvRecordItemHeight">100dp</dimen>
+    <!-- album -->
+    <dimen name="imgAlbumItemHeight">120dp</dimen>
+    <!-- function_ui -->
+    <dimen name="logoHeight">45dp</dimen>
+    <dimen name="girdItemHeight">70dp</dimen>
+    <!-- video_ui -->
+    <dimen name="funBtnHeight">32dp</dimen>
+    <!-- node_ui item -->
+    <dimen name="tdCodeBtnHeight">32dp</dimen>
+    <!-- calendar_select_ui -->
+    <dimen name="tvDateTitleFontSize">19sp</dimen>
+    <dimen name="tvDateTitleWidth">150dp</dimen>
+    <!-- main_nvision_ui -->
+    <dimen name="btnNSettingHeight">35dp</dimen>
+    <dimen name="titleBarHeight">50dp</dimen>
+    <!-- more_list_ui -->
+    <dimen name="btnNItemHeight">60dp</dimen>
+    <!-- title bar -->
+    <dimen name="btnNBarHeight">35dp</dimen>
+    <dimen name="btnNFourBtnWidth">60dp</dimen>
+    <dimen name="btnNFourBtnWidth4">80dp</dimen>
+    <!--n_video ui -->
+    <dimen name="btnNPTZFontSize">12sp</dimen>
+    <dimen name="about_item_height">60dp</dimen>
+</resources>
