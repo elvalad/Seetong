@@ -270,21 +270,17 @@ public class PlayerActivity extends BaseActivity {
         });
 
         playerSpeakButton = (Button) findViewById(R.id.player_microphone);
-        playerSpeakButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                /* TODO:Éè±¸Â¼Ïñ */
-            }
-        });
         playerSpeakButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     playerSpeakButton.setBackgroundResource(R.drawable.tps_play_microphone_on);
                     playerSpeakButton.setTextColor(getResources().getColor(R.color.green));
+                    onSepak();
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     playerSpeakButton.setBackgroundResource(R.drawable.tps_play_microphone_off);
                     playerSpeakButton.setTextColor(getResources().getColor(R.color.gray));
+                    offSpeak();
                 }
                 return false;
             }
@@ -334,6 +330,22 @@ public class PlayerActivity extends BaseActivity {
             }
         }
     };
+
+    private void onSepak() {
+        if (currentFragmentName.equals("play_video_fragment")) {
+            playVideoFragment.startSpeak();
+        } else if (currentFragmentName.equals("play_multi_video_fragment")) {
+            multiVideoFragment.startSpeak();
+        }
+    }
+
+    private void offSpeak() {
+        if (currentFragmentName.equals("play_video_fragment")) {
+            playVideoFragment.stopSpeak();
+        } else if (currentFragmentName.equals("play_multi_video_fragment")) {
+            multiVideoFragment.stopSpeak();
+        }
+    }
 
     private void onVideoCapture() {
         if (currentFragmentName.equals("play_video_fragment")) {

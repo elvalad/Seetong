@@ -2,6 +2,7 @@ package com.seetong.app.seetong.ui;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -29,9 +30,7 @@ import ipc.android.sdk.com.*;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Administrator on 2015/9/15.
@@ -181,6 +180,54 @@ public class PlayVideoFragment extends BaseFragment {
 
     public void autoCyclePlay() {
         showNextDeviceVideo(this.playerDevice);
+    }
+
+    public void startSpeak() {
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+
+        if (null == playerDevice || !playerDevice.m_playing) {
+            toast(R.string.before_open_video_preview);
+            return;
+        }
+
+        TPS_AddWachtRsp rsp = playerDevice.m_add_watch_rsp;
+        if (null == rsp) {
+            toast(R.string.tv_video_wait_video_stream_tip);
+            return;
+        }
+
+        if (!rsp.hasAudio()) {
+            toast(R.string.tv_talk_fail_invalid_audio_device);
+            return;
+        }
+
+        String audio_encoder = new String(rsp.getAudioParam().getAudio_encoder()).trim();
+        if (!LibImpl.isValidAudioFormat(audio_encoder)) {
+            toast(R.string.tv_talk_fail_illegal_format_tip);
+            return;
+        }
+
+        if (playerDevice.m_talk) return;
+
+        int ret = LibImpl.getInstance().getFuncLib().StartTalkAgent(playerDevice.m_dev.getDevId());
+        if (0 != ret) {
+            toast(R.string.tv_talk_fail_tip);
+            return;
+        }
+
+        Global.m_audioManage.setMode(AudioManager.MODE_NORMAL);
+        playerDevice.m_audio.startTalk();
+        playerDevice.m_talk = true;
+    }
+
+    public void stopSpeak() {
+        if (null == playerDevice) return;
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        LibImpl.getInstance().getFuncLib().StopTalkAgent(playerDevice.m_dev.getDevId());
+        if (Config.m_in_call_mode) Global.m_audioManage.setMode(AudioManager.MODE_IN_CALL);
+        if (!playerDevice.m_talk) return;
+        playerDevice.m_audio.stopTalk();
+        playerDevice.m_talk = false;
     }
 
     public void videoCapture() {

@@ -1,6 +1,7 @@
 package com.seetong.app.seetong.ui;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.opengl.GLSurfaceView;
@@ -301,6 +302,65 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
     public void autoCyclePlay() {
         showNextDeviceListVideo(this.playerDevice);
+    }
+
+    public void startSpeak() {
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+        stopAllVoice();
+        stopAllTalk();
+
+        if (null == chosenPlayerDevice || !chosenPlayerDevice.m_playing) {
+            toast(R.string.before_open_video_preview);
+            return;
+        }
+
+        TPS_AddWachtRsp rsp = chosenPlayerDevice.m_add_watch_rsp;
+        if (null == rsp) {
+            toast(R.string.tv_video_wait_video_stream_tip);
+            return;
+        }
+
+        if (!rsp.hasAudio()) {
+            toast(R.string.tv_talk_fail_invalid_audio_device);
+            return;
+        }
+
+        String audio_encoder = new String(rsp.getAudioParam().getAudio_encoder()).trim();
+        if (!LibImpl.isValidAudioFormat(audio_encoder)) {
+            toast(R.string.tv_talk_fail_illegal_format_tip);
+            return;
+        }
+
+        if (chosenPlayerDevice.m_talk) return;
+
+        int ret = LibImpl.getInstance().getFuncLib().StartTalkAgent(chosenPlayerDevice.m_dev.getDevId());
+        if (0 != ret) {
+            toast(R.string.tv_talk_fail_tip);
+            return;
+        }
+
+        Global.m_audioManage.setMode(AudioManager.MODE_NORMAL);
+        chosenPlayerDevice.m_audio.startTalk();
+        chosenPlayerDevice.m_talk = true;
+    }
+
+    public void stopSpeak() {
+        if (null == chosenPlayerDevice) return;
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        LibImpl.getInstance().getFuncLib().StopTalkAgent(chosenPlayerDevice.m_dev.getDevId());
+        if (Config.m_in_call_mode) Global.m_audioManage.setMode(AudioManager.MODE_IN_CALL);
+        if (!chosenPlayerDevice.m_talk) return;
+        chosenPlayerDevice.m_audio.stopTalk();
+        chosenPlayerDevice.m_talk = false;
+    }
+
+    private void stopAllTalk() {
+        for (int i = 0; i < MAX_WINDOW; i++) {
+            if (null == deviceList.get(i) || null == deviceList.get(i).m_audio) continue;
+            LibImpl.getInstance().getFuncLib().StopTalkAgent(deviceList.get(i).m_dev.getDevId());
+            deviceList.get(i).m_audio.stopTalk();
+            deviceList.get(i).m_talk = false;
+        }
     }
 
     public void videoCapture() {
