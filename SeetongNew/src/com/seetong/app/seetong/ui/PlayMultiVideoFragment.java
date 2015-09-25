@@ -577,6 +577,24 @@ public class PlayMultiVideoFragment extends BaseFragment {
     }
 
     private void showPreviousDeviceListVideo(PlayerDevice device) {
+        /* 恢复PlayerActivity的button状态 */
+        PlayerActivity.m_this.resetWidget();
+
+        /* 停止所有正在录制的视频 */
+        stopVideoRecord();
+        stopVideoSound();
+        stopHighDefinition();
+
+        /* 停止当前正在播放的设备列表 */
+        RelativeLayout layout;
+        for (int i = 0; i < MAX_WINDOW; i++) {
+            LibImpl.stopPlay(i, this.deviceList.get(i));
+            layout = layoutMap.get(i);
+            layout.findViewById(R.id.liveVideoView).setVisibility(View.GONE);
+            this.deviceList.get(i).m_video.mIsStopVideo = true;
+            this.deviceList.get(i).m_video = null;
+        }
+
         List<PlayerDevice> list = new LinkedList<>();
         list.addAll(Global.getSelfDeviceList());
 
@@ -589,22 +607,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 }
                 break;
             }
-        }
-
-        /* 恢复PlayerActivity的button状态 */
-        PlayerActivity.m_this.resetWidget();
-
-        /* 停止所有正在录制的视频 */
-        stopVideoRecord();
-        stopVideoSound();
-
-        /* 停止当前正在播放的设备列表 */
-        RelativeLayout layout;
-        for (int i = 0; i < MAX_WINDOW; i++) {
-            LibImpl.stopPlay(i, this.deviceList.get(i));
-            layout = layoutMap.get(i);
-            layout.findViewById(R.id.liveVideoView).setVisibility(View.GONE);
-            this.deviceList.get(i).m_video.mIsStopVideo = true;
         }
 
         animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_prev_video);
@@ -621,6 +623,24 @@ public class PlayMultiVideoFragment extends BaseFragment {
     }
 
     private void showNextDeviceListVideo(PlayerDevice device) {
+        /* 恢复PlayerActivity的button状态 */
+        PlayerActivity.m_this.resetWidget();
+
+        /* 停止所有正在录制的视频 */
+        stopVideoRecord();
+        stopVideoSound();
+        stopHighDefinition();
+
+        /* 停止当前正在播放的设备列表 */
+        RelativeLayout layout;
+        for (int i = 0; i < MAX_WINDOW; i++) {
+            LibImpl.stopPlay(i, this.deviceList.get(i));
+            layout = layoutMap.get(i);
+            layout.findViewById(R.id.liveVideoView).setVisibility(View.GONE);
+            this.deviceList.get(i).m_video.mIsStopVideo = true;
+            this.deviceList.get(i).m_video = null;
+        }
+
         List<PlayerDevice> list = new LinkedList<>();
         list.addAll(Global.getSelfDeviceList());
 
@@ -633,22 +653,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 }
                 break;
             }
-        }
-
-        /* 恢复PlayerActivity的button状态 */
-        PlayerActivity.m_this.resetWidget();
-
-        /* 停止所有正在录制的视频 */
-        stopVideoRecord();
-        stopVideoSound();
-
-        /* 停止当前正在播放的设备列表 */
-        RelativeLayout layout;
-        for (int i = 0; i < MAX_WINDOW; i++) {
-            LibImpl.stopPlay(i, this.deviceList.get(i));
-            layout = layoutMap.get(i);
-            layout.findViewById(R.id.liveVideoView).setVisibility(View.GONE);
-            this.deviceList.get(i).m_video.mIsStopVideo = true;
         }
 
         animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_next_video);

@@ -414,6 +414,20 @@ public class PlayVideoFragment extends BaseFragment {
     }
 
     private void showPreviousDeviceVideo(PlayerDevice device) {
+        /* 恢复PlayerActivity的button状态 */
+        PlayerActivity.m_this.resetWidget();
+
+         /* 停止视频播放之前先停止录像 */
+        stopVideoRecord();
+        stopVideoSound();
+        stopHighDefinition();
+
+        /* 停止当前正在播放的设备，开始播放上一个设备 */
+        LibImpl.stopPlay(0, device);
+        mainLayout.findViewById(R.id.liveVideoView).setVisibility(View.GONE);
+        device.m_video.mIsStopVideo = true;
+        device.m_video = null;
+
         List<PlayerDevice> deviceList = new LinkedList<>();
         deviceList.addAll(Global.getSelfDeviceList());
         for (int i = 0; i < deviceList.size(); i++) {
@@ -426,21 +440,7 @@ public class PlayVideoFragment extends BaseFragment {
                 break;
             }
         }
-
-        /* 恢复PlayerActivity的button状态 */
-        PlayerActivity.m_this.resetWidget();
-
-         /* 停止视频播放之前先停止录像 */
-        stopVideoRecord();
-        stopVideoSound();
-
-        /* 停止当前正在播放的设备，开始播放上一个设备 */
-        LibImpl.stopPlay(0, device);
-
-        mainLayout.findViewById(R.id.liveVideoView).setVisibility(View.GONE);
-        device.m_video.mIsStopVideo = true;
-        device.m_video = null;
-
+        
         Boolean bRet = startPlay(this.playerDevice);
         mainLayout.findViewById(R.id.liveVideoView).setVisibility(View.VISIBLE);
         if (!bRet) {
@@ -449,6 +449,17 @@ public class PlayVideoFragment extends BaseFragment {
     }
 
     private void showNextDeviceVideo(PlayerDevice device) {
+        /* 恢复PlayerActivity的button状态 */
+        PlayerActivity.m_this.resetWidget();
+
+        /* 停止视频播放之前先停止录像 */
+        stopVideoRecord();
+        stopVideoSound();
+        stopHighDefinition();
+
+        /* 停止当前正在播放的设备，开始播放下一个设备 */
+        LibImpl.stopPlay(0, device);
+
         List<PlayerDevice> deviceList = new LinkedList<>();
         deviceList.addAll(Global.getSelfDeviceList());
         for (int i = deviceList.size() - 1; i >= 0; i--) {
@@ -461,16 +472,6 @@ public class PlayVideoFragment extends BaseFragment {
                 break;
             }
         }
-
-        /* 恢复PlayerActivity的button状态 */
-        PlayerActivity.m_this.resetWidget();
-
-        /* 停止视频播放之前先停止录像 */
-        stopVideoRecord();
-        stopVideoSound();
-
-        /* 停止当前正在播放的设备，开始播放下一个设备 */
-        LibImpl.stopPlay(0, device);
 
         //fragmentView.setBackgroundColor(Color.BLACK);
         mainLayout.findViewById(R.id.liveVideoView).setVisibility(View.GONE);
