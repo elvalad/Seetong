@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
@@ -52,6 +53,7 @@ public class MainActivity2 extends BaseActivity {
     public static final String ADD_LIVE_KEY = "add_live";
     public static String DEVICE_ID_KEY = "device_id_key";
 
+    private ExitHandler mExitHandler;
     public static MainActivity2 m_this = null;
 
     @Override
@@ -63,7 +65,7 @@ public class MainActivity2 extends BaseActivity {
 
         mTipDlg = new ProgressDialog(this, R.string.dlg_login_recv_list_tip);
         mTipDlg.setCancelable(false);
-
+        mExitHandler = new ExitHandler(this);
         LibImpl.getInstance().addHandler(m_handler);
         Global.initDirs();
 
@@ -96,9 +98,7 @@ public class MainActivity2 extends BaseActivity {
                 new MyTipDialog.IDialogMethod() {
                     @Override
                     public void sure() {
-                        //exit();
-                        //m_this.finish();
-                        //Global.onAppTerminate();
+                        exitDialog(true);
                     }
                 }
         );
@@ -314,5 +314,64 @@ public class MainActivity2 extends BaseActivity {
         LibImpl.getInstance().clearDevice();
         Log.i(TAG, "logout end....");
     }
+
+    boolean m_kill_process = false;
+    public void exitDialog(boolean kill_process) {
+        m_kill_process = kill_process;
+        mExitHandler.sendEmptyMessage(199);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mExitHandler.sendEmptyMessageDelayed(200, 15000);
+            }
+        }).start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                long bTime = System.currentTimeMillis();
+                exit();
+                ShareSDK.stopSDK(m_this);
+                Global.onAppTerminate();
+                long aTime = System.currentTimeMillis();
+                Log.i("MSG", "destory is time" + (aTime - bTime) + "ms");
+                Log.i("MSG", "onDestroy mFunclibAgent.destory()");
+                //mExitHandler.sendEmptyMessage(200);
+                mExitHandler.sendEmptyMessageDelayed(200, (aTime - bTime > 800) ? 0 : 800);
+            }
+        }).start();
+    }
+
+    ProgressDialog mExitTipDlg;
+    private static class ExitHandler extends Handler {
+        MainActivity2 m_ui;
+        public ExitHandler(MainActivity2 ui) {
+            m_ui = ui;
+        }
+
+        boolean m_exit = false;
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case 199:
+                    m_ui.mExitTipDlg = new ProgressDialog(m_this, R.string.dlg_app_exit_tip);
+                    m_ui.mExitTipDlg.setCancelable(false);
+                    m_ui.mExitTipDlg.show();
+                    break;
+                case 200:
+                    if (m_exit) return;
+                    m_exit = true;
+                    //MessageNotification.getInstance().cancelAll();
+//				mNetworkChangeBr = null;NetWorkChangeBroadcastReceiver.mNetChangeCallback = null;sNetTipDialog = null;
+                    if (m_ui.mExitTipDlg != null) m_ui.mExitTipDlg.dismiss();
+                    m_ui.finish();
+                    if (m_ui.m_kill_process) android.os.Process.killProcess(android.os.Process.myPid());    //Dalvik VM的本地方法
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
 }
 
