@@ -1,6 +1,8 @@
 package com.seetong.app.seetong.ui;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.*;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -36,6 +38,7 @@ public class PlayerActivity extends BaseActivity {
     private static boolean bAutoCyclePlaying = false;
     private static boolean bVideoRecord = false;
     private static boolean bVideoSoundOn = false;
+    private static boolean bHighDefinition = false;
 
     private ImageButton playerBackButton;
     private ImageButton playerStopButton;
@@ -175,7 +178,7 @@ public class PlayerActivity extends BaseActivity {
         playerPlaybackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /* TODO:录像回放功能 */
+                onRecordPlayBack();
             }
         });
         playerPlaybackButton.setOnTouchListener(new View.OnTouchListener() {
@@ -212,19 +215,16 @@ public class PlayerActivity extends BaseActivity {
         playerResolutionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /* TODO:选择高清播放 */
-            }
-        });
-        playerResolutionButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                view = findViewById(R.id.player_resolution);
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    playerResolutionButton.setTextColor(getResources().getColor(R.color.green));
-                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                /* 选择高清播放 */
+                if (bHighDefinition) {
                     playerResolutionButton.setTextColor(getResources().getColor(R.color.gray));
+                    bHighDefinition = false;
+                    offHighDefinition();
+                } else {
+                    playerResolutionButton.setTextColor(getResources().getColor(R.color.green));
+                    bHighDefinition = true;
+                    onHighDefinition();
                 }
-                return false;
             }
         });
 
@@ -343,6 +343,27 @@ public class PlayerActivity extends BaseActivity {
         }
     }
 
+    private void onHighDefinition() {
+        boolean bRet = false;
+        if (currentFragmentName.equals("play_video_fragment")) {
+            bRet = playVideoFragment.startHighDefinition();
+        } else if (currentFragmentName.equals("play_multi_video_fragment")) {
+            bRet = multiVideoFragment.startHighDefinition();
+        }
+
+        if (!bRet) {
+            resetWidget();
+        }
+    }
+
+    private void offHighDefinition() {
+        if (currentFragmentName.equals("play_video_fragment")) {
+            playVideoFragment.stopHighDefinition();
+        } else if (currentFragmentName.equals("play_multi_video_fragment")) {
+            multiVideoFragment.stopHighDefinition();
+        }
+    }
+
     private void onVideoRecord() {
         boolean bRet = false;
         if (currentFragmentName.equals("play_video_fragment")) {
@@ -361,6 +382,14 @@ public class PlayerActivity extends BaseActivity {
             playVideoFragment.stopVideoRecord();
         } else if (currentFragmentName.equals("play_multi_video_fragment")) {
             multiVideoFragment.stopVideoRecord();
+        }
+    }
+
+    private void onRecordPlayBack() {
+        if (currentFragmentName.equals("play_video_fragment")) {
+            playVideoFragment.startRecordPlayBack();
+        } else if (currentFragmentName.equals("play_multi_video_fragment")) {
+            multiVideoFragment.startRecordPlayBack();
         }
     }
 

@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import com.seetong.app.seetong.R;
 
 /**
- * Created by Administrator on 2015/9/23.
+ * Created by gmk on 2015/9/23.
  */
 public class GalleryActivity extends BaseActivity {
     public static GalleryActivity m_this = null;

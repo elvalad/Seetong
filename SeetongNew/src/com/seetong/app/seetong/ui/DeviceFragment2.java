@@ -30,7 +30,7 @@ import java.util.List;
  * DeviceNoMsgFragment.注意在增加设备时和MainActivity2之间的交互，使用回调函数实现.
  * 注意 Fragment 嵌套使用时要使用 android.support.v4 兼容包.
  *
- * Created by Administrator on 2015/9/11.
+ * Created by gmk on 2015/9/11.
  */
 public class DeviceFragment2 extends BaseFragment {
     private View view;

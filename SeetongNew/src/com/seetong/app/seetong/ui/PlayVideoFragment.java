@@ -1,7 +1,10 @@
 package com.seetong.app.seetong.ui;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.opengl.GLSurfaceView;
 import android.os.*;
 import android.text.TextUtils;
@@ -197,6 +200,25 @@ public class PlayVideoFragment extends BaseFragment {
         }
     }
 
+    public boolean startHighDefinition() {
+        if (null == playerDevice) {
+            return false;
+        }
+        LibImpl.stopPlay(0, playerDevice);
+        playerDevice.m_stream_type = Define.MAIN_STREAM_TYPE;
+        startPlay(playerDevice);
+        return true;
+    }
+
+    public void stopHighDefinition() {
+        if (null == playerDevice) {
+            return;
+        }
+        LibImpl.stopPlay(0, playerDevice);
+        playerDevice.m_stream_type = Define.SUB_STREAM_TYPE;
+        startPlay(playerDevice);
+    }
+
     public boolean startVideoRecord() {
         if (null == playerDevice || !playerDevice.m_playing) {
             toast(R.string.before_open_video_preview);
@@ -237,6 +259,22 @@ public class PlayVideoFragment extends BaseFragment {
 
         LibImpl.getInstance().getFuncLib().StopRecordAgent(playerDevice.m_dev.getDevId());
         playerDevice.m_record = false;
+    }
+
+    public void startRecordPlayBack() {
+        if (null == playerDevice) return;
+        if (!playerDevice.is_p2p_replay()) {
+            toast(R.string.tv_not_support_front_end_record);
+            return;
+        }
+
+        /* 开启回放前先关闭正在播放的设备 */
+        stopCurrentPlay();
+
+        Intent it = new Intent(this.getActivity(), FrontEndRecord.class);
+        it.putExtra(Constant.EXTRA_DEVICE_ID, playerDevice.m_dev.getDevId());
+        this.startActivity(it);
+        this.getActivity().finish();
     }
 
     public boolean startVideoSound() {
@@ -283,12 +321,12 @@ public class PlayVideoFragment extends BaseFragment {
 
         TPS_AddWachtRsp rsp = playerDevice.m_add_watch_rsp;
         if (null == rsp) {
-            toast(R.string.tv_video_wait_video_stream_tip);
+            //toast(R.string.tv_video_wait_video_stream_tip);
             return;
         }
 
         if (!rsp.hasAudio()) {
-            toast(R.string.fvu_tip_open_voice_fail_invalid_audio_device);
+            //toast(R.string.fvu_tip_open_voice_fail_invalid_audio_device);
             return;
         }
 

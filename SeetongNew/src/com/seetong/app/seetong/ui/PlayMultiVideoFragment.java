@@ -1,5 +1,6 @@
 package com.seetong.app.seetong.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.opengl.GLSurfaceView;
@@ -30,7 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Created by Administrator on 2015/9/18.
+ * Created by gmk on 2015/9/18.
  */
 public class PlayMultiVideoFragment extends BaseFragment {
     private String TAG = PlayMultiVideoFragment.class.getName();
@@ -319,6 +320,25 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
     }
 
+    public boolean startHighDefinition() {
+        if (null == chosenPlayerDevice) {
+            return false;
+        }
+        LibImpl.stopPlay(0, chosenPlayerDevice);
+        chosenPlayerDevice.m_stream_type = Define.MAIN_STREAM_TYPE;
+        LibImpl.startPlay(0, chosenPlayerDevice, chosenPlayerDevice.m_stream_type, chosenPlayerDevice.m_frame_type);
+        return true;
+    }
+
+    public void stopHighDefinition() {
+        if (null == chosenPlayerDevice) {
+            return;
+        }
+        LibImpl.stopPlay(0, chosenPlayerDevice);
+        chosenPlayerDevice.m_stream_type = Define.SUB_STREAM_TYPE;
+        LibImpl.startPlay(0, chosenPlayerDevice, chosenPlayerDevice.m_stream_type, chosenPlayerDevice.m_frame_type);
+    }
+
     public boolean startVideoRecord() {
         if (null == chosenPlayerDevice || !chosenPlayerDevice.m_playing) {
             toast(R.string.before_open_video_preview);
@@ -371,6 +391,22 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
     }
 
+    public void startRecordPlayBack() {
+        if (null == chosenPlayerDevice) return;
+        if (!chosenPlayerDevice.is_p2p_replay()) {
+            toast(R.string.tv_not_support_front_end_record);
+            return;
+        }
+
+        /* 开启回放前先关闭正在播放的设备 */
+        stopCurrentPlayList();
+
+        Intent it = new Intent(this.getActivity(), FrontEndRecord.class);
+        it.putExtra(Constant.EXTRA_DEVICE_ID, chosenPlayerDevice.m_dev.getDevId());
+        this.startActivity(it);
+        this.getActivity().finish();
+    }
+
     public boolean startVideoSound() {
         if (null == chosenPlayerDevice || !chosenPlayerDevice.m_playing) {
             toast(R.string.before_open_video_preview);
@@ -416,12 +452,12 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
         TPS_AddWachtRsp rsp = chosenPlayerDevice.m_add_watch_rsp;
         if (null == rsp) {
-            toast(R.string.tv_video_wait_video_stream_tip);
+            //toast(R.string.tv_video_wait_video_stream_tip);
             return;
         }
 
         if (!rsp.hasAudio()) {
-            toast(R.string.fvu_tip_open_voice_fail_invalid_audio_device);
+            //toast(R.string.fvu_tip_open_voice_fail_invalid_audio_device);
             return;
         }
 

@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.seetong.app.seetong.R;
 
 /**
- * Created by Administrator on 2015/9/23.
+ * Created by gmk on 2015/9/23.
  */
 public class MyGallery extends Gallery {
     boolean isFirst = false;

@@ -81,6 +81,12 @@ public class MainActivity2 extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        LibImpl.getInstance().addHandler(m_handler);
+    }
+
+    @Override
     public void onBackPressed() {
         if (null != currentFragment) {
             if (currentFragment.onBackPressed()) return;
