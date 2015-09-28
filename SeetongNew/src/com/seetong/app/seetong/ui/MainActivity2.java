@@ -290,7 +290,7 @@ public class MainActivity2 extends BaseActivity {
         LibImpl.mDeviceNotifyInfo.clear();
         LibImpl.mIsFirstFrameMap.clear();
         LibImpl.mVideoStateMap.clear();
-        LibImpl.setIsLoginSuccess(false);
+        //LibImpl.setIsLoginSuccess(false);
         Log.i(TAG, "logout begin----1....");
         LibImpl.getInstance().logoff(false);
         Log.i(TAG, "logout begin----2....");
@@ -307,7 +307,7 @@ public class MainActivity2 extends BaseActivity {
         LibImpl.mDeviceNotifyInfo.clear();
         LibImpl.mIsFirstFrameMap.clear();
         LibImpl.mVideoStateMap.clear();
-        LibImpl.setIsLoginSuccess(false);
+        //LibImpl.setIsLoginSuccess(false);
         Log.i(TAG, "logout begin----1....");
         LibImpl.getInstance().logoff(true);
         Log.i(TAG, "logout begin----2....");

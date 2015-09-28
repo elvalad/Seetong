@@ -15,7 +15,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/front_end_record"
-                android:textSize="@dimen/title_font_size"
+                android:textSize="20dp"
                 android:textColor="@color/green"/>
         <Button
                 android:id="@+id/btn_title_right"

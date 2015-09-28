@@ -182,6 +182,10 @@
     <string name="dlg_login_recv_list_tip">Getting device list information…</string>
     <string name="dlg_login_success_tip">Login successfully</string>
     <string name="dlg_login_fail_tip">Login failed, please try again</string>
+    <string name="dlg_login_fail_user_pwd_incorrect_tip">Login failed, user name password error</string>
+    <string name="dlg_login_fail_client_num_full_tip">Logon failed, the client number is full</string>
+    <string name="dlg_login_fail_client_link_full_tip">Logon failed, the client connection number is full</string>
+    <string name="dlg_login_fail_addr_error_tip">Login failed, client address access error</string>
     <string name="dlg_get_list_success_tip">Get device list successfully.</string>
     <string name="dlg_login_recv_list_fail_tip">Receive list data error</string>
     <string name="dlg_get_list_fail_tip">Device list get failed or it is null.</string>
@@ -673,6 +677,12 @@
     <string name="oss_error_download_failed">Download failed</string>
     <string name="oss_error_del_failed">Delete failed</string>
     <string name="oss_error_set_replaypos_failed">Setting playback position fails</string>
+
+    <string name="get_reg_number_error_param">Phone number or email is not correct</string>
+    <string name="get_reg_number_error_quik">Send interval less than 1 minutes</string>
+    <string name="get_reg_number_error_sendmsg">Failed to send text messages</string>
+    <string name="get_reg_number_error_other">other error</string>
+    
     <string name="prompt_modify_default_password">Click on to modify the device default password</string>
     <string name="prompt_delete_confirm">Sure you want to delete?</string>
 
@@ -694,6 +704,14 @@
     <string name="register_verify_code_hint_text">请确认校验码</string>
     <string name="register_gain_verify_code_hint_text">获取校验码</string>
     <string name="register_button_text">立即注册</string>
+    <string name="register_invalid_user_name">无效的账号</string>
+    <string name="register_invalid_user_password">无效的密码</string>
+    <string name="register_invalid_user_confirm_password">两次输入密码不一致</string>
+    <string name="register_invalid_verify_code">输入校验码错误</string>
+    <string name="register_user_null">用户名不能为空</string>
+    <string name="register_password_null">密码不能为空</string>
+    <string name="register_confirm_password_null">第二次确认密码不能为空</string>
+    <string name="register_verify_code_null">校验码不能为空</string>
 
     <string name="main_device">设备</string>
     <string name="main_media">多媒体</string>

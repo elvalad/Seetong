@@ -15,7 +15,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/message"
-                android:textSize="25sp"
+                android:textSize="20sp"
                 android:textColor="@color/green"/>
         <Button
                 android:id="@+id/btn_title_right"

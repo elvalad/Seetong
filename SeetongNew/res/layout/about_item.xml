@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/about_item_height"
+        android:layout_height="40dp"
         android:background="@drawable/main_category_list_selector"
         android:descendantFocusability="blocksDescendants"
         android:padding="@dimen/small_interval">
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textColor="@color/txt_about_list_item_font"
-                android:textSize="@dimen/big" />
+                android:textSize="15sp" />
         </RelativeLayout>
     </RelativeLayout>
 

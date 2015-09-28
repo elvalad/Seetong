@@ -25,7 +25,7 @@ import ipc.android.sdk.com.SDK_CONSTANT;
 import ipc.android.sdk.impl.DeviceInfo;
 
 /**
- * Created by Administrator on 2015/9/21.
+ * Created by gmk on 2015/9/21.
  */
 public class AddDeviceActivity extends BaseActivity {
     private static String TAG = AddDeviceActivity.class.getName();

@@ -1,5 +1,6 @@
 package com.seetong.app.seetong.ui;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.res.Resources;
@@ -7,12 +8,14 @@ import android.graphics.drawable.Drawable;
 import android.os.*;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import com.android.utils.SharePreferenceUtil;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.model.ShareRecord;

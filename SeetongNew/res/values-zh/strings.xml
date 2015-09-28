@@ -182,6 +182,10 @@
     <string name="dlg_login_recv_list_tip">正在获取设备列表信息&#8230;</string>
     <string name="dlg_login_success_tip">登录成功</string>
     <string name="dlg_login_fail_tip">登录失败，请稍候重试</string>
+    <string name="dlg_login_fail_user_pwd_incorrect_tip">登录失败，用户名密码错误</string>
+    <string name="dlg_login_fail_client_num_full_tip">登录失败，客户端数量已满</string>
+    <string name="dlg_login_fail_client_link_full_tip">登录失败，客户端连接数已满</string>
+    <string name="dlg_login_fail_addr_error_tip">登录失败，客户端地址获取错误</string>
     <string name="dlg_get_list_success_tip">设备列表获取成功.</string>
     <string name="dlg_get_list_fail_tip">设备列表获取失败或列表为空.</string>
     <string name="dlg_login_recv_list_fail_tip">列表数据接收异常</string>
@@ -673,6 +677,11 @@
     <string name="oss_error_del_failed">删除失败</string>
     <string name="oss_error_set_replaypos_failed">设置播放位置失败</string>
 
+    <string name="get_reg_number_error_param">手机号码或邮箱不正确</string>
+    <string name="get_reg_number_error_quik">发送间隔小于1分钟</string>
+    <string name="get_reg_number_error_sendmsg">发送手机短信失败</string>
+    <string name="get_reg_number_error_other">其它错误</string>
+
     <string name="prompt_modify_default_password">点击修改设备默认密码</string>
     <string name="prompt_delete_confirm">确定要删除吗？</string>
 
@@ -693,6 +702,14 @@
     <string name="register_verify_code_hint_text">请确认校验码</string>
     <string name="register_gain_verify_code_hint_text">获取校验码</string>
     <string name="register_button_text">立即注册</string>
+    <string name="register_invalid_user_name">无效的账号</string>
+    <string name="register_invalid_user_password">无效的密码</string>
+    <string name="register_invalid_user_confirm_password">两次输入密码不一致</string>
+    <string name="register_invalid_verify_code">输入校验码错误</string>
+    <string name="register_user_null">用户名不能为空</string>
+    <string name="register_password_null">密码不能为空</string>
+    <string name="register_confirm_password_null">第二次确认密码不能为空</string>
+    <string name="register_verify_code_null">校验码不能为空</string>
 
     <string name="main_device">设备</string>
     <string name="main_media">多媒体</string>

@@ -22,12 +22,12 @@ import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
 import com.seetong.app.seetong.model.*;
 import com.seetong.app.seetong.tools.Event;
-import com.seetong.app.seetong.ui.BaseActivity;
-import com.seetong.app.seetong.ui.MainActivity2;
+import com.seetong.app.seetong.ui.*;
 import ipc.android.sdk.com.*;
 import ipc.android.sdk.com.Device;
 import ipc.android.sdk.impl.FunclibAgent;
 import ipc.android.sdk.impl.PlayCtrlAgent;
+import org.xml.sax.XMLReader;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -35,6 +35,8 @@ import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -583,7 +585,6 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
 
     public int logoutAll() {
         int isOK = 0;
-        setIsLoginSuccess(false);
         mLoginStateMap.clear();
         isOK = s_func.LogoutAgent();
         return isOK;
@@ -669,25 +670,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         return str;
     }
 
-    private static boolean sIsLoginSuccess = false;
     public static boolean m_stop_render = false;
-
-    public boolean hasLoginSuccess() {
-        boolean hasLoginOK = false;
-        if (mLoginStateMap == null || mLoginStateMap.size() < 1) return hasLoginOK;
-        Set<String> keys = mLoginStateMap.keySet();
-        for (String key : keys) {
-            if (mLoginStateMap.get(key) == true) {
-                hasLoginOK = true;
-                continue;
-            }
-        }
-        return hasLoginOK;
-    }
-
-    public static void setIsLoginSuccess(boolean sIsLoginSuccess) {
-        LibImpl.sIsLoginSuccess = sIsLoginSuccess;
-    }
 
     /**
      * 得到设备的别名(仅保存本地文件中)<br>
@@ -1257,7 +1240,6 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     //sendMyToast(R.string.dlg_login_success_tip);
 
                     msgObj.recvObj = ts;
-                    setIsLoginSuccess(true);
                     mLoginStateMap.put(mCurLoginIP, true);
                     sendMessage(MSG_TYPES_DEFAULT, nMsgType, 0, msgObj);
                     return 0;
@@ -1267,28 +1249,72 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             case SDK_CONSTANT.TPS_MSG_NOTIFY_LOGIN_FAILED: {//8194
                 Log.i(TAG, "doMsgRspCB@login is failed...");
                 // 登录失败，弹出输入用户名密码的界面
-                if (hasLoginSuccess()) {
-                    if (null == pData) return 0;
-                    String devId = new String(pData).trim();
-                    if (null == m_devMap.get(devId)) return 0;
-                    OpenglesRender _glRender = m_devMap.get(devId).m_video;
+                if (null == pData) return 0;
+                String devId = new String(pData).trim();
+                if (null == m_devMap.get(devId)) return 0;
 
-                    // 当前是在获取截图，并且设备未播放，不通知界面弹出输入用户名密码
-                    if (null != m_snapshotMap.get(devId) && null == _glRender) {
-                        notifyNextSnapshot(devId);
-                        return 0;
-                    }
-
-                    PlayerDevice device = getPlayerDevice(devId);
-                    sendMessage(nMsgType, 0, 0, device);
+                OpenglesRender _glRender = m_devMap.get(devId).m_video;
+                // 当前是在获取截图，并且设备未播放，不通知界面弹出输入用户名密码
+                if (null != m_snapshotMap.get(devId) && null == _glRender) {
+                    notifyNextSnapshot(devId);
                     return 0;
                 }
 
-                setIsLoginSuccess(false);
+                PlayerDevice device = getPlayerDevice(devId);
+                sendMessage(nMsgType, 0, 0, device);
                 mLoginStateMap.put(mCurLoginIP, false);
-                sendMessage(MSG_TYPES_DEFAULT, nMsgType, 0, msgObj);
                 return 0;
             }
+            case SDK_CONSTANT.TPS_MSG_NOTIFY_AUTH_FAILED:
+                Log.i(TAG, "doMsgRspCB:TPS_MSG_NOTIFY_AUTH_FAILED");
+                if (pData != null && nDataLen == TPS_NotifyInfo.SIZE) {
+                    ByteBuffer byteBuffer = ByteBuffer.allocate(nDataLen);
+                    byteBuffer.order(ByteOrder.nativeOrder());
+                    byteBuffer.put(pData, 0, nDataLen);
+                    byteBuffer.rewind();
+                    TPS_NotifyInfo ni = (TPS_NotifyInfo) TPS_NotifyInfo.createObjectByByteBuffer(byteBuffer);
+                    Log.i(TAG, "doMsgRspCB:TPS_MSG_NOTIFY_AUTH_FAILED, ni=" + ni.toString());
+                    int result = ni.getnResult();
+                    String devId = new String(ni.getSzDevId()).trim();
+                    PlayerDevice dev = Global.getDeviceById(devId);
+                    if (null == dev) {
+                        List<PlayerDevice> lst = Global.getDeviceByGroup(devId);
+                        if (null != lst) {
+                            for (PlayerDevice d : lst) {
+                                if (-1 == result) {
+                                    setTipText(d.m_devId, R.string.dlg_login_fail_user_pwd_incorrect_tip);
+                                } else if (-2 == result) {
+                                    setTipText(d.m_devId, R.string.dlg_login_fail_client_num_full_tip);
+                                } else if (-3 == result) {
+                                    setTipText(d.m_devId, R.string.dlg_login_fail_client_link_full_tip);
+                                } else if (-4 == result) {
+                                    setTipText(d.m_devId, R.string.dlg_login_fail_addr_error_tip);
+                                }
+                            }
+                        }
+                    } else {
+                        if (-1 == result) {
+                            setTipText(devId, R.string.dlg_login_fail_user_pwd_incorrect_tip);
+                        } else if (-2 == result) {
+                            setTipText(devId, R.string.dlg_login_fail_client_num_full_tip);
+                        } else if (-3 == result) {
+                            setTipText(devId, R.string.dlg_login_fail_client_link_full_tip);
+                        } else if (-4 == result) {
+                            setTipText(devId, R.string.dlg_login_fail_addr_error_tip);
+                        }
+
+                        OpenglesRender _glRender = m_devMap.get(devId).m_video;
+                        // 当前是在获取截图，并且设备未播放，不通知界面弹出输入用户名密码
+                        if (null != m_snapshotMap.get(devId) && null == _glRender) {
+                            notifyNextSnapshot(devId);
+                            return 0;
+                        }
+                        PlayerDevice device = getPlayerDevice(devId);
+                        if (null == device) return 0;
+                        sendMessage(nMsgType, 0, 0, device);
+                    }
+                }
+                return 0;
             case SDK_CONSTANT.TPS_MSG_NOTIFY_DEV_DATA: {//8195-返回xml格式设备数据
                 if (null != pData && pData.length > 0) {
                     String xml = new String(pData).trim();
@@ -1680,7 +1706,9 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                 OpenglesRender _glRender = m_devMap.get(devId).m_video;
                 // 当前没有设备在界面播放，返回
                 if (null == _glRender) return;
-                if (-7 == ts.getnResult()) setTipText(devId, R.string.tv_video_req_fail_device_resource_low_tip);
+                if (-7 == ts.getnResult()) {
+                    setTipText(devId, R.string.tv_video_req_fail_device_resource_low_tip);
+                }
                 return;
             }
 

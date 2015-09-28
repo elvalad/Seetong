@@ -16,15 +16,6 @@ import android.provider.MediaStore;
 import android.support.v4.util.LruCache;
 import android.util.Log;
 
-/**
- * 本地图片加载器,采用的是异步解析本地图片，单例模式利用getInstance()获取NativeImageLoader实例
- * 调用loadNativeImage()方法加载本地图片，此类可作为一个加载本地图片的工具类
- *
- * @blog http://blog.csdn.net/xiaanming
- *
- * @author xiaanming
- *
- */
 public class NativeImageLoader {
     private static final String TAG = NativeImageLoader.class.getSimpleName();
     private static NativeImageLoader mInstance = new NativeImageLoader();

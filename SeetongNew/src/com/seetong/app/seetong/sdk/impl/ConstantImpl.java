@@ -458,13 +458,13 @@ public class ConstantImpl extends SDK_CONSTANT {
             case get_reg_number_error_null:
                 return "";
             case get_reg_number_error_param:
-                return Global.m_res.getString(R.string.oss_error_dev_not_pay);
+                return Global.m_res.getString(R.string.get_reg_number_error_param);
             case get_reg_number_error_quik:
-                return Global.m_res.getString(R.string.oss_error_param_invalidate);
+                return Global.m_res.getString(R.string.get_reg_number_error_quik);
             case get_reg_number_error_sendmsg:
-                return Global.m_res.getString(R.string.oss_error_req_failed);
+                return Global.m_res.getString(R.string.get_reg_number_error_sendmsg);
             case get_reg_number_error_other:
-                return Global.m_res.getString(R.string.oss_error_stop_failed);
+                return Global.m_res.getString(R.string.get_reg_number_error_other);
             default:
                 return "";
         }
