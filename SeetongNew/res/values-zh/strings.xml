@@ -711,6 +711,8 @@
     <string name="register_confirm_password_null">第二次确认密码不能为空</string>
     <string name="register_verify_code_null">校验码不能为空</string>
 
+    <string name="forget_password">忘记密码</string>
+
     <string name="main_device">设备</string>
     <string name="main_media">多媒体</string>
     <string name="main_more">更多</string>

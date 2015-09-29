@@ -97,9 +97,26 @@
 
         <activity
                 android:name="com.seetong.app.seetong.ui.GalleryActivity">
-
         </activity>
 
+        <activity
+                android:name="com.seetong.app.seetong.ui.ForgetPasswordActivity">
+        </activity>
+
+
+        <activity
+                android:name="com.seetong.app.seetong.ui.LoginUI2"
+                android:screenOrientation="portrait"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+                android:name="com.seetong.app.seetong.ui.UserRegisterUI"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:windowSoftInputMode="stateHidden"/>
+        <activity
+                android:name="com.seetong.app.seetong.ui.UserRegisterUI2"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:windowSoftInputMode="stateHidden"/>
         <activity
                 android:name="com.android.zxing.ui.CaptureTDCodeUI"
                 android:screenOrientation="portrait"

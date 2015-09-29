@@ -55,10 +55,10 @@ public class DeviceListFragment extends Fragment {
     // TODO:实际需要从服务器获取的设备相关数据
     private void getData() {
         LibImpl.putDeviceList(Global.getDeviceList());
-        Log.d(TAG, "Device size is" + Global.getDeviceList().size());
+        //Log.d(TAG, "Device size is " + Global.getDeviceList().size());
         for (int i = 0; i < Global.getDeviceList().size(); i++) {
             HashMap<String, Object> map = new HashMap<String, Object>();
-            Log.d(TAG, "Device is" + Global.getSelfDeviceList().get(i).toString());
+            //Log.d(TAG, "Device is" + Global.getSelfDeviceList().get(i).toString());
             map.put("device", Global.getSelfDeviceList().get(i));
             map.put("device_image", R.drawable.tps_list_nomsg);
             map.put("device_state", R.string.device_state_off);

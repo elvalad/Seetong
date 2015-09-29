@@ -94,7 +94,7 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
 
         PlayerDevice dev = Global.getDeviceById(m_device_id);
         // 确保先停止预览
-        MainActivity.m_this.getVideoFragment().stopAndResetPlay(dev);
+        //MainActivity.m_this.getVideoFragment().stopAndResetPlay(dev);
         if (null != dev) dev.m_replay = true;
 
         View menu = getLayoutInflater().inflate(R.layout.cloud_end_record_menu, null);

@@ -4,18 +4,23 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.media.AudioManager;
 import android.os.*;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.widget.Toast;
 import cn.sharesdk.framework.ShareSDK;
 import com.android.utils.SharePreferenceUtil;
 import com.baidu.android.pushservice.PushManager;
 import com.seetong.app.seetong.comm.Define;
+import com.seetong.app.seetong.comm.Tools;
 import com.seetong.app.seetong.model.*;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
+import com.seetong.app.seetong.ui.MainActivity;
 import com.seetong.service.MainService;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
@@ -28,6 +33,9 @@ import com.umeng.update.UpdateStatus;
 import ipc.android.sdk.com.Device;
 import ipc.android.sdk.com.TPS_AlarmInfo;
 import ipc.android.sdk.impl.DeviceInfo;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -344,7 +352,7 @@ public class Global {
         m_oss.setAccessId(OSS_ACCESS_ID);
         m_oss.setAccessKey(OSS_ACCESS_KEY);*/
 
-        /*String languageToLoad  = "en";
+        String languageToLoad  = "en";
         int flags = Tools.getLanguageTypes();
         switch(flags){
             case 0:
@@ -366,7 +374,7 @@ public class Global {
         Configuration config = m_ctx.getResources().getConfiguration();
         DisplayMetrics metrics = m_ctx.getResources().getDisplayMetrics();
         config.locale = locale;
-        m_ctx.getResources().updateConfiguration(config, metrics);*/
+        m_ctx.getResources().updateConfiguration(config, metrics);
 
         PowerManager localPowerManager = (PowerManager) m_ctx.getSystemService(Context.POWER_SERVICE);
         m_wakeLock = localPowerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "My Lock");

@@ -251,6 +251,7 @@ public class MainActivity2 extends BaseActivity {
                 d.m_devId = dev.getDevId();
                 d.m_dev = dev;
                 d.m_capacity_set = LibImpl.getInstance().getCapacitySet(d.m_devId);
+                d.m_net_type = LibImpl.getInstance().getDeviceNetType(d);
                 DeviceSetting ds = DeviceSetting.findByDeviceId(d.m_devId);
                 if (null != ds) {
                     d.m_force_forward = ds.is_force_forward();

@@ -742,22 +742,31 @@ public class PlayMultiVideoFragment extends BaseFragment {
         RelativeLayout layout = layoutMap.get(index);
         MarqueeTextView v = (MarqueeTextView) layout.findViewById(R.id.tvLiveInfo);
         //v.setVisibility(View.VISIBLE);
+        String dev_type = "";
+        if (0 == deviceList.get(index).m_net_type) {
+            dev_type = "-O";
+        } else if (16 == deviceList.get(index).m_net_type) {
+            dev_type = "-R";
+        } else if (-1 != deviceList.get(index).m_net_type) {
+            dev_type = "-P";
+        }
+
         if (null == msg) {
             v.setVisibility(View.GONE);
         } else if (T(R.string.tv_video_play_tip).compareToIgnoreCase(msg) == 0) { //playing
-            StringBuffer msgBuf = new StringBuffer();
+            StringBuilder msgBuf = new StringBuilder();
             String _devName = deviceList.get(index).getDeviceName();
-            msgBuf.append("[").append(_devName).append("]");
+            msgBuf.append("[").append(_devName).append(dev_type).append("]");
             String _msg = msgBuf.toString();
             v.setText(_msg);
             deviceList.get(index).m_tipInfo = msg;
         } else {
-            StringBuffer msgBuf = new StringBuffer();
+            StringBuilder msgBuf = new StringBuilder();
             if (!isNullStr(deviceList.get(index).m_dev.getDevId())) {
                 //¼ÓÔØ±ðÃû
                 String _devName = deviceList.get(index).getDeviceName();
-                msgBuf.append("[").append(_devName).append("]:").append(msg);
-                if (!"".equals(msg)) msgBuf.append(".");
+                msgBuf.append("[").append(_devName).append(dev_type).append("]");
+                if (!TextUtils.isEmpty(msg)) msgBuf.append(":").append(msg).append(".");
             } else {
                 msgBuf.append(msg);
                 if (!"".equals(msg)) msgBuf.append(".");

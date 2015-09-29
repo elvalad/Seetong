@@ -91,9 +91,6 @@ public class LoginActivity extends BaseActivity {
         m_txt_pwd = (RegexpEditText) findViewById(R.id.login_password);
         m_txt_pwd.setRequired(true);
 
-        loadData();
-        LibImpl.getInstance().addHandler(m_handler);
-
         EditText passwordText = (EditText) findViewById(R.id.login_password);
         passwordText.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
         passwordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -129,6 +126,24 @@ public class LoginActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
+        Button forgetPwdButton = (Button) findViewById(R.id.login_forget);
+        forgetPwdButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, ForgetPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        loadData();
+        LibImpl.getInstance().addHandler(m_handler);
+        Global.m_loginType = Define.LOGIN_TYPE_USER;
+        if (!"".equals(gStr(R.id.login_account)) && !"".equals(gStr(R.id.login_password))) {
+            Global.m_loginType = Define.LOGIN_TYPE_USER;
+            onBtnLogin();
+            return;
+        }
     }
 
     private void onBtnLogin() {
@@ -260,8 +275,7 @@ public class LoginActivity extends BaseActivity {
         switch (msgType) {
             case SDK_CONSTANT.TPS_MSG_NOTIFY_LOGIN_OK:
                 if (mTipDlg.isTimeout()) return;
-                if (Global.m_loginType != Define.LOGIN_TYPE_DEMO)
-                    //saveData();
+                saveData();
                 break;
             case SDK_CONSTANT.TPS_MSG_NOTIFY_LOGIN_FAILED: {
                 mTipDlg.dismiss();
@@ -285,25 +299,25 @@ public class LoginActivity extends BaseActivity {
         boolean isSaveData = Global.m_spu_login.loadBooleanSharedPreference(Define.IS_SAVE_DATA);
         if (!isSaveData) {
             saveData();
-            sStr(R.id.txt_dev_user_name, "admin");
-            sStr(R.id.txt_dev_password, "123456");
+            //sStr(R.id.txt_dev_user_name, "admin");
+            //sStr(R.id.txt_dev_password, "123456");
             return;
         }
         //user login
         //CheckBox cbSavePwd = (CheckBox) findViewById(R.id.cbSavePassword);
         //cbSavePwd.setChecked(mMySPUtil.loadBooleanSharedPreference(Define.IS_SAVE_PWD));
-        sStr(R.id.txt_user_name, Global.m_spu_login.loadStringSharedPreference(Define.USR_NAME));
-        sStr(R.id.txt_password, Global.m_spu_login.loadStringSharedPreference(Define.USR_PSW));
+        sStr(R.id.login_account, Global.m_spu_login.loadStringSharedPreference(Define.USR_NAME));
+        sStr(R.id.login_password, Global.m_spu_login.loadStringSharedPreference(Define.USR_PSW));
         //device login
-        sStr(R.id.txt_dev_id, Global.m_spu_login.loadStringSharedPreference(Define.DEV_ID));
+        //sStr(R.id.txt_dev_id, Global.m_spu_login.loadStringSharedPreference(Define.DEV_ID));
         //sStr(R.id.etSerPort, mMySPUtil.loadIntSharedPreference(Define.SERVER_PORT) + "");
 
-        String devName = Global.m_spu_login.loadStringSharedPreference(Define.DEV_NAME);
-        String devPwd = Global.m_spu_login.loadStringSharedPreference(Define.DEV_PSW);
-        if ("".equals(devName)) devName = "admin";
-        if ("".equals(devPwd)) devPwd = "123456";
-        sStr(R.id.txt_dev_user_name, devName);
-        sStr(R.id.txt_dev_password, devPwd);
+        //String devName = Global.m_spu_login.loadStringSharedPreference(Define.DEV_NAME);
+        //String devPwd = Global.m_spu_login.loadStringSharedPreference(Define.DEV_PSW);
+        //if ("".equals(devName)) devName = "admin";
+        //if ("".equals(devPwd)) devPwd = "123456";
+        //sStr(R.id.txt_dev_user_name, devName);
+        //sStr(R.id.txt_dev_password, devPwd);
     }
 
     public void saveData() {
@@ -326,12 +340,12 @@ public class LoginActivity extends BaseActivity {
                 Global.m_spu_login.saveSharedPreferences(Define.DEV_PSW, gStr(R.id.txt_dev_password));
             } else if (Global.m_loginType == Define.LOGIN_TYPE_USER) {//user login
                 Global.m_spu_login.saveSharedPreferences(Define.IS_SAVE_DATA, true);
-                Global.m_spu_login.saveSharedPreferences(Define.USR_NAME, gStr(R.id.txt_user_name));
+                Global.m_spu_login.saveSharedPreferences(Define.USR_NAME, gStr(R.id.login_account));
                 //CheckBox cbSavePwd = (CheckBox) findViewById(R.id.cbSavePassword);
                 boolean isSavePwd = true;
                 //isSavePwd = cbSavePwd.isChecked();
                 Global.m_spu_login.saveSharedPreferences(Define.IS_SAVE_PWD, isSavePwd);
-                Global.m_spu_login.saveSharedPreferences(Define.USR_PSW, (isSavePwd) ? gStr(R.id.txt_password) : "");
+                Global.m_spu_login.saveSharedPreferences(Define.USR_PSW, (isSavePwd) ? gStr(R.id.login_password) : "");
             }
         }
     }

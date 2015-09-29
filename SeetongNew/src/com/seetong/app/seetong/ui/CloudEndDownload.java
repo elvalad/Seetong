@@ -395,7 +395,7 @@ public class CloudEndDownload extends BaseActivity implements GestureDetector.On
             it.setDataAndType(uri, "video/mp4");//mp4
             this.startActivity(it);
         } catch (ActivityNotFoundException e) {
-            MainActivity.m_this.toast(R.string.not_open_file_use_third_party_app);
+            MainActivity2.m_this.toast(R.string.not_open_file_use_third_party_app);
         }
     }
 
