@@ -116,6 +116,10 @@ public class PlayerActivity extends BaseActivity {
         playerStopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (bAutoCyclePlaying) {
+                    return;
+                }
+
                 if (currentFragmentName.equals("play_video_fragment")) {
                     if (bPlaying) {
                         playerStopButton.setImageResource(R.drawable.tps_play_stopall_on);
@@ -178,12 +182,18 @@ public class PlayerActivity extends BaseActivity {
         playerPlaybackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (bAutoCyclePlaying) {
+                    return;
+                }
                 onRecordPlayBack();
             }
         });
         playerPlaybackButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (bAutoCyclePlaying) {
+                    return false;
+                }
                 view = findViewById(R.id.player_record_playback);
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     playerPlaybackButton.setImageResource(R.drawable.tps_play_recordplayback_on);
@@ -198,6 +208,10 @@ public class PlayerActivity extends BaseActivity {
         playerSoundButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (bAutoCyclePlaying) {
+                    return;
+                }
+
                 /* 停止声音 */
                 if (bVideoSoundOn) {
                     playerSoundButton.setImageResource(R.drawable.tps_play_sound_off);
@@ -215,6 +229,10 @@ public class PlayerActivity extends BaseActivity {
         playerResolutionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (bAutoCyclePlaying) {
+                    return;
+                }
+
                 /* 选择高清播放 */
                 if (bHighDefinition) {
                     playerResolutionButton.setTextColor(getResources().getColor(R.color.gray));
@@ -233,11 +251,18 @@ public class PlayerActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 /* TODO:播放设置 */
+                if (bAutoCyclePlaying) {
+                    return;
+                }
             }
         });
         playerSettingButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (bAutoCyclePlaying) {
+                    return false;
+                }
+
                 view = findViewById(R.id.player_setting);
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     playerSettingButton.setImageResource(R.drawable.tps_play_set_on);
@@ -253,6 +278,10 @@ public class PlayerActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 /* TODO:设备录像 */
+                if (bAutoCyclePlaying) {
+                    return;
+                }
+
                 if (bVideoRecord) {
                     /* 关闭视频录像 */
                     playerRecordButton.setBackgroundResource(R.drawable.tps_play_record_off);
@@ -273,6 +302,10 @@ public class PlayerActivity extends BaseActivity {
         playerSpeakButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (bAutoCyclePlaying) {
+                    return false;
+                }
+
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     playerSpeakButton.setBackgroundResource(R.drawable.tps_play_microphone_on);
                     playerSpeakButton.setTextColor(getResources().getColor(R.color.green));
@@ -291,12 +324,19 @@ public class PlayerActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 /* 设备截图 */
+                if (bAutoCyclePlaying) {
+                    return;
+                }
                 onVideoCapture();
             }
         });
         playerCaptureButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (bAutoCyclePlaying) {
+                    return false;
+                }
+
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     playerCaptureButton.setBackgroundResource(R.drawable.tps_play_capture_on);
                     playerCaptureButton.setTextColor(getResources().getColor(R.color.green));

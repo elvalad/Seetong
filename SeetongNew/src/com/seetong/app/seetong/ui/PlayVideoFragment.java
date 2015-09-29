@@ -647,11 +647,16 @@ public class PlayVideoFragment extends BaseFragment {
                 //CheckDefaultUserPwd(LibImpl.getInstance().getPlayerDevice(msgObj.devID));
                 return false;
             case Define.MSG_RECEIVER_MEDIA_FIRST_FRAME:
-                //onRecvFirstFrame((PlayerDevice) msg.obj);
+                onRecvFirstFrame((PlayerDevice) msg.obj);
                 return true;
         }
 
         return false;
+    }
+
+    private void onRecvFirstFrame(PlayerDevice dev) {
+        if (null == dev) return;
+        setTipText(dev.m_devId, "");
     }
 
     private void onAddWatchResp(TPS_AddWachtRsp ts) {
