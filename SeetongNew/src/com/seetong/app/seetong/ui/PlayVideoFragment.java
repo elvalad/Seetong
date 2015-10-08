@@ -486,7 +486,10 @@ public class PlayVideoFragment extends BaseFragment {
                 break;
             }
         }
-        
+
+        /* 切换之后设置PlayerActivity当前播放的设备ID */
+        PlayerActivity.m_this.setCurrentDeviceId(this.playerDevice.m_devId);
+
         Boolean bRet = startPlay(this.playerDevice);
         mainLayout.findViewById(R.id.liveVideoView).setVisibility(View.VISIBLE);
         if (!bRet) {
@@ -518,6 +521,9 @@ public class PlayVideoFragment extends BaseFragment {
                 break;
             }
         }
+
+        /* 切换之后设置PlayerActivity当前播放的设备ID */
+        PlayerActivity.m_this.setCurrentDeviceId(this.playerDevice.m_devId);
 
         //fragmentView.setBackgroundColor(Color.BLACK);
         mainLayout.findViewById(R.id.liveVideoView).setVisibility(View.GONE);

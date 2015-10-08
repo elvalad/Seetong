@@ -194,6 +194,9 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
 
         layoutMap.get(currentIndex).setBackgroundColor(getResources().getColor(R.color.video_view_focus_border));
+
+        /* 多画面选择不同的窗口时，PlayerActivity的设备Id也要随着变换 */
+        PlayerActivity.m_this.setCurrentDeviceId(this.chosenPlayerDevice.m_devId);
     }
 
     private void fullCurrentWindow() {
@@ -668,6 +671,9 @@ public class PlayMultiVideoFragment extends BaseFragment {
             }
         }
 
+        /* 切换之后设置PlayerActivity当前播放的设备ID */
+        PlayerActivity.m_this.setCurrentDeviceId(this.chosenPlayerDevice.m_devId);
+
         animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_prev_video);
         this.deviceList = getDeviceList(this.playerDevice);
         Boolean bRet = startPlay(this.deviceList);
@@ -713,6 +719,9 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 break;
             }
         }
+
+        /* 切换之后设置PlayerActivity当前播放的设备ID */
+        PlayerActivity.m_this.setCurrentDeviceId(this.chosenPlayerDevice.m_devId);
 
         animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_next_video);
         this.deviceList = getDeviceList(this.playerDevice);

@@ -103,6 +103,9 @@
                 android:name="com.seetong.app.seetong.ui.ForgetPasswordActivity">
         </activity>
 
+        <activity
+                android:name="com.seetong.app.seetong.ui.PlayerSettingActivity">
+        </activity>
 
         <activity
                 android:name="com.seetong.app.seetong.ui.LoginUI2"

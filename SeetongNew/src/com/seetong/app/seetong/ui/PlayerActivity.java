@@ -1,8 +1,6 @@
 package com.seetong.app.seetong.ui;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.*;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -10,9 +8,7 @@ import android.view.View;
 import android.view.Window;
 
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
@@ -250,10 +246,14 @@ public class PlayerActivity extends BaseActivity {
         playerSettingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /* TODO:播放设置 */
+                /* 播放设置 */
                 if (bAutoCyclePlaying) {
                     return;
                 }
+
+                Intent intent = new Intent(PlayerActivity.this, PlayerSettingActivity.class);
+                intent.putExtra("device_setting_id", PlayerActivity.this.deviceId);
+                startActivity(intent);
             }
         });
         playerSettingButton.setOnTouchListener(new View.OnTouchListener() {
@@ -559,6 +559,10 @@ public class PlayerActivity extends BaseActivity {
 
     public String getCurrentDeviceId() {
         return this.deviceId;
+    }
+
+    public void setCurrentDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 
     public void sendMessage(int what, int arg1, int arg2, Object obj) {
