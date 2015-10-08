@@ -164,16 +164,21 @@ public class PlayerSettingActivity extends BaseActivity {
     }
 
     private void getData() {
-        //data.add(R.string.dev_list_tip_title_input_dev_alias);
-        //data.add(R.string.dev_list_tip_title_modify_user_pwd);
-        data.add(R.string.dev_list_tip_title_modify_media_parameter);
-        data.add(R.string.image_flip);
-        data.add(R.string.motion_detect);
-        data.add(R.string.tv_alarm_setting);
-        data.add(R.string.tv_storage_setting);
-        data.add(R.string.tv_timezone_setting);
-        data.add(R.string.front_end_record);
-        data.add(R.string.restore_factory_settings);
+        int devType = playerDevice.m_dev.getDevType();
+        if (devType == 100) {
+            data.add(R.string.dev_list_tip_title_input_dev_alias);
+            //data.add(R.string.dev_list_tip_title_modify_user_pwd);
+            data.add(R.string.dev_list_tip_title_modify_media_parameter);
+            data.add(R.string.image_flip);
+            data.add(R.string.motion_detect);
+            data.add(R.string.tv_alarm_setting);
+            data.add(R.string.tv_storage_setting);
+            data.add(R.string.tv_timezone_setting);
+            data.add(R.string.front_end_record);
+            data.add(R.string.restore_factory_settings);
+        } else if (devType == 200) {
+            data.add(R.string.dev_list_tip_title_input_dev_alias);
+        }
     }
 
     private void initWidget() {
