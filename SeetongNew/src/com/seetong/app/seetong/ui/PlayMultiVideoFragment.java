@@ -386,7 +386,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
         LibImpl.stopPlay(0, chosenPlayerDevice);
         chosenPlayerDevice.m_stream_type = Define.MAIN_STREAM_TYPE;
-        LibImpl.startPlay(0, chosenPlayerDevice, chosenPlayerDevice.m_stream_type, chosenPlayerDevice.m_frame_type);
+        LibImpl.startPlay(currentIndex, chosenPlayerDevice, chosenPlayerDevice.m_stream_type, chosenPlayerDevice.m_frame_type);
         return true;
     }
 
@@ -396,7 +396,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
         LibImpl.stopPlay(0, chosenPlayerDevice);
         chosenPlayerDevice.m_stream_type = Define.SUB_STREAM_TYPE;
-        LibImpl.startPlay(0, chosenPlayerDevice, chosenPlayerDevice.m_stream_type, chosenPlayerDevice.m_frame_type);
+        LibImpl.startPlay(currentIndex, chosenPlayerDevice, chosenPlayerDevice.m_stream_type, chosenPlayerDevice.m_frame_type);
     }
 
     public boolean startVideoRecord() {
@@ -549,7 +549,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             Log.d(TAG, "====>device list is" + devList.toString() + " i is " + i + " device is " + devList.get(i).getDeviceName());
             devList.get(i).m_video.mIsStopVideo = false;
 
-            int ret = LibImpl.startPlay(0, devList.get(i), devList.get(i).m_stream_type, devList.get(i).m_frame_type);
+            int ret = LibImpl.startPlay(i, devList.get(i), devList.get(i).m_stream_type, devList.get(i).m_frame_type);
             if (ret == 0) {
                 devList.get(i).m_online = true;
                 devList.get(i).m_playing = false;
@@ -586,7 +586,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
     public void stopPlayList() {
         RelativeLayout layout;
         View view;
-        PlayerActivity.m_this.resetWidget();
         stopVideoRecord();
         stopVideoSound();
         for (int i = 0; i< MAX_WINDOW; i++) {

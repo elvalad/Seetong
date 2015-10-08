@@ -431,7 +431,6 @@ public class PlayVideoFragment extends BaseFragment {
     }
 
     public void stopPlay() {
-        PlayerActivity.m_this.resetWidget();
         /* 停止视频播放之前先停止录像 */
         stopVideoRecord();
         stopVideoSound();
