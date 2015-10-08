@@ -26,7 +26,7 @@
         android:id="@+id/player_fragment_container"
         android:background="@color/black"
         android:layout_width="match_parent"
-        android:layout_height="220dp">
+        android:layout_height="280dp">
     </FrameLayout>
 
     <ImageView

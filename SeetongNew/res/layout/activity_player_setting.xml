@@ -4,9 +4,25 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
-            android:id="@+id/device_setting_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+    <RelativeLayout
+            android:background="@drawable/tps_tabbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        <TextView
+                android:id="@+id/device_setting_id"
+                android:textColor="@color/green"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+    <ListView
+            android:id="@+id/device_setting_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    </ListView>
 
 </LinearLayout>
