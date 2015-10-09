@@ -865,6 +865,12 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
     private void onAddWatchResp(TPS_AddWachtRsp ts) {
         final String devId = new String(ts.getSzDevId()).trim();
+        PlayerDevice device = LibImpl.getInstance().getPlayerDevice(devId);
+        if (null == device) {
+            Log.i(TAG, "device id " + devId + " is not the current device!!!");
+            return;
+        }
+
         if (ts.getnResult() == 0) {//视频请求成功
             setTipText(devId, R.string.tv_video_req_succeed_tip);
         } else {

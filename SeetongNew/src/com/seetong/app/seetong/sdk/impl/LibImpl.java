@@ -1389,9 +1389,9 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     int nResult = ni.getnResult();
 
                     mDeviceNotifyInfo.put(devID, ni);
-                    if (null == m_devMap.get(devID)) {
-                        return 0;
-                    }
+//                    if (null == m_devMap.get(devID)) {
+//                        return 0;
+//                    }
                     PlayerDevice dev = findDeviceByID(devID);
                     if (null == dev) {
                         List<PlayerDevice> lst = Global.getDeviceByGroup(devID);
@@ -1420,9 +1420,9 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     Log.i(TAG, "doMsgRspCB-->TPS_MSG_P2P_OFFLINE#TPS_NotifyInfo@" + ni.toString());
                     String devID = new String(ni.getSzDevId()).trim();
                     int nResult = ni.getnResult();
-                    if (null == m_devMap.get(devID)) {
-                        return 0;
-                    }
+//                    if (null == m_devMap.get(devID)) {
+//                        return 0;
+//                    }
 
                     PlayerDevice dev = findDeviceByID(devID);
                     if (dev != null) {
@@ -1445,9 +1445,9 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     String devID = new String(ni.getSzDevId()).trim();
                     int nResult = ni.getnResult();
                     if (TextUtils.isEmpty(devID)) return 0;
-                    if (null == m_devMap.get(devID)) {
-                        return 0;
-                    }
+//                    if (null == m_devMap.get(devID)) {
+//                        return 0;
+//                    }
                     List<PlayerDevice> lst = Global.getDeviceByGroup(devID);
                     if (null != lst) {
                         for (PlayerDevice dev : lst) {
@@ -1470,9 +1470,9 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     Log.i(TAG, "doMsgRspCB-->TPS_MSG_P2P_NVR_CH_OFFLINE#TPS_NotifyInfo@" + ni.toString());
                     String devID = new String(ni.getSzDevId()).trim();
                     int nResult = ni.getnResult();
-                    if (null == m_devMap.get(devID)) {
-                        return 0;
-                    }
+//                    if (null == m_devMap.get(devID)) {
+//                        return 0;
+//                    }
                     PlayerDevice dev = findDeviceByID(devID);
                     if (dev != null) {
                         dev.m_dev.setOnLine(Device.OFFLINE);
@@ -1493,9 +1493,9 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     Log.i(TAG, "doMsgRspCB-->TPS_MSG_P2P_NVR_CH_ONLINE#TPS_NotifyInfo@" + ni.toString());
                     String devID = new String(ni.getSzDevId()).trim();
                     int nResult = ni.getnResult();
-                    if (null == m_devMap.get(devID)) {
-                        return 0;
-                    }
+//                    if (null == m_devMap.get(devID)) {
+//                        return 0;
+//                    }
                     mDeviceNotifyInfo.put(devID, ni);
                     PlayerDevice dev = findDeviceByID(devID);
                     if (dev != null) {
