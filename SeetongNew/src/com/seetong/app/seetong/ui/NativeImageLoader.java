@@ -23,14 +23,14 @@ public class NativeImageLoader {
     private ExecutorService mImageThreadPool = Executors.newFixedThreadPool(1);
 
     private NativeImageLoader(){
-        //获取应用程序的最大内存
+        /* 获取应用程序的最大内存 */
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory());
 
-        //用最大内存的1/4来存储图片
+        /* 用最大内存的1/4来存储图片 */
         final int cacheSize = maxMemory / 4;
         mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
 
-            //获取每张图片的大小
+            /* 获取每张图片的大小 */
             @Override
             protected int sizeOf(String key, Bitmap bitmap) {
                 return bitmap.getRowBytes() * bitmap.getHeight();
@@ -45,7 +45,6 @@ public class NativeImageLoader {
     public static NativeImageLoader getInstance(){
         return mInstance;
     }
-
 
     /**
      * 加载本地图片，对图片不进行裁剪
@@ -107,8 +106,6 @@ public class NativeImageLoader {
 
     }
 
-
-
     /**
      * 往内存缓存中添加Bitmap
      *
@@ -127,16 +124,13 @@ public class NativeImageLoader {
      * @return
      */
     private Bitmap getBitmapFromMemCache(String key) {
-
         Bitmap bitmap = mMemoryCache.get(key);
-
         if(bitmap != null){
             Log.i(TAG, "get image for MemCache , path = " + key);
         }
 
         return bitmap;
     }
-
 
     /**
      * 根据View(主要是ImageView)的宽和高来获取图片的缩略图
@@ -152,16 +146,10 @@ public class NativeImageLoader {
         BitmapFactory.decodeFile(path, options);
         //设置缩放比例
         options.inSampleSize = computeScale(options, viewWidth, viewHeight);
-
         //设置为false,解析Bitmap对象加入到内存中
         options.inJustDecodeBounds = false;
-
-
-        //Log.e(TAG, "get Iamge form file,  path = " + path);
-
         return BitmapFactory.decodeFile(path, options);
     }
-
 
     /**
      * 根据View(主要是ImageView)的宽和高来计算Bitmap缩放比例。默认不缩放
@@ -187,7 +175,6 @@ public class NativeImageLoader {
         }
         return inSampleSize;
     }
-
 
     /**
      * 加载本地图片的回调接口

@@ -70,7 +70,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         Global.m_audioManage.setMode(AudioManager.MODE_NORMAL);
         fragmentView = inflater.inflate(R.layout.play_multi_video, container, false);
         mainLayout = (LinearLayout) fragmentView.findViewById(R.id.play_multi_video_layout);
-        /* TODO:需要获取精确的每个图形绘制窗口的宽高用于多画面到单画面时选择正确的device */
+        /* TODO:需要获取精确的每个图形绘制窗口的宽高,用于多画面到单画面时选择正确的device */
         location = PlayerActivity.m_this.getFragmentLocation();
         deviceList = getDeviceList(playerDevice);
         gestureDetector = new GestureDetector(fragmentView.getContext(), new MyOnGestureListener());
@@ -549,7 +549,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
             devList.get(i).m_audio = new AudioPlayer(currentIndex);
             devList.get(i).m_video = renderMap.get(i);
-            Log.d(TAG, "====>device list is" + devList.toString() + " i is " + i + " device is " + devList.get(i).getDeviceName());
+            //Log.d(TAG, "====>device list is" + devList.toString() + " i is " + i + " device is " + devList.get(i).getDeviceName());
             devList.get(i).m_video.mIsStopVideo = false;
 
             int ret = LibImpl.startPlay(i, devList.get(i), devList.get(i).m_stream_type, devList.get(i).m_frame_type);

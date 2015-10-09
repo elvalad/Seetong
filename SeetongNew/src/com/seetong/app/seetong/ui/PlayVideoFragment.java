@@ -1,18 +1,14 @@
 package com.seetong.app.seetong.ui;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.opengl.GLSurfaceView;
 import android.os.*;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import com.android.audio.AudioPlayer;
 import com.android.opengles.OpenglesRender;
@@ -532,7 +528,6 @@ public class PlayVideoFragment extends BaseFragment {
 
         Boolean bRet = startPlay(this.playerDevice);
         mainLayout.findViewById(R.id.liveVideoView).setVisibility(View.VISIBLE);
-        Log.d(TAG, "=====>start play the next device is " + this.playerDevice.m_dev.getDevId());
         if (!bRet) {
             Log.e(TAG, "Start next device err!!!");
         }

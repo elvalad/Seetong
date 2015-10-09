@@ -15,7 +15,7 @@ import com.seetong.app.seetong.sdk.impl.PlayerDevice;
 
 /**
  * PlayerActivity 是播放设备录像的 Activity，它在 DeviceFragment 包含设备信息时，点击会进入.
- * 它自身包括播放一个窗口的录像和四个窗口的录像.
+ * 它自身包括播放一个视频的窗口和四个视频的窗口.
  *
  * Created by gmk on 2015/9/13.
  */

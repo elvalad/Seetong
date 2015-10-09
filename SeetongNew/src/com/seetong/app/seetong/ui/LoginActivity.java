@@ -231,7 +231,6 @@ public class LoginActivity extends BaseActivity {
             mTipDlg.show();
             mTipDlg.setCancelable(true);
 
-
             Global.m_devInfo = mDevInfo;
             Log.e(TAG, "dev info is: " + mDevInfo.getUserName());
 

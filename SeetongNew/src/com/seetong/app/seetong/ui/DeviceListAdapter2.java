@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
-import com.seetong.app.seetong.sdk.impl.MonitorCore;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
 
 import java.util.List;
