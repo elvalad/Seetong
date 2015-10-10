@@ -2,8 +2,6 @@ package com.seetong.app.seetong.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -17,8 +15,7 @@ import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.ui.ext.CountDownButtonHelper;
 import com.seetong.app.seetong.ui.utils.DataCheckUtil;
 import ipc.android.sdk.com.SDK_CONSTANT;
-
-import java.io.Serializable;
+import java.io.*;
 
 /**
  * RegisterActivity主要用于通过App从服务器端注册用户，注册目前只支持邮箱注册和手机注册；
@@ -146,17 +143,7 @@ public class RegisterActivity extends BaseActivity {
                 !DataCheckUtil.isRightPhone(gStr(R.id.register_user))) {
             toast(R.string.register_invalid_user_name);
         } else {
-            if (getVerifyCode()) {
-                CountDownButtonHelper helper = new CountDownButtonHelper(obtainCheckCodeButton,
-                        getResources().getString(R.string.register_gain_verify_code_hint_text),
-                        180, 1);
-                helper.setOnFinishListener(new CountDownButtonHelper.OnFinishListener() {
-                    @Override
-                    public void finish() {
-                    }
-                });
-                helper.start();
-            }
+            getVerifyCode();
         }
     }
 
@@ -232,26 +219,42 @@ public class RegisterActivity extends BaseActivity {
         if (NetworkUtils.getNetworkState(this) == NetworkUtils.NONE) {
             toast(R.string.dlg_network_check_tip);
             return false;
-        } else if (!NetworkUtils.isConnectInternet()) {
-            toast(R.string.dlg_network_connect_internet_tip);
-            return false;
         } else {
-             /* TODO:后续需要区分中文和英文的反馈信息 */
-            int bRet = LibImpl.getInstance().getFuncLib().GetRegNumber(gStr(R.id.register_user), "zh-cn");
+            /*int bRet = LibImpl.getInstance().getFuncLib().GetRegNumber(gStr(R.id.register_user), "zh-cn");
             if (bRet != 0) {
                 toast(ConstantImpl.getRegNumberErrText(bRet));
                 return false;
-            }
+            }*/
 
-            /*new Thread(new Runnable() {
+            new Thread(new Runnable() {
                 @Override
                 public void run() {
+                     /* TODO:后续需要区分中文和英文的反馈信息 */
                     int bRet = LibImpl.getInstance().getFuncLib().GetRegNumber(gStr(R.id.register_user), "zh-cn");
                     if (bRet != 0) {
-                        toast(ConstantImpl.getRegNumberErrText(bRet));
+                        if (bRet == SDK_CONSTANT.get_reg_number_error_other) {
+                            toast(R.string.register_network_err);
+                        } else {
+                            toast(ConstantImpl.getRegNumberErrText(bRet));
+                        }
+                    } else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                CountDownButtonHelper helper = new CountDownButtonHelper(obtainCheckCodeButton,
+                                        getResources().getString(R.string.register_gain_verify_code_hint_text),
+                                        180, 1);
+                                helper.setOnFinishListener(new CountDownButtonHelper.OnFinishListener() {
+                                    @Override
+                                    public void finish() {
+                                    }
+                                });
+                                helper.start();
+                            }
+                        });
                     }
                 }
-            }).start();*/
+            }).start();
         }
         return true;
     }

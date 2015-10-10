@@ -101,38 +101,6 @@ public class NetworkUtils {
 	}
 
 	/**
-	 * 判断是否可以访问互联网
-	 */
-	public static boolean isConnectInternet() {
-		String myString = "";
-		try {
-			URL url = new URL("HTTP://www.baidu.com/index.html");
-			URLConnection urlCon = url.openConnection();
-			urlCon.setConnectTimeout(1500);
-			InputStream is = urlCon.getInputStream();
-			BufferedInputStream bis = new BufferedInputStream(is);
-			// 用ByteArrayBuffer缓存
-			ByteArrayBuffer baf = new ByteArrayBuffer(50);
-			int current = 0;
-			while ((current = bis.read()) != -1) {
-				baf.append((byte) current);
-			}
-			myString = EncodingUtils.getString(baf.toByteArray(), "UTF-8");
-			bis.close();
-			is.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-
-		if (myString.indexOf("www.baidu.com") > -1) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
 	 * 跳转到网络设置界面(wifi or 3g)
 	 * @param context
 	 */
