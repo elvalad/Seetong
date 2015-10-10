@@ -51,6 +51,9 @@ public class RegisterActivity extends BaseActivity {
     private ProgressDialog mTipDlg;
     private boolean bRegByMail = true;
     private String verifyCode = new String();
+    private ImageButton backButton;
+    private Button obtainCheckCodeButton;
+    private Button registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,7 @@ public class RegisterActivity extends BaseActivity {
         mTipDlg = new ProgressDialog(this, R.string.reg_is_getting_code);
         mTipDlg.setCancelable(true);
 
-        ImageButton backButton = (ImageButton) findViewById(R.id.register_back);
+        backButton = (ImageButton) findViewById(R.id.register_back);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,29 +75,15 @@ public class RegisterActivity extends BaseActivity {
             }
         });
 
-        final Button obtainCheckCodeButton = (Button) findViewById(R.id.register_verify_button);
+        obtainCheckCodeButton = (Button) findViewById(R.id.register_verify_button);
         obtainCheckCodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!DataCheckUtil.isRightEmail(gStr(R.id.register_user)) &&
-                        !DataCheckUtil.isRightPhone(gStr(R.id.register_user))) {
-                    toast(R.string.register_invalid_user_name);
-                    return;
-                }
-                getVerifyCode();
-                CountDownButtonHelper helper = new CountDownButtonHelper(obtainCheckCodeButton,
-                        getResources().getString(R.string.register_gain_verify_code_hint_text),
-                        180, 1);
-                helper.setOnFinishListener(new CountDownButtonHelper.OnFinishListener() {
-                    @Override
-                    public void finish() {
-                    }
-                });
-                helper.start();
+                onGetVerifyCode();
             }
         });
 
-        Button registerButton = (Button) findViewById(R.id.register_register);
+        registerButton = (Button) findViewById(R.id.register_register);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,6 +138,25 @@ public class RegisterActivity extends BaseActivity {
 
                 }
             }).start();
+        }
+    }
+
+    private void onGetVerifyCode() {
+        if (!DataCheckUtil.isRightEmail(gStr(R.id.register_user)) &&
+                !DataCheckUtil.isRightPhone(gStr(R.id.register_user))) {
+            toast(R.string.register_invalid_user_name);
+        } else {
+            if (getVerifyCode()) {
+                CountDownButtonHelper helper = new CountDownButtonHelper(obtainCheckCodeButton,
+                        getResources().getString(R.string.register_gain_verify_code_hint_text),
+                        180, 1);
+                helper.setOnFinishListener(new CountDownButtonHelper.OnFinishListener() {
+                    @Override
+                    public void finish() {
+                    }
+                });
+                helper.start();
+            }
         }
     }
 
@@ -220,21 +228,29 @@ public class RegisterActivity extends BaseActivity {
         return bRet;
     }
 
-    private void getVerifyCode() {
+    private boolean getVerifyCode() {
         if (NetworkUtils.getNetworkState(this) == NetworkUtils.NONE) {
             toast(R.string.dlg_network_check_tip);
+            return false;
         } else {
-            new Thread(new Runnable() {
+             /* TODO:后续需要区分中文和英文的反馈信息 */
+            int bRet = LibImpl.getInstance().getFuncLib().GetRegNumber(gStr(R.id.register_user), "zh-cn");
+            if (bRet != 0) {
+                toast(ConstantImpl.getRegNumberErrText(bRet));
+                return false;
+            }
+
+            /*new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    /* TODO:后续需要区分中文和英文的反馈信息 */
                     int bRet = LibImpl.getInstance().getFuncLib().GetRegNumber(gStr(R.id.register_user), "zh-cn");
                     if (bRet != 0) {
                         toast(ConstantImpl.getRegNumberErrText(bRet));
                     }
                 }
-            }).start();
+            }).start();*/
         }
+        return true;
     }
 }
 

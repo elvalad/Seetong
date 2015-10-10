@@ -680,6 +680,7 @@
     <string name="get_reg_number_error_param">手机号码或邮箱不正确</string>
     <string name="get_reg_number_error_quik">发送间隔小于1分钟</string>
     <string name="get_reg_number_error_sendmsg">发送手机短信失败</string>
+    <string name="get_reg_number_error_phonemail_used">账号已注册</string>
     <string name="get_reg_number_error_other">其它错误</string>
 
     <string name="prompt_modify_default_password">点击修改设备默认密码</string>

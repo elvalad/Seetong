@@ -681,6 +681,7 @@
     <string name="get_reg_number_error_param">Phone number or email is not correct</string>
     <string name="get_reg_number_error_quik">Send interval less than 1 minutes</string>
     <string name="get_reg_number_error_sendmsg">Failed to send text messages</string>
+    <string name="get_reg_number_error_phonemail_used">User name has used</string>
     <string name="get_reg_number_error_other">other error</string>
     
     <string name="prompt_modify_default_password">Click on to modify the device default password</string>
