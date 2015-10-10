@@ -194,6 +194,7 @@
     <string name="dlg_app_exit_sure_tip">是否确认退出程序？</string>
     <string name="dlg_app_logout_sure_tip">是否确认退出登录？</string>
     <string name="dlg_network_check_tip">请打开Wifi或3G网络</string>
+    <string name="dlg_network_connect_internet_tip">请检查网络是否可用</string>
     <string name="dlg_network_check_WIFI_tip">请打开Wifi网络</string>
     <string name="dlg_network_offline_tip">网络已断开，请设置好网络后重试</string>
     <string name="dlg_input_ok_server_address_tip">请输入正确的设备ID</string>

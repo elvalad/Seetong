@@ -212,6 +212,8 @@ public class LoginActivity extends BaseActivity {
     private void onLogin() {
         if (NetworkUtils.getNetworkState(this) == NetworkUtils.NONE) {
             toast(T(R.string.dlg_network_check_tip));
+        } else if (!com.android.utils.NetworkUtils.isConnectInternet()) {
+            toast(R.string.dlg_network_connect_internet_tip);
         } else {
             // 如果在按menu或back按钮的时候，以及打开了软键盘，则将软键盘隐藏
             hideInputPanel(null);

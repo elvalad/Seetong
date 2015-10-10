@@ -194,6 +194,7 @@
     <string name="dlg_app_exit_sure_tip">Be sure to exit program?</string>
     <string name="dlg_app_logout_sure_tip">Be sure to logout?</string>
     <string name="dlg_network_check_tip">Please open wifi or 3G network.</string>
+    <string name="dlg_network_connect_internet_tip">Please check the network is available</string>
     <string name="dlg_network_check_WIFI_tip">Please open wifi network.</string>
     <string name="dlg_network_offline_tip">Network has been disconnected, please retry after setting up network.</string>
     <string name="dlg_input_ok_server_address_tip">Please input correct device id</string>

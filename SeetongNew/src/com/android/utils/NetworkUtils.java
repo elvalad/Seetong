@@ -6,6 +6,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
 import com.umeng.analytics.MobclickAgent;
+import org.apache.http.util.ByteArrayBuffer;
+import org.apache.http.util.EncodingUtils;
+
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * @declaration 网络检测工具类
@@ -92,7 +99,39 @@ public class NetworkUtils {
 		isOK = networkInfo.isAvailable();
 		return isOK;
 	}
-	
+
+	/**
+	 * 判断是否可以访问互联网
+	 */
+	public static boolean isConnectInternet() {
+		String myString = "";
+		try {
+			URL url = new URL("HTTP://www.baidu.com/index.html");
+			URLConnection urlCon = url.openConnection();
+			urlCon.setConnectTimeout(1500);
+			InputStream is = urlCon.getInputStream();
+			BufferedInputStream bis = new BufferedInputStream(is);
+			// 用ByteArrayBuffer缓存
+			ByteArrayBuffer baf = new ByteArrayBuffer(50);
+			int current = 0;
+			while ((current = bis.read()) != -1) {
+				baf.append((byte) current);
+			}
+			myString = EncodingUtils.getString(baf.toByteArray(), "UTF-8");
+			bis.close();
+			is.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		if (myString.indexOf("www.baidu.com") > -1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	/**
 	 * 跳转到网络设置界面(wifi or 3g)
 	 * @param context

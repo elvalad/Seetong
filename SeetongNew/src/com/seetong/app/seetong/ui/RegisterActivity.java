@@ -232,6 +232,9 @@ public class RegisterActivity extends BaseActivity {
         if (NetworkUtils.getNetworkState(this) == NetworkUtils.NONE) {
             toast(R.string.dlg_network_check_tip);
             return false;
+        } else if (!NetworkUtils.isConnectInternet()) {
+            toast(R.string.dlg_network_connect_internet_tip);
+            return false;
         } else {
              /* TODO:后续需要区分中文和英文的反馈信息 */
             int bRet = LibImpl.getInstance().getFuncLib().GetRegNumber(gStr(R.id.register_user), "zh-cn");
