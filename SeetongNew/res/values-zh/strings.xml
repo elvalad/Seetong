@@ -723,7 +723,8 @@
     <string name="device_no_msg">暂无消息</string>
     <string name="device_state_on">在线</string>
     <string name="device_state_off">离线</string>
-    <string name="device_name_text">设备Id</string>
+    <string name="device_list_name_text">设备名字</string>
+    <string name="device_list_id_text">设备ID</string>
     <string name="device_add_device">增加设备</string>
     <string name="device_add_id">设备ID:</string>
     <string name="device_add_id_hint_text">请输入设备ID</string>

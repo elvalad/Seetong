@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
+import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
 
 import java.util.List;
@@ -31,10 +32,11 @@ public class DeviceListAdapter2 extends BaseAdapter {
     private List<Map<String, Object>> data;
 
     private class ViewHolder {
-        public ImageButton deviceCheckButton;
+        public ImageButton deviceChooseButton;
         public ImageButton deviceReplayButton;
         public TextView deviceState;
         public TextView deviceName;
+        public TextView deviceId;
     }
 
     public DeviceListAdapter2(Context context, List<Map<String, Object>> data) {
@@ -64,10 +66,11 @@ public class DeviceListAdapter2 extends BaseAdapter {
         if (null == view) {
             viewHolder = new ViewHolder();
             view = inflater.inflate(R.layout.device_list_item2, parent, false);
-            viewHolder.deviceCheckButton = (ImageButton) view.findViewById(R.id.device_check);
+            viewHolder.deviceChooseButton = (ImageButton) view.findViewById(R.id.device_check);
             viewHolder.deviceReplayButton = (ImageButton) view.findViewById(R.id.device_replay);
             viewHolder.deviceState = (TextView) view.findViewById(R.id.device_state);
             viewHolder.deviceName = (TextView) view.findViewById(R.id.device_name);
+            viewHolder.deviceId = (TextView) view.findViewById(R.id.device_id);
             /* 注意这里在 inflate 之后要个view设置相关的 Tag，否则下一次获取到的 viewHolder是无效的 */
             view.setTag(viewHolder);
         } else {
@@ -77,12 +80,12 @@ public class DeviceListAdapter2 extends BaseAdapter {
         // 获取List集合中的map对象
         Map<String, Object> map = data.get(position);
 
-        final PlayerDevice dev = (PlayerDevice) map.get("device");//MonitorCore.instance().getPlayerDevice(position);
-        if (null == dev) {
+        final PlayerDevice playerDevice = (PlayerDevice) map.get("device");//MonitorCore.instance().getPlayerDevice(position);
+        if (null == playerDevice) {
             return view;
         }
 
-        final String devId = dev.m_dev.getDevId();
+        final String devId = playerDevice.m_dev.getDevId();
         String fileName = Global.getSnapshotDir() + "/" + devId + ".jpg";
         Bitmap bmp = null;
         try {
@@ -94,16 +97,21 @@ public class DeviceListAdapter2 extends BaseAdapter {
         }
 
         if (null != bmp) {
-            viewHolder.deviceCheckButton.setImageBitmap(bmp);
+            viewHolder.deviceChooseButton.setImageBitmap(bmp);
         }
 
-        if (dev.m_dev.getOnLine() != 0) {
-            viewHolder.deviceState.setText(R.string.device_state_on);
+        if (playerDevice.m_dev.getOnLine() != 0) {
+            viewHolder.deviceState.setText(" " + MainActivity2.m_this.getResources().getString(R.string.device_state_on) + " ");
         } else {
-            viewHolder.deviceState.setText(R.string.device_state_off);
+            viewHolder.deviceState.setText(" " + MainActivity2.m_this.getResources().getString(R.string.device_state_off) + " ");
         }
 
-        viewHolder.deviceName.setText(dev.getDeviceName());
+        if (playerDevice.isNVR()) {
+            viewHolder.deviceName.setText(" Name:" + playerDevice.m_dev.getDevGroupName() + " ");
+        } else {
+            viewHolder.deviceName.setText(" Name:" + LibImpl.getInstance().getDeviceAlias(playerDevice.m_dev) + " ");
+        }
+        viewHolder.deviceId.setText(" Id:" + playerDevice.m_dev.getDevId() + " ");
 
         // TODO:根据播放列表的相关操作处理各个子控件，包括设置每个设备的背景图片,各个Button的响应以及state的变化
         // http://blog.csdn.net/leoleohan/article/details/46553317
@@ -112,10 +120,10 @@ public class DeviceListAdapter2 extends BaseAdapter {
         // 2.checkButton需要响应启动视频播放事件；
         // 3.replayButton需要响应视频回放事件；
         // 4.state设备状态需要从服务器端获取；
-        viewHolder.deviceCheckButton.setOnClickListener(new View.OnClickListener() {
+        viewHolder.deviceChooseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "to player activity device is" + dev.toString());
+                Log.d(TAG, "to player activity device is" + playerDevice.toString());
                 MainActivity2.m_this.playVideo(devId);
             }
         });

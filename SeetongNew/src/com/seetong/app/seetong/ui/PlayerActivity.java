@@ -253,7 +253,7 @@ public class PlayerActivity extends BaseActivity {
 
                 Intent intent = new Intent(PlayerActivity.this, PlayerSettingActivity.class);
                 intent.putExtra("device_setting_id", PlayerActivity.this.deviceId);
-                startActivity(intent);
+                startActivityForResult(intent, Constant.REQ_ID_DEVICE_CONFIG);
             }
         });
         playerSettingButton.setOnTouchListener(new View.OnTouchListener() {

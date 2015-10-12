@@ -12,17 +12,41 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    <TextView
-            android:id="@+id/device_name"
-            android:text="@string/device_name_text"
-            android:textColor="@color/black"
-            android:textSize="12sp"
+    <LinearLayout
+            android:orientation="horizontal"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:background="#32000000"
+            android:padding="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="20dp">
+
+        <TextView
+                android:id="@+id/device_state"
+                android:text="@string/device_state_off"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:background="@drawable/tps_list_online"
+                android:textSize="12sp"
+                android:layout_width="40dp"
+                android:layout_height="match_parent" />
+
+        <TextView
+                android:id="@+id/device_name"
+                android:text="@string/device_list_name_text"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:id="@+id/device_id"
+                android:text="@string/device_list_id_text"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
     <ImageButton
             android:id="@+id/device_replay"
@@ -36,6 +60,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp" />
 
+    <!--
     <TextView
             android:id="@+id/device_state"
             android:text="@string/device_state_off"
@@ -49,5 +74,6 @@
             android:layout_marginBottom="15dp"
             android:layout_width="50dp"
             android:layout_height="25dp" />
+     -->
 
 </RelativeLayout>

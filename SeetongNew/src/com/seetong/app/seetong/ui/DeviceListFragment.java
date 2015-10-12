@@ -52,6 +52,10 @@ public class DeviceListFragment extends Fragment {
         return view;
     }
 
+    public BaseAdapter getAdapter() {
+        return this.adapter;
+    }
+
     // TODO:实际需要从服务器获取的设备相关数据
     private void getData() {
         LibImpl.putDeviceList(Global.getDeviceList());

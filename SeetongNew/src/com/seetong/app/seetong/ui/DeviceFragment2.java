@@ -94,7 +94,34 @@ public class DeviceFragment2 extends BaseFragment {
                     }
                 });
                 break;
+            case Constant.REQ_ID_DEVICE_CONFIG:
+                //onDeviceConfigResult(data);
+                break;
+            default:
+                break;
         }
+    }
+
+    private void onDeviceConfigResult(Intent data) {
+        String devId = data.getStringExtra(Constant.EXTRA_DEVICE_ID);
+        PlayerDevice dev = Global.getDeviceById(devId);
+        if (null == dev) return;
+        int type = data.getIntExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, 0);
+        switch (type) {
+            case Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS:
+                String alias = data.getStringExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME);
+                updateDeviceAlias(devId, alias);
+                Log.e(">>>>", "alias is :" + alias);
+                break;
+            case Constant.DEVICE_CONFIG_ITEM_MODIFY_USER_PWD:
+                break;
+            case Constant.DEVICE_CONFIG_ITEM_MODIFY_MEDIA_PARAM:
+                break;
+        }
+    }
+
+    private void updateDeviceAlias(String devId, String alias) {
+
     }
 
     public void updateDeviceFragment(int listSize) {

@@ -203,7 +203,7 @@ public class PlayerSettingActivity extends BaseActivity {
                     return;
                 }
 
-                //Intent it = new Intent(self, DeviceFragment.class);
+                //Intent it = new Intent(self, DeviceFragment2.class);
                 //it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
                 //it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS);
                 //it.putExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME, value);
@@ -217,6 +217,7 @@ public class PlayerSettingActivity extends BaseActivity {
     private void onModifyNvrAlias() {
         final PlayerSettingActivity self = this;
         final String _devName = playerDevice.m_dev.getDevGroupName();
+
         Resources mResources = self.getResources();
         final ClearEditText etAddGroup = new ClearEditText(self);
         etAddGroup.setHint(R.string.dev_list_hint_input_dev_alias);
