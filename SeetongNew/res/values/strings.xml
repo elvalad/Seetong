@@ -488,7 +488,7 @@
     <string name="dev_list_tip_rename_camera">Long press packet to modify the camera alias</string>
     <string name="dev_list_hint_input_dev_alias">Input camera alias</string>
     <string name="dev_list_tip_title_input_dev_alias">Modify the camera alias</string>
-    <string name="dev_list_tip_title_modify_user_pwd">Modify device user and password</string>
+    <string name="dev_list_tip_title_modify_user_pwd">Modify device password</string>
     <string name="dev_list_tip_title_modify_default_user_pwd">Modify device default user and password</string>
     <string name="dev_list_tip_title_modify_media_parameter">Modify media parameter</string>
     <string name="title_play_setting">Play setting</string>

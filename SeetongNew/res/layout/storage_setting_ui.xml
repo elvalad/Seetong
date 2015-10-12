@@ -5,8 +5,8 @@
     <RelativeLayout
             android:id="@+id/layout_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/title_main">
+            android:layout_height="50dp"
+            android:background="@drawable/tps_tabbar">
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -14,9 +14,8 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/tv_storage_setting"
-                android:textSize="@dimen/title_font_size"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"/>
+                android:textSize="20sp"
+                android:textColor="@color/green"/>
         <Button
                 android:id="@+id/btn_title_right"
                 android:layout_marginRight="10dp"

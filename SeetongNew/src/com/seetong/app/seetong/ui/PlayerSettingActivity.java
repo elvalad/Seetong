@@ -1,8 +1,13 @@
 package com.seetong.app.seetong.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
+import android.content.res.Resources;
+import android.os.*;
+import android.text.InputFilter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +17,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
+import com.seetong.app.seetong.comm.Define;
 import com.seetong.app.seetong.model.Device;
+import com.seetong.app.seetong.sdk.impl.ConstantImpl;
+import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
+import com.seetong.app.seetong.ui.aid.ClearEditText;
+import com.seetong.app.seetong.ui.ext.MyTipDialog;
+import ipc.android.sdk.impl.FunclibAgent;
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,51 +111,224 @@ public class PlayerSettingActivity extends BaseActivity {
                 //onPlaySetting();
                 break;
             case R.string.image_flip:
-                //onImageFlip();
+                onImageFlip();
                 break;
             case R.string.motion_detect:
-                //onMotionDetect();
+                onMotionDetect();
                 break;
             case R.string.tv_alarm_setting:
-                //onAlarmSetting();
+                onAlarmSetting();
                 break;
             case R.string.tv_storage_setting:
-                //onStorageSetting();
+                onStorageSetting();
                 break;
             case R.string.tv_timezone_setting:
-                //onTimezoneSetting();
+                onTimezoneSetting();
                 break;
             case R.string.front_end_record:
-                //onFrontEndRecord();
+                onFrontEndRecord();
                 break;
             case R.string.cloud_record:
-                //onCloudRecord();
+                onCloudRecord();
                 break;
             case R.string.restore_factory_settings:
-                //onRestoreFactorySettings();
+                onRestoreFactorySettings();
                 break;
         }
     }
 
     private void onModifyDeviceAlias() {
         int devType = playerDevice.m_dev.getDevType();
-        if (100 == devType) {
+        if (100 == devType) { // IPC
             onModifyIpcAlias();
-        } else if (200 == devType) {
+        } else if (200 == devType) { // NVR
+            onModifyNvrAlias();
+        } else if (201 == devType) { // NVR4.0
             onModifyNvrAlias();
         }
     }
 
     private void onModifyIpcAlias() {
+        final PlayerSettingActivity self = this;
+        String _devName = LibImpl.getInstance().getDeviceAlias(playerDevice.m_dev);
+        final ClearEditText etAddGroup = new ClearEditText(this);
+        etAddGroup.setHint(R.string.dev_list_hint_input_dev_alias);
+        etAddGroup.setPadding(10, 10, 10, 10);
+        etAddGroup.setSingleLine(true);
+        etAddGroup.setText(_devName);
+        etAddGroup.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Define.DEVICE_NAEM_LENGTH)});
+        new AlertDialog.Builder(this).setTitle(R.string.dev_list_tip_title_input_dev_alias)
+                .setView(etAddGroup)
+                .setNegativeButton(this.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                            field.setAccessible(true);
+                            field.set(dialog, true);
+                        } catch (NoSuchFieldException | IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                        self.hideInputPanel(etAddGroup);
+                        dialog.dismiss();
+                    }
+                }).setPositiveButton(this.getString(R.string.sure), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String value = etAddGroup.getText().toString();
+                if ("".equals(value)) {
+                    try {
+                        Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                        field.setAccessible(true);
+                        field.set(dialog, false);
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                    return;
+                }
 
+                try {
+                    Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                    field.setAccessible(true);
+                    field.set(dialog, true);
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+
+                self.hideInputPanel(etAddGroup);
+                int enterTypes = Global.m_loginType;
+                int ret = LibImpl.getInstance().saveDeviceAlias(playerDevice.m_dev.getDevId(), value, enterTypes);
+                if (ret != 0) {
+                    toast(ConstantImpl.getModifyDevNameErrText(ret));
+                    return;
+                }
+
+                //Intent it = new Intent(self, DeviceFragment.class);
+                //it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
+                //it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS);
+                //it.putExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME, value);
+                //self.setResult(RESULT_OK, it);
+                dialog.dismiss();
+                finish();
+            }
+        }).create().show();
     }
 
     private void onModifyNvrAlias() {
+        final PlayerSettingActivity self = this;
+        final String _devName = playerDevice.m_dev.getDevGroupName();
+        Resources mResources = self.getResources();
+        final ClearEditText etAddGroup = new ClearEditText(self);
+        etAddGroup.setHint(R.string.dev_list_hint_input_dev_alias);
+        etAddGroup.setPadding(10, 10, 10, 10);
+        etAddGroup.setSingleLine(true);
+        etAddGroup.setText(_devName);
+        etAddGroup.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Define.DEVICE_NAEM_LENGTH)});
+        new AlertDialog.Builder(self).setTitle(R.string.dev_list_tip_title_input_dev_alias)
+                .setView(etAddGroup)
+                .setNegativeButton(mResources.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                            field.setAccessible(true);
+                            field.set(dialog, true);
+                        } catch (NoSuchFieldException | IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                        self.hideInputPanel(etAddGroup);
+                        dialog.dismiss();
+                    }
+                }).setPositiveButton(mResources.getString(R.string.sure), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String value = etAddGroup.getText().toString();
+                if ("".equals(value)) {
+                    try {
+                        Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                        field.setAccessible(true);
+                        field.set(dialog, false);
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                    return;
+                }
 
+                self.hideInputPanel(etAddGroup);
+                int enterTypes = Global.m_loginType;
+                int ret = LibImpl.getInstance().saveDeviceAlias(playerDevice.m_dev.getDevId(), value, enterTypes);
+                if (ret != 0) {
+                    toast(ConstantImpl.getModifyDevNameErrText(ret));
+                    return;
+                }
+
+                //Intent it = new Intent(self, DeviceFragment.class);
+                //it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
+                //it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS);
+                //it.putExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME, value);
+                //self.setResult(RESULT_OK, it);
+                dialog.dismiss();
+                finish();
+            }
+        }).create().show();
     }
 
     private void onModifyUserPwd() {
+        final PlayerSettingActivity self = this;
+        final String _devName = playerDevice.m_dev.getDevGroupName();
+        Resources mResources = self.getResources();
+        final ClearEditText etAddGroup = new ClearEditText(self);
+        etAddGroup.setHint(R.string.dev_list_tip_title_modify_user_pwd);
+        etAddGroup.setPadding(10, 10, 10, 10);
+        etAddGroup.setSingleLine(true);
+        etAddGroup.setText("");
+        etAddGroup.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Define.DEVICE_NAEM_LENGTH)});
+        new AlertDialog.Builder(self).setTitle(R.string.dev_list_tip_title_modify_user_pwd)
+                .setView(etAddGroup)
+                .setNegativeButton(mResources.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                            field.setAccessible(true);
+                            field.set(dialog, true);
+                        } catch (NoSuchFieldException | IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                        self.hideInputPanel(etAddGroup);
+                        dialog.dismiss();
+                    }
+                }).setPositiveButton(mResources.getString(R.string.sure), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String value = etAddGroup.getText().toString();
+                if ("".equals(value)) {
+                    try {
+                        Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                        field.setAccessible(true);
+                        field.set(dialog, false);
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                    return;
+                }
 
+                self.hideInputPanel(etAddGroup);
+                int ret = FunclibAgent.getInstance().ModifyDevPassword(playerDevice.m_dev.getDevId(), playerDevice.m_user, value);
+                if (0 != ret) {
+                    toast(ConstantImpl.getModifyDevNameErrText(ret));
+                    return;
+                }
+
+                //Intent it = new Intent(self, DeviceFragment.class);
+                //it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
+                //it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS);
+                //it.putExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME, value);
+                //self.setResult(RESULT_OK, it);
+                dialog.dismiss();
+                finish();
+            }
+        }).create().show();
     }
 
     private void onModifyMediaParameter() {
@@ -151,6 +336,107 @@ public class PlayerSettingActivity extends BaseActivity {
         it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
         this.startActivity(it);
         finish();
+    }
+
+
+    private void onImageFlip() {
+        Intent it = new Intent(this, ImageFlipUI.class);
+        it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
+        this.startActivity(it);
+        finish();
+    }
+
+    private void onMotionDetect() {
+        Intent it = new Intent(this, MotionDetectUI.class);
+        it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
+        this.startActivity(it);
+        finish();
+    }
+
+    private void onAlarmSetting() {
+        Intent it = new Intent(this, AlarmSettingUI.class);
+        it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
+        this.startActivity(it);
+        finish();
+    }
+
+    private void onStorageSetting() {
+        Intent it = new Intent(this, StorageSettingUI.class);
+        it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
+        this.startActivity(it);
+        finish();
+    }
+
+    private void onTimezoneSetting() {
+        Intent it = new Intent(this, TimeZoneUI.class);
+        it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
+        this.startActivity(it);
+        finish();
+    }
+
+    private void onFrontEndRecord() {
+        PlayerDevice dev = Global.getDeviceById(deviceId);
+        if (null == dev) return;
+        if (!dev.is_p2p_replay()) {
+            toast(R.string.tv_not_support_front_end_record);
+            return;
+        }
+
+        Intent it = new Intent(this, FrontEndRecord.class);
+        it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
+        this.startActivity(it);
+        finish();
+    }
+
+    private void onCloudRecord() {
+        Intent it = new Intent(this, CloudEndRecord.class);
+        it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
+        this.startActivity(it);
+        finish();
+    }
+
+    private void onRestoreFactorySettings() {
+        MyTipDialog.popDialog(this, R.string.confirm_restore_factory_tip, R.string.sure, R.string.cancel,
+                new MyTipDialog.IDialogMethod() {
+                    @Override
+                    public void sure() {
+                        restoreFactory();
+                    }
+                }
+        );
+    }
+
+    private void restoreFactory() {
+        mTipDlg.setCallback(new ProgressDialog.ICallback() {
+            @Override
+            public void onTimeout() {
+                PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(deviceId);
+                if (null == dev) return;
+                //MainActivity.m_this.getVideoFragment().stopAndResetPlay(dev);
+                toast(R.string.dlg_wait_device_reboot_tip);
+            }
+
+            @Override
+            public boolean onCancel() {
+                return false;
+            }
+        });
+
+        showTipDlg(R.string.dlg_restore_factory_tip, 10000, R.string.dlg_restore_factory_timeout_tip);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                PlayerDevice dev = Global.getDeviceById(deviceId);
+                if (null == dev) return;
+                int ret = LibImpl.getInstance().getFuncLib().P2PDevSystemControl(dev.m_devId, 1002, "");
+                if (0 != ret) {
+                    android.os.Message msg = m_handler.obtainMessage();
+                    msg.what = Define.MSG_SHOW_TOAST;
+                    msg.arg1 = R.string.dlg_restore_factory_failed_tip;
+                    m_handler.sendMessage(msg);
+                }
+            }
+        }).start();
     }
 
     @Override
@@ -165,9 +451,9 @@ public class PlayerSettingActivity extends BaseActivity {
 
     private void getData() {
         int devType = playerDevice.m_dev.getDevType();
-        if (devType == 100) {
+        if (100 == devType) { // IPC
             data.add(R.string.dev_list_tip_title_input_dev_alias);
-            //data.add(R.string.dev_list_tip_title_modify_user_pwd);
+            data.add(R.string.dev_list_tip_title_modify_user_pwd);
             data.add(R.string.dev_list_tip_title_modify_media_parameter);
             data.add(R.string.image_flip);
             data.add(R.string.motion_detect);
@@ -176,7 +462,9 @@ public class PlayerSettingActivity extends BaseActivity {
             data.add(R.string.tv_timezone_setting);
             data.add(R.string.front_end_record);
             data.add(R.string.restore_factory_settings);
-        } else if (devType == 200) {
+        } else if (200 == devType) { // NVR
+            data.add(R.string.dev_list_tip_title_input_dev_alias);
+        } else if (201 == devType) { // NVR4.0
             data.add(R.string.dev_list_tip_title_input_dev_alias);
         }
     }
