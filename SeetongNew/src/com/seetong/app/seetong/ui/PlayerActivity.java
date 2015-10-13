@@ -1,7 +1,9 @@
 package com.seetong.app.seetong.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.*;
+import android.os.Message;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -9,7 +11,9 @@ import android.view.Window;
 
 import android.widget.Button;
 import android.widget.ImageButton;
+import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
+import com.seetong.app.seetong.comm.Define;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
 
@@ -81,6 +85,39 @@ public class PlayerActivity extends BaseActivity {
         Log.i(PlayerActivity.class.getName(), "onDestroy...");
         LibImpl.getInstance().removeHandler(m_handler);
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK) return;
+        switch (requestCode) {
+            case Constant.REQ_ID_DEVICE_CONFIG:
+                onDeviceConfigResult(data);
+                break;
+        }
+    }
+
+    private void onDeviceConfigResult(Intent data) {
+        String devId = data.getStringExtra(Constant.EXTRA_DEVICE_ID);
+        PlayerDevice dev = Global.getDeviceById(devId);
+        if (null == dev) return;
+        int type = data.getIntExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, 0);
+        switch (type) {
+            case Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS:
+                String alias = data.getStringExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME);
+                if (dev.m_dev.getDevType() == 100) {
+                    dev.m_dev.setDevName(alias);
+                } else if (dev.m_dev.getDevType() == 200 || dev.m_dev.getDevType() == 201) {
+                    dev.m_dev.setDevGroupName(alias);
+                }
+                MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, dev);
+                break;
+            case Constant.DEVICE_CONFIG_ITEM_MODIFY_USER_PWD:
+                break;
+            case Constant.DEVICE_CONFIG_ITEM_MODIFY_MEDIA_PARAM:
+                break;
+        }
     }
 
     private void initWidget() {

@@ -1,8 +1,7 @@
 package com.seetong.app.seetong.ui;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
+import android.os.*;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -274,6 +273,14 @@ public class MainActivity2 extends BaseActivity {
         msg.what = what;
         msg.obj = obj;
         m_handler.sendMessage(msg);
+    }
+
+    @Override
+    public void handleMessage(android.os.Message msg) {
+        switch (msg.what) {
+            case Define.MSG_UPDATE_DEV_LIST:
+                deviceFragment.handleMessage(msg);
+        }
     }
 
     public void logout() {

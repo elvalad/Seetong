@@ -85,6 +85,19 @@ public class DeviceListAdapter2 extends BaseAdapter {
             return view;
         }
 
+        if (playerDevice.m_dev.getOnLine() != 0) {
+            viewHolder.deviceState.setText(" " + MainActivity2.m_this.getResources().getString(R.string.device_state_on) + " ");
+        } else {
+            viewHolder.deviceState.setText(" " + MainActivity2.m_this.getResources().getString(R.string.device_state_off) + " ");
+        }
+
+        if (playerDevice.isNVR()) {
+            viewHolder.deviceName.setText(" Name:" + playerDevice.m_dev.getDevGroupName() + " ");
+        } else {
+            viewHolder.deviceName.setText(" Name:" + LibImpl.getInstance().getDeviceAlias(playerDevice.m_dev) + " ");
+        }
+        viewHolder.deviceId.setText(" Id:" + playerDevice.m_dev.getDevId() + " ");
+
         final String devId = playerDevice.m_dev.getDevId();
         String fileName = Global.getSnapshotDir() + "/" + devId + ".jpg";
         Bitmap bmp = null;
@@ -99,19 +112,6 @@ public class DeviceListAdapter2 extends BaseAdapter {
         if (null != bmp) {
             viewHolder.deviceChooseButton.setImageBitmap(bmp);
         }
-
-        if (playerDevice.m_dev.getOnLine() != 0) {
-            viewHolder.deviceState.setText(" " + MainActivity2.m_this.getResources().getString(R.string.device_state_on) + " ");
-        } else {
-            viewHolder.deviceState.setText(" " + MainActivity2.m_this.getResources().getString(R.string.device_state_off) + " ");
-        }
-
-        if (playerDevice.isNVR()) {
-            viewHolder.deviceName.setText(" Name:" + playerDevice.m_dev.getDevGroupName() + " ");
-        } else {
-            viewHolder.deviceName.setText(" Name:" + LibImpl.getInstance().getDeviceAlias(playerDevice.m_dev) + " ");
-        }
-        viewHolder.deviceId.setText(" Id:" + playerDevice.m_dev.getDevId() + " ");
 
         // TODO:根据播放列表的相关操作处理各个子控件，包括设置每个设备的背景图片,各个Button的响应以及state的变化
         // http://blog.csdn.net/leoleohan/article/details/46553317
@@ -136,5 +136,10 @@ public class DeviceListAdapter2 extends BaseAdapter {
         });
 
         return view;
+    }
+
+    public void updateDeviceAlias(PlayerDevice dev) {
+        if (null == dev) return;
+        notifyDataSetChanged();
     }
 }

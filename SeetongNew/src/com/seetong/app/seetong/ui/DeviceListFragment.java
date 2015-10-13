@@ -1,6 +1,6 @@
 package com.seetong.app.seetong.ui;
 
-import android.os.Bundle;
+import android.os.*;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +11,9 @@ import android.widget.ListView;
 
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
+import com.seetong.app.seetong.comm.Define;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
+import com.seetong.app.seetong.sdk.impl.PlayerDevice;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +32,7 @@ import java.util.Map;
 public class DeviceListFragment extends Fragment {
     public static String TAG = DeviceListFragment.class.getName();
     private List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
-    private BaseAdapter adapter;
+    private DeviceListAdapter2 adapter;
 
     public static DeviceListFragment newInstance() {
         return new DeviceListFragment();
@@ -52,10 +54,6 @@ public class DeviceListFragment extends Fragment {
         return view;
     }
 
-    public BaseAdapter getAdapter() {
-        return this.adapter;
-    }
-
     // TODO:实际需要从服务器获取的设备相关数据
     private void getData() {
         LibImpl.putDeviceList(Global.getDeviceList());
@@ -70,6 +68,18 @@ public class DeviceListFragment extends Fragment {
             map.put("device_num", i);
             data.add(map);
         }
+    }
+
+    public boolean handleMessage(android.os.Message msg) {
+        PlayerDevice playerDevice = (PlayerDevice)msg.obj;
+
+        switch (msg.what) {
+            case Define.MSG_UPDATE_DEV_LIST:
+                adapter.updateDeviceAlias(playerDevice);
+                break;
+        }
+
+        return false;
     }
 }
 

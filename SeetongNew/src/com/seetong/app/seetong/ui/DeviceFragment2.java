@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
+import com.seetong.app.seetong.comm.Define;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
 import ipc.android.sdk.impl.DeviceInfo;
 
@@ -34,12 +35,16 @@ import java.util.List;
  */
 public class DeviceFragment2 extends BaseFragment {
     private View view;
+    private DeviceNoMsgFragment deviceNoMsgFragment;
+    private DeviceListFragment deviceListFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         MainActivity2.m_this.setDeviceFragment(this);
         view = inflater.inflate(R.layout.device2, container);
+        deviceNoMsgFragment = DeviceNoMsgFragment.newInstance();
+        deviceListFragment = DeviceListFragment.newInstance();
         initWidget(view);
 
         return view;
@@ -52,7 +57,7 @@ public class DeviceFragment2 extends BaseFragment {
             /* 此函数用于 Fragment 嵌套，此时默认显示 DeviceListFragment */
             getChildFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.device_fragment_container, DeviceNoMsgFragment.newInstance())
+                    .replace(R.id.device_fragment_container, deviceNoMsgFragment)
                     .commit();
         }
     }
@@ -94,34 +99,9 @@ public class DeviceFragment2 extends BaseFragment {
                     }
                 });
                 break;
-            case Constant.REQ_ID_DEVICE_CONFIG:
-                //onDeviceConfigResult(data);
-                break;
             default:
                 break;
         }
-    }
-
-    private void onDeviceConfigResult(Intent data) {
-        String devId = data.getStringExtra(Constant.EXTRA_DEVICE_ID);
-        PlayerDevice dev = Global.getDeviceById(devId);
-        if (null == dev) return;
-        int type = data.getIntExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, 0);
-        switch (type) {
-            case Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS:
-                String alias = data.getStringExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME);
-                updateDeviceAlias(devId, alias);
-                Log.e(">>>>", "alias is :" + alias);
-                break;
-            case Constant.DEVICE_CONFIG_ITEM_MODIFY_USER_PWD:
-                break;
-            case Constant.DEVICE_CONFIG_ITEM_MODIFY_MEDIA_PARAM:
-                break;
-        }
-    }
-
-    private void updateDeviceAlias(String devId, String alias) {
-
     }
 
     public void updateDeviceFragment(int listSize) {
@@ -135,15 +115,22 @@ public class DeviceFragment2 extends BaseFragment {
     private void showDeviceNoMsgFragment() {
         getChildFragmentManager()
                 .beginTransaction()
-                .replace(R.id.device_fragment_container, DeviceNoMsgFragment.newInstance())
+                .replace(R.id.device_fragment_container, deviceNoMsgFragment)
                 .commit();
     }
 
     private void showDeviceListFragment() {
         getChildFragmentManager()
                 .beginTransaction()
-                .replace(R.id.device_fragment_container, DeviceListFragment.newInstance())
+                .replace(R.id.device_fragment_container, deviceListFragment)
                 .commit();
+    }
+
+    public void handleMessage(android.os.Message msg) {
+        switch (msg.what) {
+            case Define.MSG_UPDATE_DEV_LIST:
+                deviceListFragment.handleMessage(msg);
+        }
     }
 }
 

@@ -203,11 +203,11 @@ public class PlayerSettingActivity extends BaseActivity {
                     return;
                 }
 
-                //Intent it = new Intent(self, DeviceFragment2.class);
-                //it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
-                //it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS);
-                //it.putExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME, value);
-                //self.setResult(RESULT_OK, it);
+                Intent it = new Intent(self, PlayerActivity.class);
+                it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
+                it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS);
+                it.putExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME, value);
+                self.setResult(RESULT_OK, it);
                 dialog.dismiss();
                 finish();
             }
@@ -263,11 +263,11 @@ public class PlayerSettingActivity extends BaseActivity {
                     return;
                 }
 
-                //Intent it = new Intent(self, DeviceFragment.class);
-                //it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
-                //it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS);
-                //it.putExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME, value);
-                //self.setResult(RESULT_OK, it);
+                Intent it = new Intent(self, PlayerActivity.class);
+                it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
+                it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS);
+                it.putExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME, value);
+                self.setResult(RESULT_OK, it);
                 dialog.dismiss();
                 finish();
             }
