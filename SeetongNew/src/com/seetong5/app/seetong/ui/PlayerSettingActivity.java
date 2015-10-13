@@ -15,7 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.seetong5.app.seetong.Global;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
 import com.seetong5.app.seetong.sdk.impl.ConstantImpl;
 import com.seetong5.app.seetong.sdk.impl.LibImpl;

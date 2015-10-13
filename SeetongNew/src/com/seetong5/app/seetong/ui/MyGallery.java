@@ -6,7 +6,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.widget.Gallery;
 import android.widget.Toast;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 
 /**
  * Created by gmk on 2015/9/23.

@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.sdk.impl.LibImpl;
 import ipc.android.sdk.com.NetSDK_Alarm_Config;
 import ipc.android.sdk.impl.FunclibAgent;

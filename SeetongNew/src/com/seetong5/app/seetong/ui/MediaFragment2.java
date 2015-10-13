@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import android.widget.LinearLayout;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 
 
 /**

@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.seetong5.app.seetong.Global;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengUpdateListener;

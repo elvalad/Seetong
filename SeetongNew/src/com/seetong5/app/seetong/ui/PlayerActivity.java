@@ -10,7 +10,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import com.seetong5.app.seetong.Global;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
 import com.seetong5.app.seetong.sdk.impl.LibImpl;
 import com.seetong5.app.seetong.sdk.impl.PlayerDevice;

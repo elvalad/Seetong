@@ -3,7 +3,7 @@ package com.seetong5.app.seetong.ui;
 import android.os.Bundle;
 import android.view.Window;
 
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 
 /**
  * SettingActivity 主要用于设置一些 Seetong 的信息，会控制一些 Seetong 的全局变量来对

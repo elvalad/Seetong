@@ -1,7 +1,7 @@
 package com.seetong5.app.seetong.ui;
 
 import android.os.Bundle;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 
 /**
  * Created by Administrator on 2014-07-28.

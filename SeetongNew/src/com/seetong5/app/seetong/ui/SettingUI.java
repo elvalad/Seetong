@@ -7,7 +7,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import com.android.system.MediaPlayer;
 import com.seetong5.app.seetong.Config;
 import com.seetong5.app.seetong.Global;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

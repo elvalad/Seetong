@@ -16,7 +16,7 @@ import android.util.FloatMath;
 import android.view.*;
 import android.widget.*;
 import com.seetong5.app.seetong.Global;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.ComparatorFile;
 import com.seetong5.app.seetong.comm.Define;
 import com.seetong5.app.seetong.comm.Tools;

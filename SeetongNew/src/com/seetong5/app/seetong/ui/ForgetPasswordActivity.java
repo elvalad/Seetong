@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 
 /**
  * Created by Administrator on 2015/9/29.

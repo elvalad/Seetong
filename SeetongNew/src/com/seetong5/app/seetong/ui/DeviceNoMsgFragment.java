@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 
 /**
  * DeviceNoMsgFragment 是显示当前用户没有设备信息时的 Fragment，它只有在没有任何信息时才会

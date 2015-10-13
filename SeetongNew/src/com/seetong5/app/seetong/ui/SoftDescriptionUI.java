@@ -8,7 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 
 import java.util.List;
 import java.util.Locale;

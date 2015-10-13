@@ -14,7 +14,7 @@ import com.android.zxing.camera.CameraManager;
 import com.android.zxing.view.ViewfinderView;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.ui.BaseActivity;
 
 import java.io.IOException;

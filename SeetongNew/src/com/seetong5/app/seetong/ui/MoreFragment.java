@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.baidu.android.pushservice.PushManager;
 import com.seetong5.app.seetong.Global;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
 import com.seetong5.app.seetong.ui.ext.MyTipDialog;
 

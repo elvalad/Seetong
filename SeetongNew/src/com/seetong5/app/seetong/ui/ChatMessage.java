@@ -13,7 +13,7 @@ import android.widget.*;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.seetong5.app.seetong.Global;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.model.FriendList;
 import com.seetong5.app.seetong.model.FriendMessageList;
 import com.seetong5.app.seetong.sdk.impl.ConstantImpl;

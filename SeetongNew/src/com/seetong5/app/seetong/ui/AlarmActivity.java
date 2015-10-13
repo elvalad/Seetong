@@ -3,7 +3,7 @@ package com.seetong5.app.seetong.ui;
 import android.os.Bundle;
 import android.view.Window;
 
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 
 /**
  * AlarmActivity 主要功能是显示 Seetong 的报警信息，这些信息通过相关设备信

@@ -3,7 +3,7 @@ package com.seetong5.app.seetong.ui;
 import android.os.Bundle;
 import android.view.Window;
 
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 
 /**
  * AboutActivity 主要功能是显示 Seetong 的介绍，显示一些基本的软件信息.

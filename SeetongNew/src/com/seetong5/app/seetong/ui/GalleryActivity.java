@@ -13,7 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 
 /**
  * Created by gmk on 2015/9/23.

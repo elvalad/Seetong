@@ -17,7 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.android.utils.NetworkUtils;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.ui.aid.WifiListAdapter;
 import com.seetong5.app.seetong.wifi.AccessPoint;
 import com.seetong5.app.seetong.wifi.WifiAdmin;

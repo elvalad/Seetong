@@ -24,7 +24,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 
 /**
  * @declaration Wifi热点<br>

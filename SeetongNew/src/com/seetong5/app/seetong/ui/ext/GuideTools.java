@@ -12,7 +12,7 @@ import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 
 import java.util.HashMap;
 import java.util.Map;

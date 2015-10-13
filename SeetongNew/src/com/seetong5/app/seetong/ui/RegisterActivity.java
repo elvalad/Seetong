@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.android.utils.NetworkUtils;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.sdk.impl.ConstantImpl;
 import com.seetong5.app.seetong.sdk.impl.LibImpl;
 import com.seetong5.app.seetong.ui.ext.CountDownButtonHelper;

@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
 import com.seetong5.app.seetong.Global;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
 import ipc.android.sdk.com.Device;
 

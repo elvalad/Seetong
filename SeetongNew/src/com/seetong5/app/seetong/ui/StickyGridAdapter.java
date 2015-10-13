@@ -16,7 +16,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersSimpleAdapter;
 
 public class StickyGridAdapter extends BaseAdapter implements

@@ -2,7 +2,7 @@ package com.seetong5.app.seetong.ui;
 
 import android.os.Bundle;
 import android.view.View;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.model.Device;
 import com.seetong5.app.seetong.ui.ext.IntegerEditText;
 import com.seetong5.app.seetong.ui.ext.RegexpEditText;

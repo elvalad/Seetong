@@ -18,7 +18,7 @@ package com.seetong5.app.seetong.wifi;
 
 import android.content.Context;
 import android.net.NetworkInfo.DetailedState;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 
 /**
  * @declaration Wifi工具类<br>

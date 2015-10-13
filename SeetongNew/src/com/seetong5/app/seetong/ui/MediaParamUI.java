@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.seetong5.app.seetong.Global;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.sdk.impl.LibImpl;
 import com.seetong5.app.seetong.ui.ext.IntegerEditText;
 import ipc.android.sdk.com.NetSDK_Media_Capability;

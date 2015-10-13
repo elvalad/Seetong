@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import android.widget.AdapterView;
 import android.widget.GridView;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 
 import java.util.*;
 

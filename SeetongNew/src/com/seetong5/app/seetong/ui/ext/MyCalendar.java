@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import com.exina.android.calendar.CalendarView;
 import com.exina.android.calendar.Cell;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 
 import java.util.Calendar;
 

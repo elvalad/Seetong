@@ -1,7 +1,7 @@
 package com.seetong5.app.seetong.sdk.impl;
 
 import com.seetong5.app.seetong.Global;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 import ipc.android.sdk.com.SDK_CONSTANT;
 
 /**

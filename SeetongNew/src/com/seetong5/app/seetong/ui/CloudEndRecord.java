@@ -24,7 +24,7 @@ import com.android.audio.AudioPlayer;
 import com.android.opengles.OpenglesRender;
 import com.android.opengles.OpenglesView;
 import com.seetong5.app.seetong.Global;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
 import com.seetong5.app.seetong.model.ArchiveRecord;
 import com.seetong5.app.seetong.model.ObjectsRoster;

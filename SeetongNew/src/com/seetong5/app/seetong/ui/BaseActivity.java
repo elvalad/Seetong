@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import com.seetong5.app.seetong.Global;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.model.ShareRecord;
 import com.seetong5.app.seetong.tools.MD5;
 import com.umeng.analytics.MobclickAgent;

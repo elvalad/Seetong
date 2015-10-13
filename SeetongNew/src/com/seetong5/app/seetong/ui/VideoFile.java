@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.seetong5.app.seetong.Global;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.ComparatorFile;
 import com.seetong5.app.seetong.comm.Define;
 import com.seetong5.app.seetong.comm.Tools;

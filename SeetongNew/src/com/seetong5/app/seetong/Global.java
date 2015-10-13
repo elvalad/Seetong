@@ -14,7 +14,7 @@ import android.util.Log;
 import cn.sharesdk.framework.ShareSDK;
 import com.android.utils.SharePreferenceUtil;
 import com.baidu.android.pushservice.PushManager;
-import com.seetong.app.seetong.R;
+import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
 import com.seetong5.app.seetong.comm.Tools;
 import com.seetong5.app.seetong.model.*;
