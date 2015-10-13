@@ -11,7 +11,7 @@
             android:background="#000000"
             android:padding="2dip" >
 
-        <com.seetong.app.seetong.ui.MyGallery
+        <com.seetong5.app.seetong.ui.MyGallery
                 android:id="@+id/mygallery"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

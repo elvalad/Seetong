@@ -7,7 +7,7 @@
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
                 android:background="@drawable/tps_background"
-                tools:context="com.seetong.app.seetong.ui.LoginActivity">
+                tools:context="com.seetong5.app.seetong.ui.LoginActivity">
 
     <ImageView
             android:id="@+id/seetong_logo"
@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-        <com.seetong.app.seetong.ui.ext.RegexpEditText
+        <com.seetong5.app.seetong.ui.ext.RegexpEditText
                 android:id="@+id/login_account"
                 android:layout_marginLeft="80dp"
                 android:background="@null"
@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-        <com.seetong.app.seetong.ui.ext.RegexpEditText
+        <com.seetong5.app.seetong.ui.ext.RegexpEditText
                 android:id="@+id/login_password"
                 android:layout_marginLeft="80dp"
                 android:background="@null"

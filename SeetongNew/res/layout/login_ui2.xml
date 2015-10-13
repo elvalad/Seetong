@@ -86,7 +86,7 @@
                        android:layout_height="wrap_content"
                        android:layout_gravity="center"
                        android:background="@drawable/user"/>
-            <com.seetong.app.seetong.ui.ext.RegexpEditText
+            <com.seetong5.app.seetong.ui.ext.RegexpEditText
                     android:id="@+id/txt_user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
                        android:layout_height="wrap_content"
                        android:layout_gravity="center"
                        android:background="@drawable/pwd"/>
-            <com.seetong.app.seetong.ui.ext.RegexpEditText
+            <com.seetong5.app.seetong.ui.ext.RegexpEditText
                     android:id="@+id/txt_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -169,7 +169,7 @@
                        android:layout_height="wrap_content"
                        android:layout_gravity="center"
                        android:background="@drawable/dev"/>
-            <com.seetong.app.seetong.ui.ext.RegexpEditText
+            <com.seetong5.app.seetong.ui.ext.RegexpEditText
                     android:id="@+id/txt_dev_id"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -200,7 +200,7 @@
                        android:layout_height="wrap_content"
                        android:layout_gravity="center"
                        android:background="@drawable/user"/>
-            <com.seetong.app.seetong.ui.ext.RegexpEditText
+            <com.seetong5.app.seetong.ui.ext.RegexpEditText
                     android:id="@+id/txt_dev_user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -226,7 +226,7 @@
                        android:layout_height="wrap_content"
                        android:layout_gravity="center"
                        android:background="@drawable/pwd"/>
-            <com.seetong.app.seetong.ui.ext.RegexpEditText
+            <com.seetong5.app.seetong.ui.ext.RegexpEditText
                     android:id="@+id/txt_dev_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

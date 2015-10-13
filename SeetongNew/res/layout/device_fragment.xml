@@ -2,7 +2,7 @@
 <fragment
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:name="com.seetong.app.seetong.ui.DeviceFragment"
+    android:name="com.seetong5.app.seetong.ui.DeviceFragment"
     android:id="@+id/fragment_device"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

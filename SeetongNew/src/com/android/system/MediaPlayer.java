@@ -1,8 +1,8 @@
 package com.android.system;
 
 import android.content.Context;
-import com.seetong.app.seetong.Config;
-import com.seetong.app.seetong.Global;
+import com.seetong5.app.seetong.Config;
+import com.seetong5.app.seetong.Global;
 
 /**
  * Created by Administrator on 2014-05-08.

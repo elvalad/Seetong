@@ -37,7 +37,7 @@
                     android:textColor="#656565"
                     android:textSize="@dimen/tvRegisterFontSize"/>
 
-            <com.seetong.app.seetong.ui.aid.ClearEditText
+            <com.seetong5.app.seetong.ui.aid.ClearEditText
                     android:id="@+id/etUserName"
                     style="@style/etNodeSetting"
                     android:layout_height="30dp"
@@ -75,7 +75,7 @@
                     android:textColor="#656565"
                     android:textSize="@dimen/tvRegisterFontSize"/>
 
-            <com.seetong.app.seetong.ui.aid.ClearEditText
+            <com.seetong5.app.seetong.ui.aid.ClearEditText
                     android:id="@+id/etUserPwd"
                     style="@style/etNodeSetting"
                     android:layout_height="30dp"
@@ -113,7 +113,7 @@
                     android:textColor="#656565"
                     android:textSize="@dimen/tvRegisterFontSize"/>
 
-            <com.seetong.app.seetong.ui.aid.ClearEditText
+            <com.seetong5.app.seetong.ui.aid.ClearEditText
                     android:id="@+id/etConfigPwd"
                     style="@style/etNodeSetting"
                     android:layout_height="30dp"
@@ -152,7 +152,7 @@
                     android:textColor="#656565"
                     android:textSize="@dimen/tvRegisterFontSize"/>
 
-            <com.seetong.app.seetong.ui.aid.ClearEditText
+            <com.seetong5.app.seetong.ui.aid.ClearEditText
                     android:id="@+id/etEmail"
                     style="@style/etNodeSetting"
                     android:layout_height="30dp"
@@ -191,7 +191,7 @@
                     android:textColor="#656565"
                     android:textSize="@dimen/tvRegisterFontSize"/>
 
-            <com.seetong.app.seetong.ui.aid.ClearEditText
+            <com.seetong5.app.seetong.ui.aid.ClearEditText
                     android:id="@+id/etPhone"
                     style="@style/etNodeSetting"
                     android:layout_height="30dp"
@@ -230,7 +230,7 @@
                     android:textColor="#656565"
                     android:textSize="@dimen/tvRegisterFontSize"/>
 
-            <com.seetong.app.seetong.ui.aid.ClearEditText
+            <com.seetong5.app.seetong.ui.aid.ClearEditText
                     android:id="@+id/etRegCode"
                     style="@style/etNodeSetting"
                     android:layout_height="30dp"
