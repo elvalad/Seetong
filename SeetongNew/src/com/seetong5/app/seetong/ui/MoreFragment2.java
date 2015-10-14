@@ -26,6 +26,7 @@ public class MoreFragment2 extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        MainActivity2.m_this.setMoreFragment(this);
         View view = inflater.inflate(R.layout.more2, container);
 
         initWidget(view);

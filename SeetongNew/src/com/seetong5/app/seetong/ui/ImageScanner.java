@@ -56,7 +56,8 @@ public class ImageScanner {
     }
 
     private void getData() {
-        /* 扫描截图目录，从截图目录中获取相关的 */
+        /* 扫描截图目录，从截图目录中获取相关的图片信息 */
+        mediaGridItemList.clear();
         String imageDir = Global.getImageDir() + "/";
         File[] files = new File(imageDir).listFiles();
         for (int i = 0; i < files.length; i++) {

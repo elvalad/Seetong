@@ -16,6 +16,7 @@ public class Define {
     public static final int MSG_PLAY_SINGLE_VIDEO = 107;
     public static final int MSG_PLAY_MULTI_VIDEO = 108;
     public static final int MSG_UPDATE_DEV_LIST = 109;
+    public static final int MSG_UPDATE_SCREENSHOT_LIST = 110;
     public static final int MSG_DEVICE_CONFIG = 60004;
 
 

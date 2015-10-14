@@ -3,12 +3,14 @@ package com.seetong5.app.seetong.ui;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.*;
 import com.seetong5.app.seetong.R;
+import com.seetong5.app.seetong.comm.Define;
 
 import java.util.*;
 
@@ -24,6 +26,7 @@ public class PictureFragment extends Fragment {
     public static List<MediaGridItem> mGridList = new ArrayList<>();
     private static int section = 1;
     private Map<String, Integer> sectionMap = new HashMap<>();
+    private StickyGridAdapter adapter;
 
     public static PictureFragment newInstance() {
         return new PictureFragment();
@@ -59,8 +62,8 @@ public class PictureFragment extends Fragment {
                         mGridItem.setSection(sectionMap.get(ym));
                     }
                 }
-
-                mGridView.setAdapter(new StickyGridAdapter(PictureFragment.this.getActivity(), mGridList, mGridView));
+                adapter = new StickyGridAdapter(PictureFragment.this.getActivity(), mGridList, mGridView);
+                mGridView.setAdapter(adapter);
                 mGridView.setOnItemClickListener(listener);
             }
         });
@@ -77,4 +80,34 @@ public class PictureFragment extends Fragment {
             startActivity(intent);
         }
     };
+
+    public void updateScreenshotList() {
+        mGridList.clear();
+        section = 1;
+        sectionMap.clear();
+        mScanner.scanImages(new ImageScanner.ScanCompleteCallBack() {
+            @Override
+            public void scanComplete(List<MediaGridItem> videoItem) {
+                for (int i = 0; i < videoItem.size(); i++) {
+                    mGridList.add(videoItem.get(i));
+                }
+
+                Collections.sort(mGridList, new YMComparator());
+
+                for (ListIterator<MediaGridItem> it = mGridList.listIterator(); it.hasNext(); ) {
+                    MediaGridItem mGridItem = it.next();
+                    String ym = mGridItem.getTime();
+                    if (!sectionMap.containsKey(ym)) {
+                        mGridItem.setSection(section);
+                        sectionMap.put(ym, section);
+                        section++;
+                    } else {
+                        mGridItem.setSection(sectionMap.get(ym));
+                    }
+                }
+                mGridView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
 }

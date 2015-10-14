@@ -363,6 +363,23 @@ public class PlayerActivity extends BaseActivity {
                     return;
                 }
                 onVideoCapture();
+
+                /* 这里创建一个新的线程并且休眠1000ms之后给MainActivity2发送Message的原因是
+                *  如果发送截图命令之后马上发送message告知PictureFragment更新截图列表，会导致最
+                *  新的一张截图还没有生成，此时扫描截图目录还获取不到最近的一张截图，最新一张
+                *  截图不能立即更新。
+                * */
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(1000);
+                            MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_SCREENSHOT_LIST, 0, 0, null);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
             }
         });
         playerCaptureButton.setOnTouchListener(new View.OnTouchListener() {

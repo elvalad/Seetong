@@ -191,6 +191,22 @@ public class MainActivity2 extends BaseActivity {
         return this.deviceFragment;
     }
 
+    public void setMediaFragment(MediaFragment2 mediaFragment) {
+        this.mediaFragment = mediaFragment;
+    }
+
+    public MediaFragment2 getMediaFragment() {
+        return this.mediaFragment;
+    }
+
+    public void setMoreFragment(MoreFragment2 moreFragment) {
+        this.moreFragment = moreFragment;
+    }
+
+    public MoreFragment2 getMoreFragment() {
+        return this.moreFragment;
+    }
+
     /**
      * 在 DeviceFragment 中点击某个 Item 的播放 Button 之后，会调用此方法进入 PlayerActivity 去播放
      * 此设备监控下的视频.
@@ -280,6 +296,10 @@ public class MainActivity2 extends BaseActivity {
         switch (msg.what) {
             case Define.MSG_UPDATE_DEV_LIST:
                 deviceFragment.handleMessage(msg);
+                break;
+            case Define.MSG_UPDATE_SCREENSHOT_LIST:
+                mediaFragment.handleMessage(msg);
+                break;
         }
     }
 

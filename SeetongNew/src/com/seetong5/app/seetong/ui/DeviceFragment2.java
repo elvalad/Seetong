@@ -121,6 +121,7 @@ public class DeviceFragment2 extends BaseFragment {
         switch (msg.what) {
             case Define.MSG_UPDATE_DEV_LIST:
                 deviceListFragment.handleMessage(msg);
+                break;
         }
     }
 }
