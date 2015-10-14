@@ -20,12 +20,13 @@ import java.util.*;
  *
  * Created by gmk on 2015/9/13.
  */
-public class VideoFragment2 extends Fragment {
+public class VideoFragment2 extends BaseFragment {
     private VideoScanner mScanner;
     private GridView mGridView;
     private List<MediaGridItem> mGridList = new ArrayList<>();
     private static int section = 1;
     private Map<String, Integer> sectionMap = new HashMap<>();
+    private StickyGridAdapter adapter;
 
     public static VideoFragment2 newInstance() {
         return new VideoFragment2();
@@ -62,7 +63,8 @@ public class VideoFragment2 extends Fragment {
                     }
                 }
 
-                mGridView.setAdapter(new StickyGridAdapter(VideoFragment2.this.getActivity(), mGridList, mGridView));
+                adapter = new StickyGridAdapter(VideoFragment2.this.getActivity(), mGridList, mGridView);
+                mGridView.setAdapter(adapter);
                 mGridView.setOnItemClickListener(listener);
             }
         });
@@ -83,5 +85,11 @@ public class VideoFragment2 extends Fragment {
             }
         }
     };
+
+    public void setChoosenMode() {
+        adapter.setChoosenMode();
+        mGridView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
 }
 

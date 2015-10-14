@@ -9,4 +9,13 @@
         android:layout_width="fill_parent"
         android:layout_height="100dip" />
 
+    <ImageButton
+        android:id="@+id/choosen_item"
+        android:scaleType="fitXY"
+        android:background="#00000000"
+        android:src="@drawable/btn_checked_0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
 </RelativeLayout>

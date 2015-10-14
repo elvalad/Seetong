@@ -11,10 +11,7 @@ import android.graphics.Point;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
 
 import com.seetong5.app.seetong.R;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersSimpleAdapter;
@@ -26,6 +23,7 @@ public class StickyGridAdapter extends BaseAdapter implements
     private LayoutInflater mInflater;
     private GridView mGridView;
     private Point mPoint = new Point(0, 0);//用来封装ImageView的宽和高的对象
+    private boolean choosenMode = false;
 
     public StickyGridAdapter(Context context, List<MediaGridItem> list,
                              GridView mGridView) {
@@ -50,13 +48,12 @@ public class StickyGridAdapter extends BaseAdapter implements
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder mViewHolder;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final ViewHolder mViewHolder;
         if (convertView == null) {
             mViewHolder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.grid_item, parent, false);
-            mViewHolder.mImageView = (MyImageView) convertView
-                    .findViewById(R.id.grid_item);
+            mViewHolder.mImageView = (MyImageView) convertView.findViewById(R.id.grid_item);
             convertView.setTag(mViewHolder);
 
             //用来监听ImageView的宽和高
@@ -95,9 +92,27 @@ public class StickyGridAdapter extends BaseAdapter implements
             mViewHolder.mImageView.setImageResource(R.drawable.tab_media);
         }
 
+        mViewHolder.imageButton = (ImageButton) convertView.findViewById(R.id.choosen_item);
+        if (choosenMode) {
+            mViewHolder.imageButton.setVisibility(View.VISIBLE);
+            mViewHolder.imageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!list.get(position).getIsChoosed()) {
+                        mViewHolder.imageButton.setImageResource(R.drawable.btn_checked_1);
+                        list.get(position).setIsChoosed(true);
+                    } else {
+                        mViewHolder.imageButton.setImageResource(R.drawable.btn_checked_0);
+                        list.get(position).setIsChoosed(false);
+                    }
+                }
+            });
+        } else {
+            mViewHolder.imageButton.setVisibility(View.GONE);
+        }
+
         return convertView;
     }
-
 
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
@@ -119,6 +134,7 @@ public class StickyGridAdapter extends BaseAdapter implements
 
     public static class ViewHolder {
         public MyImageView mImageView;
+        public ImageButton imageButton;
     }
 
     public static class HeaderViewHolder {
@@ -130,5 +146,12 @@ public class StickyGridAdapter extends BaseAdapter implements
         return list.get(position).getSection();
     }
 
+    public void setChoosenMode() {
+        if (this.choosenMode == true) {
+            this.choosenMode = false;
+        } else {
+            this.choosenMode = true;
+        }
+    }
 }
 

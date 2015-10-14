@@ -13,6 +13,8 @@ public class MediaGridItem {
     /* 每个Item对应的HeaderId  */
     private int section;
 
+    private boolean isChoosed;
+
     public MediaGridItem(String path, String time) {
         super();
         this.path = path;
@@ -31,12 +33,16 @@ public class MediaGridItem {
     public void setTime(String time) {
         this.time = time;
     }
-
     public int getSection() {
         return section;
     }
-
     public void setSection(int section) {
         this.section = section;
+    }
+    public void setIsChoosed(boolean isChoosed) {
+        this.isChoosed = isChoosed;
+    }
+    public boolean getIsChoosed() {
+        return isChoosed;
     }
 }

@@ -19,7 +19,7 @@ import java.util.*;
  *
  * Created by gmk on 2015/9/13.
  */
-public class PictureFragment extends Fragment {
+public class PictureFragment extends BaseFragment {
 
     private GridView mGridView;
     private ImageScanner mScanner;
@@ -109,5 +109,11 @@ public class PictureFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    public void setChoosenMode() {
+        adapter.setChoosenMode();
+        mGridView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }
