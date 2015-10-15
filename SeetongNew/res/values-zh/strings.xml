@@ -744,7 +744,9 @@
     <string name="media_picture">图片</string>
     <string name="media_video">录像</string>
     <string name="media_edit">编辑</string>
+    <string name="media_edit_ok">完成</string>
     <string name="media_choose_all">全选</string>
+    <string name="media_choose_none">全不选</string>
     <string name="media_no_file">没有文件</string>
     <string name="media_no_choosen_file">请选中文件</string>
     <string name="media_first_pic">第一张</string>

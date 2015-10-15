@@ -82,7 +82,7 @@ public class MediaFragment2 extends BaseFragment {
                     } else if (currentFragmentName.equals("video")) {
                         videoFragment.setAllChoosed(false);
                     }
-                    chooseAllButton.setTextColor(getResources().getColor(R.color.green));
+                    chooseAllButton.setText(R.string.media_choose_all);
                     bAllChoosed = false;
                 } else {
                     if (currentFragmentName.equals("picture")) {
@@ -90,7 +90,7 @@ public class MediaFragment2 extends BaseFragment {
                     } else if (currentFragmentName.equals("video")) {
                         videoFragment.setAllChoosed(true);
                     }
-                    chooseAllButton.setTextColor(getResources().getColor(R.color.gray));
+                    chooseAllButton.setText(R.string.media_choose_none);
                     bAllChoosed = true;
                 }
             }
@@ -135,7 +135,7 @@ public class MediaFragment2 extends BaseFragment {
                     layout.setVisibility(View.VISIBLE);
                     chooseAllButton.setVisibility(View.GONE);
                     deleteButton.setVisibility(View.GONE);
-                    editButton.setTextColor(getResources().getColor(R.color.green));
+                    editButton.setText(R.string.edit);
                 } else {
                     if (currentFragmentName.equals("picture")) {
                         pictureFragment.setChoosenMode(true);
@@ -146,7 +146,7 @@ public class MediaFragment2 extends BaseFragment {
                     layout.setVisibility(View.GONE);
                     chooseAllButton.setVisibility(View.VISIBLE);
                     deleteButton.setVisibility(View.VISIBLE);
-                    editButton.setTextColor(getResources().getColor(R.color.gray));
+                    editButton.setText(R.string.media_edit_ok);
                 }
             }
         });
