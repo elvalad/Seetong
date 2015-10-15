@@ -98,6 +98,9 @@ public class VideoFragment2 extends BaseFragment {
 
     public void setChoosenMode() {
         if (!this.choosenMode) {
+            for (int i = 0; i < mGridList.size(); i++) {
+                mGridList.get(i).setIsChoosed(false);
+            }
             adapter.setChoosenMode(true);
             this.choosenMode = true;
         } else {
