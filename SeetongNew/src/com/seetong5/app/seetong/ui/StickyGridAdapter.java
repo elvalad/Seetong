@@ -8,6 +8,7 @@ import java.util.List;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,20 +94,16 @@ public class StickyGridAdapter extends BaseAdapter implements
         }
 
         mViewHolder.imageButton = (ImageButton) convertView.findViewById(R.id.choosen_item);
+        /* 由于imageButton在GridView的Item中，这里需要将其Focusable设置为false，
+         否在点击GridView的Item会失去焦点，点击无效 */
+        mViewHolder.imageButton.setFocusable(false);
         if (choosenMode) {
             mViewHolder.imageButton.setVisibility(View.VISIBLE);
-            mViewHolder.imageButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (!list.get(position).getIsChoosed()) {
-                        mViewHolder.imageButton.setImageResource(R.drawable.btn_checked_1);
-                        list.get(position).setIsChoosed(true);
-                    } else {
-                        mViewHolder.imageButton.setImageResource(R.drawable.btn_checked_0);
-                        list.get(position).setIsChoosed(false);
-                    }
-                }
-            });
+            if (list.get(position).getIsChoosed()) {
+                mViewHolder.imageButton.setImageResource(R.drawable.btn_checked_1);
+            } else {
+                mViewHolder.imageButton.setImageResource(R.drawable.btn_checked_0);
+            }
         } else {
             mViewHolder.imageButton.setVisibility(View.GONE);
         }
@@ -146,12 +143,8 @@ public class StickyGridAdapter extends BaseAdapter implements
         return list.get(position).getSection();
     }
 
-    public void setChoosenMode() {
-        if (this.choosenMode == true) {
-            this.choosenMode = false;
-        } else {
-            this.choosenMode = true;
-        }
+    public void setChoosenMode(boolean choosenMode) {
+        this.choosenMode = choosenMode;
     }
 }
 

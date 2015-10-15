@@ -27,6 +27,7 @@ public class VideoFragment2 extends BaseFragment {
     private static int section = 1;
     private Map<String, Integer> sectionMap = new HashMap<>();
     private StickyGridAdapter adapter;
+    private boolean choosenMode;
 
     public static VideoFragment2 newInstance() {
         return new VideoFragment2();
@@ -38,7 +39,7 @@ public class VideoFragment2 extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.video2, container, false);
-
+        choosenMode = false;
         mGridView = (GridView) view.findViewById(R.id.asset_grid);
         mGridList.clear();
         mScanner = new VideoScanner(this.getActivity());
@@ -75,20 +76,34 @@ public class VideoFragment2 extends BaseFragment {
     AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-            try {
-                Intent it = new Intent(Intent.ACTION_VIEW);
-                Uri uri = Uri.parse("file://" + mGridList.get(position).getPath());
-                it.setDataAndType(uri, "video/mp4");
-                startActivity(it);
-            } catch (ActivityNotFoundException e) {
-                MainActivity2.m_this.toast(R.string.not_open_file_use_third_party_app);
+            if (choosenMode) {
+                if (mGridList.get(position).getIsChoosed()) {
+                    mGridList.get(position).setIsChoosed(false);
+                } else {
+                    mGridList.get(position).setIsChoosed(true);
+                }
+                adapter.notifyDataSetChanged();
+            } else {
+                try {
+                    Intent it = new Intent(Intent.ACTION_VIEW);
+                    Uri uri = Uri.parse("file://" + mGridList.get(position).getPath());
+                    it.setDataAndType(uri, "video/mp4");
+                    startActivity(it);
+                } catch (ActivityNotFoundException e) {
+                    MainActivity2.m_this.toast(R.string.not_open_file_use_third_party_app);
+                }
             }
         }
     };
 
     public void setChoosenMode() {
-        adapter.setChoosenMode();
-        mGridView.setAdapter(adapter);
+        if (!this.choosenMode) {
+            adapter.setChoosenMode(true);
+            this.choosenMode = true;
+        } else {
+            adapter.setChoosenMode(false);
+            this.choosenMode = false;
+        }
         adapter.notifyDataSetChanged();
     }
 }

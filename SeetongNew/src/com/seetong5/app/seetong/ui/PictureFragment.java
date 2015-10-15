@@ -27,6 +27,7 @@ public class PictureFragment extends BaseFragment {
     private static int section = 1;
     private Map<String, Integer> sectionMap = new HashMap<>();
     private StickyGridAdapter adapter;
+    private boolean choosenMode;
 
     public static PictureFragment newInstance() {
         return new PictureFragment();
@@ -38,7 +39,7 @@ public class PictureFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.picture, container, false);
-
+        choosenMode = false;
         mGridView = (GridView) view.findViewById(R.id.asset_grid);
         mGridList.clear();
         mScanner = new ImageScanner(this.getActivity());
@@ -74,10 +75,19 @@ public class PictureFragment extends BaseFragment {
     AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-            Intent intent = new Intent();
-            intent.setClass(PictureFragment.this.getActivity(), GalleryActivity.class);
-            intent.putExtra("position", position);
-            startActivity(intent);
+            if (choosenMode) {
+                if (mGridList.get(position).getIsChoosed()) {
+                    mGridList.get(position).setIsChoosed(false);
+                } else {
+                    mGridList.get(position).setIsChoosed(true);
+                }
+                adapter.notifyDataSetChanged();
+            } else {
+                Intent intent = new Intent();
+                intent.setClass(PictureFragment.this.getActivity(), GalleryActivity.class);
+                intent.putExtra("position", position);
+                startActivity(intent);
+            }
         }
     };
 
@@ -112,8 +122,13 @@ public class PictureFragment extends BaseFragment {
     }
 
     public void setChoosenMode() {
-        adapter.setChoosenMode();
-        mGridView.setAdapter(adapter);
+        if (!this.choosenMode) {
+            adapter.setChoosenMode(true);
+            this.choosenMode = true;
+        } else {
+            adapter.setChoosenMode(false);
+            this.choosenMode = false;
+        }
         adapter.notifyDataSetChanged();
     }
 }
