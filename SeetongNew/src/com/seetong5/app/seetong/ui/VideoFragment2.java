@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import com.seetong5.app.seetong.R;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -96,17 +97,54 @@ public class VideoFragment2 extends BaseFragment {
         }
     };
 
-    public void setChoosenMode() {
-        if (!this.choosenMode) {
-            for (int i = 0; i < mGridList.size(); i++) {
-                mGridList.get(i).setIsChoosed(false);
-            }
-            adapter.setChoosenMode(true);
-            this.choosenMode = true;
-        } else {
-            adapter.setChoosenMode(false);
-            this.choosenMode = false;
+    public void setAllChoosed(boolean bAllChoosed) {
+        for (int i = 0; i < mGridList.size(); i++) {
+            mGridList.get(i).setIsChoosed(bAllChoosed);
         }
+        adapter.notifyDataSetChanged();
+    }
+
+    public void deleteChoosenItem() {
+        if (mGridList.size() < 1) {
+            toast(R.string.media_no_file);
+            return;
+        }
+
+        final List<File> choosenFileList = new ArrayList<>();
+        List<MediaGridItem> choosenMediaItemList = new ArrayList<>();
+        Iterator<MediaGridItem> iterator = mGridList.iterator();
+        while (iterator.hasNext()) {
+            MediaGridItem item = iterator.next();
+            if (item.getIsChoosed()) {
+                choosenFileList.add(new File(item.getPath()));
+                choosenMediaItemList.add(item);
+            }
+        }
+        mGridList.removeAll(choosenMediaItemList);
+
+        if (choosenFileList.size() == 0) {
+            toast(R.string.media_no_choosen_file);
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < choosenFileList.size(); i++) {
+                    choosenFileList.get(i).delete();
+                }
+                choosenFileList.clear();
+            }
+        }).start();
+
+        adapter.notifyDataSetChanged();
+    }
+
+    public void setChoosenMode(boolean choosenMode) {
+        for (int i = 0; i < mGridList.size(); i++) {
+            mGridList.get(i).setIsChoosed(false);
+        }
+        this.choosenMode = choosenMode;
+        adapter.setChoosenMode(choosenMode);
         adapter.notifyDataSetChanged();
     }
 }

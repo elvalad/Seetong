@@ -86,6 +86,27 @@ public class PlayerActivity extends BaseActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        PlayerActivity.this.finish();
+        /* TODO:在单路fragment和多路fragment之间切换时需要注意这里该如何处理 */
+        if (currentFragmentName.equals("play_video_fragment")) {
+            playVideoFragment.stopPlay();
+            /* 退出单画面播放页面时要关闭自动循环播放 */
+            if (autoPlayThread != null) {
+                bAutoCyclePlaying = false;
+                handler.removeCallbacks(autoPlayThread);
+            }
+        } else if (currentFragmentName.equals("play_multi_video_fragment")){
+            multiVideoFragment.stopPlayList();
+            /* 退出多画面播放时要关闭自动循环播放*/
+            if (autoPlayThread != null) {
+                bAutoCyclePlaying = false;
+                handler.removeCallbacks(autoPlayThread);
+            }
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_OK) return;
@@ -373,7 +394,7 @@ public class PlayerActivity extends BaseActivity {
                     @Override
                     public void run() {
                         try {
-                            Thread.sleep(1000);
+                            Thread.sleep(1500);
                             MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_SCREENSHOT_LIST, 0, 0, null);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
