@@ -112,9 +112,9 @@ public class RegisterActivity extends BaseActivity {
                 public void run() {
                     final int iRet;
                     if (bRegByMail) {
-                        iRet = LibImpl.getInstance().getFuncLib().RegCSUserAgent(mRegInfo.userEmail, mRegInfo.userPwd, mRegInfo.userEmail, null, mRegInfo.verifyCode);
+                        iRet = LibImpl.getInstance().getFuncLib().RegCSUserEx(mRegInfo.userEmail, mRegInfo.userPwd, mRegInfo.userEmail, null, mRegInfo.verifyCode);
                     } else {
-                        iRet = LibImpl.getInstance().getFuncLib().RegCSUserAgent(mRegInfo.userPhone, mRegInfo.userPwd, null, mRegInfo.userPhone, mRegInfo.verifyCode);
+                        iRet = LibImpl.getInstance().getFuncLib().RegCSUserEx(mRegInfo.userPhone, mRegInfo.userPwd, null, mRegInfo.userPhone, mRegInfo.verifyCode);
                     }
                     if (mTipDlg.isCanceled()) {
                         return;
