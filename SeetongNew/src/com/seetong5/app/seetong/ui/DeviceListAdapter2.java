@@ -142,4 +142,8 @@ public class DeviceListAdapter2 extends BaseAdapter {
         if (null == dev) return;
         notifyDataSetChanged();
     }
+
+    public void updateDeviceList() {
+        notifyDataSetChanged();
+    }
 }

@@ -3,6 +3,7 @@ package com.seetong5.app.seetong.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,6 +120,9 @@ public class DeviceFragment2 extends BaseFragment {
 
     public void handleMessage(android.os.Message msg) {
         switch (msg.what) {
+            case Define.MSG_UPDATE_DEV_ALIAS:
+                deviceListFragment.handleMessage(msg);
+                break;
             case Define.MSG_UPDATE_DEV_LIST:
                 deviceListFragment.handleMessage(msg);
                 break;

@@ -236,6 +236,7 @@ public class MainActivity2 extends BaseActivity {
                     if (cb != null) cb.onResult(Global.getSelfDeviceList());
                     /*TODO: 告诉DeviceFragment2已经获取到设备列表 */
                     deviceFragment.updateDeviceFragment(Global.getDeviceList().size());
+                    sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, null);
                 } catch (Exception e) {
                     Log.e(TAG, "parse device list error," + e.toString());
                     toast(R.string.dlg_get_list_fail_tip);
@@ -294,11 +295,16 @@ public class MainActivity2 extends BaseActivity {
     @Override
     public void handleMessage(android.os.Message msg) {
         switch (msg.what) {
-            case Define.MSG_UPDATE_DEV_LIST:
+            case Define.MSG_UPDATE_DEV_ALIAS:
                 deviceFragment.handleMessage(msg);
                 break;
             case Define.MSG_UPDATE_SCREENSHOT_LIST:
                 mediaFragment.handleMessage(msg);
+                break;
+            case Define.MSG_UPDATE_DEV_LIST:
+                deviceFragment.handleMessage(msg);
+                break;
+            default:
                 break;
         }
     }

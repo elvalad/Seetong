@@ -54,6 +54,7 @@ public class DeviceListFragment extends Fragment {
 
     // TODO:实际需要从服务器获取的设备相关数据
     private void getData() {
+        data.clear();
         LibImpl.putDeviceList(Global.getDeviceList());
         //Log.d(TAG, "Device size is " + Global.getDeviceList().size());
         for (int i = 0; i < Global.getDeviceList().size(); i++) {
@@ -72,8 +73,12 @@ public class DeviceListFragment extends Fragment {
         PlayerDevice playerDevice = (PlayerDevice)msg.obj;
 
         switch (msg.what) {
-            case Define.MSG_UPDATE_DEV_LIST:
+            case Define.MSG_UPDATE_DEV_ALIAS:
                 adapter.updateDeviceAlias(playerDevice);
+                break;
+            case Define.MSG_UPDATE_DEV_LIST:
+                getData();
+                adapter.updateDeviceList();
                 break;
         }
 

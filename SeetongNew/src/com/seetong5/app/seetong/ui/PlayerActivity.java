@@ -130,7 +130,7 @@ public class PlayerActivity extends BaseActivity {
                 } else if (dev.m_dev.getDevType() == 200 || dev.m_dev.getDevType() == 201) {
                     dev.m_dev.setDevGroupName(alias);
                 }
-                MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, dev);
+                MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_DEV_ALIAS, 0, 0, dev);
                 break;
             case Constant.DEVICE_CONFIG_ITEM_MODIFY_USER_PWD:
                 break;

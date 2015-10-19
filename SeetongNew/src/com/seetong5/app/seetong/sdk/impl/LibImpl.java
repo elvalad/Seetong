@@ -1712,7 +1712,6 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             Log.i(TAG, "onMsgRspAddWatch-->TPS_AddWachtRsp@" + ts.toString());
             final String devId = new String(ts.getSzDevId()).trim();
             sendMessage(SDK_CONSTANT.TPS_MSG_RSP_ADDWATCH, 0, 0, ts);
-
             if (0 != ts.getnResult()) {
                 Log.i(TAG, "onMsgRspAddWatch-->response failed, devId=" + devId + ",result=" + ts.getnResult());
                 notifyNextSnapshot(devId);
