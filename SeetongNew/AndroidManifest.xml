@@ -59,7 +59,7 @@
         <activity
                 android:name="com.seetong5.app.seetong.ui.LoginActivity"
                 android:launchMode="singleTop"
-                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:screenOrientation="portrait"
                 android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -68,43 +68,53 @@
         </activity>
 
         <activity
-                android:name="com.seetong5.app.seetong.ui.MainActivity2">
+                android:name="com.seetong5.app.seetong.ui.MainActivity2"
+                android:screenOrientation="portrait">
         </activity>
 
         <activity
-                android:name="com.seetong5.app.seetong.ui.RegisterActivity">
+                android:name="com.seetong5.app.seetong.ui.RegisterActivity"
+                android:screenOrientation="portrait">
         </activity>
 
         <activity
-                android:name="com.seetong5.app.seetong.ui.AlarmActivity">
+                android:name="com.seetong5.app.seetong.ui.AlarmActivity"
+                android:screenOrientation="portrait">
         </activity>
 
         <activity
-                android:name="com.seetong5.app.seetong.ui.AboutActivity">
+                android:name="com.seetong5.app.seetong.ui.AboutActivity"
+                android:screenOrientation="portrait">
         </activity>
 
         <activity
-                android:name="com.seetong5.app.seetong.ui.SettingActivity">
+                android:name="com.seetong5.app.seetong.ui.SettingActivity"
+                android:screenOrientation="portrait">
         </activity>
 
         <activity
-                android:name="com.seetong5.app.seetong.ui.PlayerActivity">
+                android:name="com.seetong5.app.seetong.ui.PlayerActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
 
         <activity
-                android:name="com.seetong5.app.seetong.ui.AddDeviceActivity">
+                android:name="com.seetong5.app.seetong.ui.AddDeviceActivity"
+                android:screenOrientation="portrait">
         </activity>
 
         <activity
-                android:name="com.seetong5.app.seetong.ui.GalleryActivity">
+                android:name="com.seetong5.app.seetong.ui.GalleryActivity"
+                android:screenOrientation="portrait">
         </activity>
 
         <activity
-                android:name="com.seetong5.app.seetong.ui.ForgetPasswordActivity">
+                android:name="com.seetong5.app.seetong.ui.ForgetPasswordActivity"
+                android:screenOrientation="portrait">
         </activity>
 
         <activity
-                android:name="com.seetong5.app.seetong.ui.PlayerSettingActivity">
+                android:name="com.seetong5.app.seetong.ui.PlayerSettingActivity"
+                android:screenOrientation="portrait">
         </activity>
 
         <activity

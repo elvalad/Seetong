@@ -2,6 +2,7 @@ package com.seetong5.app.seetong.ui;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.opengl.GLSurfaceView;
@@ -424,6 +425,11 @@ public class PlayVideoFragment extends BaseFragment {
         view.setVisibility(View.VISIBLE);
 
         return true;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 
     public void stopPlay() {

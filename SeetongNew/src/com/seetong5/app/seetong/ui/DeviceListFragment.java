@@ -52,7 +52,7 @@ public class DeviceListFragment extends Fragment {
         return view;
     }
 
-    // TODO:实际需要从服务器获取的设备相关数据
+    /* 实际需要从服务器获取的设备相关数据 */
     private void getData() {
         data.clear();
         LibImpl.putDeviceList(Global.getDeviceList());

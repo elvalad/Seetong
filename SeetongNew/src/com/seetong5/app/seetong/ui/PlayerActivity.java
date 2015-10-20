@@ -1,6 +1,7 @@
 package com.seetong5.app.seetong.ui;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.*;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -9,6 +10,7 @@ import android.view.Window;
 
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import com.seetong5.app.seetong.Global;
 import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
@@ -48,6 +50,7 @@ public class PlayerActivity extends BaseActivity {
     private Button playerRecordButton;
     private Button playerSpeakButton;
     private Button playerCaptureButton;
+    LinearLayout.LayoutParams initParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +64,7 @@ public class PlayerActivity extends BaseActivity {
 
         LibImpl.getInstance().addHandler(m_handler);
         playerDevice = LibImpl.findDeviceByID(PlayerActivity.m_this.getCurrentDeviceId());
-
+        initParams = (LinearLayout.LayoutParams) findViewById(R.id.player_fragment_container).getLayoutParams();
         initWidget();
         if (currentFragmentName.equals("play_multi_video_fragment")) {
             setCurrentFragment("play_multi_video_fragment");
@@ -114,6 +117,34 @@ public class PlayerActivity extends BaseActivity {
             case Constant.REQ_ID_DEVICE_CONFIG:
                 onDeviceConfigResult(data);
                 break;
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        int orientation = newConfig.orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setFullScreen(true);
+        } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setFullScreen(false);
+        }
+    }
+
+    private void setFullScreen(boolean bFullScreen) {
+        LinearLayout.LayoutParams params;
+        int show = bFullScreen ? View.GONE : View.VISIBLE;
+        findViewById(R.id.player_title).setVisibility(show);
+        findViewById(R.id.player_blank).setFadingEdgeLength(show);
+        findViewById(R.id.player_operation_button).setVisibility(show);
+        findViewById(R.id.player_split_line).setVisibility(show);
+        findViewById(R.id.player_main_button).setVisibility(show);
+        MainActivity2.m_this.setTabVisible(!bFullScreen);
+        if (bFullScreen) {
+            params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            findViewById(R.id.player_fragment_container).setLayoutParams(params);
+        } else {
+            findViewById(R.id.player_fragment_container).setLayoutParams(initParams);
         }
     }
 

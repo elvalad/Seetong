@@ -169,6 +169,10 @@ public class MainActivity2 extends BaseActivity {
         });
     }
 
+    public void setTabVisible(boolean visible) {
+        tabHost.getTabWidget().setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
     private void setCurrentFragment(String name) {
         switch (name) {
             case "device":

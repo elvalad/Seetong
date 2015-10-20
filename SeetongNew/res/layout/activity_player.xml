@@ -6,6 +6,7 @@
       android:background="@drawable/tps_background">
 
     <RelativeLayout
+        android:id="@+id/player_title"
         android:background="@drawable/tps_tabbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -30,6 +31,7 @@
     </FrameLayout>
 
     <ImageView
+        android:id="@+id/player_blank"
         android:layout_width="match_parent"
         android:layout_height="25dp"/>
 
