@@ -50,7 +50,7 @@ public class PlayerActivity extends BaseActivity {
     private Button playerRecordButton;
     private Button playerSpeakButton;
     private Button playerCaptureButton;
-    LinearLayout.LayoutParams initParams;
+    private LinearLayout.LayoutParams initParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
