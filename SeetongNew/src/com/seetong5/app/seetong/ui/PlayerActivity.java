@@ -1,6 +1,7 @@
 package com.seetong5.app.seetong.ui;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.*;
 import android.util.Log;
@@ -79,6 +80,12 @@ public class PlayerActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         LibImpl.getInstance().addHandler(m_handler);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setFullScreen(true);
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setFullScreen(false);
+        }
     }
 
     @Override
