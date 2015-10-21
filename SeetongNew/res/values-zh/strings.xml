@@ -714,6 +714,14 @@
     <string name="register_network_err">请检查网络连接</string>
 
     <string name="forget_password">忘记密码</string>
+    <string name="forget_account_hint_text">请输入您的手机或邮箱</string>
+    <string name="forget_password_hint_text">请输入新的密码</string>
+    <string name="forget_password_verify_hint_text">请确认密码</string>
+    <string name="forget_verify_code_hint_text">请确认校验码</string>
+    <string name="forget_gain_verify_code_hint_text">获取校验码</string>
+    <string name="forget_reset_password">重置密码</string>
+    <string name="forget_invalid_user_name">无效的账号</string>
+    <string name="forget_network_err">请检查网络连接</string>
 
     <string name="main_device">设备</string>
     <string name="main_media">多媒体</string>
