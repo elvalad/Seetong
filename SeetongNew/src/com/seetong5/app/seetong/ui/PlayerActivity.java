@@ -1,5 +1,8 @@
 package com.seetong5.app.seetong.ui;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -17,6 +20,8 @@ import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
 import com.seetong5.app.seetong.sdk.impl.LibImpl;
 import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
+
+import java.util.List;
 
 /**
  * PlayerActivity 是播放设备录像的 Activity，它在 DeviceFragment 包含设备信息时，点击会进入.
@@ -40,6 +45,7 @@ public class PlayerActivity extends BaseActivity {
     private static boolean bVideoRecord = false;
     private static boolean bVideoSoundOn = false;
     private static boolean bHighDefinition = false;
+    private static boolean bActive = true;
 
     private ImageButton playerBackButton;
     private ImageButton playerStopButton;
@@ -81,10 +87,45 @@ public class PlayerActivity extends BaseActivity {
         super.onResume();
         LibImpl.getInstance().addHandler(m_handler);
 
+        if (!this.bActive) {
+            Log.i(TAG, "Resume play");
+            if (currentFragmentName.equals("play_video_fragment")) {
+                playVideoFragment.startPlay();
+            } else if (currentFragmentName.equals("play_multi_video_fragment")) {
+                multiVideoFragment.startPlayList();
+            }
+            this.bActive = true;
+        }
+
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             setFullScreen(true);
         } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             setFullScreen(false);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TAG, "Stop play");
+        if (!isForeground(this)) {
+            if (currentFragmentName.equals("play_video_fragment")) {
+                playVideoFragment.stopPlay();
+                /* 退出单画面播放页面时要关闭自动循环播放 */
+                if (autoPlayThread != null) {
+                    bAutoCyclePlaying = false;
+                    handler.removeCallbacks(autoPlayThread);
+                }
+            } else if (currentFragmentName.equals("play_multi_video_fragment")) {
+                multiVideoFragment.stopPlayList();
+                /* 退出多画面播放时要关闭自动循环播放*/
+                if (autoPlayThread != null) {
+                    bAutoCyclePlaying = false;
+                    handler.removeCallbacks(autoPlayThread);
+                }
+            }
+
+            this.bActive = false;
         }
     }
 
@@ -136,6 +177,20 @@ public class PlayerActivity extends BaseActivity {
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             setFullScreen(false);
         }
+    }
+
+    /*判断应用是否在前台*/
+    public static boolean isForeground(Context context)
+    {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
+        if (!tasks.isEmpty()) {
+            ComponentName topActivity = tasks.get(0).topActivity;
+            if (topActivity.getPackageName().equals(context.getPackageName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void setFullScreen(boolean bFullScreen) {
