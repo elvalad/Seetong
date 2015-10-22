@@ -93,7 +93,6 @@ public class AddDeviceActivity extends BaseActivity {
         addDevicePassword = (RegexpEditText) findViewById(R.id.device_add_password);
         addDevicePassword.setRegexp("\\w*");
         addDevicePassword.setRequired(true);
-        addDevicePassword.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
         addDevicePassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
         mTdCodeOnClickListener = new TDCodeOnClickListener(new TDCodeOnClickListener.TDCodeInterface() {

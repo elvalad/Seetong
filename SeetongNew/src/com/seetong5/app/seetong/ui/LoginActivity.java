@@ -88,7 +88,6 @@ public class LoginActivity extends BaseActivity {
         m_txt_pwd.setRequired(true);
 
         EditText passwordText = (EditText) findViewById(R.id.login_password);
-        passwordText.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
         passwordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
         Button loginButton = (Button) findViewById(R.id.login_login);

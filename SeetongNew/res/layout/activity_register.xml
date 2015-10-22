@@ -60,7 +60,7 @@
                 android:hint="@string/register_password_hint_text"
                 android:textSize="12sp"
                 android:textColorHint="#dddddd"
-                android:inputType="numberPassword"/>
+                android:inputType="textPassword"/>
 
         <EditText
                 android:id="@+id/register_confirm_password"
@@ -71,7 +71,7 @@
                 android:hint="@string/register_password_verify_hint_text"
                 android:textSize="12sp"
                 android:textColorHint="#dddddd"
-                android:inputType="numberPassword"/>
+                android:inputType="textPassword"/>
 
         <LinearLayout
                 android:id="@+id/register_verify_frame"
