@@ -1356,10 +1356,10 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     errorText = errorText.substring(0, errorText.length() - 5);
                     int nResult = ni.getnResult();
                     ni.setSzInfo(errorText.getBytes());
-                    Log.e(TAG, "doMsgRspCB devID is:" + devID);
+                    //Log.e(TAG, "doMsgRspCB devID is:" + devID);
                     mDeviceNotifyInfo.put(devID, ni);
                     if (null == m_devMap.get(devID)) {
-                        Log.e(TAG, "doMsgRspCB devID is:" + devID);
+                        //Log.e(TAG, "doMsgRspCB devID is:" + devID);
                         return 0;
                     }
                     PlayerDevice dev = findDeviceByID(devID);

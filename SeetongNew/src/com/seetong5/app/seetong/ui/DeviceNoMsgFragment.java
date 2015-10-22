@@ -14,7 +14,7 @@ import com.seetong5.app.seetong.R;
  *
  * Created by gmk on 2015/9/13.
  */
-public class DeviceNoMsgFragment extends Fragment {
+public class DeviceNoMsgFragment extends BaseFragment {
 
     public static DeviceNoMsgFragment newInstance() {
         return new DeviceNoMsgFragment();

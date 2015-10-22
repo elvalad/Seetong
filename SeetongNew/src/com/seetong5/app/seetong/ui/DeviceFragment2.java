@@ -12,7 +12,9 @@ import android.widget.ImageButton;
 import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
 import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
+import ipc.android.sdk.com.SDK_CONSTANT;
 
+import java.awt.font.TextAttribute;
 import java.util.List;
 
 /**
@@ -29,6 +31,7 @@ public class DeviceFragment2 extends BaseFragment {
     private View view;
     private DeviceNoMsgFragment deviceNoMsgFragment;
     private DeviceListFragment deviceListFragment;
+    private BaseFragment currentFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,6 +40,7 @@ public class DeviceFragment2 extends BaseFragment {
         view = inflater.inflate(R.layout.device2, container);
         deviceNoMsgFragment = DeviceNoMsgFragment.newInstance();
         deviceListFragment = DeviceListFragment.newInstance();
+        currentFragment = deviceNoMsgFragment;
         initWidget(view);
 
         return view;
@@ -99,8 +103,10 @@ public class DeviceFragment2 extends BaseFragment {
     public void updateDeviceFragment(int listSize) {
         if (listSize > 0) {
             showDeviceListFragment();
+            currentFragment = deviceListFragment;
         } else {
             showDeviceNoMsgFragment();
+            currentFragment = deviceNoMsgFragment;
         }
     }
 
@@ -119,13 +125,33 @@ public class DeviceFragment2 extends BaseFragment {
     }
 
     public void handleMessage(android.os.Message msg) {
-        switch (msg.what) {
-            case Define.MSG_UPDATE_DEV_ALIAS:
-                deviceListFragment.handleMessage(msg);
-                break;
-            case Define.MSG_UPDATE_DEV_LIST:
-                deviceListFragment.handleMessage(msg);
-                break;
+        //Log.e("msg", ":::::::::::::::::::::>" + (currentFragment instanceof DeviceListFragment) + " " +msg.what);
+        if (currentFragment instanceof DeviceListFragment) {
+            switch (msg.what) {
+                case Define.MSG_UPDATE_DEV_ALIAS:
+                    deviceListFragment.handleMessage(msg);
+                    break;
+                case Define.MSG_UPDATE_DEV_LIST:
+                    deviceListFragment.handleMessage(msg);
+                    break;
+                case SDK_CONSTANT.TPS_MSG_P2P_CONNECT_OK:
+                    deviceListFragment.handleMessage(msg);
+                    break;
+                case SDK_CONSTANT.TPS_MSG_P2P_OFFLINE:
+                    deviceListFragment.handleMessage(msg);
+                    break;
+                case SDK_CONSTANT.TPS_MSG_P2P_NVR_OFFLINE:
+                    deviceListFragment.handleMessage(msg);
+                    break;
+                case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_OFFLINE:
+                    deviceListFragment.handleMessage(msg);
+                    break;
+                case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_ONLINE:
+                    deviceListFragment.handleMessage(msg);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

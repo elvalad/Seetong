@@ -12,6 +12,7 @@ import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
 import com.seetong5.app.seetong.sdk.impl.LibImpl;
 import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
+import ipc.android.sdk.com.SDK_CONSTANT;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ import java.util.Map;
  *
  * Created by gmk on 2015/9/13.
  */
-public class DeviceListFragment extends Fragment {
+public class DeviceListFragment extends BaseFragment {
     public static String TAG = DeviceListFragment.class.getName();
     private List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
     private DeviceListAdapter2 adapter;
@@ -58,7 +59,7 @@ public class DeviceListFragment extends Fragment {
         LibImpl.putDeviceList(Global.getDeviceList());
         //Log.d(TAG, "Device size is " + Global.getDeviceList().size());
         for (int i = 0; i < Global.getDeviceList().size(); i++) {
-            HashMap<String, Object> map = new HashMap<String, Object>();
+            HashMap<String, Object> map = new HashMap<>();
             //Log.d(TAG, "Device is" + Global.getSelfDeviceList().get(i).toString());
             map.put("device", Global.getSelfDeviceList().get(i));
             map.put("device_image", R.drawable.tps_list_nomsg);
@@ -70,15 +71,31 @@ public class DeviceListFragment extends Fragment {
     }
 
     public boolean handleMessage(android.os.Message msg) {
-        PlayerDevice playerDevice = (PlayerDevice)msg.obj;
-
         switch (msg.what) {
             case Define.MSG_UPDATE_DEV_ALIAS:
+                PlayerDevice playerDevice = (PlayerDevice)msg.obj;
                 adapter.updateDeviceAlias(playerDevice);
                 break;
             case Define.MSG_UPDATE_DEV_LIST:
                 getData();
                 adapter.updateDeviceList();
+                break;
+            case SDK_CONSTANT.TPS_MSG_P2P_CONNECT_OK:
+                adapter.notifyDataSetChanged();
+                break;
+            case SDK_CONSTANT.TPS_MSG_P2P_OFFLINE:
+                adapter.notifyDataSetChanged();
+                break;
+            case SDK_CONSTANT.TPS_MSG_P2P_NVR_OFFLINE:
+                adapter.notifyDataSetChanged();
+                break;
+            case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_OFFLINE:
+                adapter.notifyDataSetChanged();
+                break;
+            case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_ONLINE:
+                adapter.notifyDataSetChanged();
+                break;
+            default:
                 break;
         }
 

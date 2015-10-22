@@ -19,6 +19,7 @@ import com.seetong5.app.seetong.sdk.impl.LibImpl;
 import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
 import com.seetong5.app.seetong.ui.ext.MyTipDialog;
 import ipc.android.sdk.com.Device;
+import ipc.android.sdk.com.SDK_CONSTANT;
 
 import java.util.List;
 
@@ -306,6 +307,21 @@ public class MainActivity2 extends BaseActivity {
                 mediaFragment.handleMessage(msg);
                 break;
             case Define.MSG_UPDATE_DEV_LIST:
+                deviceFragment.handleMessage(msg);
+                break;
+            case SDK_CONSTANT.TPS_MSG_P2P_CONNECT_OK:
+                deviceFragment.handleMessage(msg);
+                break;
+            case SDK_CONSTANT.TPS_MSG_P2P_OFFLINE:
+                deviceFragment.handleMessage(msg);
+                break;
+            case SDK_CONSTANT.TPS_MSG_P2P_NVR_OFFLINE:
+                deviceFragment.handleMessage(msg);
+                break;
+            case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_OFFLINE:
+                deviceFragment.handleMessage(msg);
+                break;
+            case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_ONLINE:
                 deviceFragment.handleMessage(msg);
                 break;
             default:
