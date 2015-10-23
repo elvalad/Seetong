@@ -84,7 +84,12 @@ public class PlayerActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //Log.e(TAG, "player activity onStart");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.e(TAG, "player activity onRestart");
         if (currentFragmentName.equals("play_video_fragment")) {
             playVideoFragment.startPlay();
         } else if (currentFragmentName.equals("play_multi_video_fragment")) {
@@ -107,7 +112,7 @@ public class PlayerActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        //Log.e(TAG, "player activity onStop");
+        Log.e(TAG, "player activity onStop");
         if (currentFragmentName.equals("play_video_fragment")) {
             playVideoFragment.stopPlay();
         } else if (currentFragmentName.equals("play_multi_video_fragment")) {

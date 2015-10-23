@@ -68,6 +68,7 @@ public class PlayVideoFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        startPlay();
     }
 
     class MyOnGestureListener extends GestureDetector.SimpleOnGestureListener {
