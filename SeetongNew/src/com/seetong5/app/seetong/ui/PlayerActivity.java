@@ -82,6 +82,17 @@ public class PlayerActivity extends BaseActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        //Log.e(TAG, "player activity onStart");
+        if (currentFragmentName.equals("play_video_fragment")) {
+            playVideoFragment.startPlay();
+        } else if (currentFragmentName.equals("play_multi_video_fragment")) {
+            multiVideoFragment.startPlayList();
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         LibImpl.getInstance().addHandler(m_handler);
@@ -90,6 +101,17 @@ public class PlayerActivity extends BaseActivity {
             setFullScreen(true);
         } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             setFullScreen(false);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //Log.e(TAG, "player activity onStop");
+        if (currentFragmentName.equals("play_video_fragment")) {
+            playVideoFragment.stopPlay();
+        } else if (currentFragmentName.equals("play_multi_video_fragment")) {
+            multiVideoFragment.startPlayList();
         }
     }
 
