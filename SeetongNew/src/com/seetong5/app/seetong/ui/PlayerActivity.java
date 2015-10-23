@@ -4,7 +4,6 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.*;
 import android.util.Log;
@@ -87,45 +86,10 @@ public class PlayerActivity extends BaseActivity {
         super.onResume();
         LibImpl.getInstance().addHandler(m_handler);
 
-        if (!this.bActive) {
-            Log.i(TAG, "Resume play");
-            if (currentFragmentName.equals("play_video_fragment")) {
-                playVideoFragment.startPlay();
-            } else if (currentFragmentName.equals("play_multi_video_fragment")) {
-                multiVideoFragment.startPlayList();
-            }
-            this.bActive = true;
-        }
-
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             setFullScreen(true);
         } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             setFullScreen(false);
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i(TAG, "Stop play");
-        if (!isForeground(this)) {
-            if (currentFragmentName.equals("play_video_fragment")) {
-                playVideoFragment.stopPlay();
-                /* 退出单画面播放页面时要关闭自动循环播放 */
-                if (autoPlayThread != null) {
-                    bAutoCyclePlaying = false;
-                    handler.removeCallbacks(autoPlayThread);
-                }
-            } else if (currentFragmentName.equals("play_multi_video_fragment")) {
-                multiVideoFragment.stopPlayList();
-                /* 退出多画面播放时要关闭自动循环播放*/
-                if (autoPlayThread != null) {
-                    bAutoCyclePlaying = false;
-                    handler.removeCallbacks(autoPlayThread);
-                }
-            }
-
-            this.bActive = false;
         }
     }
 
