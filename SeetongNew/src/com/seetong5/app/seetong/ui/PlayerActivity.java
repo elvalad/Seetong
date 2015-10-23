@@ -111,7 +111,7 @@ public class PlayerActivity extends BaseActivity {
         if (currentFragmentName.equals("play_video_fragment")) {
             playVideoFragment.stopPlay();
         } else if (currentFragmentName.equals("play_multi_video_fragment")) {
-            multiVideoFragment.startPlayList();
+            multiVideoFragment.stopPlayList();
         }
     }
 
