@@ -101,8 +101,8 @@
                     android:text="@string/register_gain_verify_code_hint_text"
                     android:textColor="#ffffff"
                     android:textSize="12sp"
-                    android:background="@drawable/tps_register_identifycode"
-                    android:layout_width="wrap_content"
+                    android:background="@drawable/tps_register_loginbtn"
+                    android:layout_width="200dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"/>
         </LinearLayout>

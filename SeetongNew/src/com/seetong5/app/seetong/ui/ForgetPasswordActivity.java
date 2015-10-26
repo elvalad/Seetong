@@ -75,6 +75,18 @@ public class ForgetPasswordActivity extends BaseActivity {
                 onGetVerifyCode();
             }
         });
+        obtainCheckCodeButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                view = findViewById(R.id.forget_verify_button);
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    view.getBackground().setAlpha(150);
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    view.getBackground().setAlpha(255);
+                }
+                return false;
+            }
+        });
 
         resetPasswordButton = (Button) findViewById(R.id.forget_reset_password);
         resetPasswordButton.setOnClickListener(new View.OnClickListener() {

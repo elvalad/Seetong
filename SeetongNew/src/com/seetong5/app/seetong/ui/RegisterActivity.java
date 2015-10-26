@@ -79,6 +79,18 @@ public class RegisterActivity extends BaseActivity {
                 onGetVerifyCode();
             }
         });
+        obtainCheckCodeButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                view = findViewById(R.id.register_verify_button);
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    view.getBackground().setAlpha(150);
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    view.getBackground().setAlpha(255);
+                }
+                return false;
+            }
+        });
 
         registerButton = (Button) findViewById(R.id.register_register);
         registerButton.setOnClickListener(new View.OnClickListener() {
