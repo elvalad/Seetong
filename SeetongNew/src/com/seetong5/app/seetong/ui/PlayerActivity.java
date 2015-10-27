@@ -192,7 +192,6 @@ public class PlayerActivity extends BaseActivity {
         findViewById(R.id.player_operation_button).setVisibility(show);
         findViewById(R.id.player_split_line).setVisibility(show);
         findViewById(R.id.player_main_button).setVisibility(show);
-        MainActivity2.m_this.setTabVisible(!bFullScreen);
         if (bFullScreen) {
             params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             findViewById(R.id.player_fragment_container).setLayoutParams(params);
