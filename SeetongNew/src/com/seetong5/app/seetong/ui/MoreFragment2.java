@@ -3,6 +3,7 @@ package com.seetong5.app.seetong.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -62,12 +63,23 @@ public class MoreFragment2 extends BaseFragment {
             }
         });
 
-        Button exitButton = (Button) view.findViewById(R.id.more_exit_button);
+        final Button exitButton = (Button) view.findViewById(R.id.more_exit_button);
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //MoreFragment2.this.getActivity().finish();
                 onBtnLogout();
+            }
+        });
+        exitButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    exitButton.getBackground().setAlpha(150);
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    exitButton.getBackground().setAlpha(255);
+                }
+                return false;
             }
         });
     }
