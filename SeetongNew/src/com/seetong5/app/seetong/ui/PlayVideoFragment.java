@@ -48,6 +48,8 @@ public class PlayVideoFragment extends BaseFragment {
         return new PlayVideoFragment(playerDevice, index);
     }
 
+    public PlayVideoFragment() {}
+
     public PlayVideoFragment(PlayerDevice playerDevice, int index) {
         this.playerDevice = playerDevice;
         this.currentIndex = index;

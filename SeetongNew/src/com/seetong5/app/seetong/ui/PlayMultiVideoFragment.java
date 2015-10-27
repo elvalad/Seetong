@@ -57,6 +57,8 @@ public class PlayMultiVideoFragment extends BaseFragment {
         return new PlayMultiVideoFragment(playerDevice, index);
     }
 
+    public PlayMultiVideoFragment() {}
+
     public PlayMultiVideoFragment(PlayerDevice playerDevice, int index) {
         this.playerDevice = getPlayerDeviceByIndex(playerDevice, index);
         this.chosenPlayerDevice = this.playerDevice;
