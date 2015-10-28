@@ -162,7 +162,78 @@ public class ForgetPasswordActivity extends BaseActivity {
         return true;
     }
 
-    private void onResetPassword() {
+    private boolean getFormatData() {
+        if (isNullStr(gStr(R.id.forget_user))) {
+            toast(R.string.forget_user_null);
+            return false;
+        }
 
+        if (isNullStr(gStr(R.id.forget_password))) {
+            toast(R.string.forget_password_null);
+            return false;
+        }
+
+        if (isNullStr(gStr(R.id.forget_confirm_password))) {
+            toast(R.string.forget_confirm_password_null);
+            return false;
+        }
+
+        if (isNullStr(gStr(R.id.forget_verify_code))) {
+            toast(R.string.forget_verify_code_null);
+            return false;
+        }
+
+        if (!DataCheckUtil.isRightEmail(gStr(R.id.forget_user)) &&
+                !DataCheckUtil.isRightPhone(gStr(R.id.forget_user))) {
+            toast(R.string.forget_invalid_user_name);
+            return false;
+        } else if (!DataCheckUtil.isRightUserPwd(gStr(R.id.forget_password))) {
+            toast(R.string.forget_invalid_user_password);
+            return false;
+        } else {
+            if (gStr(R.id.forget_password).compareToIgnoreCase(gStr(R.id.forget_confirm_password)) != 0) {
+                toast(R.string.forget_invalid_user_confirm_password);
+                return false;
+            } else {
+                if (forgetInfo == null) {
+                    forgetInfo = new ForgetInfo();
+                }
+
+                if (DataCheckUtil.isRightEmail(gStr(R.id.forget_user))) {
+                    bRegByMail = true;
+                    forgetInfo.userEmail = gStr(R.id.forget_user);
+                } else if (DataCheckUtil.isRightPhone(gStr(R.id.forget_password))) {
+                    bRegByMail = false;
+                    forgetInfo.userPhone = gStr(R.id.forget_user);
+                }
+                forgetInfo.userPwd = gStr(R.id.forget_password);
+                forgetInfo.confirmPwd = gStr(R.id.forget_confirm_password);
+                forgetInfo.verifyCode = gStr(R.id.forget_verify_code);
+                return true;
+            }
+        }
+    }
+
+    private void onResetPassword() {
+        if (getFormatData()) {
+            hideInputPanel(null);
+            mTipDlg.setTitle(R.string.please_wait_communication);
+            mTipDlg.show();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    final int iRet;
+                    if (bRegByMail) {
+
+                    } else {
+
+                    }
+
+                    if (mTipDlg.isCanceled()) {
+                        return;
+                    }
+                }
+            }).start();
+        }
     }
 }

@@ -721,7 +721,14 @@
     <string name="forget_gain_verify_code_hint_text">获取校验码</string>
     <string name="forget_reset_password">重置密码</string>
     <string name="forget_invalid_user_name">无效的账号</string>
+    <string name="forget_invalid_user_password">无效的密码</string>
+    <string name="forget_invalid_user_confirm_password">两次输入密码不一致</string>
+    <string name="forget_invalid_verify_code">输入校验码错误</string>
     <string name="forget_network_err">请检查网络连接</string>
+    <string name="forget_user_null">用户名不能为空</string>
+    <string name="forget_password_null">密码不能为空</string>
+    <string name="forget_confirm_password_null">第二次确认密码不能为空</string>
+    <string name="forget_verify_code_null">校验码不能为空</string>
 
     <string name="main_device">设备</string>
     <string name="main_media">多媒体</string>
