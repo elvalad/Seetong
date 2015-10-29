@@ -395,6 +395,8 @@ public class PlayVideoFragment extends BaseFragment {
             return false;
         }
 
+        dev.m_device_play_count++;
+        //Log.e("msg", "device name is " + dev.getDeviceName() + " play count is " + dev.m_device_play_count);
         dev.m_audio = new AudioPlayer(currentIndex);
         dev.m_video = this.openglesRender;
         dev.m_video.mIsStopVideo = false;

@@ -2,6 +2,7 @@ package com.seetong5.app.seetong.ui;
 
 import android.os.*;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,11 +58,11 @@ public class DeviceListFragment extends BaseFragment {
     private void getData() {
         data.clear();
         LibImpl.putDeviceList(Global.getDeviceList());
-        //Log.d(TAG, "Device size is " + Global.getDeviceList().size());
         for (int i = 0; i < Global.getDeviceList().size(); i++) {
             HashMap<String, Object> map = new HashMap<>();
-            //Log.d(TAG, "Device is" + Global.getSelfDeviceList().get(i).toString());
-            map.put("device", Global.getSelfDeviceList().get(i));
+            map.put("device", Global.getSortedDeviceList().get(i));
+            //Log.e(TAG, "Device is " + Global.getSelfDeviceList().get(i).getDeviceName());
+            //map.put("device", Global.getSelfDeviceList().get(i));
             map.put("device_image", R.drawable.tps_list_nomsg);
             map.put("device_state", R.string.device_state_off);
             map.put("device_name", "Device " + i);
@@ -84,12 +85,15 @@ public class DeviceListFragment extends BaseFragment {
                 adapter.notifyDataSetChanged();
                 break;
             case SDK_CONSTANT.TPS_MSG_P2P_OFFLINE:
+                getData();
                 adapter.notifyDataSetChanged();
                 break;
             case SDK_CONSTANT.TPS_MSG_P2P_NVR_OFFLINE:
+                getData();
                 adapter.notifyDataSetChanged();
                 break;
             case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_OFFLINE:
+                getData();
                 adapter.notifyDataSetChanged();
                 break;
             case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_ONLINE:

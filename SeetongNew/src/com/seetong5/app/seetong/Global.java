@@ -110,6 +110,12 @@ public class Global {
         return lst;
     }
 
+    synchronized public static List<PlayerDevice> getSortedDeviceList() {
+        sortDeviceListByOnline(m_deviceList);
+        sortDeviceListByPlayCount(m_deviceList);
+        return m_deviceList;
+    }
+
     synchronized public static void clearDeviceList() {
         m_deviceList.clear();
     }
@@ -134,12 +140,33 @@ public class Global {
         class DeviceSortByOnline implements Comparator<PlayerDevice> {
             @Override
             public int compare(PlayerDevice dev1, PlayerDevice dev2) {
-                if (dev1.m_dev.getOnLine() != Device.OFFLINE) return 1;
-                return dev1.m_dev.getOnLine() == dev2.m_dev.getOnLine() ? 0 : -1;
+                if (dev1.m_dev.getOnLine() != Device.OFFLINE) return -1;
+                return dev1.m_dev.getOnLine() == dev2.m_dev.getOnLine() ? 0 : 1;
             }
         }
 
         Collections.sort(list, new DeviceSortByOnline());
+    }
+
+    synchronized public static void sortDeviceListByPlayCount(List<PlayerDevice> list) {
+        class DeviceSortByPlayCount implements Comparator<PlayerDevice> {
+            @Override
+            public int compare(PlayerDevice dev1, PlayerDevice dev2) {
+                if (dev1.m_dev.getOnLine() == Device.OFFLINE) return 1;
+                if (dev1.m_device_play_count >= dev2.m_device_play_count) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }
+        }
+
+        /* JDK7更新了Collections的sort算法，如果没有正常处理相等的情况可能会抛出异常
+        * 参考文档可参看链接:http://blog.2baxb.me/archives/993
+        * 这里设置使用老版本的排序算法规避。
+        * */
+        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
+        Collections.sort(list, new DeviceSortByPlayCount());
     }
 
     synchronized public static void sortChatMessageByTime(List<FriendMessageList.Message> list) {

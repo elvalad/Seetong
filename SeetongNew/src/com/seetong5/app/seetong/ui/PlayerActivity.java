@@ -129,6 +129,7 @@ public class PlayerActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+        MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, null);
         PlayerActivity.this.finish();
         /* TODO:在单路fragment和多路fragment之间切换时需要注意这里该如何处理 */
         if (currentFragmentName.equals("play_video_fragment")) {
@@ -227,6 +228,7 @@ public class PlayerActivity extends BaseActivity {
         playerBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, null);
                 PlayerActivity.this.finish();
                 /* TODO:在单路fragment和多路fragment之间切换时需要注意这里该如何处理 */
                 if (currentFragmentName.equals("play_video_fragment")) {

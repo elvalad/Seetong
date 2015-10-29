@@ -69,6 +69,8 @@ public class PlayerDevice implements Serializable{
     public int m_open_audio_stream_result;
     public int m_open_video_stream_result;
 
+    public int m_device_play_count;
+
     {
         m_port_id = -1;
         m_view_id = -1;
@@ -84,6 +86,8 @@ public class PlayerDevice implements Serializable{
         m_add_watch_result = -1;
         m_open_audio_stream_result = -1;
         m_open_video_stream_result = -1;
+
+        m_device_play_count = 0;
     }
 
     @Override
