@@ -30,6 +30,8 @@ public class Constant {
     public static final int ADD_DEVICE_REQ_ID = 1002;
     public static final int ADD_ONLINE_DEVICE_REQ_ID = 1003;
 
-
     public static final int CHAT_ADD_VIDEO_REQ_ID = 1100;
+
+    public static String REG_USER_KEY = "reg_user_key";
+    public static String REG_PASSWORD_KEY = "reg_password_key";
 }

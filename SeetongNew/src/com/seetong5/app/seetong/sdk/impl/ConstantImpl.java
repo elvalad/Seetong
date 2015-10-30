@@ -471,4 +471,11 @@ public class ConstantImpl extends SDK_CONSTANT {
                 return "";
         }
     }
+
+    public static String getForgetPasswordErrText(int err) {
+        switch (err) {
+            default:
+                return "";
+        }
+    }
 }

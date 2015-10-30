@@ -131,7 +131,15 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-        loadData();
+        Intent intent = getIntent();
+        String userName = intent.getStringExtra(Constant.REG_USER_KEY);
+        String userPassword = intent.getStringExtra(Constant.REG_PASSWORD_KEY);
+        if ((userName != null) && (userPassword != null)) {
+            sStr(R.id.login_account, userName);
+            sStr(R.id.login_password, userPassword);
+        } else {
+            loadData();
+        }
         LibImpl.getInstance().addHandler(m_handler);
         Global.m_loginType = Define.LOGIN_TYPE_USER;
         if (!"".equals(gStr(R.id.login_account)) && !"".equals(gStr(R.id.login_password))) {

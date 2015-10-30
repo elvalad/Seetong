@@ -135,8 +135,11 @@ public class RegisterActivity extends BaseActivity {
                         @Override
                         public void run() {
                             mTipDlg.dismiss();
+
                             if (iRet == SDK_CONSTANT.reg_error_null) {
                                 Intent it = new Intent(RegisterActivity.this, LoginActivity.class);
+                                it.putExtra(Constant.REG_USER_KEY, gStr(R.id.register_user));
+                                it.putExtra(Constant.REG_PASSWORD_KEY, gStr(R.id.register_password));
                                 startActivity(it);
                                 RegisterActivity.this.finish();
                             } else {
