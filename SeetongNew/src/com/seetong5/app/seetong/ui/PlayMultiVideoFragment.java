@@ -286,16 +286,30 @@ public class PlayMultiVideoFragment extends BaseFragment {
         List<PlayerDevice> currentList = new LinkedList<>();
         list.addAll(Global.getSelfDeviceList());
 
-        for (int i = 0; i < list.size(); i++) {
-            if (device.equals(list.get(i))) {
-                for (int j = 0; j < MAX_WINDOW; j++) {
-                    if ((i + j) < list.size()) {
-                        currentList.add(j, list.get(i + j));
+        if (list.size() < MAX_WINDOW) {
+            for (int i = 0; i < MAX_WINDOW; i++) {
+                if (i < list.size()) {
+                    currentList.add(i, list.get(i));
+                } else {
+                    if ((i - list.size()) < list.size()) {
+                        currentList.add(i, list.get(i - list.size()));
                     } else {
-                        currentList.add(j, list.get(i + j - list.size()));
+                        currentList.add(i, list.get(0));
                     }
                 }
-                break;
+            }
+        } else {
+            for (int i = 0; i < list.size(); i++) {
+                if (device.equals(list.get(i))) {
+                    for (int j = 0; j < MAX_WINDOW; j++) {
+                        if ((i + j) < list.size()) {
+                            currentList.add(j, list.get(i + j));
+                        } else {
+                            currentList.add(j, list.get(i + j - list.size()));
+                        }
+                    }
+                    break;
+                }
             }
         }
         return currentList;
@@ -627,12 +641,20 @@ public class PlayMultiVideoFragment extends BaseFragment {
         List<PlayerDevice> list = new LinkedList<>();
         list.addAll(Global.getSelfDeviceList());
 
-        for (int i = 0; i < list.size(); i++) {
-            if (device.equals(list.get(i))) {
-                if (i - index >= 0) {
-                    return list.get(i - index);
-                } else {
-                    return list.get(i + list.size() - index);
+        if (list.size() < MAX_WINDOW) {
+            for (int i= 0; i < list.size(); i++) {
+                if (device.equals(list.get(i))) {
+                    return list.get(i);
+                }
+            }
+        } else {
+            for (int i = 0; i < list.size(); i++) {
+                if (device.equals(list.get(i))) {
+                    if (i - index >= 0) {
+                        return list.get(i - index);
+                    } else {
+                        return list.get(i + list.size() - index);
+                    }
                 }
             }
         }
@@ -642,6 +664,13 @@ public class PlayMultiVideoFragment extends BaseFragment {
     }
 
     private void showPreviousDeviceListVideo(PlayerDevice device) {
+        List<PlayerDevice> list = new LinkedList<>();
+        list.addAll(Global.getSelfDeviceList());
+
+        if (list.size() < MAX_WINDOW) {
+            return;
+        }
+
         /* »Ö¸´PlayerActivityµÄbutton×´Ì¬ */
         PlayerActivity.m_this.resetWidget();
 
@@ -659,9 +688,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
             this.deviceList.get(i).m_video.mIsStopVideo = true;
             this.deviceList.get(i).m_video = null;
         }
-
-        List<PlayerDevice> list = new LinkedList<>();
-        list.addAll(Global.getSelfDeviceList());
 
         for (int i = 0; i < list.size(); i++) {
             if (device.equals(list.get(i))) {
@@ -691,6 +717,13 @@ public class PlayMultiVideoFragment extends BaseFragment {
     }
 
     private void showNextDeviceListVideo(PlayerDevice device) {
+        List<PlayerDevice> list = new LinkedList<>();
+        list.addAll(Global.getSelfDeviceList());
+
+        if (list.size() < MAX_WINDOW) {
+            return;
+        }
+
         /* »Ö¸´PlayerActivityµÄbutton×´Ì¬ */
         PlayerActivity.m_this.resetWidget();
 
@@ -708,9 +741,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
             this.deviceList.get(i).m_video.mIsStopVideo = true;
             this.deviceList.get(i).m_video = null;
         }
-
-        List<PlayerDevice> list = new LinkedList<>();
-        list.addAll(Global.getSelfDeviceList());
 
         for (int i = list.size() - 1; i >= 0; i--) {
             if (device.equals(list.get(i))) {
