@@ -72,6 +72,15 @@
                 android:textSize="12sp"
                 android:inputType="textPassword"
                 android:textColorHint="#dddddd"/>
+
+        <ImageButton
+                android:id="@+id/login_hide_password"
+                android:layout_marginLeft="290dp"
+                android:src="@drawable/tps_hide_password_02"
+                android:background="#00000000"
+                android:scaleType="fitXY"
+                android:layout_width="20dp"
+                android:layout_height="15dp"/>
     </RelativeLayout>
 
     <ImageView

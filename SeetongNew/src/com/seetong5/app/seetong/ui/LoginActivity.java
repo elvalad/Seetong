@@ -6,6 +6,7 @@ package com.seetong5.app.seetong.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -15,6 +16,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 
 import android.widget.EditText;
+import android.widget.ImageButton;
 import com.custom.etc.EtcInfo;
 import com.seetong5.app.seetong.Global;
 import com.seetong5.app.seetong.R;
@@ -47,6 +49,7 @@ public class LoginActivity extends BaseActivity {
     private RegexpEditText m_txt_dev_id;
     private RegexpEditText m_txt_dev_user;
     private RegexpEditText m_txt_dev_pwd;
+    private static boolean bHidePassword;
 
     private DeviceInfo mDevInfo = new DeviceInfo();
 
@@ -56,6 +59,7 @@ public class LoginActivity extends BaseActivity {
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
         LibImpl.getInstance().init();
+        bHidePassword = true;
         initWidget();
     }
 
@@ -87,8 +91,24 @@ public class LoginActivity extends BaseActivity {
         m_txt_pwd = (RegexpEditText) findViewById(R.id.login_password);
         m_txt_pwd.setRequired(true);
 
-        EditText passwordText = (EditText) findViewById(R.id.login_password);
+        final EditText passwordText = (EditText) findViewById(R.id.login_password);
         passwordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+        final ImageButton hidePasswordButton = (ImageButton) findViewById(R.id.login_hide_password);
+        hidePasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (bHidePassword) {
+                    hidePasswordButton.setImageResource(R.drawable.tps_hide_password_01);
+                    passwordText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    bHidePassword = false;
+                } else {
+                    hidePasswordButton.setImageResource(R.drawable.tps_hide_password_02);
+                    passwordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    bHidePassword = true;
+                }
+            }
+        });
 
         Button loginButton = (Button) findViewById(R.id.login_login);
         loginButton.setOnClickListener(new View.OnClickListener() {
