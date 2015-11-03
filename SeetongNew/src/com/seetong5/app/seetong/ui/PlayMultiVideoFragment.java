@@ -616,8 +616,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             layout = layoutMap.get(i);
             view = layout.findViewById(R.id.liveVideoView);
             view.setBackgroundColor(Color.BLACK);
-            view = layout.findViewById(R.id.tvLiveInfo);
-            view.setVisibility(View.GONE);
+            setVideoInfo(i, T(R.string.tv_video_stop_tip));
             this.deviceList.get(i).m_video.mIsStopVideo = true;
             layout.invalidate();
         }

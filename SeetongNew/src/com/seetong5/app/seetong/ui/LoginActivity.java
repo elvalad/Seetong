@@ -114,7 +114,7 @@ public class LoginActivity extends BaseActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /* TODO:调试时使用默认的账号登录 */
+                /* 调试时使用默认的账号登录 */
                 Global.m_loginType = Define.LOGIN_TYPE_USER;
                 //Global.m_loginType = Define.LOGIN_TYPE_DEMO;
                 onBtnLogin();

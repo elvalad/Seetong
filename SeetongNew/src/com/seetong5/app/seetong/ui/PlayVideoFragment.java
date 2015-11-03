@@ -581,8 +581,7 @@ public class PlayVideoFragment extends BaseFragment {
         LibImpl.stopPlay(0, playerDevice);
         View view = mainLayout.findViewById(R.id.liveVideoView);
         view.setBackgroundColor(Color.BLACK);
-        view = mainLayout.findViewById(R.id.tvLiveInfo);
-        view.setVisibility(View.GONE);
+        setVideoInfo(0, T(R.string.tv_video_stop_tip));
         playerDevice.m_video.mIsStopVideo = true;
         mainLayout.invalidate();
     }
