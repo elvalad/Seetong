@@ -55,7 +55,7 @@ public class MainActivity2 extends BaseActivity {
         Log.i(MainActivity2.class.getName(), "onCreate...");
         m_this = this;
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         mTipDlg = new ProgressDialog(this, R.string.dlg_login_recv_list_tip);
         mTipDlg.setCancelable(false);

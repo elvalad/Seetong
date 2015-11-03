@@ -23,6 +23,12 @@
             android:layout_centerVertical="true"/>
     </RelativeLayout>
 
+    <RelativeLayout
+            android:background="@drawable/tps_tabbar"
+            android:layout_width="match_parent"
+            android:layout_height="20dp">
+    </RelativeLayout>
+
     <FrameLayout
         android:id="@+id/player_fragment_container"
         android:background="@color/black"

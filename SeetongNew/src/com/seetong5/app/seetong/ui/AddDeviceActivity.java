@@ -47,7 +47,7 @@ public class AddDeviceActivity extends BaseActivity {
         Log.i(AddDeviceActivity.class.getName(), "onCreate...");
         super.onCreate(savedInstanceState);
         mhHandler = new MyHandler(this);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_add_device);
         initWidget();
     }

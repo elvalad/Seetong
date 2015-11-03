@@ -145,7 +145,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         @Override
         public boolean onDoubleTap(MotionEvent e) {
             setCurrentWindow(e);
-            stopCurrentPlayList();
+            //stopCurrentPlayList();
             PlayerActivity.m_this.setCurrentFragment("play_video_fragment");
             PlayerActivity.m_this.playSignalVideo(getChoosenDevice(), currentIndex);
 
@@ -278,7 +278,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             row.setOrientation(LinearLayout.HORIZONTAL);
         }
 
-        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_next_video);
+        //animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_next_video);
     }
 
     private List<PlayerDevice> getDeviceList(PlayerDevice device) {
@@ -569,24 +569,27 @@ public class PlayMultiVideoFragment extends BaseFragment {
             //Log.d(TAG, "====>device list is" + devList.toString() + " i is " + i + " device is " + devList.get(i).getDeviceName());
             devList.get(i).m_video.mIsStopVideo = false;
 
-            int ret = LibImpl.startPlay(i, devList.get(i), devList.get(i).m_stream_type, devList.get(i).m_frame_type);
-            if (ret == 0) {
-                devList.get(i).m_online = true;
-                devList.get(i).m_playing = false;
-                setVideoInfo(i, T(R.string.tv_video_req_tip));
-            } else {
-                String selfID = "";
-                if (LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(devList.get(i).m_dev.getDevId())) != null) {
-                    selfID = LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(devList.get(i).m_dev.getDevId())).getNotifyStr();
+            if (!devList.get(i).m_play) {
+                int ret = LibImpl.startPlay(i, devList.get(i), devList.get(i).m_stream_type, devList.get(i).m_frame_type);
+                if (ret == 0) {
+                    devList.get(i).m_online = true;
+                    devList.get(i).m_playing = false;
+                    setVideoInfo(i, T(R.string.tv_video_req_tip));
+                } else {
+                    String selfID = "";
+                    if (LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(devList.get(i).m_dev.getDevId())) != null) {
+                        selfID = LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(devList.get(i).m_dev.getDevId())).getNotifyStr();
+                    }
+
+                    Log.i("DeviceNotifyInfo", "DeviceNotifyInfo ary:" + LibImpl.mDeviceNotifyInfo + ".");
+                    selfID = (isNullStr(selfID)) ? "" : ("(" + selfID + ")");
+                    setVideoInfo(i, ConstantImpl.getTPSErrText(ret, false) + selfID);
+                    toast(ConstantImpl.getTPSErrText(ret, false) + selfID);
+                    continue;
                 }
-
-                Log.i("DeviceNotifyInfo", "DeviceNotifyInfo ary:" + LibImpl.mDeviceNotifyInfo + ".");
-                selfID = (isNullStr(selfID)) ? "" : ("(" + selfID + ")");
-                setVideoInfo(i, ConstantImpl.getTPSErrText(ret, false) + selfID);
-                toast(ConstantImpl.getTPSErrText(ret, false) + selfID);
-                continue;
+            } else {
+                setVideoInfo(i, "");
             }
-
             devList.get(i).m_play = true;
             devList.get(i).m_view_id = i;
 

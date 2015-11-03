@@ -62,7 +62,7 @@ public class PlayerActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         m_this = this;
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_player);
         deviceId = getIntent().getStringExtra("device_id");
         Log.d(TAG, "the device id is " + deviceId);
@@ -188,7 +188,7 @@ public class PlayerActivity extends BaseActivity {
     private void setFullScreen(boolean bFullScreen) {
         LinearLayout.LayoutParams params;
         int show = bFullScreen ? View.GONE : View.VISIBLE;
-        findViewById(R.id.player_title).setVisibility(show);
+        //findViewById(R.id.player_title).setVisibility(show);
         findViewById(R.id.player_blank).setFadingEdgeLength(show);
         findViewById(R.id.player_operation_button).setVisibility(show);
         findViewById(R.id.player_split_line).setVisibility(show);
@@ -224,6 +224,7 @@ public class PlayerActivity extends BaseActivity {
     }
 
     private void initWidget() {
+        findViewById(R.id.player_title).setVisibility(View.GONE);
         playerBackButton = (ImageButton) findViewById(R.id.player_back);
         playerBackButton.setOnClickListener(new View.OnClickListener() {
             @Override

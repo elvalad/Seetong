@@ -440,7 +440,7 @@ public class PlayerSettingActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_player_setting);
         deviceId = getIntent().getStringExtra("device_setting_id");
         playerDevice = Global.getDeviceById(deviceId);

@@ -131,7 +131,7 @@ public class PlayVideoFragment extends BaseFragment {
         @Override
         public boolean onDoubleTap(MotionEvent e) {
             //toast("play multi video");
-            stopCurrentPlay();
+            //stopCurrentPlay();
             PlayerActivity.m_this.setCurrentFragment("play_multi_video_fragment");
             PlayerActivity.m_this.playMultiVideo(playerDevice, currentIndex);
             return true;
@@ -534,23 +534,27 @@ public class PlayVideoFragment extends BaseFragment {
         dev.m_audio = new AudioPlayer(currentIndex);
         dev.m_video = this.openglesRender;
         dev.m_video.mIsStopVideo = false;
-        int ret = LibImpl.startPlay(0, dev, dev.m_stream_type, dev.m_frame_type);
 
-        if (ret == 0) {
-            dev.m_online = true;
-            dev.m_playing = false;
-            setVideoInfo(0, T(R.string.tv_video_req_tip));
-        } else {
-            String selfID = "";
-            if (LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(dev.m_dev.getDevId())) != null) {
-                selfID = LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(dev.m_dev.getDevId())).getNotifyStr();
+        if (!dev.m_play) {
+            int ret = LibImpl.startPlay(0, dev, dev.m_stream_type, dev.m_frame_type);
+            if (ret == 0) {
+                dev.m_online = true;
+                dev.m_playing = false;
+                setVideoInfo(0, T(R.string.tv_video_req_tip));
+            } else {
+                String selfID = "";
+                if (LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(dev.m_dev.getDevId())) != null) {
+                    selfID = LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(dev.m_dev.getDevId())).getNotifyStr();
+                }
+
+                Log.i("DeviceNotifyInfo", "DeviceNotifyInfo ary:" + LibImpl.mDeviceNotifyInfo + ".");
+                selfID = (isNullStr(selfID)) ? "" : ("(" + selfID + ")");
+                setVideoInfo(0, ConstantImpl.getTPSErrText(ret, false) + selfID);
+                toast(ConstantImpl.getTPSErrText(ret, false) + selfID);
+                return false;
             }
-
-            Log.i("DeviceNotifyInfo", "DeviceNotifyInfo ary:" + LibImpl.mDeviceNotifyInfo + ".");
-            selfID = (isNullStr(selfID)) ? "" : ("(" + selfID + ")");
-            setVideoInfo(0, ConstantImpl.getTPSErrText(ret, false) + selfID);
-            toast(ConstantImpl.getTPSErrText(ret, false) + selfID);
-            return false;
+        } else {
+            setVideoInfo(0, "");
         }
 
         dev.m_play = true;
