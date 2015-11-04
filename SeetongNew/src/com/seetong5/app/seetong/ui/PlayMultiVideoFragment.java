@@ -319,6 +319,25 @@ public class PlayMultiVideoFragment extends BaseFragment {
         startPlay(deviceList);
     }
 
+    public void startChoosenPlay(PlayerDevice dev) {
+        stopCurrentPlay();
+        modifyDeviceList(dev);
+        startPlayList();
+    }
+
+    private void modifyDeviceList(PlayerDevice dev) {
+        deviceList.set(currentIndex, dev);
+    }
+
+    private void stopCurrentPlay() {
+        PlayerActivity.m_this.resetWidget();
+        stopVideoRecord();
+        stopVideoSound();
+        LibImpl.stopPlay(currentIndex, chosenPlayerDevice);
+        chosenPlayerDevice.m_video.mIsStopVideo = true;
+        chosenPlayerDevice.m_video = null;
+    }
+
     public void autoCyclePlay() {
         showNextDeviceListVideo(this.playerDevice);
     }

@@ -311,6 +311,12 @@ public class PlayVideoFragment extends BaseFragment {
         mainLayout.findViewById(R.id.tvLiveInfo).setVisibility(View.VISIBLE);
     }
 
+    public void startChoosenPlay(PlayerDevice dev) {
+        stopCurrentPlay();
+        playerDevice = dev;
+        startPlay(dev);
+    }
+
     public void autoCyclePlay() {
         showNextDeviceVideo(this.playerDevice);
     }
@@ -592,6 +598,9 @@ public class PlayVideoFragment extends BaseFragment {
         stopVideoRecord();
         stopVideoSound();
         LibImpl.stopPlay(0, playerDevice);
+        mainLayout.findViewById(R.id.liveVideoView).setVisibility(View.GONE);
+        playerDevice.m_video.mIsStopVideo = true;
+        playerDevice.m_video = null;
     }
 
     public PlayerDevice getCurrentDevice() {

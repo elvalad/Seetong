@@ -39,7 +39,7 @@
     <ImageView
         android:id="@+id/player_blank"
         android:layout_width="match_parent"
-        android:layout_height="25dp"/>
+        android:layout_height="10dp"/>
 
     <LinearLayout
         android:id="@+id/player_operation_button"
@@ -119,7 +119,7 @@
     <LinearLayout
         android:id="@+id/player_main_button"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="195dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -173,6 +173,29 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="10dp" />
-
     </LinearLayout>
+
+    <SlidingDrawer
+            android:id="@+id/player_sliding_drawer"
+            android:background="@drawable/tps_sliding_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:handle="@+id/player_handle"
+            android:content="@+id/player_content">
+
+        <ImageView
+                android:id="@+id/player_handle"
+                android:src="@drawable/up"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:scaleType="fitCenter"/>
+
+        <ListView
+                android:id="@+id/player_content"
+                android:background="@drawable/tps_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+        </ListView>
+    </SlidingDrawer>
+
 </LinearLayout>

@@ -11,16 +11,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.widget.*;
 import com.seetong5.app.seetong.Global;
 import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
 import com.seetong5.app.seetong.sdk.impl.LibImpl;
 import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * PlayerActivity 是播放设备录像的 Activity，它在 DeviceFragment 包含设备信息时，点击会进入.
@@ -56,6 +60,11 @@ public class PlayerActivity extends BaseActivity {
     private Button playerRecordButton;
     private Button playerSpeakButton;
     private Button playerCaptureButton;
+    private SlidingDrawer slidingDrawer;
+    private ImageView slidingHandle;
+    private ListView playerDeviceListView;
+    private PlayerDeviceListAdapter adapter;
+    private List<Map<String, Object>> data = new ArrayList<>();
     private LinearLayout.LayoutParams initParams;
 
     @Override
@@ -506,6 +515,33 @@ public class PlayerActivity extends BaseActivity {
                 return false;
             }
         });
+
+        final LinearLayout playerMainButtonLayout = (LinearLayout) findViewById(R.id.player_main_button);
+        final Animation operatingAnim = AnimationUtils.loadAnimation(this, R.anim.anim_rotate_player_device_list);
+        LinearInterpolator lin = new LinearInterpolator();
+        operatingAnim.setInterpolator(lin);
+        slidingDrawer = (SlidingDrawer) findViewById(R.id.player_sliding_drawer);
+        slidingHandle = (ImageView) findViewById(R.id.player_handle);
+        slidingDrawer.setOnDrawerOpenListener(new SlidingDrawer.OnDrawerOpenListener() {
+            @Override
+            public void onDrawerOpened() {
+                //slidingHandle.startAnimation(operatingAnim);
+                slidingHandle.setImageResource(R.drawable.down);
+                playerMainButtonLayout.setVisibility(View.GONE);
+            }
+        });
+        slidingDrawer.setOnDrawerCloseListener(new SlidingDrawer.OnDrawerCloseListener() {
+            @Override
+            public void onDrawerClosed() {
+                slidingHandle.setImageResource(R.drawable.up);
+                playerMainButtonLayout.setVisibility(View.VISIBLE);
+            }
+        });
+
+        playerDeviceListView = (ListView) findViewById(R.id.player_content);
+        getData();
+        adapter = new PlayerDeviceListAdapter(this, data);
+        playerDeviceListView.setAdapter(adapter);
     }
 
     final Handler handler = new Handler();
@@ -706,6 +742,14 @@ public class PlayerActivity extends BaseActivity {
                 .commit();
     }
 
+    public void startChoosenPlay(PlayerDevice choosenDevice) {
+        if (currentFragmentName.equals("play_video_fragment")) {
+            this.playVideoFragment.startChoosenPlay(choosenDevice);
+        } else if (currentFragmentName.equals("play_multi_video_fragment")) {
+            this.multiVideoFragment.startChoosenPlay(choosenDevice);
+        }
+    }
+
     public int[] getFragmentLocation() {
         View view = findViewById(R.id.player_fragment_container);
         int[] viewLocation = new int[4];
@@ -739,6 +783,16 @@ public class PlayerActivity extends BaseActivity {
             playVideoFragment.handleMessage(msg);
         } else if (this.currentFragmentName.equals("play_multi_video_fragment")) {
             multiVideoFragment.handleMessage(msg);
+        }
+    }
+
+    private void getData() {
+        data.clear();
+        LibImpl.putDeviceList(Global.getDeviceList());
+        for (int i = 0; i < Global.getDeviceList().size(); i++) {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("device", Global.getSelfDeviceList().get(i));
+            data.add(map);
         }
     }
 }
