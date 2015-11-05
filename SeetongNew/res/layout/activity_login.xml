@@ -39,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/login_account_hint_text"
                 android:textSize="12sp"
+                android:inputType="textEmailAddress"
                 android:textColorHint="#dddddd" />
     </RelativeLayout>
 

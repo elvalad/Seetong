@@ -1,10 +1,13 @@
 package com.seetong5.app.seetong.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import com.android.utils.NetworkUtils;
 import com.seetong5.app.seetong.R;
@@ -23,6 +26,7 @@ public class ForgetPasswordActivity extends BaseActivity {
 
     private static class ForgetInfo implements Serializable {
         private static final long serialVersionUID = 1L;
+        public String userName;
         public String userEmail;
         public String userPhone;
         public String userPwd;
@@ -31,7 +35,8 @@ public class ForgetPasswordActivity extends BaseActivity {
 
         public ForgetInfo() {}
 
-        public ForgetInfo(String userEmail, String userPhone, String userPwd, String confirmPwd, String verifyCode) {
+        public ForgetInfo(String userName, String userEmail, String userPhone, String userPwd, String confirmPwd, String verifyCode) {
+            this.userName = userName;
             this.userEmail = userEmail;
             this.userPhone = userPhone;
             this.userPwd = userPwd;
@@ -110,12 +115,29 @@ public class ForgetPasswordActivity extends BaseActivity {
     }
 
     private void onGetVerifyCode() {
+        if (isNullStr(gStr(R.id.forget_user))) {
+            toast(R.string.forget_user_null);
+            return;
+        }
+
         if (!DataCheckUtil.isRightEmail(gStr(R.id.forget_user)) &&
                 !DataCheckUtil.isRightPhone(gStr(R.id.forget_user))) {
-            toast(R.string.forget_invalid_user_name);
-        } else {
-            getVerifyCode();
+            //toast(R.string.forget_input_phone_mail);
+            EditText phoneMailText = (EditText) findViewById(R.id.forget_phone_mail);
+            phoneMailText.setVisibility(View.VISIBLE);
+            if (isNullStr(gStr(R.id.forget_phone_mail))) {
+                toast(R.string.forget_input_phone_mail);
+                return;
+            }
+
+            if (!DataCheckUtil.isRightEmail(gStr(R.id.forget_phone_mail)) &&
+                    !DataCheckUtil.isRightPhone(gStr(R.id.forget_phone_mail))) {
+                toast(R.string.forget_input_correct_phone_mail);
+                return;
+            }
         }
+
+        getVerifyCode();
     }
 
     private boolean getVerifyCode() {
@@ -123,23 +145,19 @@ public class ForgetPasswordActivity extends BaseActivity {
             toast(R.string.dlg_network_check_tip);
             return false;
         } else {
-            /*int bRet = LibImpl.getInstance().getFuncLib().GetRegNumber(gStr(R.id.register_user), "zh-cn");
-            if (bRet != 0) {
-                toast(ConstantImpl.getRegNumberErrText(bRet));
-                return false;
-            }*/
-
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                     /* TODO:后续需要区分中文和英文的反馈信息 */
-                    int bRet = LibImpl.getInstance().getFuncLib().GetRegNumber(gStr(R.id.forget_user), "zh-cn");
-                    if (bRet != 0) {
-                        if (bRet == SDK_CONSTANT.get_reg_number_error_other) {
-                            toast(R.string.forget_network_err);
-                        } else {
-                            toast(ConstantImpl.getRegNumberErrText(bRet));
-                        }
+                    final int iRet;
+                    if (DataCheckUtil.isRightEmail(gStr(R.id.forget_user)) ||
+                            DataCheckUtil.isRightPhone(gStr(R.id.forget_user))) {
+                        iRet = LibImpl.getInstance().getFuncLib().GetResetRegNumber(gStr(R.id.forget_user), gStr(R.id.forget_user), "zh-cn");
+                    } else {
+                        iRet = LibImpl.getInstance().getFuncLib().GetResetRegNumber(gStr(R.id.forget_phone_mail), gStr(R.id.forget_user), "zh-cn");
+                    }
+
+                    if (iRet != 0) {
+                        toast(ConstantImpl.getRegNumberErrText(iRet));
                     } else {
                         runOnUiThread(new Runnable() {
                             @Override
@@ -173,6 +191,11 @@ public class ForgetPasswordActivity extends BaseActivity {
             return false;
         }
 
+        if (gStr(R.id.forget_password).length() > 30) {
+            toast(R.string.forget_password_too_long);
+            return false;
+        }
+
         if (isNullStr(gStr(R.id.forget_confirm_password))) {
             toast(R.string.forget_confirm_password_null);
             return false;
@@ -183,8 +206,8 @@ public class ForgetPasswordActivity extends BaseActivity {
             return false;
         }
 
-        if (!DataCheckUtil.isRightEmail(gStr(R.id.forget_user)) &&
-                !DataCheckUtil.isRightPhone(gStr(R.id.forget_user))) {
+        if (!DataCheckUtil.isRightEmail(gStr(R.id.forget_phone_mail)) &&
+                !DataCheckUtil.isRightPhone(gStr(R.id.forget_phone_mail))) {
             toast(R.string.forget_invalid_user_name);
             return false;
         } else if (!DataCheckUtil.isRightUserPwd(gStr(R.id.forget_password))) {
@@ -199,12 +222,21 @@ public class ForgetPasswordActivity extends BaseActivity {
                     forgetInfo = new ForgetInfo();
                 }
 
+                forgetInfo.userName = gStr(R.id.forget_user);
                 if (DataCheckUtil.isRightEmail(gStr(R.id.forget_user))) {
                     bRegByMail = true;
                     forgetInfo.userEmail = gStr(R.id.forget_user);
                 } else if (DataCheckUtil.isRightPhone(gStr(R.id.forget_password))) {
                     bRegByMail = false;
                     forgetInfo.userPhone = gStr(R.id.forget_user);
+                } else {
+                    if (DataCheckUtil.isRightEmail(gStr(R.id.forget_phone_mail))) {
+                        bRegByMail = true;
+                        forgetInfo.userEmail = gStr(R.id.forget_phone_mail);
+                    } else if (DataCheckUtil.isRightPhone(gStr(R.id.forget_phone_mail))) {
+                        bRegByMail = false;
+                        forgetInfo.userPhone = gStr(R.id.forget_phone_mail);
+                    }
                 }
                 forgetInfo.userPwd = gStr(R.id.forget_password);
                 forgetInfo.confirmPwd = gStr(R.id.forget_confirm_password);
@@ -224,14 +256,31 @@ public class ForgetPasswordActivity extends BaseActivity {
                 public void run() {
                     final int iRet;
                     if (bRegByMail) {
-
+                        Log.e(">>>>", "mail " + forgetInfo.userEmail + " name " + forgetInfo.userName + " pwd " + forgetInfo.userPwd + " code " + forgetInfo.verifyCode);
+                        iRet = LibImpl.getInstance().getFuncLib().ResetUserPassword(forgetInfo.userEmail, forgetInfo.userName, forgetInfo.userPwd, forgetInfo.verifyCode, "zh-cn");
                     } else {
-
+                        iRet = LibImpl.getInstance().getFuncLib().ResetUserPassword(forgetInfo.userPhone, forgetInfo.userName, forgetInfo.userPwd, forgetInfo.verifyCode, "zh-cn");
                     }
 
                     if (mTipDlg.isCanceled()) {
                         return;
                     }
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mTipDlg.dismiss();
+
+                            if (iRet == SDK_CONSTANT.reg_error_null) {
+                                Intent it = new Intent(ForgetPasswordActivity.this, LoginActivity.class);
+                                startActivity(it);
+                                ForgetPasswordActivity.this.finish();
+                            } else {
+                                toast(ConstantImpl.getForgetPasswordErrText(iRet));
+                            }
+                        }
+                    });
+
                 }
             }).start();
         }

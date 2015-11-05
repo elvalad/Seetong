@@ -690,7 +690,12 @@
     <string name="get_reg_number_error_sendmsg">Failed to send text messages</string>
     <string name="get_reg_number_error_phonemail_used">User name has used</string>
     <string name="get_reg_number_error_other">other error</string>
-    
+
+    <string name="reset_psw_error_user_empty">User name is empty</string>
+    <string name="reset_psw_error_code_valid">Verify code is invalid</string>
+    <string name="reset_psw_error_code">Verify code is not correct</string>
+    <string name="reset_psw_error_user">User name is not correct</string>
+
     <string name="prompt_modify_default_password">Click on to modify the device default password</string>
     <string name="prompt_delete_confirm">Sure you want to delete?</string>
 
@@ -719,11 +724,12 @@
     <string name="register_user_null">用户名不能为空</string>
     <string name="register_password_null">密码不能为空</string>
     <string name="register_confirm_password_null">第二次确认密码不能为空</string>
+    <string name="register_password_too_long">密码长度超过限制</string>
     <string name="register_verify_code_null">校验码不能为空</string>
     <string name="register_network_err">请检查网络连接</string>
 
     <string name="forget_password">忘记密码</string>
-    <string name="forget_account_hint_text">请输入您的手机或邮箱</string>
+    <string name="forget_account_hint_text">请输入您的账号</string>
     <string name="forget_password_hint_text">请输入新的密码</string>
     <string name="forget_password_verify_hint_text">请确认密码</string>
     <string name="forget_verify_code_hint_text">请确认校验码</string>
@@ -737,7 +743,11 @@
     <string name="forget_user_null">用户名不能为空</string>
     <string name="forget_password_null">密码不能为空</string>
     <string name="forget_confirm_password_null">第二次确认密码不能为空</string>
+    <string name="forget_password_too_long">密码长度超过限制</string>
     <string name="forget_verify_code_null">校验码不能为空</string>
+    <string name="forget_input_phone_mail">请输入手机或邮箱</string>
+    <string name="forget_phone_mail_hint_text">请输入手机或邮箱</string>
+    <string name="forget_input_correct_phone_mail">请输入正确的手机号或邮箱</string>
 
     <string name="main_device">设备</string>
     <string name="main_media">多媒体</string>

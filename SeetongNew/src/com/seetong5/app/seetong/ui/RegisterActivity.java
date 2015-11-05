@@ -189,6 +189,11 @@ public class RegisterActivity extends BaseActivity {
             return false;
         }
 
+        if (gStr(R.id.register_password).length() > 30) {
+            toast(R.string.register_password_too_long);
+            return false;
+        }
+
         if (isNullStr(gStr(R.id.register_confirm_password))) {
             toast(R.string.register_confirm_password_null);
             return false;
