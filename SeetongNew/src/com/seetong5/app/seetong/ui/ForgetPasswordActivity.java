@@ -256,7 +256,6 @@ public class ForgetPasswordActivity extends BaseActivity {
                 public void run() {
                     final int iRet;
                     if (bRegByMail) {
-                        Log.e(">>>>", "mail " + forgetInfo.userEmail + " name " + forgetInfo.userName + " pwd " + forgetInfo.userPwd + " code " + forgetInfo.verifyCode);
                         iRet = LibImpl.getInstance().getFuncLib().ResetUserPassword(forgetInfo.userEmail, forgetInfo.userName, forgetInfo.userPwd, forgetInfo.verifyCode, "zh-cn");
                     } else {
                         iRet = LibImpl.getInstance().getFuncLib().ResetUserPassword(forgetInfo.userPhone, forgetInfo.userName, forgetInfo.userPwd, forgetInfo.verifyCode, "zh-cn");

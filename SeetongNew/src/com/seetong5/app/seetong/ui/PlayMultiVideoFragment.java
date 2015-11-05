@@ -321,6 +321,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
     public void startChoosenPlay(PlayerDevice dev) {
         stopCurrentPlay();
+        chosenPlayerDevice = dev;
         modifyDeviceList(dev);
         startPlayList();
     }
