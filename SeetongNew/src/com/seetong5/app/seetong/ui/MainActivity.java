@@ -479,7 +479,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
                 d.m_devId = dev.getDevId();
                 d.m_dev = dev;
-                d.m_capacity_set = LibImpl.getInstance().getCapacitySet(d.m_devId);
+                d.m_capacity_set = LibImpl.getInstance().getCapacitySet(d);
                 DeviceSetting ds = DeviceSetting.findByDeviceId(d.m_devId);
                 if (null != ds) {
                     d.m_force_forward = ds.is_force_forward();
@@ -493,7 +493,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
             Device dev = lst.get(0);
             Log.i(TAG, "doMsgRspCB:get device is success..." + dev.toString());
             //sendMyToast(R.string.dlg_get_list_success_tip);
-            LibImpl.getInstance().generateSnaphost(lst);
+            LibImpl.getInstance().generateSnaphost(Global.getDeviceList());
             LibImpl.getInstance().initAutoRecvAlarm();
         } else {
             Log.e(TAG, "Get device data is error...");

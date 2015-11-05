@@ -265,7 +265,7 @@ public class MainActivity2 extends BaseActivity {
 
                 d.m_devId = dev.getDevId();
                 d.m_dev = dev;
-                d.m_capacity_set = LibImpl.getInstance().getCapacitySet(d.m_devId);
+                d.m_capacity_set = LibImpl.getInstance().getCapacitySet(d);
                 d.m_net_type = LibImpl.getInstance().getDeviceNetType(d);
                 DeviceSetting ds = DeviceSetting.findByDeviceId(d.m_devId);
                 if (null != ds) {
@@ -280,7 +280,7 @@ public class MainActivity2 extends BaseActivity {
             Device dev = lst.get(0);
             Log.i(TAG, "doMsgRspCB:get device is success..." + dev.toString());
             //sendMyToast(R.string.dlg_get_list_success_tip);
-            LibImpl.getInstance().generateSnaphost(lst);
+            LibImpl.getInstance().generateSnaphost(Global.getDeviceList());
             LibImpl.getInstance().initAutoRecvAlarm();
         } else {
             Log.e(TAG, "Get device data is error...");

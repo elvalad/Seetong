@@ -32,6 +32,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.*;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.*;
@@ -40,12 +41,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * Created by csw on 2014/5/5.
  */
-public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPlayCtrlAgentCB {
+public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPlayCtrlAgentCB, FunclibAgent.ILogCB {
     private static String TAG = "LibImpl";
     private static LibImpl m_impl = null;
 
-    private boolean m_exit = false;
-    private boolean m_stop_play = false;
+    private boolean m_exit = true;
+    public boolean m_stop_play = false;
     private boolean m_stop_snapshot = false;
     private boolean m_fc_inited = false;
 
@@ -53,6 +54,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         s_func = FunclibAgent.getInstance();
         s_pca = PlayCtrlAgent.getInstance();
         s_func.setIFunclibAgentCB(this);
+        s_func.setILogCB(this);
         s_pca.setIPlayCtrlAgentCB(this);
         m_mediaDataThread.start();
         m_download_thread.start();
@@ -80,10 +82,11 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
 
         s_func.free();
         s_pca.free();
+        m_fc_inited = false;
     }
 
-    private void initFuncLib() {
-        if (m_fc_inited) return;
+    private synchronized void initFuncLib() {
+        if (m_fc_inited || m_exit) return;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -98,6 +101,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
     public static int startPlay(int index, PlayerDevice dev, int nStreamNo, int nFrameType) {
         if (null == dev) return -1;
         String devId = dev.m_dev.getDevId();
+        dev.m_first_frame = false;
         int type = dev.m_force_forward ? 1 : 0;
         int ret = addWatch(devId, nStreamNo, nFrameType, 0);
         if (ret == SDK_CONSTANT.ERR_P2P_DISCONNECTED) ret = 0;
@@ -131,6 +135,9 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         dev.m_playing = false;
         dev.m_play = false;
         dev.m_ptz_auto = false;
+        dev.m_debug_msg_1 = "";
+        dev.m_debug_msg_2 = "";
+        dev.m_first_frame = false;
         return 0;
     }
 
@@ -163,6 +170,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         if (null != dev.m_audio) dev.m_audio.stopOutAudio();
         dev.m_play = false;
         dev.m_replaying = false;
+        dev.m_first_frame = false;
         return ret;
     }
 
@@ -217,7 +225,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         int ret = s_func.ReqOssObjectStream(devId, record.getName(), size, idx_record.getName(), idx_size, pos);
         Log.d(LibImpl.class.getName(), "startCloudReplay:2:ret=[" + ret + "]");
         if (ret != 0) return ret;
-        dev.m_play = true;
+        dev.m_replay = true;
         dev.m_video.mIsStopVideo = false;
         dev.m_online = true;
         dev.m_playing = false;
@@ -237,8 +245,15 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         if (null == dev) return -1;
         m_index_id_map.remove(index);
         m_devMap.remove(devId);
-        dev.m_play = false;
+        if (dev.m_port_id != -1) {
+            s_pca.StopAgent(dev.m_port_id);
+            s_pca.FreeProtAgent(dev.m_port_id);
+            dev.m_port_id = -1;
+        }
+
+        dev.m_replay = false;
         dev.m_replaying = false;
+        dev.m_first_frame = false;
         return ret;
     }
 
@@ -251,8 +266,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         return ret;
     }
 
-    public int startCloudDownload(String devId, ArchiveRecord record, String save_path)
-    {
+    public int startCloudDownload(String devId, ArchiveRecord record, String save_path) {
         if (TextUtils.isEmpty(devId) || null == record || TextUtils.isEmpty(save_path)) return -1;
         record.setLocalName(save_path);
         record.mDownloadStatus = ArchiveRecord.STATUS_START;
@@ -286,9 +300,56 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         }
     }
 
+    synchronized public int startNvrReplay(String devId, int index, ArchiveRecord record, String date) {
+        Log.d(LibImpl.class.getName(), "startNvrReplay:1:record=[" + record + "]");
+        if (null == devId || null == record) return -1;
+        PlayerDevice dev = Global.getDeviceById(devId);
+        if (null == dev) return -1;
+        if (dev.m_snapshot) {
+            stopWatch(devId);
+        }
+
+        if (m_devMap.get(devId) == null) m_index_id_map.put(index, devId);
+        m_devMap.put(devId, dev);
+        dev.m_replaying = true;
+
+        int ret = s_func.P2PNvrReplayByTime(devId, date);
+        Log.d(LibImpl.class.getName(), "startNvrReplay:2:ret=[" + ret + "]");
+        if (ret != 0) return ret;
+        dev.m_replay = true;
+        dev.m_video.mIsStopVideo = false;
+        dev.m_online = true;
+        dev.m_playing = false;
+        dev.m_voice = true;
+        return ret;
+    }
+
+    synchronized public int stopNvrReplay(String devId, int index) {
+        Log.d(LibImpl.class.getName(), "stopNvrReplay:1:devId=[" + devId + "]");
+        if (null == devId) return -1;
+        int ret = s_func.P2PControlNVRReplay(devId, REPLAY_NVR_ACTION.NVR_ACTION_STOP, 0, "");
+        Log.d(LibImpl.class.getName(), "stopNvrReplay:2:ret=[" + ret + "]");
+        if (ret != 0) return ret;
+
+        PlayerDevice dev = Global.getDeviceById(devId);
+        if (null == dev) return -1;
+        m_index_id_map.remove(index);
+        m_devMap.remove(devId);
+        if (dev.m_replay_port_id > -1) {
+            mPortOrIDMap.remove(dev.m_replay_port_id + "");
+            s_pca.StopAgent(dev.m_replay_port_id);
+            s_pca.FreeProtAgent(dev.m_replay_port_id);
+            dev.m_replay_port_id = -1;
+        }
+
+        dev.m_replay = false;
+        dev.m_replaying = false;
+        dev.m_first_frame = false;
+        return ret;
+    }
+
     public int delDevice(PlayerDevice dev) {
-        int ret = 0;
-        ret = s_func.DelDevice(dev.m_devId);
+        int ret = s_func.DelDevice(dev.m_devId);
         if (ret == 0) {
             Global.delDevice(dev.m_devId);
         }
@@ -320,6 +381,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
     public static final int MSG_TYPES_RECV_LIST = 0x7010;
     public static final int MSG_TYPES_VIDEO = 0x7020;
     public static final int MSG_TYPES_ALARM = 0x7030;
+    public static final int MSG_TYPES_LOG = 0x7100;
     public static final int MSG_VIDEO_SET_STATUS_INFO = 0x8000;
     public static final int MSG_REPLAY_SET_POSITION = 0x8100;
 
@@ -446,6 +508,13 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         sendMessage(MSG_VIDEO_SET_STATUS_INFO, 0, 0, msgObj);
     }
 
+    public static void setTipText2(String devID, Object msg) {
+        MsgObject msgObj = new MsgObject();
+        msgObj.devID = devID;
+        msgObj.recvObj = msg;
+        sendMessage(MSG_VIDEO_SET_STATUS_INFO, 1, 0, msgObj);
+    }
+
     public static void setTipText(String devID, Object msg, String reserver) {
         MsgObject msgObj = new MsgObject();
         msgObj.devID = devID;
@@ -454,17 +523,21 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         sendMessage(MSG_VIDEO_SET_STATUS_INFO, 0, 0, msgObj);
     }
 
-    private static List<Handler> m_lstHandler = new ArrayList<>();
+    private static final List<Handler> m_lstHandler = new ArrayList<>();
     private static Handler m_mediaParamHandler;
 
     public void addHandler(Handler handler) {
-        if (m_lstHandler.contains(handler)) return;
-        m_lstHandler.add(handler);
+        synchronized (m_lstHandler) {
+            if (m_lstHandler.contains(handler)) return;
+            m_lstHandler.add(handler);
+        }
     }
 
     public void removeHandler(Handler handler) {
-        if (!m_lstHandler.contains(handler)) return;
-        m_lstHandler.remove(handler);
+        synchronized (m_lstHandler) {
+            if (!m_lstHandler.contains(handler)) return;
+            m_lstHandler.remove(handler);
+        }
     }
 
     public void clearHandler() {
@@ -481,13 +554,15 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
 
     public static void sendMessage(int what, int arg1, int arg2, Object recvObj) {
         if (m_lstHandler.isEmpty()) return;
-        for (Handler h : m_lstHandler) {
-            Message msg = h.obtainMessage();
-            msg.arg1 = arg1;
-            msg.arg2 = arg2;
-            msg.what = what;
-            msg.obj = recvObj;
-            h.sendMessage(msg);
+        synchronized (m_lstHandler) {
+            for (Handler h : m_lstHandler) {
+                Message msg = h.obtainMessage();
+                msg.arg1 = arg1;
+                msg.arg2 = arg2;
+                msg.what = what;
+                msg.obj = recvObj;
+                h.sendMessage(msg);
+            }
         }
     }
 
@@ -721,7 +796,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         Log.d(TAG, "addWatch,devId=" + devId + ",add_watch_result=" + dev.m_add_watch_result + ",portId=" + dev.m_port_id + ",playing=" + dev.m_playing + ",play=" + dev.m_play);
         m_snapshotMap.put(devId, dev.m_dev);
         if (dev.m_add_watch_result >= 0) return 0;
-        int ret =  s_func.AddWatchEx(devId, nStreamNo, nFrameType, nComType);
+        int ret = s_func.AddWatchEx(devId, nStreamNo, nFrameType, nComType);
         dev.m_add_watch_result = ret;
         return ret;
     }
@@ -741,6 +816,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         mIsFirstFrameMap.remove(devId);
 
         if (dev.m_port_id < 0) return;
+        mPortOrIDMap.remove(dev.m_port_id + "");
         s_pca.StopAgent(dev.m_port_id);
         s_pca.FreeProtAgent(dev.m_port_id);
         dev.m_port_id = -1;
@@ -759,6 +835,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         mIsFirstFrameMap.remove(devId);
 
         if (dev.m_port_id < 0) return;
+        mPortOrIDMap.remove(dev.m_port_id + "");
         s_pca.StopAgent(dev.m_port_id);
         s_pca.FreeProtAgent(dev.m_port_id);
         dev.m_port_id = -1;
@@ -869,8 +946,9 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         dev.m_capacity_set = capacity;
     }
 
-    public String getCapacitySet(String devId) {
-        String capacity = m_device_capacityset_map.get(devId);
+    public String getCapacitySet(PlayerDevice dev) {
+        String capacity = m_device_capacityset_map.get(dev.m_devId);
+        if (TextUtils.isEmpty(capacity)) capacity = m_device_capacityset_map.get(dev.m_dev.getDevGroupName());
         return capacity == null ? "" : capacity;
     }
 
@@ -901,13 +979,14 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             return;
         }
 
-        PlayerDevice dev = getPlayerDevice(devId);
+        PlayerDevice dev = Global.getDeviceById(devId);
         if (null == dev) return;
 
         if (data.getnActionType() == REPLAY_IPC_ACTION.ACTION_PLAY) {
-            if (dev.m_port_id != -1) {
+            if (dev.m_port_id >= 0) {
                 s_pca.StopAgent(dev.m_port_id);
                 s_pca.FreeProtAgent(dev.m_port_id);
+                dev.m_port_id = -1;
             }
 
             mIsFirstFrameMap.put(devId, true);
@@ -915,8 +994,25 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             setRenderVideoState(devId, OpenglesRender.VIDEO_STATE_START);
 
             //获取端口句柄
-            int port = s_pca.GetProtAgent();
-            Log.i(TAG, "onReplayDevFileResp-->GetProtAgent, port=" + port);
+            int port = dev.m_port_id;
+            if (port < 0) port = s_pca.GetProtAgent();
+            Log.d(TAG, "onReplayDevFileResp-->GetProtAgent, devId=" + devId + ",port=" + port);
+            if (port < 0) {
+                try {
+                    Log.e(TAG, "onReplayDevFileResp-->GetProtAgent, devId=" + devId + ",port=" + port);
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                port = s_pca.GetProtAgent();
+                Log.d(TAG, "onReplayDevFileResp-->GetProtAgent, devId=" + devId + ",port=" + port);
+                if (port < 0) {
+                    Log.e(TAG, "onReplayDevFileResp-->GetProtAgent, devId=" + devId + ",port=" + port);
+                    return;
+                }
+            }
+
             //设置视频流参数
             NetSDK_VIDEO_PARAM tvp = data.getVideoParam();
             TPS_VIDEO_PARAM vp = new TPS_VIDEO_PARAM();
@@ -927,14 +1023,36 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             vp.setFramerate(tvp.getFramerate());
             vp.setIntraframerate(tvp.getFramerate() * 4);
             vp.setBitrate(tvp.getBitrate());
-            vp.setConfig(tvp.getVol_data().getBytes());
-            vp.setConfig_len(tvp.getVol_length());
+            int len = tvp.getVol_length();
+            byte[] config = new byte[len];
+            ByteBuffer buf = ByteBuffer.wrap(tvp.getVol_data().getBytes());
+            if (buf.limit() > 0) buf.get(config);
+            vp.setConfig(config);
+            vp.setConfig_len(len);
             byte[] videoParam = vp.objectToByteBuffer(ByteOrder.nativeOrder()).array();
 
             //0:视频 1:音频
             //最大缓冲帧数
-            int ret = s_pca.OpenStreamAgent(port, videoParam, videoParam.length, 0, 40);
+            int ret = s_pca.OpenStreamAgent(port, videoParam, videoParam.length, 0, 50);
+            dev.m_open_video_stream_result = ret;
             Log.i(TAG, "onReplayDevFileResp-->OpenStreamAgent, port=" + port + ",videoParam=" + tvp + ",ret=" + ret);
+            if (ret != 0) {
+                Log.e(TAG, "onReplayDevFileResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",videoParam=" + tvp + ",ret=" + ret);
+                try {
+                    Thread.sleep(100);
+                    ret = s_pca.OpenStreamAgent(port, videoParam, videoParam.length, 0, 50);
+                    dev.m_open_video_stream_result = ret;
+                    Log.d(TAG, "onReplayDevFileResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",videoParam=" + tvp + ",ret=" + ret);
+                    if (ret != 0) {
+                        setTipText(dev.m_devId, R.string.tv_video_req_fail_media_param_incorrect_tip);
+                        Log.e(TAG, "onReplayDevFileResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",videoParam=" + tvp + ",ret=" + ret);
+                        s_pca.FreeProtAgent(port);
+                        return;
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
 
             //判断是否有音频，如果有音频才进行打开音频流及配置语音参数
             if (data.getbHaveAudio() != 0) {
@@ -953,29 +1071,222 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                 //0:视频 1:音频
                 //最大缓冲帧数
                 s_pca.OpenStreamAgent(port, audioParm, audioParm.length, 1, 20);
+                dev.m_open_audio_stream_result = ret;
+                Log.d(TAG, "onReplayDevFileResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",audioParm=" + tap + ",ret=" + ret);
+                if (ret != 0) {
+                    Log.e(TAG, "onReplayDevFileResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",audioParm=" + tap + ",ret=" + ret);
+                    try {
+                        Thread.sleep(100);
+                        ret = s_pca.OpenStreamAgent(port, audioParm, audioParm.length, 1, 20);
+                        dev.m_open_audio_stream_result = ret;
+                        Log.d(TAG, "onReplayDevFileResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",audioParm=" + tap + ",ret=" + ret);
+                        if (ret != 0) {
+                            Log.e(TAG, "onReplayDevFileResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",audioParm=" + tap + ",ret=" + ret);
+                            //s_pca.FreeProtAgent(port);
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 // 根据摄像机音频参数，配置AudioPlayer的参数
-                if (null == m_devMap.get(devId)) return;
-                AudioPlayer audioPlayer = m_devMap.get(devId).m_audio;
-                if (audioPlayer != null) {
-                    AudioPlayer.MyAudioParameter audioParameter = new AudioPlayer.MyAudioParameter(data.getAudioParam().getSamplerate(), data.getAudioParam().getChannels(), data.getAudioParam().getBitspersample());
-                    audioPlayer.initAudioParameter(audioParameter);
-                    audioPlayer.startOutAudio();
-                    Log.i(TAG, "onReplayDevFileResp-->Audio is init....");
-                } else {
-                    Log.w(TAG, "onReplayDevFileResp-->Audio isn't init....");
+                if (null != m_devMap.get(devId) && ret >= 0) {
+                    AudioPlayer audioPlayer = m_devMap.get(devId).m_audio;
+                    if (audioPlayer != null) {
+                        AudioPlayer.MyAudioParameter audioParameter = new AudioPlayer.MyAudioParameter(data.getAudioParam().getSamplerate(), data.getAudioParam().getChannels(), data.getAudioParam().getBitspersample());
+                        audioPlayer.initAudioParameter(audioParameter);
+                        audioPlayer.startOutAudio();
+                    }
                 }
             }
 
             //0表示decDataCB解码出来的为yuv数据, 非0表示对应位数的rgb数据（支持的位数有：16、24、32）
-            Log.i(TAG, "onReplayDevFileResp-->PlayAgent, port=" + port);
-            s_pca.PlayAgent(port, 0);
+            ret = s_pca.PlayAgent(port, 0);
+            Log.d(TAG, "onReplayDevFileResp-->PlayAgent, devId=" + devId + ",port=" + port + ",ret=" + ret);
+            if (ret != 0) {
+                Log.e(TAG, "onReplayDevFileResp-->PlayAgent, devId=" + devId + ",port=" + port + ",ret=" + ret);
+                try {
+                    Thread.sleep(100);
+                    ret = s_pca.PlayAgent(port, 0);
+                    Log.d(TAG, "onReplayDevFileResp-->PlayAgent, devId=" + devId + ",port=" + port + ",ret=" + ret);
+                    if (ret != 0) {
+                        Log.e(TAG, "onReplayDevFileResp-->PlayAgent, devId=" + devId + ",port=" + port + ",ret=" + ret);
+                        s_pca.FreeProtAgent(port);
+                        return;
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
 
             //记录端口句柄和设备ID间的映射关系
             dev.m_port_id = port;
             mPortOrIDMap.put(port + "", devId);
+        }
 
-            setTipText(devId, R.string.ipc_err_p2p_svr_connect_success);//ipc_err_p2p_svr_connect_success-tv_video_wait_video_stream_tip
+        sendMessage(nMsgType, result, 0, data);
+    }
+
+    private void onNvrReplayResp(int nMsgType, byte[] pData, int nDataLen) {
+        int size = TPS_ReplayDevFileRsp.SIZE;
+        if (pData == null || nDataLen != size) return;
+        ByteBuffer byteBuffer = ByteBuffer.allocate(nDataLen);
+        byteBuffer.order(ByteOrder.nativeOrder());
+        byteBuffer.put(pData, 0, nDataLen);
+        byteBuffer.rewind();
+        TPS_ReplayDevFileRsp data = (TPS_ReplayDevFileRsp) TPS_ReplayDevFileRsp.createObjectByByteBuffer(byteBuffer);
+        Log.i(TAG, "onNvrReplayResp, act=" + data.getnActionType() + ",have audio=" + data.getbHaveAudio());
+
+        String devId = data.getSzDevId();
+        int result = data.getnResult();
+        if (result != 0) {
+            sendMessage(nMsgType, result, 0, data);
+            return;
+        }
+
+        PlayerDevice dev = Global.getDeviceById(devId);
+        if (null == dev) return;
+
+        if (data.getnActionType() == REPLAY_NVR_ACTION.NVR_ACTION_PLAY) {
+            if (dev.m_replay_port_id >= 0) {
+                s_pca.StopAgent(dev.m_replay_port_id);
+                s_pca.FreeProtAgent(dev.m_replay_port_id);
+                dev.m_replay_port_id = -1;
+            }
+
+            mIsFirstFrameMap.put(devId, true);
+            mVideoStateMap.put(devId, OpenglesRender.VIDEO_STATE_START);
+            setRenderVideoState(devId, OpenglesRender.VIDEO_STATE_START);
+
+            //获取端口句柄
+            int port = dev.m_replay_port_id;
+            if (port < 0) port = s_pca.GetProtAgent();
+            Log.d(TAG, "onNvrReplayResp-->GetProtAgent, devId=" + devId + ",port=" + port);
+            if (port < 0) {
+                try {
+                    Log.e(TAG, "onNvrReplayResp-->GetProtAgent, devId=" + devId + ",port=" + port);
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                port = s_pca.GetProtAgent();
+                Log.d(TAG, "onNvrReplayResp-->GetProtAgent, devId=" + devId + ",port=" + port);
+                if (port < 0) {
+                    Log.e(TAG, "onNvrReplayResp-->GetProtAgent, devId=" + devId + ",port=" + port);
+                    return;
+                }
+            }
+
+            //设置视频流参数
+            NetSDK_VIDEO_PARAM tvp = data.getVideoParam();
+            TPS_VIDEO_PARAM vp = new TPS_VIDEO_PARAM();
+            vp.setStream_index(0);
+            vp.setVideo_encoder(tvp.getCodec().getBytes());
+            vp.setWidth(tvp.getWidth());
+            vp.setHeight(tvp.getHeight());
+            vp.setFramerate(tvp.getFramerate());
+            vp.setIntraframerate(tvp.getFramerate() * 4);
+            vp.setBitrate(tvp.getBitrate());
+            int len = tvp.getVol_length();
+            byte[] config = new byte[len];
+            ByteBuffer buf = ByteBuffer.wrap(tvp.getVol_data().getBytes());
+            buf.get(config);
+            vp.setConfig(config);
+            vp.setConfig_len(len);
+            byte[] videoParam = vp.objectToByteBuffer(ByteOrder.nativeOrder()).array();
+
+            //0:视频 1:音频
+            //最大缓冲帧数
+            int ret = s_pca.OpenStreamAgent(port, videoParam, videoParam.length, 0, 50);
+            dev.m_open_video_stream_result = ret;
+            Log.i(TAG, "onNvrReplayResp-->OpenStreamAgent, port=" + port + ",videoParam=" + tvp + ",ret=" + ret);
+            if (ret != 0) {
+                Log.e(TAG, "onNvrReplayResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",videoParam=" + tvp + ",ret=" + ret);
+                try {
+                    Thread.sleep(100);
+                    ret = s_pca.OpenStreamAgent(port, videoParam, videoParam.length, 0, 50);
+                    dev.m_open_video_stream_result = ret;
+                    Log.d(TAG, "onNvrReplayResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",videoParam=" + tvp + ",ret=" + ret);
+                    if (ret != 0) {
+                        setTipText(dev.m_devId, R.string.tv_video_req_fail_media_param_incorrect_tip);
+                        Log.e(TAG, "onNvrReplayResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",videoParam=" + tvp + ",ret=" + ret);
+                        s_pca.FreeProtAgent(port);
+                        return;
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            //判断是否有音频，如果有音频才进行打开音频流及配置语音参数
+            if (data.getbHaveAudio() != 0) {
+                //设置音频流参数（摄像机端要配置音频编码方式为G711，其它格式暂不支持）
+                NetSDK_AUDIO_PARAM tap = data.getAudioParam();
+                TPS_AUDIO_PARAM ap = new TPS_AUDIO_PARAM();
+                ap.setStream_index(0);
+                ap.setAudio_encoder(tap.getCodec().getBytes());
+                ap.setSamplerate(tap.getSamplerate());
+                ap.setSamplebitswitdh(tap.getBitspersample());
+                ap.setChannels(tap.getChannels());
+                ap.setBitrate(tap.getBitrate());
+                ap.setFramerate(tap.getFramerate());
+                byte[] audioParm = ap.objectToByteBuffer(ByteOrder.nativeOrder()).array();
+
+                //0:视频 1:音频
+                //最大缓冲帧数
+                s_pca.OpenStreamAgent(port, audioParm, audioParm.length, 1, 20);
+                dev.m_open_audio_stream_result = ret;
+                Log.d(TAG, "onNvrReplayResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",audioParm=" + tap + ",ret=" + ret);
+                if (ret != 0) {
+                    Log.e(TAG, "onNvrReplayResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",audioParm=" + tap + ",ret=" + ret);
+                    try {
+                        Thread.sleep(100);
+                        ret = s_pca.OpenStreamAgent(port, audioParm, audioParm.length, 1, 20);
+                        dev.m_open_audio_stream_result = ret;
+                        Log.d(TAG, "onNvrReplayResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",audioParm=" + tap + ",ret=" + ret);
+                        if (ret != 0) {
+                            Log.e(TAG, "onNvrReplayResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",audioParm=" + tap + ",ret=" + ret);
+                            //s_pca.FreeProtAgent(port);
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                // 根据摄像机音频参数，配置AudioPlayer的参数
+                if (null != m_devMap.get(devId) && ret >= 0) {
+                    AudioPlayer audioPlayer = m_devMap.get(devId).m_audio;
+                    if (audioPlayer != null) {
+                        AudioPlayer.MyAudioParameter audioParameter = new AudioPlayer.MyAudioParameter(data.getAudioParam().getSamplerate(), data.getAudioParam().getChannels(), data.getAudioParam().getBitspersample());
+                        audioPlayer.initAudioParameter(audioParameter);
+                        audioPlayer.startOutAudio();
+                    }
+                }
+            }
+
+            //0表示decDataCB解码出来的为yuv数据, 非0表示对应位数的rgb数据（支持的位数有：16、24、32）
+            ret = s_pca.PlayAgent(port, 0);
+            Log.d(TAG, "onNvrReplayResp-->PlayAgent, devId=" + devId + ",port=" + port + ",ret=" + ret);
+            if (ret != 0) {
+                Log.e(TAG, "onNvrReplayResp-->PlayAgent, devId=" + devId + ",port=" + port + ",ret=" + ret);
+                try {
+                    Thread.sleep(100);
+                    ret = s_pca.PlayAgent(port, 0);
+                    Log.d(TAG, "onNvrReplayResp-->PlayAgent, devId=" + devId + ",port=" + port + ",ret=" + ret);
+                    if (ret != 0) {
+                        Log.e(TAG, "onNvrReplayResp-->PlayAgent, devId=" + devId + ",port=" + port + ",ret=" + ret);
+                        s_pca.FreeProtAgent(port);
+                        return;
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            //记录端口句柄和设备ID间的映射关系
+            dev.m_replay_port_id = port;
+            mPortOrIDMap.put(port + "", devId);
         }
 
         sendMessage(nMsgType, result, 0, data);
@@ -1212,12 +1523,12 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             if (null != lst) {
                 for (PlayerDevice d : lst) {
                     d.m_net_type = ni.getnResult();
-                    setTipText(d.m_devId, "");
+                    setTipText(d.m_devId, d.m_tipInfo);
                 }
             }
         } else {
             dev.m_net_type = ni.getnResult();
-            setTipText(devId, "");
+            setTipText(devId, dev.m_tipInfo);
         }
     }
 
@@ -1277,40 +1588,27 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     PlayerDevice dev = Global.getDeviceById(devId);
                     if (null == dev) {
                         List<PlayerDevice> lst = Global.getDeviceByGroup(devId);
-                        if (null != lst) {
-                            for (PlayerDevice d : lst) {
-                                if (-1 == result) {
-                                    setTipText(d.m_devId, R.string.dlg_login_fail_user_pwd_incorrect_tip);
-                                } else if (-2 == result) {
-                                    setTipText(d.m_devId, R.string.dlg_login_fail_client_num_full_tip);
-                                } else if (-3 == result) {
-                                    setTipText(d.m_devId, R.string.dlg_login_fail_client_link_full_tip);
-                                } else if (-4 == result) {
-                                    setTipText(d.m_devId, R.string.dlg_login_fail_addr_error_tip);
-                                }
-                            }
+                        if (null == lst) return 0;
+                        for (PlayerDevice d : lst) {
+                            if (-1 == result) setTipText(d.m_devId, R.string.dlg_login_fail_user_pwd_incorrect_tip);
                         }
                     } else {
                         if (-1 == result) {
                             setTipText(devId, R.string.dlg_login_fail_user_pwd_incorrect_tip);
-                        } else if (-2 == result) {
-                            setTipText(devId, R.string.dlg_login_fail_client_num_full_tip);
-                        } else if (-3 == result) {
-                            setTipText(devId, R.string.dlg_login_fail_client_link_full_tip);
-                        } else if (-4 == result) {
-                            setTipText(devId, R.string.dlg_login_fail_addr_error_tip);
                         }
-
-                        OpenglesRender _glRender = m_devMap.get(devId).m_video;
-                        // 当前是在获取截图，并且设备未播放，不通知界面弹出输入用户名密码
-                        if (null != m_snapshotMap.get(devId) && null == _glRender) {
-                            notifyNextSnapshot(devId);
-                            return 0;
-                        }
-                        PlayerDevice device = getPlayerDevice(devId);
-                        if (null == device) return 0;
-                        sendMessage(nMsgType, 0, 0, device);
                     }
+
+                    OpenglesRender _glRender = null;
+                    if (null != m_devMap.get(devId)) _glRender = m_devMap.get(devId).m_video;
+                    // 当前是在获取截图，并且设备未播放，不通知界面弹出输入用户名密码
+                    if (null != m_snapshotMap.get(devId) && null == _glRender) {
+                        notifyNextSnapshot(devId);
+                        return 0;
+                    }
+
+                    PlayerDevice device = getPlayerDevice(devId);
+                    if (null == device) return 0;
+                    sendMessage(nMsgType, 0, 0, device);
                 }
                 return 0;
             case SDK_CONSTANT.TPS_MSG_NOTIFY_DEV_DATA: {//8195-返回xml格式设备数据
@@ -1342,7 +1640,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                 }
                 return 0;
             case SDK_CONSTANT.TPS_MSG_P2P_SELF_ID://8205
-                if (pData != null && nDataLen == TPS_NotifyInfo.SIZE) {
+                if (false && pData != null && nDataLen == TPS_NotifyInfo.SIZE) {
                     ByteBuffer byteBuffer = ByteBuffer.allocate(nDataLen);
                     byteBuffer.order(ByteOrder.nativeOrder());
                     byteBuffer.put(pData, 0, nDataLen);
@@ -1356,12 +1654,8 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     errorText = errorText.substring(0, errorText.length() - 5);
                     int nResult = ni.getnResult();
                     ni.setSzInfo(errorText.getBytes());
-                    //Log.e(TAG, "doMsgRspCB devID is:" + devID);
+
                     mDeviceNotifyInfo.put(devID, ni);
-                    if (null == m_devMap.get(devID)) {
-                        //Log.e(TAG, "doMsgRspCB devID is:" + devID);
-                        return 0;
-                    }
                     PlayerDevice dev = findDeviceByID(devID);
                     if (null == dev) {
                         List<PlayerDevice> lst = Global.getDeviceByGroup(devID);
@@ -1384,28 +1678,119 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     TPS_NotifyInfo ni = (TPS_NotifyInfo) TPS_NotifyInfo.createObjectByByteBuffer(byteBuffer);
                     msgObj.recvObj = ni;
                     Log.i(TAG, "doMsgRspCB-->TPS_MSG_P2P_CONNECT_OK#TPS_NotifyInfo@" + ni.toString());
-                    String devID = new String(ni.getSzDevId()).trim();
+                    String devId = new String(ni.getSzDevId()).trim();
                     int nResult = ni.getnResult();
 
-                    mDeviceNotifyInfo.put(devID, ni);
-//                    if (null == m_devMap.get(devID)) {
-//                        return 0;
-//                    }
-                    PlayerDevice dev = findDeviceByID(devID);
-                    if (null == dev) {
-                        List<PlayerDevice> lst = Global.getDeviceByGroup(devID);
+                    mDeviceNotifyInfo.put(devId, ni);
+                    PlayerDevice dev = findDeviceByID(devId);
+                    if (null != dev) {
+                        dev.m_connect_ok = true;
+                        dev.m_dev.setOnLine(Device.ONLINE);
+                        if (nResult == 0) setTipText(devId, R.string.ipc_err_p2p_svr_connect_success);
+                    } else {
+                        List<PlayerDevice> lst = Global.getDeviceByGroup(devId);
                         if (null != lst) {
                             for (PlayerDevice d : lst) {
-                                d.m_dev.setOnLine(Device.ONLINE);
-                                if (nResult == 0) setTipText(d.m_devId, R.string.ipc_err_p2p_svr_connect_success);
+                                d.m_connect_ok = true;
                             }
                         }
-                    } else {
-                        dev.m_dev.setOnLine(Device.ONLINE);
-                        if (nResult == 0) setTipText(devID, R.string.ipc_err_p2p_svr_connect_success);
                     }
 
                     sendMessage(nMsgType, 0, 0, msgObj);
+                }
+                return 0;
+            case SDK_CONSTANT.TPS_MSG_P2P_NVR_CONNECT_REFUSE:
+                Log.i(TAG, "doMsgRspCB:TPS_MSG_P2P_NVR_CONNECT_REFUSE");
+                /*if (pData != null && nDataLen == TPS_NotifyInfo.SIZE) {
+                    ByteBuffer byteBuffer = ByteBuffer.allocate(nDataLen);
+                    byteBuffer.order(ByteOrder.nativeOrder());
+                    byteBuffer.put(pData, 0, nDataLen);
+                    byteBuffer.rewind();
+                    TPS_NotifyInfo ni = (TPS_NotifyInfo) TPS_NotifyInfo.createObjectByByteBuffer(byteBuffer);
+                    Log.i(TAG, "doMsgRspCB:TPS_MSG_P2P_NVR_CONNECT_REFUSE, ni=" + ni.toString());
+                    int result = ni.getnResult();
+                    String devId = new String(ni.getSzDevId()).trim();
+                    PlayerDevice dev = Global.getDeviceById(devId);
+                    if (null == dev) {
+                        List<PlayerDevice> lst = Global.getDeviceByGroup(devId);
+                        if (null != lst) {
+                            for (PlayerDevice d : lst) {
+                                if (-2 == result) {
+                                    setTipText(d.m_devId, R.string.dlg_login_fail_client_num_full_tip);
+                                } else if (-3 == result) {
+                                    setTipText(d.m_devId, R.string.dlg_login_fail_client_link_full_tip);
+                                } else if (-4 == result) {
+                                    setTipText(d.m_devId, R.string.dlg_login_fail_addr_error_tip);
+                                }
+                            }
+                        }
+                    }
+
+                    OpenglesRender _glRender = null;
+                    if (null != m_devMap.get(devId)) _glRender = m_devMap.get(devId).m_video;
+                    // 当前是在获取截图，并且设备未播放，不通知界面弹出输入用户名密码
+                    if (null != m_snapshotMap.get(devId) && null == _glRender) {
+                        notifyNextSnapshot(devId);
+                        return 0;
+                    }
+
+                    PlayerDevice device = getPlayerDevice(devId);
+                    if (null == device) return 0;
+                    sendMessage(nMsgType, 0, 0, device);
+                }*/
+                return 0;
+            case SDK_CONSTANT.TPS_MSG_P2P_NVR_TST_RPT:
+                Log.i(TAG, "doMsgRspCB:TPS_MSG_P2P_NVR_TST_RPT");
+                if (pData != null && nDataLen == TPS_NotifyInfo.SIZE) {
+                    ByteBuffer byteBuffer = ByteBuffer.allocate(nDataLen);
+                    byteBuffer.order(ByteOrder.nativeOrder());
+                    byteBuffer.put(pData, 0, nDataLen);
+                    byteBuffer.rewind();
+                    TPS_NotifyInfo ni = (TPS_NotifyInfo) TPS_NotifyInfo.createObjectByByteBuffer(byteBuffer);
+                    Log.i(TAG, "doMsgRspCB:TPS_MSG_P2P_NVR_TST_RPT, ni=" + ni.toString());
+                    int result = ni.getnResult();
+                    String devId = new String(ni.getSzDevId()).trim();
+                    String chId = "";
+                    String msg = new String(ni.getSzInfo()).trim();
+                    PlayerDevice dev = null;
+                    if (!TextUtils.isEmpty(msg) && msg.contains("ChannelId=")) {
+                        chId = "-CH-" + msg.substring(10, msg.indexOf(','));
+                        devId += chId;
+                        dev = Global.getDeviceById(devId);
+                        if (null == dev) return 0;
+                        dev.m_debug_msg_1 = msg;
+                        msg = "";
+                    }
+
+                    if (null != dev) {
+                        String tip = dev.m_debug_msg_1;
+                        if (!TextUtils.isEmpty(dev.m_debug_msg_2)) tip += "&&" + dev.m_debug_msg_2;
+                        setTipText2(dev.m_devId, tip);
+                        if (-2 == result) {
+                            setTipText(dev.m_devId, R.string.dlg_login_fail_client_num_full_tip);
+                        } else if (-3 == result) {
+                            setTipText(dev.m_devId, R.string.dlg_login_fail_client_link_full_tip);
+                        } else if (-4 == result) {
+                            setTipText(dev.m_devId, R.string.dlg_login_fail_addr_error_tip);
+                        }
+                    } else {
+                        List<PlayerDevice> lst = Global.getDeviceByGroup(devId);
+                        if (null != lst) {
+                            for (PlayerDevice d : lst) {
+                                d.m_debug_msg_2 = msg;
+                                String tip = d.m_debug_msg_2;
+                                if (!TextUtils.isEmpty(d.m_debug_msg_1)) tip = d.m_debug_msg_1 + "-" + tip;
+                                setTipText2(d.m_devId, tip);
+                                if (-2 == result) {
+                                    setTipText(d.m_devId, R.string.dlg_login_fail_client_num_full_tip);
+                                } else if (-3 == result) {
+                                    setTipText(d.m_devId, R.string.dlg_login_fail_client_link_full_tip);
+                                } else if (-4 == result) {
+                                    setTipText(d.m_devId, R.string.dlg_login_fail_addr_error_tip);
+                                }
+                            }
+                        }
+                    }
                 }
                 return 0;
             case SDK_CONSTANT.TPS_MSG_P2P_OFFLINE:
@@ -1419,12 +1804,10 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     Log.i(TAG, "doMsgRspCB-->TPS_MSG_P2P_OFFLINE#TPS_NotifyInfo@" + ni.toString());
                     String devID = new String(ni.getSzDevId()).trim();
                     int nResult = ni.getnResult();
-//                    if (null == m_devMap.get(devID)) {
-//                        return 0;
-//                    }
 
                     PlayerDevice dev = findDeviceByID(devID);
                     if (dev != null) {
+                        dev.m_connect_ok = false;
                         dev.m_dev.setOnLine(Device.OFFLINE);
                         if (nResult == 0) setTipText(devID, R.string.dlg_device_offline_tip);
                     }
@@ -1444,12 +1827,11 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     String devID = new String(ni.getSzDevId()).trim();
                     int nResult = ni.getnResult();
                     if (TextUtils.isEmpty(devID)) return 0;
-//                    if (null == m_devMap.get(devID)) {
-//                        return 0;
-//                    }
+
                     List<PlayerDevice> lst = Global.getDeviceByGroup(devID);
                     if (null != lst) {
                         for (PlayerDevice dev : lst) {
+                            dev.m_connect_ok = false;
                             dev.m_dev.setOnLine(Device.OFFLINE);
                             setTipText(dev.m_devId, R.string.dlg_device_offline_tip);
                         }
@@ -1469,11 +1851,10 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     Log.i(TAG, "doMsgRspCB-->TPS_MSG_P2P_NVR_CH_OFFLINE#TPS_NotifyInfo@" + ni.toString());
                     String devID = new String(ni.getSzDevId()).trim();
                     int nResult = ni.getnResult();
-//                    if (null == m_devMap.get(devID)) {
-//                        return 0;
-//                    }
+
                     PlayerDevice dev = findDeviceByID(devID);
                     if (dev != null) {
+                        dev.m_connect_ok = false;
                         dev.m_dev.setOnLine(Device.OFFLINE);
                         setTipText(devID, R.string.dlg_device_offline_tip);
                     }
@@ -1492,20 +1873,16 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     Log.i(TAG, "doMsgRspCB-->TPS_MSG_P2P_NVR_CH_ONLINE#TPS_NotifyInfo@" + ni.toString());
                     String devID = new String(ni.getSzDevId()).trim();
                     int nResult = ni.getnResult();
-//                    if (null == m_devMap.get(devID)) {
-//                        return 0;
-//                    }
+
                     mDeviceNotifyInfo.put(devID, ni);
                     PlayerDevice dev = findDeviceByID(devID);
                     if (dev != null) {
+                        dev.m_connect_ok = true;
                         dev.m_dev.setOnLine(Device.ONLINE);
-                        setTipText(devID, "");
+                        setTipText(devID, dev.m_tipInfo);
                     }
 
                     sendMessage(nMsgType, 0, 0, msgObj);
-                    synchronized (m_online_event) {
-                        m_online_event.notify();
-                    }
                 }
                 return 0;
             /**#########################Video Msg notify...begin####################################*/
@@ -1592,12 +1969,36 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             case SDK_CONSTANT.TPS_MSG_P2P_NETTYPE:
                 onP2PNetType(nMsgType, pData, nDataLen);
                 return 0;
+            case SDK_CONSTANT.TPS_MSG_RSP_SEARCH_NVR_REC:
+                onRspSearchNvrRec(nMsgType, pData, nDataLen);
+                return 0;
+            case SDK_CONSTANT.TPS_MSG_RSP_NVR_REPLAY:
+                onNvrReplayResp(nMsgType, pData, nDataLen);
+                return 0;
             default:
                 break;
         }
 
         sendMessage(nMsgType, msgObj);    //发送Handler消息
         return 0;
+    }
+
+    private void onRspSearchNvrRec(int nMsgType, byte[] pData, int nDataLen) {
+        ByteBuffer byteBuffer = ByteBuffer.allocate(nDataLen);
+        byteBuffer.order(ByteOrder.nativeOrder());
+        byteBuffer.put(pData, 0, nDataLen);
+        byteBuffer.rewind();
+        TPS_NotifyInfo ni = (TPS_NotifyInfo) TPS_NotifyInfo.createObjectByByteBuffer(byteBuffer);
+        Log.d(TAG, "onRspSearchNvrRec" + ni.toString());
+        String devId = new String(ni.getSzDevId()).trim();
+        PlayerDevice dev = findDeviceByID(devId);
+        if (null == dev) return;
+        sendMessage(nMsgType, 0, 0, ni);
+    }
+
+    @Override
+    public void onLog(int prio, String tag, String msg) {
+        sendMessage(MSG_TYPES_LOG, prio, 0, tag + "\t" + msg);
     }
 
     @Override
@@ -1656,7 +2057,8 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                 break;
             case 802:
                 NetSDK_Alarm_Config config = new NetSDK_Alarm_Config();
-                if (!"".equals(xml)) config.motionDetectAlarm = (NetSDK_Alarm_Config.MotionDetectAlarm) config.fromMotionDetectAlarmXML(xml);
+                if (!"".equals(xml))
+                    config.motionDetectAlarm = (NetSDK_Alarm_Config.MotionDetectAlarm) config.fromMotionDetectAlarmXML(xml);
                 sendMessageToMediaParamUI(nMsgType, flag, 0, config);
                 break;
             case 822:
@@ -1711,25 +2113,25 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             msgObj.recvObj = ts;
             Log.i(TAG, "onMsgRspAddWatch-->TPS_AddWachtRsp@" + ts.toString());
             final String devId = new String(ts.getSzDevId()).trim();
+            int result = ts.getnResult();
             sendMessage(SDK_CONSTANT.TPS_MSG_RSP_ADDWATCH, 0, 0, ts);
-            if (0 != ts.getnResult()) {
-                Log.i(TAG, "onMsgRspAddWatch-->response failed, devId=" + devId + ",result=" + ts.getnResult());
+            PlayerDevice dev = Global.getDeviceById(devId);
+            if (null == dev) return;
+            dev.m_svr_inst = ts.getnSvrInst();
+
+            if (0 != result) {
+                Log.i(TAG, "onMsgRspAddWatch-->response failed, devId=" + devId + ",result=" + result);
                 notifyNextSnapshot(devId);
                 if (null == m_devMap.get(devId)) return;
                 OpenglesRender _glRender = m_devMap.get(devId).m_video;
                 // 当前没有设备在界面播放，返回
                 if (null == _glRender) return;
-                if (-7 == ts.getnResult()) {
-                    setTipText(devId, R.string.tv_video_req_fail_device_resource_low_tip);
-                }
                 return;
             }
 
             //注意，接收到播放响应消息的时候，必须判断下当前返回的这个设备id是否有正在播放，如果有必须先停止播放后再去重新创建播放器。
             //因为设备在播放过程中有可能被修改了媒体参数，或者进行了重连，这个时候设备都会重新将参数返回上来
             //所以在播放过程中也可能接收到一次或多次TPS_MSG_RSP_ADDWATCH消息
-            PlayerDevice dev = Global.getDeviceById(devId);
-            if (null == dev) return;
             Log.d(TAG, "onMsgRspAddWatch-->GetProtAgent, devId=" + devId + ",old port=" + dev.m_port_id);
             if (dev.m_port_id >= 0) {
                 Log.i(TAG, "onMsgRspAddWatch-->device playing, stop it, port=" + dev.m_port_id);
@@ -1809,8 +2211,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                         Log.d(TAG, "onMsgRspAddWatch-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",audioParm=" + tap + ",ret=" + ret);
                         if (ret != 0) {
                             Log.e(TAG, "onMsgRspAddWatch-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",audioParm=" + tap + ",ret=" + ret);
-                            s_pca.FreeProtAgent(port);
-                            return;
+                            //s_pca.FreeProtAgent(port);
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -1818,7 +2219,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                 }
 
                 // 根据摄像机音频参数，配置AudioPlayer的参数
-                if (null != m_devMap.get(devId)) {
+                if (null != m_devMap.get(devId) && ret >= 0) {
                     AudioPlayer audioPlayer = m_devMap.get(devId).m_audio;
                     if (audioPlayer != null) {
                         AudioPlayer.MyAudioParameter audioParameter = new AudioPlayer.MyAudioParameter(ts.getAudioParam().getSamplerate(), ts.getAudioParam().getChannels(), ts.getAudioParam().getSamplebitswitdh());
@@ -1839,7 +2240,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     Thread.sleep(100);
                     ret = s_pca.PlayAgent(port, 0);
                     Log.d(TAG, "onMsgRspAddWatch-->PlayAgent, devId=" + devId + ",port=" + port + ",ret=" + ret);
-                    if (ret != 0 ) {
+                    if (ret != 0) {
                         Log.e(TAG, "onMsgRspAddWatch-->PlayAgent, devId=" + devId + ",port=" + port + ",ret=" + ret);
                         s_pca.FreeProtAgent(port);
                         return;
@@ -1923,26 +2324,38 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
     private final Event m_event = new Event();
     private final Event m_online_event = new Event();
 
-    public void generateSnaphost(List<Device> lst) {
-        final List<Device> lstDev = lst;
+    public void generateSnaphost(List<PlayerDevice> lst) {
+        final List<PlayerDevice> lstDev = new ArrayList<>();
+        lstDev.addAll(lst);
         if (null != m_snapshotThread && m_snapshotThread.isAlive()) return;
         m_snapshotThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 while (!m_exit) {
                     if (m_stop_snapshot) break;
-                    for (Device dev : lstDev) {
+                    for (PlayerDevice dev : lstDev) {
                         if (m_exit || m_stop_snapshot) break;
-                        if (dev.getOnLine() == Device.OFFLINE) {
-                            Log.i(TAG, "generateSnapshot dev offline, devId=" + dev.getDevId());
+                        if (null == dev.m_dev) continue;
+                        if (dev.m_dev.getOnLine() == Device.OFFLINE) {
+                            Log.i(TAG, "generateSnapshot dev offline, devId=" + dev.m_devId);
+                            continue;
+                        }
+
+                        if (!dev.m_connect_ok) {
+                            Log.d(TAG, "generateSnapshot dev not connect ok, skip, devId=" + dev.m_devId);
+                            continue;
+                        }
+
+                        if (dev.m_replay) {
+                            Log.d(TAG, "generateSnapshot dev is replay, skip, devId=" + dev.m_devId);
                             continue;
                         }
 
                         try {
-                            String devId = dev.getDevId();
-                            generateSnapshot(dev);
+                            String devId = dev.m_devId;
+                            generateSnapshot(dev.m_dev);
                             if (m_event.timedWait(30000)) {
-                                Log.i(TAG, "generateSnapshot wait timeout, devId=" + devId);
+                                Log.d(TAG, "generateSnapshot wait timeout, devId=" + devId);
                             }
                             removeSnapshot(devId);
                         } catch (InterruptedException e) {
@@ -1953,7 +2366,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
 
                     try {
                         synchronized (m_online_event) {
-                            m_online_event.wait();
+                            m_online_event.wait(60000);
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -1989,6 +2402,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         if (null == pdev) return;
         // 当前正在播放
         if (null != pdev.m_video) return;
+        pdev.m_snapshot = true;
         int ret = addWatch(devId, nStreamNo, nFrameType, 0);
         if (0 != ret) {
             synchronized (m_event) {
@@ -1998,19 +2412,21 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
     }
 
     private void removeSnapshot(String devId) {
-        Log.i(TAG, "removeSnapshot,devId=" + devId);
+        Log.i(TAG, "generateSnapshot removeSnapshot,devId=" + devId);
         m_snapshotMap.remove(devId);
         PlayerDevice dev = Global.getDeviceById(devId);
         if (null == dev) return;
-        if (null != dev.m_video) return;
-        // 当前设备未在播放，断开
-        stopWatch(devId);
+        dev.m_snapshot = false;
+        if (null == dev.m_video) {
+            // 当前设备未在播放，断开
+            stopWatch(devId);
+        }
     }
 
     private void notifyNextSnapshot(String devId) {
         if (null != m_snapshotThread && m_snapshotThread.isAlive()) {
             synchronized (m_event) {
-                Log.i(TAG, "notify thread snapshot next device");
+                Log.d(TAG, "generateSnapshot notify thread snapshot next device");
                 m_event.notify();
             }
 
@@ -2086,19 +2502,30 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             if (null != m_snapshotMap.get(devId)) {
                 PlayerDevice dev = Global.getDeviceById(devId);
                 if (null == dev) return 0;
-                ret = s_pca.InputVideoDataAgent(dev.m_port_id, pFrameData, nDataLen, isKey, (int) timestamp);
+                if (dev.m_port_id > -1) ret = s_pca.InputVideoDataAgent(dev.m_port_id, pFrameData, nDataLen, isKey, (int) timestamp);
+                if (!dev.m_play && !dev.m_replay) return 0;
             }
         }
 
+        Device sdev = m_snapshotMap.get(devId);
         PlayerDevice dev = m_devMap.get(devId);
-        if (null == dev || !dev.m_play) return 0;
-        if (dev.m_port_id < 0 && (dev.m_open_audio_stream_result < 0 || dev.m_open_video_stream_result < 0)) {
+        if (null == sdev && (null == dev || (!dev.m_play && !dev.m_replay))) {
+            //stopWatch(devId);
+            return 0;
+        }
+
+        if (null == dev) return 0;
+        if (dev.m_port_id < 0 && dev.m_replay_port_id < 0 && dev.m_open_video_stream_result < 0) {
             return 0;
         }
 
         if (!dev.m_first_frame) {
             dev.m_first_frame = true;
             sendMessage(Define.MSG_RECEIVER_MEDIA_FIRST_FRAME, 0, 0, dev);
+        }
+
+        if (!TextUtils.isEmpty(dev.m_tipInfo)) {
+            setTipText(devId, "");
         }
 
         OpenglesRender _glRender = dev.m_video;
@@ -2119,6 +2546,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             return 0;
         }
 
+        int port = dev.m_play ? dev.m_port_id : dev.m_replay_port_id;
         if (nMediaType == 0) {//video
             if (s_pca != null && nDataLen > 0) {
                 dev.m_replay_timestamp = timestamp;
@@ -2129,11 +2557,10 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
 //					byte[] _fData = ByteBuffer.wrap(pFrameData, TPS_EXT_DATA.SIZE, _fSize).array();
 
                 //接收数据交给底层库解码，解码回调函数为：decDataCB（如需要自己处理，可不调用此函数）
-                if (!dev.m_play || dev.m_port_id < 0) return 0;
                 int count = 0;
                 while (count < 3) {
                     count++;
-                    ret = s_pca.InputVideoDataAgent(dev.m_port_id, pFrameData, nDataLen, isKey, (int) timestamp);
+                    ret = s_pca.InputVideoDataAgent(port, pFrameData, nDataLen, isKey, (int) timestamp);
                     if (ret != 0) {
                         Log.e(TAG, "MediaRecvCallBack:video,InputVideoDataAgent,return " + ret);
                         try {
@@ -2159,8 +2586,9 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         } else if (nMediaType == 1) {//audio
             if (s_pca != null && nDataLen > 0) {
                 if (!dev.m_voice) return 0;
+                if (dev.m_open_audio_stream_result < 0) return 0;
                 //接收数据交给底层库解码，解码回调函数为：decDataCB（如需要自己处理，可不调用此函数）
-                ret = s_pca.InputAudioDataAgent(dev.m_port_id, pFrameData, nDataLen, (int) timestamp);
+                ret = s_pca.InputAudioDataAgent(port, pFrameData, nDataLen, (int) timestamp);
                 Log.i(TAG, "MediaRecvCallBack:audio,InputVideoDataAgent,return " + ret);
             } else {
                 Log.w(TAG, "MediaRecvCallBack:audio is failed.");
@@ -2191,7 +2619,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         PlayerDevice dev = m_devMap.get(devId);
         if (null == dev) return 0;
         // 已经调用stopWatch但还有数据发过来,同一窗口播放2个设备的情况
-        if (dev.m_view_id < 0 || dev.m_port_id < 0 || !dev.m_play) {
+        if (!dev.m_play && !dev.m_replay) {
             Log.w(TAG, "DecThreadProc:decDataCB:devId＝" + devId + " is already stop !!!");
             stopWatch(devId);
             return 0;
@@ -2251,7 +2679,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
     }
 
     private void snapshotPlay(String devId, int nPort, byte[] pDecData, int nSize, int nWidth, int nHeight, int nTimestamp, int nType, int nFrameRate, int nIsVideo, byte[] pUser) {
-        Log.i(TAG, "snapshotPlay devId=" + devId);
+        Log.d(TAG, "generateSnapshot snapshotPlay, devId=" + devId);
         if (nSize <= FRAME_INFO.SIZE) return;
         // 处理解码后的媒体数据
         if (nIsVideo == 1 && nWidth > 0 && nHeight > 0) {//处理视频数据(yuv或rgb数据)
@@ -2285,6 +2713,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
 
             //Helper.generateJPEG(buf.fData, 800, 600, 80, filename);
             notifyNextSnapshot(devId);
+            removeSnapshot(devId);
         }
     }
 

@@ -719,7 +719,6 @@ public class PlayVideoFragment extends BaseFragment {
             msgBuf.append("[").append(_devName).append(dev_type).append("]");
             String _msg = msgBuf.toString();
             v.setText(_msg);
-            playerDevice.m_tipInfo = msg;
         } else {
             StringBuilder msgBuf = new StringBuilder();
             if (!isNullStr(playerDevice.m_dev.getDevId())) {
@@ -732,6 +731,7 @@ public class PlayVideoFragment extends BaseFragment {
                 if (!"".equals(msg)) msgBuf.append(".");
             }
 
+            playerDevice.m_tipInfo = msg;
             String _msg = msgBuf.toString();
             v.setText(_msg);
         }
@@ -772,12 +772,7 @@ public class PlayVideoFragment extends BaseFragment {
                 //onLoginFailed((PlayerDevice) msg.obj);
                 return true;
             case LibImpl.MSG_VIDEO_SET_STATUS_INFO:
-                msgObj = (LibImpl.MsgObject) msg.obj;
-                if (null != msgObj.reserveObj) {
-                    setTipText(msgObj.devID, msgObj.recvObj, (String) msgObj.reserveObj);
-                } else {
-                    setTipText(msgObj.devID, msgObj.recvObj);
-                }
+                //onSetStatusInfo(msg);
                 return true;
             case SDK_CONSTANT.TPS_MSG_RSP_PTZREQ:
                 String data = (String) msg.obj;
@@ -810,6 +805,20 @@ public class PlayVideoFragment extends BaseFragment {
         return false;
     }
 
+    private void onSetStatusInfo(android.os.Message msg) {
+        if (msg.arg1 == 0) {
+            LibImpl.MsgObject msgObj = (LibImpl.MsgObject) msg.obj;
+            if (null != msgObj.reserveObj) {
+                setTipText(msgObj.devID, msgObj.recvObj, (String) msgObj.reserveObj);
+            } else {
+                setTipText(msgObj.devID, msgObj.recvObj);
+            }
+        } else if (msg.arg1 == 1) {
+            LibImpl.MsgObject msgObj = (LibImpl.MsgObject) msg.obj;
+            //setVideoInfo2(msgObj.devID, (String)msgObj.recvObj);
+        }
+    }
+
     private void onRecvFirstFrame(PlayerDevice dev) {
         if (null == dev) return;
         setTipText(dev.m_devId, "");
@@ -817,16 +826,29 @@ public class PlayVideoFragment extends BaseFragment {
 
     private void onAddWatchResp(TPS_AddWachtRsp ts) {
         final String devId = new String(ts.getSzDevId()).trim();
-        PlayerDevice device = LibImpl.getInstance().getPlayerDevice(devId);
-        if (null == device) {
-            Log.i(TAG, "device id " + devId + " is not the current device!!!");
-            return;
-        }
-
-        if (ts.getnResult() == 0) {//视频请求成功
+        int result = ts.getnResult();
+        if (result == 0) {//视频请求成功
             setTipText(devId, R.string.tv_video_req_succeed_tip);
         } else {
-            setTipText(devId, R.string.tv_video_req_fail_tip, ts.getnResult() + "");
+            /*if (-1 == result) {
+                setTipText(devId, R.string.dlg_login_fail_user_pwd_incorrect_tip);
+            } else*/ if (-2 == result) {
+                setTipText(devId, R.string.err_illegal_channel_id);
+            } else if (-3 == result) {
+                setTipText(devId, R.string.err_illegal_stream_id);
+            } else if (-4 == result) {
+                setTipText(devId, R.string.err_illegal_audio_enable);
+            } else if (-7 == ts.getnResult()) {
+                setTipText(devId, R.string.err_all_stream_full);
+            } else if (-8 == ts.getnResult()) {
+                setTipText(devId, R.string.err_session_stream_full);
+            } else if (-9 == ts.getnResult()) {
+                setTipText(devId, R.string.err_get_video_cfg_fail);
+            } else if (-10 == ts.getnResult()) {
+                setTipText(devId, R.string.err_get_stream_fail);
+            } else {
+                setTipText(devId, R.string.tv_video_req_fail_tip, ts.getnResult() + "");
+            }
         }
     }
 

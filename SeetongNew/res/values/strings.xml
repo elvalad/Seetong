@@ -185,6 +185,13 @@
     <string name="dlg_login_fail_user_pwd_incorrect_tip">Login failed, user name password error</string>
     <string name="dlg_login_fail_client_num_full_tip">Logon failed, the client number is full</string>
     <string name="dlg_login_fail_client_link_full_tip">Logon failed, the client connection number is full</string>
+    <string name="err_illegal_channel_id">Illegal channel ID</string>
+    <string name="err_illegal_stream_id">Illegal flow ID</string>
+    <string name="err_illegal_audio_enable">Illegal audio enable</string>
+    <string name="err_all_stream_full">Preview the number is full</string>
+    <string name="err_session_stream_full">This session flow quantity is full</string>
+    <string name="err_get_video_cfg_fail">Failed to get video configuration</string>
+    <string name="err_get_stream_fail">Take the flow is started preview failed</string>
     <string name="dlg_login_fail_addr_error_tip">Login failed, client address access error</string>
     <string name="dlg_get_list_success_tip">Get device list successfully.</string>
     <string name="dlg_login_recv_list_fail_tip">Receive list data error</string>

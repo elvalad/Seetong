@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2014-07-03.
  */
-public class PlayerDevice implements Serializable{
+public class PlayerDevice {
     public String m_devId = "";
     public Device m_dev;
     public NetSDK_IPC_ENTRY m_entry;
@@ -27,11 +27,12 @@ public class PlayerDevice implements Serializable{
     public boolean m_voice;
     public boolean m_talk;
     public boolean m_record;
+    public boolean m_snapshot = false;
     // 窗口最大化
     public boolean m_maximize;
     public boolean m_ptz_auto;
     // 用户手动停止了视频
-    public boolean m_user_stop;
+    public boolean m_user_stop = false;
     // 是好友分享的设备
     public boolean m_friend_share;
     // 是否收到了第一帧
@@ -42,15 +43,21 @@ public class PlayerDevice implements Serializable{
     public boolean m_prompt_modify_pwd;
 
     public boolean m_del_mode;
+    public boolean m_connect_ok;
 
     public int m_login_id;
     public int m_play_id;
     public int m_port_id;
+    public int m_replay_port_id = -1;
     public int m_view_id;
     public int m_last_view_id;
     public int m_stream_type;
     public int m_frame_type;
     public int m_net_type;
+
+    public int m_svr_inst = -1;
+    public String m_debug_msg_1 = "";
+    public String m_debug_msg_2 = "";
     public int m_replay_duration;
     public double m_replay_timestamp;
     // 好友分享设备时长,单位秒
@@ -83,6 +90,7 @@ public class PlayerDevice implements Serializable{
         m_share_video_timestamp = -1;
         m_prompt_modify_pwd = false;
         m_del_mode = false;
+        m_connect_ok = false;
         m_add_watch_result = -1;
         m_open_audio_stream_result = -1;
         m_open_video_stream_result = -1;
@@ -230,5 +238,9 @@ public class PlayerDevice implements Serializable{
 
     public boolean is_dst_support() {
         return m_capacity_set.contains("dst_support");
+    }
+
+    public boolean is_P2P_ONE_LINK() {
+        return m_capacity_set.contains("P2P_ONE_LINK");
     }
 }

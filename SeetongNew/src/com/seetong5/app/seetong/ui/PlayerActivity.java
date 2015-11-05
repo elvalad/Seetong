@@ -780,9 +780,13 @@ public class PlayerActivity extends BaseActivity {
     @Override
     public void handleMessage(android.os.Message msg) {
         if (this.currentFragmentName.equals("play_video_fragment")) {
-            playVideoFragment.handleMessage(msg);
+            if (null != playVideoFragment) {
+                playVideoFragment.handleMessage(msg);
+            }
         } else if (this.currentFragmentName.equals("play_multi_video_fragment")) {
-            multiVideoFragment.handleMessage(msg);
+            if (null != multiVideoFragment) {
+                multiVideoFragment.handleMessage(msg);
+            }
         }
     }
 
