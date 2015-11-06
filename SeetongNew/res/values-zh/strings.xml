@@ -692,7 +692,7 @@
     <string name="get_reg_number_error_other">其它错误</string>
 
     <string name="reset_psw_error_user_empty">账号为空</string>
-    <string name="reset_psw_error_code_valid">校验码为空</string>
+    <string name="reset_psw_error_code_valid">校验码无效</string>
     <string name="reset_psw_error_code">校验码错误</string>
     <string name="reset_psw_error_user">账号错误</string>
 

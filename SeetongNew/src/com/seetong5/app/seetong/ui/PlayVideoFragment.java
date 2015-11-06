@@ -705,13 +705,14 @@ public class PlayVideoFragment extends BaseFragment {
         }
 
         String dev_type = "";
+        /*
         if (0 == playerDevice.m_net_type) {
             dev_type = "-O";
         } else if (16 == playerDevice.m_net_type) {
             dev_type = "-R";
         } else if (-1 != playerDevice.m_net_type) {
             dev_type = "-P";
-        }
+        }*/
 
         if (null == msg) {
             v.setVisibility(View.GONE);

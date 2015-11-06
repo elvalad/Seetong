@@ -807,13 +807,14 @@ public class PlayMultiVideoFragment extends BaseFragment {
         MarqueeTextView v = (MarqueeTextView) layout.findViewById(R.id.tvLiveInfo);
         //v.setVisibility(View.VISIBLE);
         String dev_type = "";
+        /*
         if (0 == deviceList.get(index).m_net_type) {
             dev_type = "-O";
         } else if (16 == deviceList.get(index).m_net_type) {
             dev_type = "-R";
         } else if (-1 != deviceList.get(index).m_net_type) {
             dev_type = "-P";
-        }
+        }*/
 
         if (null == msg) {
             v.setVisibility(View.GONE);

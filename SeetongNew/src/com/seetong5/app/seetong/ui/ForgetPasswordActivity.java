@@ -206,11 +206,7 @@ public class ForgetPasswordActivity extends BaseActivity {
             return false;
         }
 
-        if (!DataCheckUtil.isRightEmail(gStr(R.id.forget_phone_mail)) &&
-                !DataCheckUtil.isRightPhone(gStr(R.id.forget_phone_mail))) {
-            toast(R.string.forget_invalid_user_name);
-            return false;
-        } else if (!DataCheckUtil.isRightUserPwd(gStr(R.id.forget_password))) {
+        if (!DataCheckUtil.isRightUserPwd(gStr(R.id.forget_password))) {
             toast(R.string.forget_invalid_user_password);
             return false;
         } else {
@@ -226,7 +222,7 @@ public class ForgetPasswordActivity extends BaseActivity {
                 if (DataCheckUtil.isRightEmail(gStr(R.id.forget_user))) {
                     bRegByMail = true;
                     forgetInfo.userEmail = gStr(R.id.forget_user);
-                } else if (DataCheckUtil.isRightPhone(gStr(R.id.forget_password))) {
+                } else if (DataCheckUtil.isRightPhone(gStr(R.id.forget_user))) {
                     bRegByMail = false;
                     forgetInfo.userPhone = gStr(R.id.forget_user);
                 } else {
@@ -269,10 +265,7 @@ public class ForgetPasswordActivity extends BaseActivity {
                         @Override
                         public void run() {
                             mTipDlg.dismiss();
-
-                            if (iRet == SDK_CONSTANT.reg_error_null) {
-                                Intent it = new Intent(ForgetPasswordActivity.this, LoginActivity.class);
-                                startActivity(it);
+                            if (iRet == SDK_CONSTANT.reset_psw_error_null) {
                                 ForgetPasswordActivity.this.finish();
                             } else {
                                 toast(ConstantImpl.getForgetPasswordErrText(iRet));
