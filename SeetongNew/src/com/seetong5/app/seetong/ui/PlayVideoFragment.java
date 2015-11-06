@@ -131,7 +131,7 @@ public class PlayVideoFragment extends BaseFragment {
         @Override
         public boolean onDoubleTap(MotionEvent e) {
             //toast("play multi video");
-            //stopCurrentPlay();
+            stopCurrentPlay();
             PlayerActivity.m_this.setCurrentFragment("play_multi_video_fragment");
             PlayerActivity.m_this.playMultiVideo(playerDevice, currentIndex);
             return true;
@@ -588,8 +588,9 @@ public class PlayVideoFragment extends BaseFragment {
         View view = mainLayout.findViewById(R.id.liveVideoView);
         view.setBackgroundColor(Color.BLACK);
         setVideoInfo(0, T(R.string.tv_video_stop_tip));
-        playerDevice.m_video.mIsStopVideo = true;
+        setVideoInfo2(0, "");
         mainLayout.invalidate();
+        playerDevice.m_video.mIsStopVideo = true;
     }
 
     private void stopCurrentPlay() {
@@ -599,6 +600,7 @@ public class PlayVideoFragment extends BaseFragment {
         stopVideoSound();
         LibImpl.stopPlay(0, playerDevice);
         mainLayout.findViewById(R.id.liveVideoView).setVisibility(View.GONE);
+        mainLayout.findViewById(R.id.tvMsgInfo).setVisibility(View.GONE);
         playerDevice.m_video.mIsStopVideo = true;
         playerDevice.m_video = null;
     }
@@ -737,6 +739,17 @@ public class PlayVideoFragment extends BaseFragment {
         }
     }
 
+    public void setVideoInfo2(String devID, final String msg) {
+        int index = LibImpl.getInstance().getIndexByDeviceID(devID);
+        setVideoInfo2(index, msg);
+    }
+
+    public void setVideoInfo2(final int index, final String msg) {
+        MarqueeTextView v = (MarqueeTextView) mainLayout.findViewById(R.id.tvMsgInfo);
+        v.setVisibility(Config.m_show_video_info ? View.VISIBLE : View.GONE);
+        v.setText(msg);
+    }
+
     public boolean handleMessage(android.os.Message msg) {
         switch (msg.what) {
             case SDK_CONSTANT.TPS_MSG_RSP_TALK://TPS_TALKRsp
@@ -747,18 +760,18 @@ public class PlayVideoFragment extends BaseFragment {
                 TPS_AUDIO_PARAM audioParm = ts.getAudioParam();
                 if (audioParm == null) {
                     toast(R.string.tv_talk_fail_param_error_tip);
-                    //stopTalk(dev, false);
+                    stopSpeak();
                     return true;
                 }
 
                 if (ts.getnResult() != 0) {
                     toast(R.string.tv_talk_fail_tip, ts.getnResult());
-                    //stopTalk(dev, false);
+                    stopSpeak();
                 }
 
                 if (SDK_CONSTANT.AUDIO_TYPE_G711.compareToIgnoreCase(new String(audioParm.getAudio_encoder()).trim()) != 0) {
                     toast(R.string.tv_talk_fail_illegal_format_tip);
-                    //stopTalk(dev, false);
+                    stopSpeak();
                 }
 
                 toast(R.string.tv_talk_success_tip);
@@ -797,6 +810,10 @@ public class PlayVideoFragment extends BaseFragment {
                 List<NetSDK_UserAccount> lst = (List<NetSDK_UserAccount>) msgObj.recvObj;
                 //CheckDefaultUserPwd(LibImpl.getInstance().getPlayerDevice(msgObj.devID));
                 return false;
+            case SDK_CONSTANT.TPS_MSG_NOTIFY_DISP_INFO:
+                tni = (TPS_NotifyInfo) msg.obj;
+                onNotifyDispInfo(tni);
+                return true;
             case Define.MSG_RECEIVER_MEDIA_FIRST_FRAME:
                 onRecvFirstFrame((PlayerDevice) msg.obj);
                 return true;
@@ -848,6 +865,24 @@ public class PlayVideoFragment extends BaseFragment {
                 setTipText(devId, R.string.err_get_stream_fail);
             } else {
                 setTipText(devId, R.string.tv_video_req_fail_tip, ts.getnResult() + "");
+            }
+        }
+    }
+
+    private void onNotifyDispInfo(TPS_NotifyInfo tni) {
+        if (playerDevice.m_play) {
+            String devId = new String(tni.getSzDevId()).trim();
+            String msg = new String(tni.getSzInfo()).trim();
+            PlayerDevice dev = LibImpl.findDeviceByID(devId);
+            if (null != dev) {
+                setVideoInfo2(dev.m_devId, msg);
+            } else {
+                List<PlayerDevice> lst = Global.getDeviceByGroup(devId);
+                if (null != lst) {
+                    for (PlayerDevice d : lst) {
+                        setVideoInfo2(d.m_devId, msg);
+                    }
+                }
             }
         }
     }

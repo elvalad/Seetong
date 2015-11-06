@@ -281,5 +281,34 @@
                     android:layout_marginLeft="@dimen/big_interval"
                     android:layout_toRightOf="@+id/tv_alarm_sound" />
             </RelativeLayout>
+
+            <RelativeLayout
+                    style="@style/linearTitle"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15px"
+                    android:layout_marginTop="30px"
+                    android:background="@color/clear"
+                    android:tag="006">
+
+                <TextView
+                        android:id="@+id/tv_show_video_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/tv_show_video_info"
+                        android:textColor="#008214"
+                        android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                <ToggleButton
+                        android:id="@+id/tb_show_video_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/big_interval"
+                        android:layout_toRightOf="@+id/tv_show_video_info"
+                        android:background="@drawable/n_sel_tb_autoplay"
+                        android:textOff=""
+                        android:textOn="" />
+            </RelativeLayout>
         </LinearLayout>
 </RelativeLayout>

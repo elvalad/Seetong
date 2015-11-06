@@ -73,6 +73,7 @@ public class Define {
     public static final String CFG_ALARM_SOUND_INDEX = "cfg_alarm_sound_index";
     public static final String CFG_NOT_PROMPT_MODIFY_PASSWORD = "cfg_not_prompt_modify_password";
     public static final String CFG_IN_CALL_MODE = "cfg_in_call_mode";
+    public static final String CFG_SHOW_VIDEO_INFO = "cfg_show_video_info";
 
     /** xml文件名 */
     public static final String LOGIN_USER_CONFIG_FILE = "lu_config";

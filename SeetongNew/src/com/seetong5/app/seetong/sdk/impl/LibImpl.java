@@ -1292,6 +1292,16 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         sendMessage(nMsgType, result, 0, data);
     }
 
+    private void onNofityDispInfo(int nMsgType, byte[] pData, int nDataLen) {
+        ByteBuffer byteBuffer = ByteBuffer.allocate(nDataLen);
+        byteBuffer.order(ByteOrder.nativeOrder());
+        byteBuffer.put(pData, 0, nDataLen);
+        byteBuffer.rewind();
+        TPS_NotifyInfo ni = (TPS_NotifyInfo) TPS_NotifyInfo.createObjectByByteBuffer(byteBuffer);
+        Log.d(TAG, "onNofityDispInfo" + ni.toString());
+        sendMessage(nMsgType, 0, 0, ni);
+    }
+
     private void onOssReplayParam(int nMsgType, byte[] pData, int nDataLen) {
         int size = TPS_ReplayDevFileRsp.SIZE;
         if (pData == null || nDataLen != size) return;
@@ -1974,6 +1984,9 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                 return 0;
             case SDK_CONSTANT.TPS_MSG_RSP_NVR_REPLAY:
                 onNvrReplayResp(nMsgType, pData, nDataLen);
+                return 0;
+            case SDK_CONSTANT.TPS_MSG_NOTIFY_DISP_INFO:
+                onNofityDispInfo(nMsgType, pData, nDataLen);
                 return 0;
             default:
                 break;

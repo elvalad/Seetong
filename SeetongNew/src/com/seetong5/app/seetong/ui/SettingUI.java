@@ -21,6 +21,7 @@ public class SettingUI extends BaseActivity {
     ToggleButton m_btnAlarm;
     Spinner m_cbxAlarmSound;
     ToggleButton m_btnInCallMode;
+    ToggleButton m_tb_show_video_info;
     ArrayList<String> m_soundAry = new ArrayList<>();
     ArrayAdapter<String> m_adpAry;
 
@@ -79,6 +80,7 @@ public class SettingUI extends BaseActivity {
         });
 
         m_btnInCallMode = (ToggleButton) findViewById(R.id.tb_in_call_mode);
+        m_tb_show_video_info = (ToggleButton) findViewById(R.id.tb_show_video_info);
 
         String[] ls = getResources().getStringArray(R.array.string_ary_alarm_sound_name);
         Collections.addAll(m_soundAry, ls);
@@ -128,6 +130,7 @@ public class SettingUI extends BaseActivity {
         m_btnAlarm.setChecked(Config.m_enable_alarm);
         m_cbxAlarmSound.setSelection(Config.m_alarm_sound);
         m_btnInCallMode.setChecked(Config.m_in_call_mode);
+        m_tb_show_video_info.setChecked(Config.m_show_video_info);
     }
 
     public void saveData() {
@@ -139,6 +142,7 @@ public class SettingUI extends BaseActivity {
         Config.m_enable_alarm = m_btnAlarm.isChecked();
         Config.m_alarm_sound = m_cbxAlarmSound.getSelectedItemPosition();
         Config.m_in_call_mode = m_btnInCallMode.isChecked();
+        Config.m_show_video_info = m_tb_show_video_info.isChecked();
         Config.saveData();
     }
 

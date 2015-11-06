@@ -145,7 +145,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         @Override
         public boolean onDoubleTap(MotionEvent e) {
             setCurrentWindow(e);
-            //stopCurrentPlayList();
+            stopCurrentPlayList();
             PlayerActivity.m_this.setCurrentFragment("play_video_fragment");
             PlayerActivity.m_this.playSignalVideo(getChoosenDevice(), currentIndex);
 
@@ -637,6 +637,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             view = layout.findViewById(R.id.liveVideoView);
             view.setBackgroundColor(Color.BLACK);
             setVideoInfo(i, T(R.string.tv_video_stop_tip));
+            setVideoInfo2(i, "");
             this.deviceList.get(i).m_video.mIsStopVideo = true;
             layout.invalidate();
         }
@@ -840,6 +841,20 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
     }
 
+    public void setVideoInfo2(String devID, final String msg) {
+        int index = LibImpl.getInstance().getIndexByDeviceID(devID);
+        if ((index < 0) || (index > MAX_WINDOW - 1)) {
+            return;
+        }
+        setVideoInfo2(index, msg);
+    }
+
+    public void setVideoInfo2(final int index, final String msg) {
+        MarqueeTextView v = (MarqueeTextView) layoutMap.get(index).findViewById(R.id.tvMsgInfo);
+        v.setVisibility(Config.m_show_video_info ? View.VISIBLE : View.GONE);
+        v.setText(msg);
+    }
+
     public boolean handleMessage(android.os.Message msg) {
         switch (msg.what) {
             case SDK_CONSTANT.TPS_MSG_RSP_TALK://TPS_TALKRsp
@@ -850,18 +865,18 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 TPS_AUDIO_PARAM audioParm = ts.getAudioParam();
                 if (audioParm == null) {
                     toast(R.string.tv_talk_fail_param_error_tip);
-                    //stopTalk(dev, false);
+                    stopSpeak();
                     return true;
                 }
 
                 if (ts.getnResult() != 0) {
                     toast(R.string.tv_talk_fail_tip, ts.getnResult());
-                    //stopTalk(dev, false);
+                    stopSpeak();
                 }
 
                 if (SDK_CONSTANT.AUDIO_TYPE_G711.compareToIgnoreCase(new String(audioParm.getAudio_encoder()).trim()) != 0) {
                     toast(R.string.tv_talk_fail_illegal_format_tip);
-                    //stopTalk(dev, false);
+                    stopSpeak();
                 }
 
                 toast(R.string.tv_talk_success_tip);
@@ -875,7 +890,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 //onLoginFailed((PlayerDevice) msg.obj);
                 return true;
             case LibImpl.MSG_VIDEO_SET_STATUS_INFO:
-                onSetStatusInfo(msg);
+                //onSetStatusInfo(msg);
                 return true;
             case SDK_CONSTANT.TPS_MSG_RSP_PTZREQ:
                 String data = (String) msg.obj;
@@ -900,6 +915,10 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 List<NetSDK_UserAccount> lst = (List<NetSDK_UserAccount>) msgObj.recvObj;
                 //CheckDefaultUserPwd(LibImpl.getInstance().getPlayerDevice(msgObj.devID));
                 return false;
+            case SDK_CONSTANT.TPS_MSG_NOTIFY_DISP_INFO:
+                tni = (TPS_NotifyInfo) msg.obj;
+                onNotifyDispInfo(tni);
+                return true;
             case Define.MSG_RECEIVER_MEDIA_FIRST_FRAME:
                 onRecvFirstFrame((PlayerDevice) msg.obj);
                 return true;
@@ -918,7 +937,23 @@ public class PlayMultiVideoFragment extends BaseFragment {
             }
         } else if (msg.arg1 == 1) {
             LibImpl.MsgObject msgObj = (LibImpl.MsgObject) msg.obj;
-            //setVideoInfo2(msgObj.devID, (String)msgObj.recvObj);
+            setVideoInfo2(msgObj.devID, (String)msgObj.recvObj);
+        }
+    }
+
+    private void onNotifyDispInfo(TPS_NotifyInfo tni) {
+        String devId = new String(tni.getSzDevId()).trim();
+        String msg = new String(tni.getSzInfo()).trim();
+        PlayerDevice dev = LibImpl.findDeviceByID(devId);
+        if (null != dev) {
+            setVideoInfo2(dev.m_devId, msg);
+        } else {
+            List<PlayerDevice> lst = Global.getDeviceByGroup(devId);
+            if (null != lst) {
+                for (PlayerDevice d : lst) {
+                    setVideoInfo2(d.m_devId, msg);
+                }
+            }
         }
     }
 
