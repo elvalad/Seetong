@@ -186,7 +186,12 @@ public class AddDeviceActivity extends BaseActivity {
         mDevInfo.setUserName(addDeviceAccount.getText().toString());
         mDevInfo.setUserPassword(addDevicePassword.getText().toString());
 
-        if (Global.getDeviceById(mDevInfo.getDevId()) != null) {
+        if (LibImpl.getInstance().isExistDeviceID(mDevInfo.getDevId().trim())) {
+            toast(mDevInfo.getDevId().trim() + T(R.string.ad_error_dev_exist));
+            return;
+        }
+
+        if (!Global.getDeviceByName(mDevInfo.getDevId().trim()).isEmpty()) {
             toast(mDevInfo.getDevId().trim() + T(R.string.ad_error_dev_exist));
             return;
         }
