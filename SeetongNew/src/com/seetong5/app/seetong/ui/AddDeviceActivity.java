@@ -186,6 +186,11 @@ public class AddDeviceActivity extends BaseActivity {
         mDevInfo.setUserName(addDeviceAccount.getText().toString());
         mDevInfo.setUserPassword(addDevicePassword.getText().toString());
 
+        if (Global.getDeviceById(mDevInfo.getDevId()) != null) {
+            toast(mDevInfo.getDevId().trim() + T(R.string.ad_error_dev_exist));
+            return;
+        }
+
         if (NetworkUtils.getNetworkState(this) == NetworkUtils.NONE) {
             toast(T(R.string.dlg_network_check_tip));
         } else {

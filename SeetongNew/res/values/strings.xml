@@ -195,7 +195,7 @@
     <string name="dlg_login_fail_addr_error_tip">Login failed, client address access error</string>
     <string name="dlg_get_list_success_tip">Get device list successfully.</string>
     <string name="dlg_login_recv_list_fail_tip">Receive list data error</string>
-    <string name="dlg_get_list_fail_tip">Device list get failed or it is null.</string>
+    <string name="dlg_get_list_fail_tip">Device list is null.</string>
     <string name="dlg_app_exit_tip">Save configuration, please wait a moment to exit program.</string>
     <string name="dlg_app_logout_tip">Save configuration, please wait a moment to logout.</string>
     <string name="dlg_app_exit_sure_tip">Be sure to exit program?</string>

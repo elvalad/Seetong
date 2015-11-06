@@ -263,7 +263,6 @@ public class LoginActivity extends BaseActivity {
                     DeviceInfo devInfo = mDevInfo;
 
                     final int ret = LibImpl.getInstance().Login(devInfo.getUserName(), devInfo.getUserPassword(), devInfo.getDevIP(), (short) devInfo.getDevPort());
-                    Log.v("Login", "user login state:" + ret);
                     if (ret != 0) {
                         runOnUiThread(new Runnable() {
                             @Override

@@ -503,7 +503,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
         Intent it = new Intent(this.getActivity(), FrontEndRecord.class);
         it.putExtra(Constant.EXTRA_DEVICE_ID, chosenPlayerDevice.m_dev.getDevId());
         this.startActivity(it);
-        this.getActivity().finish();
     }
 
     public boolean startVideoSound() {

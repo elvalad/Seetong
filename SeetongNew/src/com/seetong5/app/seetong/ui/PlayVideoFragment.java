@@ -455,12 +455,11 @@ public class PlayVideoFragment extends BaseFragment {
         }
 
         /* 开启回放前先关闭正在播放的设备 */
-        stopCurrentPlay();
+        stopPlay();
 
         Intent it = new Intent(this.getActivity(), FrontEndRecord.class);
         it.putExtra(Constant.EXTRA_DEVICE_ID, playerDevice.m_dev.getDevId());
         this.startActivity(it);
-        this.getActivity().finish();
     }
 
     public boolean startVideoSound() {
@@ -589,8 +588,8 @@ public class PlayVideoFragment extends BaseFragment {
         view.setBackgroundColor(Color.BLACK);
         setVideoInfo(0, T(R.string.tv_video_stop_tip));
         setVideoInfo2(0, "");
-        mainLayout.invalidate();
         playerDevice.m_video.mIsStopVideo = true;
+        mainLayout.invalidate();
     }
 
     private void stopCurrentPlay() {
