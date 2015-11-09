@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.*;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.android.audio.AudioPlayer;
 import com.android.opengles.OpenglesRender;
@@ -427,6 +428,7 @@ public class PlayVideoFragment extends BaseFragment {
         }
 
         playerDevice.m_record = true;
+        showRecordIcon(playerDevice.m_devId, true);
 
         return true;
     }
@@ -445,6 +447,16 @@ public class PlayVideoFragment extends BaseFragment {
 
         LibImpl.getInstance().getFuncLib().StopRecordAgent(playerDevice.m_dev.getDevId());
         playerDevice.m_record = false;
+        showRecordIcon(playerDevice.m_devId, false);
+    }
+
+    public void showRecordIcon(String devId, boolean bShow) {
+        PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(devId);
+        if (null == dev || !dev.m_playing) return;
+
+        if (dev.m_view_id < 0) return;
+        ImageView imageView = (ImageView) mainLayout.findViewById(R.id.imgRecord);
+        imageView.setVisibility(bShow ? View.VISIBLE : View.INVISIBLE);
     }
 
     public void startRecordPlayBack() {

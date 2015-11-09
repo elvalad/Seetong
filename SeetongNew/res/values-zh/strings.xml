@@ -785,7 +785,8 @@
     <string name="media_first_pic">第一张</string>
     <string name="media_last_pic">最后一张</string>
 
-    <string name="player_resolution">高清</string>
+    <string name="player_resolution">标清</string>
+    <string name="player_high_resolution">高清</string>
     <string name="player_record">录像</string>
     <string name="player_speak">按住说话</string>
     <string name="player_capture">截屏</string>

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.android.audio.AudioPlayer;
@@ -460,12 +461,27 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
 
         chosenPlayerDevice.m_record = true;
-
+        showRecordIcon(chosenPlayerDevice.m_devId, true);
         return true;
     }
 
     public void stopVideoRecord() {
-        for (int i = 0; i < MAX_WINDOW; i++) {
+        if (null == chosenPlayerDevice || !chosenPlayerDevice.m_playing) {
+            //toast(R.string.before_open_video_preview);
+            return;
+        }
+
+        TPS_AddWachtRsp rsp = chosenPlayerDevice.m_add_watch_rsp;
+        if (null == rsp) {
+            toast(R.string.tv_video_wait_video_stream_tip);
+            return;
+        }
+
+        LibImpl.getInstance().getFuncLib().StopRecordAgent(chosenPlayerDevice.m_dev.getDevId());
+        chosenPlayerDevice.m_record = false;
+        showRecordIcon(chosenPlayerDevice.m_devId, false);
+
+        /*for (int i = 0; i < MAX_WINDOW; i++) {
             if (null == this.deviceList.get(i) || !this.deviceList.get(i).m_playing) {
                 //toast(R.string.before_open_video_preview);
                 return;
@@ -479,7 +495,17 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
             LibImpl.getInstance().getFuncLib().StopRecordAgent(this.deviceList.get(i).m_dev.getDevId());
             this.deviceList.get(i).m_record = false;
-        }
+            showRecordIcon(chosenPlayerDevice.m_devId, false);
+        }*/
+    }
+
+    public void showRecordIcon(String devId, boolean bShow) {
+        PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(devId);
+        if (null == dev || !dev.m_playing) return;
+
+        if (dev.m_view_id < 0) return;
+        ImageView imageView = (ImageView) layoutMap.get(currentIndex).findViewById(R.id.imgRecord);
+        imageView.setVisibility(bShow ? View.VISIBLE : View.INVISIBLE);
     }
 
     private void stopAllVoice() {
@@ -655,7 +681,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         this.playerDevice = device;
     }
 
-    private PlayerDevice getChoosenDevice() {
+    public PlayerDevice getChoosenDevice() {
         return this.chosenPlayerDevice;
     }
 

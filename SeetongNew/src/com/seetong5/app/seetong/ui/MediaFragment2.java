@@ -35,28 +35,34 @@ public class MediaFragment2 extends BaseFragment {
     private boolean choosenMode;
     private boolean bAllChoosed;
 
+    private View fragmentView;
+    private LinearLayout layout;
+    private Button picturebutton;
+    private Button videoButton;
+    private Button editButton;
+    private Button chooseAllButton;
+    private ImageButton deleteButton;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         MainActivity2.m_this.setMediaFragment(this);
-        View fragmentView = inflater.inflate(R.layout.media2, container);
+        fragmentView = inflater.inflate(R.layout.media2, container);
         pictureFragment = PictureFragment.newInstance();
         videoFragment = VideoFragment2.newInstance();
         currentFragmentName = "picture";
         choosenMode = false;
         bAllChoosed = false;
-        final LinearLayout layout = (LinearLayout) fragmentView.findViewById(R.id.media_title_layout);
-        final Button picturebutton = (Button) fragmentView.findViewById(R.id.media_picture);
-        final Button videoButton = (Button) fragmentView.findViewById(R.id.media_video);
-        final Button editButton = (Button) fragmentView.findViewById(R.id.media_edit);
-        final Button chooseAllButton = (Button) fragmentView.findViewById(R.id.media_choose_all);
-        final ImageButton deleteButton = (ImageButton) fragmentView.findViewById(R.id.media_delete);
+
+        layout = (LinearLayout) fragmentView.findViewById(R.id.media_title_layout);
+        picturebutton = (Button) fragmentView.findViewById(R.id.media_picture);
+        videoButton = (Button) fragmentView.findViewById(R.id.media_video);
+        editButton = (Button) fragmentView.findViewById(R.id.media_edit);
+        chooseAllButton = (Button) fragmentView.findViewById(R.id.media_choose_all);
+        deleteButton = (ImageButton) fragmentView.findViewById(R.id.media_delete);
         picturebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layout.setBackgroundResource(R.drawable.tps_media_picture);
-                picturebutton.setTextColor(getResources().getColor(R.color.white));
-                videoButton.setTextColor(getResources().getColor(R.color.green));
                 showPictureFragment();
                 setCurrentFragment("picture");
             }
@@ -65,9 +71,6 @@ public class MediaFragment2 extends BaseFragment {
         videoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layout.setBackgroundResource(R.drawable.tps_media_video);
-                picturebutton.setTextColor(getResources().getColor(R.color.green));
-                videoButton.setTextColor(getResources().getColor(R.color.white));
                 showVideoFragment();
                 setCurrentFragment("video");
             }
@@ -182,12 +185,18 @@ public class MediaFragment2 extends BaseFragment {
     }
 
     private void showPictureFragment() {
+        layout.setBackgroundResource(R.drawable.tps_media_picture);
+        picturebutton.setTextColor(getResources().getColor(R.color.white));
+        videoButton.setTextColor(getResources().getColor(R.color.green));
         getChildFragmentManager().beginTransaction()
                 .replace(R.id.media_fragment_container, pictureFragment)
                 .commit();
     }
 
     private void showVideoFragment() {
+        layout.setBackgroundResource(R.drawable.tps_media_video);
+        picturebutton.setTextColor(getResources().getColor(R.color.green));
+        videoButton.setTextColor(getResources().getColor(R.color.white));
         getChildFragmentManager().beginTransaction()
                 .replace(R.id.media_fragment_container, videoFragment)
                 .commit();
@@ -197,6 +206,9 @@ public class MediaFragment2 extends BaseFragment {
         switch (msg.what) {
             case Define.MSG_UPDATE_SCREENSHOT_LIST:
                 pictureFragment.updateScreenshotList();
+                break;
+            case Define.MSG_SHOW_PICTURE_FRAGMENT:
+                showPictureFragment();
                 break;
         }
     }

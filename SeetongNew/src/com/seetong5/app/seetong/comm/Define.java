@@ -18,6 +18,8 @@ public class Define {
     public static final int MSG_UPDATE_DEV_LIST = 109;
     public static final int MSG_UPDATE_SCREENSHOT_LIST = 110;
     public static final int MSG_UPDATE_DEV_ALIAS = 111;
+    public static final int MSG_UPDATE_VIDEORECORD_LIST = 112;
+    public static final int MSG_SHOW_PICTURE_FRAGMENT = 113;
     public static final int MSG_DEVICE_CONFIG = 60004;
 
 

@@ -49,4 +49,12 @@
                 android:visibility="gone"/>
     </LinearLayout>
 
+    <ImageView
+            android:id="@+id/imgRecord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/record_prompt_1"
+            android:visibility="invisible"/>
 </RelativeLayout>

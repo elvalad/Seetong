@@ -148,6 +148,7 @@ public class MainActivity2 extends BaseActivity {
                         ((TextView) mediaTabView.findViewById(R.id.id_text_view)).setTextColor(getResources().getColor(R.color.gray));
                         moreTabView.findViewById(R.id.id_image_view).setBackgroundResource(R.drawable.tps_tab_more_off);
                         ((TextView) moreTabView.findViewById(R.id.id_text_view)).setTextColor(getResources().getColor(R.color.gray));
+                        sendMessage(Define.MSG_SHOW_PICTURE_FRAGMENT, 0, 0, null);
                         break;
                     case "media":
                         deviceTabView.findViewById(R.id.id_image_view).setBackgroundResource(R.drawable.tps_tab_list_off);
@@ -164,6 +165,7 @@ public class MainActivity2 extends BaseActivity {
                         ((TextView) mediaTabView.findViewById(R.id.id_text_view)).setTextColor(getResources().getColor(R.color.gray));
                         moreTabView.findViewById(R.id.id_image_view).setBackgroundResource(R.drawable.tps_tab_more_on);
                         ((TextView) moreTabView.findViewById(R.id.id_text_view)).setTextColor(getResources().getColor(R.color.green));
+                        sendMessage(Define.MSG_SHOW_PICTURE_FRAGMENT, 0, 0, null);
                         break;
                 }
             }
@@ -304,6 +306,9 @@ public class MainActivity2 extends BaseActivity {
                 deviceFragment.handleMessage(msg);
                 break;
             case Define.MSG_UPDATE_SCREENSHOT_LIST:
+                mediaFragment.handleMessage(msg);
+                break;
+            case Define.MSG_SHOW_PICTURE_FRAGMENT:
                 mediaFragment.handleMessage(msg);
                 break;
             case Define.MSG_UPDATE_DEV_LIST:
