@@ -414,7 +414,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
 
         String strDate = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
-        String fileName = Global.getImageDir() + "/" + playerDevice.m_dev.getDevId() + "_" + strDate + ".jpg";
+        String fileName = Global.getImageDir() + "/" + chosenPlayerDevice.m_dev.getDevId() + "_" + strDate + ".jpg";
         boolean bShotOk = chosenPlayerDevice.m_video.startShot(fileName);
         if (bShotOk) {
             toast(R.string.snapshot_succeed);
@@ -777,11 +777,11 @@ public class PlayMultiVideoFragment extends BaseFragment {
             }
         }
 
+        this.deviceList = getDeviceList(this.playerDevice);
+        chosenPlayerDevice = this.deviceList.get(currentIndex);
         /* 切换之后设置PlayerActivity当前播放的设备ID */
         PlayerActivity.m_this.setCurrentDeviceId(this.chosenPlayerDevice.m_devId);
-
         animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_prev_video);
-        this.deviceList = getDeviceList(this.playerDevice);
         Boolean bRet = startPlay(this.deviceList);
         for (int i = 0; i < MAX_WINDOW; i++) {
             layout = layoutMap.get(i);
@@ -830,11 +830,11 @@ public class PlayMultiVideoFragment extends BaseFragment {
             }
         }
 
+        this.deviceList = getDeviceList(this.playerDevice);
+        chosenPlayerDevice = this.deviceList.get(currentIndex);
         /* 切换之后设置PlayerActivity当前播放的设备ID */
         PlayerActivity.m_this.setCurrentDeviceId(this.chosenPlayerDevice.m_devId);
-
         animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_next_video);
-        this.deviceList = getDeviceList(this.playerDevice);
         Boolean bRet = startPlay(this.deviceList);
         for (int i = 0; i < MAX_WINDOW; i++) {
             layout = layoutMap.get(i);
