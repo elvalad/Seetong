@@ -200,6 +200,8 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
 
         layoutMap.get(currentIndex).setBackgroundColor(getResources().getColor(R.color.video_view_focus_border));
+        stopAllVoice();
+        stopAllTalk();
 
         /* 多画面选择不同的窗口时，PlayerActivity的设备Id也要随着变换 */
         PlayerActivity.m_this.setCurrentDeviceId(this.chosenPlayerDevice.m_devId);
@@ -593,6 +595,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         chosenPlayerDevice.m_audio.startOutAudio();
         chosenPlayerDevice.m_voice = true;
         toast(R.string.fvu_tip_open_voice);
+        PlayerActivity.m_this.setVideoSoundWidget();
 
         return true;
     }
@@ -638,9 +641,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             layout = layoutMap.get(i);
 
             devList.get(i).m_device_play_count++;
-            devList.get(i).m_audio = new AudioPlayer(currentIndex);
             devList.get(i).m_video = renderMap.get(i);
-            //Log.d(TAG, "====>device list is" + devList.toString() + " i is " + i + " device is " + devList.get(i).getDeviceName());
             devList.get(i).m_video.mIsStopVideo = false;
 
             if (!devList.get(i).m_play) {
@@ -672,6 +673,20 @@ public class PlayMultiVideoFragment extends BaseFragment {
             view = devList.get(i).m_video.getSurface();
             view.setBackgroundColor(Color.TRANSPARENT);
             view.setVisibility(View.VISIBLE);
+
+            devList.get(i).m_audio = new AudioPlayer(i);
+            devList.get(i).m_audio.mIsAecm = false;
+            devList.get(i).m_audio.mIsNoiseReduction = false;
+            devList.get(i).m_audio.addRecordCallback(new AudioPlayer.MyRecordCallback() {
+                @Override
+                public void recvRecordData(byte[] data, int length, int reserver) {
+                    if (reserver >= 0) {
+                        PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(reserver);
+                        if (null == dev || null == dev.m_dev) return;
+                        LibImpl.getInstance().recvRecordData(data, length, dev.m_dev.getDevId(), reserver);
+                    }
+                }
+            });
         }
 
         fragmentView.setAnimation(animation);

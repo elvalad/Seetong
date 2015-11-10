@@ -200,7 +200,7 @@
     <string name="dlg_app_logout_tip">Save configuration, please wait a moment to logout.</string>
     <string name="dlg_app_exit_sure_tip">Be sure to exit program?</string>
     <string name="dlg_app_logout_sure_tip">Be sure to logout?</string>
-    <string name="dlg_network_check_tip">Please open wifi or 3G network.</string>
+    <string name="dlg_network_check_tip">Please open wifi or 3G/4G network.</string>
     <string name="dlg_network_check_WIFI_tip">Please open wifi network.</string>
     <string name="dlg_network_offline_tip">Network has been disconnected, please retry after setting up network.</string>
     <string name="dlg_input_ok_server_address_tip">Please input correct device id</string>
@@ -690,6 +690,8 @@
     <string name="get_reg_number_error_quik">Send interval less than 1 minutes</string>
     <string name="get_reg_number_error_sendmsg">Failed to send text messages</string>
     <string name="get_reg_number_error_phonemail_used">User name has used</string>
+    <string name="get_reg_number_error_user_not_find">The user account does not exist</string>
+    <string name="get_reg_number_error_user_phone">User does not match the account number and phone number/email address</string>
     <string name="get_reg_number_error_other">other error</string>
 
     <string name="reset_psw_error_user_empty">User name is empty</string>

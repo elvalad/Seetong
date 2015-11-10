@@ -327,9 +327,15 @@ public class PlayVideoFragment extends BaseFragment {
 
     public void startSpeak() {
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+        stopAllVoice();
+        stopAllTalk();
 
         if (null == playerDevice || !playerDevice.m_playing) {
             toast(R.string.before_open_video_preview);
+            return;
+        }
+
+        if (null == playerDevice.m_audio) {
             return;
         }
 
@@ -363,8 +369,21 @@ public class PlayVideoFragment extends BaseFragment {
         playerDevice.m_talk = true;
     }
 
+    private void stopAllVoice() {
+        if (null == playerDevice || null == playerDevice.m_audio) return;
+        playerDevice.m_audio.stopOutAudio();
+        playerDevice.m_voice = false;
+    }
+
+    private void stopAllTalk() {
+        if (null == playerDevice || null == playerDevice.m_audio) return;
+        LibImpl.getInstance().getFuncLib().StopTalkAgent(playerDevice.m_dev.getDevId());
+        playerDevice.m_audio.stopTalk();
+        playerDevice.m_talk = false;
+    }
+
     public void stopSpeak() {
-        if (null == playerDevice) return;
+        if (null == playerDevice || null == playerDevice.m_audio) return;
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         LibImpl.getInstance().getFuncLib().StopTalkAgent(playerDevice.m_dev.getDevId());
         if (Config.m_in_call_mode) Global.m_audioManage.setMode(AudioManager.MODE_IN_CALL);
@@ -535,6 +554,7 @@ public class PlayVideoFragment extends BaseFragment {
         playerDevice.m_audio.startOutAudio();
         playerDevice.m_voice = true;
         toast(R.string.fvu_tip_open_voice);
+        PlayerActivity.m_this.setVideoSoundWidget();
 
         return true;
     }
@@ -576,8 +596,6 @@ public class PlayVideoFragment extends BaseFragment {
         }
 
         dev.m_device_play_count++;
-        //Log.e("msg", "device name is " + dev.getDeviceName() + " play count is " + dev.m_device_play_count);
-        dev.m_audio = new AudioPlayer(currentIndex);
         dev.m_video = this.openglesRender;
         dev.m_video.mIsStopVideo = false;
 
@@ -605,12 +623,25 @@ public class PlayVideoFragment extends BaseFragment {
 
         dev.m_play = true;
         dev.m_view_id = 0;
-
         View view = mainLayout.findViewById(R.id.tvLiveInfo);
         view.setVisibility(View.VISIBLE);
         view = dev.m_video.getSurface();
         view.setBackgroundColor(Color.TRANSPARENT);
         view.setVisibility(View.VISIBLE);
+
+        dev.m_audio = new AudioPlayer(currentIndex);
+        dev.m_audio.mIsAecm = false;
+        dev.m_audio.mIsNoiseReduction = false;
+        dev.m_audio.addRecordCallback(new AudioPlayer.MyRecordCallback() {
+            @Override
+            public void recvRecordData(byte[] data, int length, int reserver) {
+                if (reserver >= 0) {
+                    PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(reserver);
+                    if (null == dev || null == dev.m_dev) return;
+                    LibImpl.getInstance().recvRecordData(data, length, dev.m_dev.getDevId(), reserver);
+                }
+            }
+        });
 
         return true;
     }

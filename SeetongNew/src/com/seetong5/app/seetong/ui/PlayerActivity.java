@@ -678,6 +678,10 @@ public class PlayerActivity extends BaseActivity {
         }
     }
 
+    public void setVideoSoundWidget() {
+        playerSoundButton.setImageResource(R.drawable.tps_play_sound_on);
+    }
+
     public void resetWidget() {
         playerStopButton.setImageResource(R.drawable.tps_play_stopall_off);
         playerPlaybackButton.setImageResource(R.drawable.tps_play_recordplayback_off);

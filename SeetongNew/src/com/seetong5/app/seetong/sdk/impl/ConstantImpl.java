@@ -465,6 +465,10 @@ public class ConstantImpl extends SDK_CONSTANT {
                 return Global.m_res.getString(R.string.get_reg_number_error_sendmsg);
             case get_reg_number_error_phonemail_used:
                 return Global.m_res.getString(R.string.get_reg_number_error_phonemail_used);
+            case get_reg_number_error_user_not_find:
+                return Global.m_res.getString(R.string.get_reg_number_error_user_not_find);
+            case get_reg_number_error_user_phone:
+                return Global.m_res.getString(R.string.get_reg_number_error_user_phone);
             case get_reg_number_error_other:
                 return Global.m_res.getString(R.string.get_reg_number_error_other);
             default:

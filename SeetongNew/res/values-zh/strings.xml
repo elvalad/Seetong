@@ -200,7 +200,7 @@
     <string name="dlg_app_logout_tip">正在保存配置信息，稍候退出登录.</string>
     <string name="dlg_app_exit_sure_tip">是否确认退出程序？</string>
     <string name="dlg_app_logout_sure_tip">是否确认退出登录？</string>
-    <string name="dlg_network_check_tip">请打开Wifi或3G网络</string>
+    <string name="dlg_network_check_tip">请打开Wifi或3G/4G网络</string>
     <string name="dlg_network_check_WIFI_tip">请打开Wifi网络</string>
     <string name="dlg_network_offline_tip">网络已断开，请设置好网络后重试</string>
     <string name="dlg_input_ok_server_address_tip">请输入正确的设备ID</string>
@@ -689,6 +689,8 @@
     <string name="get_reg_number_error_quik">发送间隔小于1分钟</string>
     <string name="get_reg_number_error_sendmsg">发送手机短信失败</string>
     <string name="get_reg_number_error_phonemail_used">账号已注册</string>
+    <string name="get_reg_number_error_user_not_find">用户账号不存在</string>
+    <string name="get_reg_number_error_user_phone">用户账号和手机号码／邮箱地址不匹配</string>
     <string name="get_reg_number_error_other">其它错误</string>
 
     <string name="reset_psw_error_user_empty">账号为空</string>
