@@ -3,8 +3,7 @@ package com.seetong5.app.seetong.ui;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.PointF;
+import android.graphics.*;
 import android.media.AudioManager;
 import android.opengl.GLSurfaceView;
 import android.os.*;
@@ -12,6 +11,8 @@ import android.text.TextUtils;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.*;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.android.audio.AudioPlayer;
@@ -31,6 +32,8 @@ import ipc.android.sdk.com.*;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static android.view.animation.Animation.*;
 
 /**
  * Created by Administrator on 2015/9/15.
@@ -382,6 +385,32 @@ public class PlayVideoFragment extends BaseFragment {
         boolean bShotOk = playerDevice.m_video.startShot(fileName);
         if (bShotOk) {
             toast(R.string.snapshot_succeed);
+            final ImageView screenShotView = (ImageView) mainLayout.findViewById(R.id.screenShotFlash);
+            screenShotView.setVisibility(View.VISIBLE);
+            Bitmap bitmap = BitmapFactory.decodeFile(Global.getSnapshotDir() + "/" + playerDevice.m_dev.getDevId() + ".jpg");
+            if (bitmap == null) {
+                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.camera);
+            }
+            screenShotView.setImageBitmap(bitmap);
+            RotateAnimation fade = new RotateAnimation(0, -60);
+            fade.setDuration(500);
+            fade.setAnimationListener(new AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation anim) {
+                    screenShotView.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            screenShotView.startAnimation(fade);
         } else {
             toast(R.string.snapshot_failed);
         }

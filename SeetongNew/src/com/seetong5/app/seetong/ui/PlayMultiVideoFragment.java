@@ -2,6 +2,8 @@ package com.seetong5.app.seetong.ui;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.opengl.GLSurfaceView;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -415,6 +418,32 @@ public class PlayMultiVideoFragment extends BaseFragment {
         boolean bShotOk = chosenPlayerDevice.m_video.startShot(fileName);
         if (bShotOk) {
             toast(R.string.snapshot_succeed);
+            final ImageView screenShotView = (ImageView) layoutMap.get(currentIndex).findViewById(R.id.screenShotFlash);
+            screenShotView.setVisibility(View.VISIBLE);
+            Bitmap bitmap = BitmapFactory.decodeFile(Global.getSnapshotDir() + "/" + chosenPlayerDevice.m_dev.getDevId() + ".jpg");
+            if (bitmap == null) {
+                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.camera);
+            }
+            screenShotView.setImageBitmap(bitmap);
+            RotateAnimation fade = new RotateAnimation(0, -60);
+            fade.setDuration(500);
+            fade.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation anim) {
+                    screenShotView.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            screenShotView.startAnimation(fade);
         } else {
             toast(R.string.snapshot_failed);
         }

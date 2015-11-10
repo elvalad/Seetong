@@ -57,4 +57,11 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/record_prompt_1"
             android:visibility="invisible"/>
+
+    <ImageView
+            android:id="@+id/screenShotFlash"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
 </RelativeLayout>
