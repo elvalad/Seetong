@@ -90,9 +90,8 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         new Thread(new Runnable() {
             @Override
             public void run() {
-                int netType = 1;
-                if (NetworkUtils.getNetworkState(Global.m_ctx) == NetworkUtils.WIFI) netType = 0;
-                int ret = s_func.initExAgent(netType);
+                Global.getNetType();
+                int ret = s_func.initExAgent(Global.m_mobile_net_sub_type_2);
                 m_fc_inited = (0 == ret);
             }
         }).start();
@@ -122,7 +121,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
     }
 
     public static int stopPlay(int index, PlayerDevice dev) {
-        //m_index_id_map.remove(index);
+        //LibImpl.getInstance().removePlayerDevice(index);
         if (null == dev) return 0;
         if (!dev.m_play) return 0;
         stopWatch(dev.m_devId);

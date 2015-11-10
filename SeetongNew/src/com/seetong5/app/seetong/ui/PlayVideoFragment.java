@@ -873,7 +873,7 @@ public class PlayVideoFragment extends BaseFragment {
             }
         } else if (msg.arg1 == 1) {
             LibImpl.MsgObject msgObj = (LibImpl.MsgObject) msg.obj;
-            //setVideoInfo2(msgObj.devID, (String)msgObj.recvObj);
+            setVideoInfo2(msgObj.devID, (String)msgObj.recvObj);
         }
     }
 
