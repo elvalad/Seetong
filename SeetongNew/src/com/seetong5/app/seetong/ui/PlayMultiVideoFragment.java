@@ -662,7 +662,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                     continue;
                 }
             } else {
-                setVideoInfo(i, "");
+                setVideoInfo(i, devList.get(i).m_tipInfo);
             }
             devList.get(i).m_play = true;
             devList.get(i).m_view_id = i;

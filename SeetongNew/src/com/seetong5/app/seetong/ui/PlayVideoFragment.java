@@ -600,7 +600,7 @@ public class PlayVideoFragment extends BaseFragment {
                 return false;
             }
         } else {
-            setVideoInfo(0, "");
+            setVideoInfo(0, dev.m_tipInfo);
         }
 
         dev.m_play = true;
