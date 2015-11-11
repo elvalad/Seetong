@@ -63,6 +63,7 @@ public class PlayerActivity extends BaseActivity {
     private Button playerCaptureButton;
     private SlidingDrawer slidingDrawer;
     private ImageView slidingHandle;
+    private LinearLayout playerMainButtonLayout;
     private ListView playerDeviceListView;
     private PlayerDeviceListAdapter adapter;
     private List<Map<String, Object>> data = new ArrayList<>();
@@ -431,6 +432,10 @@ public class PlayerActivity extends BaseActivity {
         playerRecordButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (bAutoCyclePlaying) {
+                    return false;
+                }
+
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     playerRecordButton.setBackgroundResource(R.drawable.tps_play_record_on);
                     playerRecordButton.setTextColor(getResources().getColor(R.color.green));
@@ -533,16 +538,15 @@ public class PlayerActivity extends BaseActivity {
             }
         });
 
-        final LinearLayout playerMainButtonLayout = (LinearLayout) findViewById(R.id.player_main_button);
         final Animation operatingAnim = AnimationUtils.loadAnimation(this, R.anim.anim_rotate_player_device_list);
         LinearInterpolator lin = new LinearInterpolator();
         operatingAnim.setInterpolator(lin);
         slidingDrawer = (SlidingDrawer) findViewById(R.id.player_sliding_drawer);
+        playerMainButtonLayout = (LinearLayout) findViewById(R.id.player_main_button);
         slidingHandle = (ImageView) findViewById(R.id.player_handle);
         slidingDrawer.setOnDrawerOpenListener(new SlidingDrawer.OnDrawerOpenListener() {
             @Override
             public void onDrawerOpened() {
-                //slidingHandle.startAnimation(operatingAnim);
                 slidingHandle.setImageResource(R.drawable.down);
                 playerMainButtonLayout.setVisibility(View.GONE);
             }
