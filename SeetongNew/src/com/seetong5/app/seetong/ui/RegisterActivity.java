@@ -2,6 +2,7 @@ package com.seetong5.app.seetong.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -16,6 +17,8 @@ import com.seetong5.app.seetong.ui.ext.CountDownButtonHelper;
 import com.seetong5.app.seetong.ui.utils.DataCheckUtil;
 import ipc.android.sdk.com.SDK_CONSTANT;
 import java.io.*;
+import java.sql.Timestamp;
+import java.util.Calendar;
 
 /**
  * RegisterActivity主要用于通过App从服务器端注册用户，注册目前只支持邮箱注册和手机注册；
@@ -51,6 +54,8 @@ public class RegisterActivity extends BaseActivity {
     private ImageButton backButton;
     private Button obtainCheckCodeButton;
     private Button registerButton;
+    private Timestamp startTime;
+    private Timestamp endTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -228,11 +233,19 @@ public class RegisterActivity extends BaseActivity {
                 mRegInfo.userPwd = gStr(R.id.register_password);
                 mRegInfo.confirmPwd = gStr(R.id.register_confirm_password);
                 mRegInfo.verifyCode = gStr(R.id.register_verify_code);
-                bRet = true;
+
+                /* 检查校验码是否过期 */
+                Calendar calendar = Calendar.getInstance();
+                calendar.add(Calendar.MINUTE, -10);
+                endTime = new Timestamp(calendar.getTimeInMillis());
+                if (endTime.after(startTime)) {
+                    toast(R.string.register_verify_code_invalid);
+                    return false;
+                }
             }
         }
 
-        return bRet;
+        return true;
     }
 
     private boolean getVerifyCode() {
@@ -258,6 +271,7 @@ public class RegisterActivity extends BaseActivity {
                             toast(ConstantImpl.getRegNumberErrText(bRet));
                         }
                     } else {
+                        startTime = new Timestamp(System.currentTimeMillis());
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

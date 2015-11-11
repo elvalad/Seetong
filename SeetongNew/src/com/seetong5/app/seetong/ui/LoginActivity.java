@@ -163,7 +163,6 @@ public class LoginActivity extends BaseActivity {
         LibImpl.getInstance().addHandler(m_handler);
         Global.m_loginType = Define.LOGIN_TYPE_USER;
         if (!"".equals(gStr(R.id.login_account)) && !"".equals(gStr(R.id.login_password))) {
-            Global.m_loginType = Define.LOGIN_TYPE_USER;
             onBtnLogin();
             return;
         }

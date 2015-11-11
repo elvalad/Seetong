@@ -18,6 +18,8 @@ import com.seetong5.app.seetong.ui.utils.DataCheckUtil;
 import ipc.android.sdk.com.SDK_CONSTANT;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Calendar;
 
 /**
  * Created by Administrator on 2015/9/29.
@@ -52,6 +54,8 @@ public class ForgetPasswordActivity extends BaseActivity {
     private ImageButton backButton;
     private Button obtainCheckCodeButton;
     private Button resetPasswordButton;
+    private Timestamp startTime;
+    private Timestamp endTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +163,7 @@ public class ForgetPasswordActivity extends BaseActivity {
                     if (iRet != 0) {
                         toast(ConstantImpl.getRegNumberErrText(iRet));
                     } else {
+                        startTime = new Timestamp(System.currentTimeMillis());
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -237,9 +242,19 @@ public class ForgetPasswordActivity extends BaseActivity {
                 forgetInfo.userPwd = gStr(R.id.forget_password);
                 forgetInfo.confirmPwd = gStr(R.id.forget_confirm_password);
                 forgetInfo.verifyCode = gStr(R.id.forget_verify_code);
-                return true;
+
+                /* 检查校验码是否过期 */
+                Calendar calendar = Calendar.getInstance();
+                calendar.add(Calendar.MINUTE, -10);
+                endTime = new Timestamp(calendar.getTimeInMillis());
+                if (endTime.after(startTime)) {
+                    toast(R.string.forget_verify_code_invalid);
+                    return false;
+                }
             }
         }
+
+        return true;
     }
 
     private void onResetPassword() {

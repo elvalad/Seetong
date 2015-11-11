@@ -728,6 +728,7 @@
     <string name="register_password_too_long">密码长度超过限制</string>
     <string name="register_verify_code_null">校验码不能为空</string>
     <string name="register_network_err">请检查网络连接</string>
+    <string name="register_verify_code_invalid">校验码已失效</string>
 
     <string name="forget_password">忘记密码</string>
     <string name="forget_account_hint_text">请输入您的账号</string>
@@ -749,6 +750,7 @@
     <string name="forget_input_phone_mail">请输入手机或邮箱</string>
     <string name="forget_phone_mail_hint_text">请输入手机或邮箱</string>
     <string name="forget_input_correct_phone_mail">请输入正确的手机号或邮箱</string>
+    <string name="forget_verify_code_invalid">校验码已失效</string>
 
     <string name="main_device">设备</string>
     <string name="main_media">多媒体</string>
