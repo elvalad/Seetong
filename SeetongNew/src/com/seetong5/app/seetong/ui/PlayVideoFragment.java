@@ -135,7 +135,7 @@ public class PlayVideoFragment extends BaseFragment {
         @Override
         public boolean onDoubleTap(MotionEvent e) {
             //toast("play multi video");
-            stopCurrentPlay();
+            //stopCurrentPlay();
             PlayerActivity.m_this.setCurrentFragment("play_multi_video_fragment");
             PlayerActivity.m_this.playMultiVideo(playerDevice, currentIndex);
             return true;

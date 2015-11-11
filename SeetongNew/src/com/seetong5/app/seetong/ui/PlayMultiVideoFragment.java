@@ -149,7 +149,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         @Override
         public boolean onDoubleTap(MotionEvent e) {
             setCurrentWindow(e);
-            stopCurrentPlayList();
+            //stopCurrentPlayList();
             PlayerActivity.m_this.setCurrentFragment("play_video_fragment");
             PlayerActivity.m_this.playSignalVideo(getChoosenDevice(), currentIndex);
 
@@ -340,9 +340,9 @@ public class PlayMultiVideoFragment extends BaseFragment {
         PlayerActivity.m_this.resetWidget();
         stopVideoRecord();
         stopVideoSound();
-        LibImpl.stopPlay(currentIndex, chosenPlayerDevice);
-        chosenPlayerDevice.m_video.mIsStopVideo = true;
-        chosenPlayerDevice.m_video = null;
+        LibImpl.stopPlay(currentIndex, deviceList.get(currentIndex));
+        deviceList.get(currentIndex).m_video.mIsStopVideo = true;
+        deviceList.get(currentIndex).m_video = null;
     }
 
     public void autoCyclePlay() {
