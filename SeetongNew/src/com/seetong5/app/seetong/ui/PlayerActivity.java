@@ -698,6 +698,8 @@ public class PlayerActivity extends BaseActivity {
     }
 
     public void setCurrentFragment(String fragmentName) {
+        /* 如果此时是循环播放状态则不允许双击切换单画面和多画面 */
+        if (bAutoCyclePlaying) return;
         switch(fragmentName) {
             case "play_video_fragment":
                 this.currentFragment = playVideoFragment;
@@ -736,6 +738,8 @@ public class PlayerActivity extends BaseActivity {
     }
 
     public void playSignalVideo(PlayerDevice playerDevice, int index) {
+        /* 自动循环播放开启时不允许切换单画面和多画面 */
+        if (bAutoCyclePlaying) return;
         this.playerDevice = playerDevice;
         /* 多画面播放向单画面播放切换时要关闭自动循环播放 */
         if (autoPlayThread != null) {
@@ -750,6 +754,8 @@ public class PlayerActivity extends BaseActivity {
     }
 
     public void playMultiVideo(PlayerDevice playerDevice, int index) {
+        /* 自动循环播放开启时不允许切换单画面和多画面 */
+        if (bAutoCyclePlaying) return;
         this.playerDevice = playerDevice;
         /* 单画面播放向多画面播放切换时要关闭自动循环播放 */
         if (autoPlayThread != null) {
