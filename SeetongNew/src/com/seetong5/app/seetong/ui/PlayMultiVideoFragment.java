@@ -922,7 +922,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     public void setVideoInfo2(final int index, final String msg) {
         MarqueeTextView v = (MarqueeTextView) layoutMap.get(index).findViewById(R.id.tvMsgInfo);
         v.setVisibility(Config.m_show_video_info ? View.VISIBLE : View.GONE);
-        v.setText(msg);
+        v.setText(Global.m_mobile_net_type_2 + msg);
     }
 
     public boolean handleMessage(android.os.Message msg) {
