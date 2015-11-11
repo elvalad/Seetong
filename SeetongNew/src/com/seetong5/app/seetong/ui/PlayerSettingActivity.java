@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.*;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -408,9 +409,6 @@ public class PlayerSettingActivity extends BaseActivity {
         mTipDlg.setCallback(new ProgressDialog.ICallback() {
             @Override
             public void onTimeout() {
-                PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(deviceId);
-                if (null == dev) return;
-                //MainActivity.m_this.getVideoFragment().stopAndResetPlay(dev);
                 toast(R.string.dlg_wait_device_reboot_tip);
             }
 
@@ -447,6 +445,12 @@ public class PlayerSettingActivity extends BaseActivity {
         initWidget();
     }
 
+    @Override
+    protected void onDestroy() {
+        LibImpl.getInstance().removeHandler(m_handler);
+        super.onDestroy();
+    }
+
     private void getData() {
         int devType = playerDevice.m_dev.getDevType();
         if (100 == devType) { // IPC
@@ -478,11 +482,47 @@ public class PlayerSettingActivity extends BaseActivity {
         getData();
         adapter = new Adapter(PlayerSettingActivity.this, data);
         listView.setAdapter(adapter);
+
+        LibImpl.getInstance().addHandler(m_handler);
     }
 
     public void showTipDlg(int resId, int timeout, int timeoutMsg) {
         mTipDlg.setTitle(T(resId));
         mTipDlg.setTimeoutToast(T(timeoutMsg));
         mTipDlg.show(timeout);
+    }
+
+    private void onRestoreFactory(int flag) {
+        if (mTipDlg.isShowing()) mTipDlg.dismiss();
+        if (0 == flag) {
+            int ret = LibImpl.getInstance().getFuncLib().P2PDevSystemControl(deviceId, 1007, "");
+            toast(R.string.dlg_restore_factory_succeed_tip);
+        } else {
+            toast(R.string.dlg_restore_factory_failed_tip);
+        }
+    }
+
+    private void onRebootDevice(int flag) {
+        if (0 == flag) {
+            toast(R.string.dlg_wait_device_reboot_tip);
+        } else {
+            toast(R.string.dlg_restore_factory_failed_tip);
+        }
+    }
+
+    @Override
+    public void handleMessage(android.os.Message msg) {
+        int flag = msg.arg1;
+        switch (msg.what) {
+            case Define.MSG_SHOW_TOAST:
+                toast(msg.arg1);
+                break;
+            case 1002:
+                onRestoreFactory(flag);
+                break;
+            case 1007:
+                onRebootDevice(flag);
+                break;
+        }
     }
 }
