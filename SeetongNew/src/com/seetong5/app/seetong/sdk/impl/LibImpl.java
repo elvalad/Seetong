@@ -1818,7 +1818,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     if (dev != null) {
                         dev.m_connect_ok = false;
                         dev.m_dev.setOnLine(Device.OFFLINE);
-                        if (nResult == 0) setTipText(devID, R.string.dlg_device_offline_tip);
+                        //if (nResult == 0) setTipText(devID, R.string.dlg_device_offline_tip);
                     }
 
                     sendMessage(nMsgType, 0, 0, msgObj);
@@ -1842,7 +1842,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                         for (PlayerDevice dev : lst) {
                             dev.m_connect_ok = false;
                             dev.m_dev.setOnLine(Device.OFFLINE);
-                            setTipText(dev.m_devId, R.string.dlg_device_offline_tip);
+                            //setTipText(dev.m_devId, R.string.dlg_device_offline_tip);
                         }
                     }
 
@@ -1865,7 +1865,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     if (dev != null) {
                         dev.m_connect_ok = false;
                         dev.m_dev.setOnLine(Device.OFFLINE);
-                        setTipText(devID, R.string.dlg_device_offline_tip);
+                        //setTipText(devID, R.string.dlg_device_offline_tip);
                     }
 
                     sendMessage(nMsgType, 0, 0, msgObj);
@@ -2537,7 +2537,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         }
 
         if (!TextUtils.isEmpty(dev.m_tipInfo)) {
-            setTipText(devId, "");
+            sendMessage(Define.MSG_RECEIVER_MEDIA_FIRST_FRAME, 0, 0, dev);
         }
 
         OpenglesRender _glRender = dev.m_video;

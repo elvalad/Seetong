@@ -870,12 +870,17 @@ public class PlayVideoFragment extends BaseFragment {
             case SDK_CONSTANT.TPS_MSG_P2P_OFFLINE:
                 msgObj = (LibImpl.MsgObject) msg.obj;
                 TPS_NotifyInfo tn = (TPS_NotifyInfo) msgObj.recvObj;
-                //onMsgP2pOffline(tn);
+                onMsgP2pOffline(tn);
                 break;
             case SDK_CONSTANT.TPS_MSG_P2P_NVR_OFFLINE:
                 msgObj = (LibImpl.MsgObject) msg.obj;
                 TPS_NotifyInfo tni = (TPS_NotifyInfo) msgObj.recvObj;
-                //onMsgP2pNvrOffline(tni);
+                onMsgP2pNvrOffline(tni);
+                break;
+            case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_OFFLINE:
+                msgObj = (LibImpl.MsgObject) msg.obj;
+                TPS_NotifyInfo tnii = (TPS_NotifyInfo) msgObj.recvObj;
+                onMsgP2pNvrChnOffline(tnii);
                 break;
             case NetSDK_CMD_TYPE.CMD_GET_SYSTEM_USER_CONFIG:
                 msgObj = (LibImpl.MsgObject) msg.obj;
@@ -892,6 +897,21 @@ public class PlayVideoFragment extends BaseFragment {
         }
 
         return false;
+    }
+
+    private void onMsgP2pOffline(TPS_NotifyInfo tni) {
+        String devId = new String(tni.getSzDevId()).trim();
+        setTipText(devId, R.string.dlg_device_offline_tip);
+    }
+
+    private void onMsgP2pNvrOffline(TPS_NotifyInfo tni) {
+        String devId = new String(tni.getSzDevId()).trim();
+        setTipText(devId, R.string.dlg_device_offline_tip);
+    }
+
+    private void onMsgP2pNvrChnOffline(TPS_NotifyInfo tni) {
+        String devId = new String(tni.getSzDevId()).trim();
+        setTipText(devId, R.string.dlg_device_offline_tip);
     }
 
     private void onSetStatusInfo(android.os.Message msg) {
@@ -917,7 +937,10 @@ public class PlayVideoFragment extends BaseFragment {
         final String devId = new String(ts.getSzDevId()).trim();
         int result = ts.getnResult();
         if (result == 0) {//视频请求成功
-            setTipText(devId, R.string.tv_video_req_succeed_tip);
+            PlayerDevice dev = LibImpl.findDeviceByID(devId);
+            if (!dev.m_play) {
+                setTipText(devId, R.string.tv_video_req_succeed_tip);
+            }
         } else {
             /*if (-1 == result) {
                 setTipText(devId, R.string.dlg_login_fail_user_pwd_incorrect_tip);
