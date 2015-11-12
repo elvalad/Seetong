@@ -65,7 +65,8 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
     public PlayMultiVideoFragment(PlayerDevice playerDevice, int index) {
         this.playerDevice = getPlayerDeviceByIndex(playerDevice, index);
-        this.chosenPlayerDevice = this.playerDevice;
+        this.deviceList = getDeviceList(this.playerDevice);
+        this.chosenPlayerDevice = this.deviceList.get(index);
         this.currentIndex = index;
     }
 
@@ -78,7 +79,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
         mainLayout = (LinearLayout) fragmentView.findViewById(R.id.play_multi_video_layout);
         /* TODO:需要获取精确的每个图形绘制窗口的宽高,用于多画面到单画面时选择正确的device */
         location = PlayerActivity.m_this.getFragmentLocation();
-        deviceList = getDeviceList(playerDevice);
         gestureDetector = new GestureDetector(fragmentView.getContext(), new MyOnGestureListener());
         gestureDetector.setOnDoubleTapListener(new OnDoubleClick());
         initView();
