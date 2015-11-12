@@ -87,14 +87,28 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
 
     private synchronized void initFuncLib() {
         if (m_fc_inited || m_exit) return;
-        new Thread(new Runnable() {
+        Thread thread = new Thread() {
+            public void run() {
+                Global.getNetType();
+                int ret = s_func.initExAgent(Global.m_mobile_net_sub_type_2);
+                m_fc_inited = (0 == ret);
+            }
+        };
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
                 Global.getNetType();
                 int ret = s_func.initExAgent(Global.m_mobile_net_sub_type_2);
                 m_fc_inited = (0 == ret);
             }
-        }).start();
+        }).start();*/
     }
 
     public static int startPlay(int index, PlayerDevice dev, int nStreamNo, int nFrameType) {

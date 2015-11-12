@@ -619,6 +619,7 @@ public class PlayVideoFragment extends BaseFragment {
             }
         } else {
             setVideoInfo(0, dev.m_tipInfo);
+            setVideoInfo2(0, dev.m_tipTinfo2);
         }
 
         dev.m_play = true;
@@ -819,7 +820,12 @@ public class PlayVideoFragment extends BaseFragment {
     public void setVideoInfo2(final int index, final String msg) {
         MarqueeTextView v = (MarqueeTextView) mainLayout.findViewById(R.id.tvMsgInfo);
         v.setVisibility(Config.m_show_video_info ? View.VISIBLE : View.GONE);
-        v.setText(Global.m_mobile_net_type_2 + msg);
+        playerDevice.m_tipTinfo2 = msg;
+        if(msg.equals("")) {
+            v.setText(msg);
+        } else {
+            v.setText(Global.m_mobile_net_type_2 + msg);
+        }
     }
 
     public boolean handleMessage(android.os.Message msg) {
@@ -938,7 +944,7 @@ public class PlayVideoFragment extends BaseFragment {
         int result = ts.getnResult();
         if (result == 0) {//视频请求成功
             PlayerDevice dev = LibImpl.findDeviceByID(devId);
-            if (!dev.m_play) {
+            if (dev.m_online && !dev.m_play) {
                 setTipText(devId, R.string.tv_video_req_succeed_tip);
             }
         } else {

@@ -67,6 +67,7 @@ public class PlayerDevice {
     public String m_user = "admin";
     public String m_pwd = "123456";
     public String m_tipInfo = "";
+    public String m_tipTinfo2 = "";
     public String m_capacity_set = "";
     public List<String> m_lstPreset = new ArrayList<>();
     public TPS_AddWachtRsp m_add_watch_rsp;
