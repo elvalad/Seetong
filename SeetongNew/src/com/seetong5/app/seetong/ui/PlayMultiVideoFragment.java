@@ -486,6 +486,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         File dir = new File(filePath);
         if (!(dir.exists())) dir.mkdirs();
         int ret = LibImpl.getInstance().getFuncLib().StartRecordAgent(chosenPlayerDevice.m_dev.getDevId(), filePath, EtcInfo.PER_RECORD_TIME_LENGTH);
+        Log.d(TAG, "video record ret is : " + ret);
         if (0 != ret) {
             toast(R.string.fvu_tip_start_record_failed);
             return false;

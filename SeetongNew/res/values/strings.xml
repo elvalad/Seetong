@@ -379,6 +379,7 @@
     <string name="ipc_err_rsp_timeout">response timeout</string>
     <string name="ipc_err_p2p_dev_not_allow_replay">Device does not support the front-end playback</string>
     <string name="ipc_nvr_channel_offline">NVR channel offline</string>
+    <string name="ipc_err_user_not_find">User not find</string>
     <string name="ipc_err_send_error">send data error</string>
     <string name="ipc_err_recv_error">recv data error</string>
     <!-- ipc videoError -->

@@ -379,6 +379,7 @@
     <string name="ipc_err_rsp_timeout">响应超时</string>
     <string name="ipc_err_p2p_dev_not_allow_replay">设备不支持前端回放</string>
     <string name="ipc_nvr_channel_offline">NVR通道不在线</string>
+    <string name="ipc_err_user_not_find">账号未注册</string>
     <string name="ipc_err_send_error">发送数据错误</string>
     <string name="ipc_err_recv_error">接收数据错误</string>
     <!-- ipc videoError -->

@@ -84,11 +84,8 @@ public class ConstantImpl extends SDK_CONSTANT {
             case ERR_NVR_CHANNEL_OFFLINE:
                 str = Global.m_res.getString(R.string.ipc_nvr_channel_offline);
                 break;
-            case ERR_SOCKET_SEND:
-                str = Global.m_res.getString(R.string.ipc_err_send_error);
-                break;
-            case ERR_SOCKET_RECV:
-                str = Global.m_res.getString(R.string.ipc_err_recv_error);
+            case ERR_USER_NOT_FIND:
+                str = Global.m_res.getString(R.string.ipc_err_user_not_find);
                 break;
             case ERR_UNKOWN:
                 str = Global.m_res.getString(R.string.ipc_err_unkown);
