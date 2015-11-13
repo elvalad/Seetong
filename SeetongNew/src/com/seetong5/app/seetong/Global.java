@@ -119,7 +119,7 @@ public class Global {
 
     synchronized public static List<PlayerDevice> getSortedDeviceList() {
         sortDeviceListByOnline(m_deviceList);
-        sortDeviceListByPlayCount(m_deviceList);
+        //sortDeviceListByPlayCount(m_deviceList);
         return m_deviceList;
     }
 
@@ -147,8 +147,11 @@ public class Global {
         class DeviceSortByOnline implements Comparator<PlayerDevice> {
             @Override
             public int compare(PlayerDevice dev1, PlayerDevice dev2) {
-                if (dev1.m_dev.getOnLine() != Device.OFFLINE) return -1;
-                return dev1.m_dev.getOnLine() == dev2.m_dev.getOnLine() ? 0 : 1;
+                if (dev1.m_dev.getOnLine() > dev2.m_dev.getOnLine()) {
+                    return -1;
+                } else {
+                    return 1;
+                }
             }
         }
 

@@ -113,7 +113,7 @@ public class DeviceListAdapter2 extends BaseAdapter {
             viewHolder.deviceChooseButton.setImageBitmap(bmp);
         }
 
-        // TODO:根据播放列表的相关操作处理各个子控件，包括设置每个设备的背景图片,各个Button的响应以及state的变化
+        // 根据播放列表的相关操作处理各个子控件，包括设置每个设备的背景图片,各个Button的响应以及state的变化
         // http://blog.csdn.net/leoleohan/article/details/46553317
         // 这些所需数据均通过DeiceListFragment的getData函数具体获取，获取方式如下:
         // 1.背景图片需要从服务器端获取每个设备的视频图片；

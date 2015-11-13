@@ -39,10 +39,11 @@ public class PlayerActivity extends BaseActivity {
     private String deviceId = null;
 
     private PlayerDevice playerDevice;
-    private String currentFragmentName = "play_video_fragment";
+    private String currentFragmentName = "play_multi_video_fragment";
     private BaseFragment currentFragment;
     private PlayVideoFragment playVideoFragment;
     private PlayMultiVideoFragment multiVideoFragment;
+    private int[] viewLocation = new int[4];
 
     private static boolean bPlaying = true;
     private static boolean bAutoCyclePlaying = false;
@@ -76,8 +77,6 @@ public class PlayerActivity extends BaseActivity {
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_player);
         deviceId = getIntent().getStringExtra("device_id");
-        Log.d(TAG, "the device id is " + deviceId);
-        Log.d(TAG, "the current device is:" + LibImpl.findDeviceByID(deviceId));
 
         LibImpl.getInstance().addHandler(m_handler);
         playerDevice = LibImpl.findDeviceByID(PlayerActivity.m_this.getCurrentDeviceId());
@@ -179,6 +178,17 @@ public class PlayerActivity extends BaseActivity {
             setFullScreen(true);
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             setFullScreen(false);
+        }
+    }
+
+    public void onWindowFocusChanged (boolean hasFocus){
+        super.onWindowFocusChanged(hasFocus);
+        if(hasFocus){
+            View view = findViewById(R.id.player_fragment_container);
+            viewLocation[0] = view.getLeft();
+            viewLocation[1] = view.getRight();
+            viewLocation[2] = view.getTop();
+            viewLocation[3] = view.getBottom();
         }
     }
 
@@ -782,12 +792,6 @@ public class PlayerActivity extends BaseActivity {
     }
 
     public int[] getFragmentLocation() {
-        View view = findViewById(R.id.player_fragment_container);
-        int[] viewLocation = new int[4];
-        viewLocation[0] = view.getLeft();
-        viewLocation[1] = view.getRight();
-        viewLocation[2] = view.getTop();
-        viewLocation[3] = view.getBottom();
         return viewLocation;
     }
 

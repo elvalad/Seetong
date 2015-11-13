@@ -29,6 +29,7 @@ import com.seetong5.app.seetong.sdk.impl.ConstantImpl;
 import com.seetong5.app.seetong.sdk.impl.LibImpl;
 import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
 import com.seetong5.app.seetong.ui.aid.MarqueeTextView;
+import com.seetong5.app.seetong.ui.ext.IntegerEditText;
 import ipc.android.sdk.com.*;
 
 import java.io.File;
@@ -44,7 +45,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     private LinearLayout mainLayout;
     private PlayerDevice playerDevice;
     private PlayerDevice chosenPlayerDevice;
-    private int[] location = new int[2];
+    private int[] location = new int[4];
     List<PlayerDevice> deviceList = new LinkedList<>();
     private GestureDetector gestureDetector;
     private int currentIndex = 0;
@@ -54,6 +55,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     public static final int MAX_WINDOW_BY_COLUMN = 2;
     private static boolean bFullScreen = false;
     private Animation animation;
+    private Map<Integer, LinearLayout> rowLayoutMap = new HashMap<>();
     private Map<Integer, RelativeLayout> layoutMap = new HashMap<>();
     private Map<Integer, OpenglesRender> renderMap = new HashMap<>();
 
@@ -75,10 +77,10 @@ public class PlayMultiVideoFragment extends BaseFragment {
         Log.d(TAG, "PlayMultiVideoFragment onCreateView...");
         PlayerActivity.m_this.setPlayMultiVideoFragment(this);
         Global.m_audioManage.setMode(AudioManager.MODE_NORMAL);
+        /* 需要获取精确的每个图形绘制窗口的宽高 */
+        location = PlayerActivity.m_this.getFragmentLocation();
         fragmentView = inflater.inflate(R.layout.play_multi_video, container, false);
         mainLayout = (LinearLayout) fragmentView.findViewById(R.id.play_multi_video_layout);
-        /* TODO:需要获取精确的每个图形绘制窗口的宽高,用于多画面到单画面时选择正确的device */
-        location = PlayerActivity.m_this.getFragmentLocation();
         gestureDetector = new GestureDetector(fragmentView.getContext(), new MyOnGestureListener());
         gestureDetector.setOnDoubleTapListener(new OnDoubleClick());
         initView();
@@ -124,14 +126,12 @@ public class PlayMultiVideoFragment extends BaseFragment {
             }
 
             /* 如果GestureDetector检测到用户向左滑动，则显示上一个设备的视频 */
-            if ((e2.getX() -e1.getX()) > FLING_MOVEMENT_THRESHOLD) {
-                //toast("previous");
+            if ((e2.getX() - e1.getX()) > FLING_MOVEMENT_THRESHOLD) {
                 showPreviousDeviceListVideo(playerDevice);
             }
 
             /* 如果GestureDetector检测到用户向右滑动，这显示下一个设备的视频 */
             if ((e1.getX() - e2.getX()) > FLING_MOVEMENT_THRESHOLD) {
-                //toast("next");
                 showNextDeviceListVideo(playerDevice);
             }
 
@@ -148,18 +148,18 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            setCurrentWindow(e);
-            //stopCurrentPlayList();
+            /*setCurrentWindow(e);
+            stopCurrentPlayList();
             PlayerActivity.m_this.setCurrentFragment("play_video_fragment");
-            PlayerActivity.m_this.playSignalVideo(getChoosenDevice(), currentIndex);
+            PlayerActivity.m_this.playSignalVideo(getChoosenDevice(), currentIndex);*/
 
-            /*if (bFullScreen) {
+            if (bFullScreen) {
                 resetCurrentWindow();
                 bFullScreen = false;
             } else {
                 fullCurrentWindow();
                 bFullScreen = true;
-            }*/
+            }
 
             return true;
         }
@@ -171,6 +171,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         float w = location[1] - location[0];
         float h = location[3] - location[2];
 
+        Log.d(TAG, "l0 " + location[0] + " l1 " + location[1] + " l2 " + location[2] + " l3 " + location[3]);
         Log.d(TAG, "x:" + x + " y:" + y + " w:" + w + " h:" + h);
 
         layoutMap.get(currentIndex).setBackgroundColor(getResources().getColor(R.color.video_view_normal_border));
@@ -209,15 +210,32 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
     private void fullCurrentWindow() {
         for (int i = 0; i < MAX_WINDOW; i++) {
-            Log.e(TAG, "i is " + i + "current index is " + currentIndex);
-            layoutMap.get(i).setVisibility(View.GONE);
+            if (i != currentIndex) {
+                renderMap.get(i).getSurface().setVisibility(View.GONE);
+                layoutMap.get(i).setVisibility(View.GONE);
+            }
         }
+
+        for (int i = 0; i < rowLayoutMap.size(); i++) {
+            if (i == (currentIndex / MAX_WINDOW_BY_ROW)) {
+                rowLayoutMap.get(i).setVisibility(View.VISIBLE);
+            } else {
+                rowLayoutMap.get(i).setVisibility(View.GONE);
+            }
+        }
+
         layoutMap.get(currentIndex).setVisibility(View.VISIBLE);
+        renderMap.get(currentIndex).getSurface().setVisibility(View.VISIBLE);
     }
 
     private void resetCurrentWindow() {
+        for (int i = 0; i < rowLayoutMap.size(); i++) {
+            rowLayoutMap.get(i).setVisibility(View.VISIBLE);
+        }
+
         for (int i = 0; i < MAX_WINDOW; i++) {
             layoutMap.get(i).setVisibility(View.VISIBLE);
+            renderMap.get(i).getSurface().setVisibility(View.VISIBLE);
         }
     }
 
@@ -230,7 +248,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
             if (null == layout) {
                 layout = (RelativeLayout) layoutInflater.inflate(R.layout.play_multi_video_item, null);
                 layout.setTag(i);
-                //layout.setOnClickListener(this);
                 layoutMap.put(i, layout);
             }
 
@@ -280,11 +297,12 @@ public class PlayMultiVideoFragment extends BaseFragment {
             }
 
             mainLayout.addView(row, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1));
+            rowLayoutMap.put((i / MAX_WINDOW_BY_ROW), row);
             row = new LinearLayout(mainLayout.getContext());
             row.setOrientation(LinearLayout.HORIZONTAL);
         }
 
-        //animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_next_video);
+        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_next_video);
     }
 
     private List<PlayerDevice> getDeviceList(PlayerDevice device) {
@@ -670,25 +688,49 @@ public class PlayMultiVideoFragment extends BaseFragment {
             devList.get(i).m_play = true;
             devList.get(i).m_view_id = i;
 
-            View view = layout.findViewById(R.id.tvLiveInfo);
-            view.setVisibility(View.VISIBLE);
-            view = devList.get(i).m_video.getSurface();
-            view.setBackgroundColor(Color.TRANSPARENT);
-            view.setVisibility(View.VISIBLE);
+            if (bFullScreen) {
+                if (i == currentIndex) {
+                    View view = layout.findViewById(R.id.tvLiveInfo);
+                    view.setVisibility(View.VISIBLE);
+                    view = devList.get(i).m_video.getSurface();
+                    view.setBackgroundColor(Color.TRANSPARENT);
+                    view.setVisibility(View.VISIBLE);
 
-            devList.get(i).m_audio = new AudioPlayer(i);
-            devList.get(i).m_audio.mIsAecm = false;
-            devList.get(i).m_audio.mIsNoiseReduction = false;
-            devList.get(i).m_audio.addRecordCallback(new AudioPlayer.MyRecordCallback() {
-                @Override
-                public void recvRecordData(byte[] data, int length, int reserver) {
-                    if (reserver >= 0) {
-                        PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(reserver);
-                        if (null == dev || null == dev.m_dev) return;
-                        LibImpl.getInstance().recvRecordData(data, length, dev.m_dev.getDevId(), reserver);
-                    }
+                    devList.get(i).m_audio = new AudioPlayer(i);
+                    devList.get(i).m_audio.mIsAecm = false;
+                    devList.get(i).m_audio.mIsNoiseReduction = false;
+                    devList.get(i).m_audio.addRecordCallback(new AudioPlayer.MyRecordCallback() {
+                        @Override
+                        public void recvRecordData(byte[] data, int length, int reserver) {
+                            if (reserver >= 0) {
+                                PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(reserver);
+                                if (null == dev || null == dev.m_dev) return;
+                                LibImpl.getInstance().recvRecordData(data, length, dev.m_dev.getDevId(), reserver);
+                            }
+                        }
+                    });
                 }
-            });
+            } else {
+                View view = layout.findViewById(R.id.tvLiveInfo);
+                view.setVisibility(View.VISIBLE);
+                view = devList.get(i).m_video.getSurface();
+                view.setBackgroundColor(Color.TRANSPARENT);
+                view.setVisibility(View.VISIBLE);
+
+                devList.get(i).m_audio = new AudioPlayer(i);
+                devList.get(i).m_audio.mIsAecm = false;
+                devList.get(i).m_audio.mIsNoiseReduction = false;
+                devList.get(i).m_audio.addRecordCallback(new AudioPlayer.MyRecordCallback() {
+                    @Override
+                    public void recvRecordData(byte[] data, int length, int reserver) {
+                        if (reserver >= 0) {
+                            PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(reserver);
+                            if (null == dev || null == dev.m_dev) return;
+                            LibImpl.getInstance().recvRecordData(data, length, dev.m_dev.getDevId(), reserver);
+                        }
+                    }
+                });
+            }
         }
 
         fragmentView.setAnimation(animation);
@@ -721,6 +763,59 @@ public class PlayMultiVideoFragment extends BaseFragment {
         for (int i = 0; i < MAX_WINDOW; i++) {
             LibImpl.stopPlay(i, this.deviceList.get(i));
         }
+    }
+
+    private boolean startSinglePlay(PlayerDevice dev) {
+        if (null == dev) {
+            Log.e(TAG, "device is null!!!");
+            return false;
+        }
+
+        dev.m_device_play_count++;
+        dev.m_video = renderMap.get(currentIndex);;
+        dev.m_video.mIsStopVideo = false;
+
+        if (!dev.m_play) {
+            int ret = LibImpl.startPlay(0, dev, dev.m_stream_type, dev.m_frame_type);
+            if (ret == 0) {
+                dev.m_online = true;
+                dev.m_playing = false;
+                setVideoInfo(0, T(R.string.tv_video_req_tip));
+            } else {
+                String selfID = "";
+                if (LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(dev.m_dev.getDevId())) != null) {
+                    selfID = LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(dev.m_dev.getDevId())).getNotifyStr();
+                }
+
+                Log.i("DeviceNotifyInfo", "DeviceNotifyInfo ary:" + LibImpl.mDeviceNotifyInfo + ".");
+                selfID = (isNullStr(selfID)) ? "" : ("(" + selfID + ")");
+                setVideoInfo(0, ConstantImpl.getTPSErrText(ret, false) + selfID);
+                toast(ConstantImpl.getTPSErrText(ret, false) + selfID);
+                return false;
+            }
+        } else {
+            setVideoInfo(0, dev.m_tipInfo);
+            setVideoInfo2(0, dev.m_tipTinfo2);
+        }
+
+        dev.m_play = true;
+        dev.m_view_id = currentIndex;
+
+        dev.m_audio = new AudioPlayer(currentIndex);
+        dev.m_audio.mIsAecm = false;
+        dev.m_audio.mIsNoiseReduction = false;
+        dev.m_audio.addRecordCallback(new AudioPlayer.MyRecordCallback() {
+            @Override
+            public void recvRecordData(byte[] data, int length, int reserver) {
+                if (reserver >= 0) {
+                    PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(reserver);
+                    if (null == dev || null == dev.m_dev) return;
+                    LibImpl.getInstance().recvRecordData(data, length, dev.m_dev.getDevId(), reserver);
+                }
+            }
+        });
+
+        return true;
     }
 
     private void setCurrentDevice(PlayerDevice device) {
@@ -785,10 +880,18 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
         for (int i = 0; i < list.size(); i++) {
             if (device.equals(list.get(i))) {
-                if ((i - MAX_WINDOW) >= 0) {
-                    setCurrentDevice(list.get(i -  MAX_WINDOW));
+                if (bFullScreen) {
+                    if ((i - 1) >= 0) {
+                        setCurrentDevice(list.get(i - 1));
+                    } else {
+                        setCurrentDevice(list.get(list.size() - 1));
+                    }
                 } else {
-                    setCurrentDevice(list.get(i + list.size() - MAX_WINDOW));
+                    if ((i - MAX_WINDOW) >= 0) {
+                        setCurrentDevice(list.get(i - MAX_WINDOW));
+                    } else {
+                        setCurrentDevice(list.get(i + list.size() - MAX_WINDOW));
+                    }
                 }
                 break;
             }
@@ -800,11 +903,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
         PlayerActivity.m_this.setCurrentDeviceId(this.chosenPlayerDevice.m_devId);
         animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_prev_video);
         Boolean bRet = startPlay(this.deviceList);
-        for (int i = 0; i < MAX_WINDOW; i++) {
-            layout = layoutMap.get(i);
-            layout.findViewById(R.id.liveVideoView).setVisibility(View.VISIBLE);
-        }
-
         if (!bRet) {
             Log.e(TAG, "Start previous device err!!!");
         }
@@ -838,10 +936,18 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
         for (int i = list.size() - 1; i >= 0; i--) {
             if (device.equals(list.get(i))) {
-                if ((i + MAX_WINDOW) <= (list.size() - 1)) {
-                    setCurrentDevice(list.get(i + MAX_WINDOW));
+                if (bFullScreen) {
+                    if (i < list.size() - 1) {
+                        setCurrentDevice(list.get(i + 1));
+                    } else {
+                        setCurrentDevice(list.get(0));
+                    }
                 } else {
-                    setCurrentDevice(list.get(i + MAX_WINDOW - list.size()));
+                    if ((i + MAX_WINDOW) <= (list.size() - 1)) {
+                        setCurrentDevice(list.get(i + MAX_WINDOW));
+                    } else {
+                        setCurrentDevice(list.get(i + MAX_WINDOW - list.size()));
+                    }
                 }
                 break;
             }
@@ -853,11 +959,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
         PlayerActivity.m_this.setCurrentDeviceId(this.chosenPlayerDevice.m_devId);
         animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_next_video);
         Boolean bRet = startPlay(this.deviceList);
-        for (int i = 0; i < MAX_WINDOW; i++) {
-            layout = layoutMap.get(i);
-            layout.findViewById(R.id.liveVideoView).setVisibility(View.VISIBLE);
-        }
-
         if (!bRet) {
             Log.e(TAG, "Start next device err!!!");
         }
@@ -876,16 +977,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     public void setVideoInfo(final int index, final String msg) {
         RelativeLayout layout = layoutMap.get(index);
         MarqueeTextView v = (MarqueeTextView) layout.findViewById(R.id.tvLiveInfo);
-        //v.setVisibility(View.VISIBLE);
         String dev_type = "";
-        /*
-        if (0 == deviceList.get(index).m_net_type) {
-            dev_type = "-O";
-        } else if (16 == deviceList.get(index).m_net_type) {
-            dev_type = "-R";
-        } else if (-1 != deviceList.get(index).m_net_type) {
-            dev_type = "-P";
-        }*/
 
         if (null == msg) {
             v.setVisibility(View.GONE);
@@ -967,7 +1059,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 //onLoginFailed((PlayerDevice) msg.obj);
                 return true;
             case LibImpl.MSG_VIDEO_SET_STATUS_INFO:
-                //onSetStatusInfo(msg);
+                onSetStatusInfo(msg);
                 return true;
             case SDK_CONSTANT.TPS_MSG_RSP_PTZREQ:
                 String data = (String) msg.obj;
@@ -977,28 +1069,13 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 TPS_AddWachtRsp tas = (TPS_AddWachtRsp) msg.obj;
                 onAddWatchResp(tas);
                 return true;
-            case SDK_CONSTANT.TPS_MSG_P2P_OFFLINE:
-                msgObj = (LibImpl.MsgObject) msg.obj;
-                TPS_NotifyInfo tn = (TPS_NotifyInfo) msgObj.recvObj;
-                onMsgP2pOffline(tn);
-                break;
-            case SDK_CONSTANT.TPS_MSG_P2P_NVR_OFFLINE:
-                msgObj = (LibImpl.MsgObject) msg.obj;
-                TPS_NotifyInfo tni = (TPS_NotifyInfo) msgObj.recvObj;
-                onMsgP2pNvrOffline(tni);
-                break;
-            case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_OFFLINE:
-                msgObj = (LibImpl.MsgObject) msg.obj;
-                TPS_NotifyInfo tnii = (TPS_NotifyInfo) msgObj.recvObj;
-                onMsgP2pNvrChnOffline(tnii);
-                break;
             case NetSDK_CMD_TYPE.CMD_GET_SYSTEM_USER_CONFIG:
                 msgObj = (LibImpl.MsgObject) msg.obj;
                 List<NetSDK_UserAccount> lst = (List<NetSDK_UserAccount>) msgObj.recvObj;
                 //CheckDefaultUserPwd(LibImpl.getInstance().getPlayerDevice(msgObj.devID));
                 return false;
             case SDK_CONSTANT.TPS_MSG_NOTIFY_DISP_INFO:
-                tni = (TPS_NotifyInfo) msg.obj;
+                TPS_NotifyInfo tni = (TPS_NotifyInfo) msg.obj;
                 onNotifyDispInfo(tni);
                 return true;
             case Define.MSG_RECEIVER_MEDIA_FIRST_FRAME:
@@ -1008,22 +1085,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
         return false;
     }
-
-    private void onMsgP2pOffline(TPS_NotifyInfo tni) {
-        String devId = new String(tni.getSzDevId()).trim();
-        setTipText(devId, R.string.dlg_device_offline_tip);
-    }
-
-    private void onMsgP2pNvrOffline(TPS_NotifyInfo tni) {
-        String devId = new String(tni.getSzDevId()).trim();
-        setTipText(devId, R.string.dlg_device_offline_tip);
-    }
-
-    private void onMsgP2pNvrChnOffline(TPS_NotifyInfo tni) {
-        String devId = new String(tni.getSzDevId()).trim();
-        setTipText(devId, R.string.dlg_device_offline_tip);
-    }
-
 
     private void onSetStatusInfo(android.os.Message msg) {
         if (msg.arg1 == 0) {

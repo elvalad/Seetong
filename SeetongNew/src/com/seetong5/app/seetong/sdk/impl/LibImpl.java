@@ -1305,16 +1305,6 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         sendMessage(nMsgType, result, 0, data);
     }
 
-    private void onNofityDispInfo(int nMsgType, byte[] pData, int nDataLen) {
-        ByteBuffer byteBuffer = ByteBuffer.allocate(nDataLen);
-        byteBuffer.order(ByteOrder.nativeOrder());
-        byteBuffer.put(pData, 0, nDataLen);
-        byteBuffer.rewind();
-        TPS_NotifyInfo ni = (TPS_NotifyInfo) TPS_NotifyInfo.createObjectByByteBuffer(byteBuffer);
-        Log.d(TAG, "onNofityDispInfo" + ni.toString());
-        sendMessage(nMsgType, 0, 0, ni);
-    }
-
     private void onOssReplayParam(int nMsgType, byte[] pData, int nDataLen) {
         int size = TPS_ReplayDevFileRsp.SIZE;
         if (pData == null || nDataLen != size) return;
@@ -1832,7 +1822,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     if (dev != null) {
                         dev.m_connect_ok = false;
                         dev.m_dev.setOnLine(Device.OFFLINE);
-                        //if (nResult == 0) setTipText(devID, R.string.dlg_device_offline_tip);
+                        if (nResult == 0) setTipText(devID, R.string.dlg_device_offline_tip);
                     }
 
                     sendMessage(nMsgType, 0, 0, msgObj);
@@ -1856,7 +1846,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                         for (PlayerDevice dev : lst) {
                             dev.m_connect_ok = false;
                             dev.m_dev.setOnLine(Device.OFFLINE);
-                            //setTipText(dev.m_devId, R.string.dlg_device_offline_tip);
+                            setTipText(dev.m_devId, R.string.dlg_device_offline_tip);
                         }
                     }
 
@@ -1879,7 +1869,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     if (dev != null) {
                         dev.m_connect_ok = false;
                         dev.m_dev.setOnLine(Device.OFFLINE);
-                        //setTipText(devID, R.string.dlg_device_offline_tip);
+                        setTipText(devID, R.string.dlg_device_offline_tip);
                     }
 
                     sendMessage(nMsgType, 0, 0, msgObj);
@@ -2019,6 +2009,16 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         String devId = new String(ni.getSzDevId()).trim();
         PlayerDevice dev = findDeviceByID(devId);
         if (null == dev) return;
+        sendMessage(nMsgType, 0, 0, ni);
+    }
+
+    private void onNofityDispInfo(int nMsgType, byte[] pData, int nDataLen) {
+        ByteBuffer byteBuffer = ByteBuffer.allocate(nDataLen);
+        byteBuffer.order(ByteOrder.nativeOrder());
+        byteBuffer.put(pData, 0, nDataLen);
+        byteBuffer.rewind();
+        TPS_NotifyInfo ni = (TPS_NotifyInfo) TPS_NotifyInfo.createObjectByByteBuffer(byteBuffer);
+        Log.d(TAG, "onNofityDispInfo" + ni.toString());
         sendMessage(nMsgType, 0, 0, ni);
     }
 
@@ -2551,7 +2551,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         }
 
         if (!TextUtils.isEmpty(dev.m_tipInfo)) {
-            sendMessage(Define.MSG_RECEIVER_MEDIA_FIRST_FRAME, 0, 0, dev);
+            setTipText(devId, "");
         }
 
         OpenglesRender _glRender = dev.m_video;
