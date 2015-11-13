@@ -96,7 +96,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         };
         thread.start();
         try {
-            thread.join();
+            thread.join(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

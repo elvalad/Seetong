@@ -147,11 +147,8 @@ public class Global {
         class DeviceSortByOnline implements Comparator<PlayerDevice> {
             @Override
             public int compare(PlayerDevice dev1, PlayerDevice dev2) {
-                if (dev1.m_dev.getOnLine() > dev2.m_dev.getOnLine()) {
-                    return -1;
-                } else {
-                    return 1;
-                }
+                return dev1.m_dev.getOnLine() == dev2.m_dev.getOnLine() ? 0 :
+                        (dev1.m_dev.getOnLine() > dev2.m_dev.getOnLine() ? -1 : 1);
             }
         }
 

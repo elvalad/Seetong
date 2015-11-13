@@ -2,10 +2,7 @@ package com.seetong5.app.seetong.ui;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.PointF;
+import android.graphics.*;
 import android.media.AudioManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -77,8 +74,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
         Log.d(TAG, "PlayMultiVideoFragment onCreateView...");
         PlayerActivity.m_this.setPlayMultiVideoFragment(this);
         Global.m_audioManage.setMode(AudioManager.MODE_NORMAL);
-        /* 需要获取精确的每个图形绘制窗口的宽高 */
-        location = PlayerActivity.m_this.getFragmentLocation();
         fragmentView = inflater.inflate(R.layout.play_multi_video, container, false);
         mainLayout = (LinearLayout) fragmentView.findViewById(R.id.play_multi_video_layout);
         gestureDetector = new GestureDetector(fragmentView.getContext(), new MyOnGestureListener());
@@ -162,6 +157,8 @@ public class PlayMultiVideoFragment extends BaseFragment {
     }
 
     private void setCurrentWindow(MotionEvent e) {
+        /* 需要获取精确的每个图形绘制窗口的宽高，在这里获取的原因是为了确保横屏和竖屏时都能获得正确的location */
+        location = PlayerActivity.m_this.getFragmentLocation();
         float x = e.getRawX();
         float y = e.getRawY();
         float w = location[1] - location[0];

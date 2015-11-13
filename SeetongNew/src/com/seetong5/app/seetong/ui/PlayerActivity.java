@@ -181,7 +181,7 @@ public class PlayerActivity extends BaseActivity {
 
     public void onWindowFocusChanged (boolean hasFocus){
         super.onWindowFocusChanged(hasFocus);
-        if(hasFocus){
+        if(hasFocus) {
             View view = findViewById(R.id.player_fragment_container);
             viewLocation[0] = view.getLeft();
             viewLocation[1] = view.getRight();
