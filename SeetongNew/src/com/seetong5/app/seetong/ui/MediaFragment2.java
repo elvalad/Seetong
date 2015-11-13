@@ -2,11 +2,8 @@ package com.seetong5.app.seetong.ui;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,9 +12,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
-
-import java.io.File;
-
 
 /**
  * MediaFragment 主要用于显示多媒体文件列表的 Fragment，它也是包含在 MainActivity 的 TabHost 中，

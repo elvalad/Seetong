@@ -9,9 +9,7 @@ import android.os.*;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
@@ -209,7 +207,7 @@ public class PlayerActivity extends BaseActivity {
     private void setFullScreen(boolean bFullScreen) {
         LinearLayout.LayoutParams params;
         int show = bFullScreen ? View.GONE : View.VISIBLE;
-        //findViewById(R.id.player_title).setVisibility(show);
+        findViewById(R.id.player_title).setVisibility(show);
         findViewById(R.id.player_blank).setFadingEdgeLength(show);
         findViewById(R.id.player_operation_button).setVisibility(show);
         findViewById(R.id.player_split_line).setVisibility(show);
@@ -245,7 +243,6 @@ public class PlayerActivity extends BaseActivity {
     }
 
     private void initWidget() {
-        findViewById(R.id.player_title).setVisibility(View.GONE);
         playerBackButton = (ImageButton) findViewById(R.id.player_back);
         playerBackButton.setOnClickListener(new View.OnClickListener() {
             @Override

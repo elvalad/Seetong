@@ -7,7 +7,6 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -47,7 +46,6 @@ public class AddDeviceActivity extends BaseActivity {
         Log.i(AddDeviceActivity.class.getName(), "onCreate...");
         super.onCreate(savedInstanceState);
         mhHandler = new MyHandler(this);
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_add_device);
         initWidget();
     }

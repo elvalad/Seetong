@@ -5,10 +5,12 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.media.AudioManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.FloatMath;
 import android.util.Log;
 import android.view.*;
 import android.view.animation.Animation;
@@ -29,7 +31,6 @@ import com.seetong5.app.seetong.sdk.impl.ConstantImpl;
 import com.seetong5.app.seetong.sdk.impl.LibImpl;
 import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
 import com.seetong5.app.seetong.ui.aid.MarqueeTextView;
-import com.seetong5.app.seetong.ui.ext.IntegerEditText;
 import ipc.android.sdk.com.*;
 
 import java.io.File;
@@ -52,7 +53,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
     public static final int FLING_MOVEMENT_THRESHOLD = 100;
     public static final int MAX_WINDOW = 4;
     public static final int MAX_WINDOW_BY_ROW = 2;
-    public static final int MAX_WINDOW_BY_COLUMN = 2;
     private static boolean bFullScreen = false;
     private Animation animation;
     private Map<Integer, LinearLayout> rowLayoutMap = new HashMap<>();
@@ -148,11 +148,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            /*setCurrentWindow(e);
-            stopCurrentPlayList();
-            PlayerActivity.m_this.setCurrentFragment("play_video_fragment");
-            PlayerActivity.m_this.playSignalVideo(getChoosenDevice(), currentIndex);*/
-
+            setCurrentWindow(e);
             if (bFullScreen) {
                 resetCurrentWindow();
                 bFullScreen = false;
@@ -171,8 +167,8 @@ public class PlayMultiVideoFragment extends BaseFragment {
         float w = location[1] - location[0];
         float h = location[3] - location[2];
 
-        Log.d(TAG, "l0 " + location[0] + " l1 " + location[1] + " l2 " + location[2] + " l3 " + location[3]);
-        Log.d(TAG, "x:" + x + " y:" + y + " w:" + w + " h:" + h);
+        //Log.d(TAG, "l0 " + location[0] + " l1 " + location[1] + " l2 " + location[2] + " l3 " + location[3]);
+        //Log.d(TAG, "x:" + x + " y:" + y + " w:" + w + " h:" + h);
 
         layoutMap.get(currentIndex).setBackgroundColor(getResources().getColor(R.color.video_view_normal_border));
 
@@ -239,6 +235,138 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
     }
 
+    class TouchListener implements View.OnTouchListener {
+        private int mode = 0;
+        private static final int DRAG = 1;
+        private static final int ZOOM = 2;
+        private static final float MAX_SCALE = 4.0f;
+        private static final float MIN_SCALE = 0.25f;
+        private static final float MIN_SPCE = 10f;
+        private float preScale;
+        private float oldDist = 1f;
+        private PointF start = new PointF();
+        private PointF mid = new PointF();
+        PointF startOffset = new PointF();
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if (null == playerDevice) {
+                return gestureDetector.onTouchEvent(event);
+            }
+            OpenglesRender render = playerDevice.m_video;
+            if (null == render) {
+                return gestureDetector.onTouchEvent(event);
+            }
+            switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                case MotionEvent.ACTION_DOWN:
+                    mode = DRAG;
+                    preScale = render.bitmapScale;
+                    start.set(event.getX(), event.getY());
+                    startOffset.set(render.mStartX, render.mStartY);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    if (mode == DRAG) {
+                        if (render.bitmapScale > 1.0) {
+                            float dtX = event.getX() - start.x;
+                            float dtY = event.getY() - start.y;
+                            start.set(event.getX(), event.getY());
+                            render.mStartX += dtX;
+                            render.mStartY -= dtY;
+
+                            //向右拖动
+                            if (dtX > 0) {
+                                if (render.mScaleBitmapW < render.mViewWidth) {
+                                    if (render.mViewWidth - (render.mTargetX + render.mStartX + render.mScaleBitmapW) < 10)
+                                        render.mStartX = render.mViewWidth - (int) (render.mTargetX + render.mScaleBitmapW) - 10;
+                                } else {
+                                    int w = render.mScaleBitmapW - render.mViewWidth + 10;
+                                    if ((render.mViewWidth + w) - (render.mTargetX + render.mStartX + render.mScaleBitmapW) < 10)
+                                        render.mStartX = (render.mViewWidth + w) - (int) (render.mTargetX + render.mScaleBitmapW);
+                                }
+                            } else {
+                                if (render.mScaleBitmapW < render.mViewWidth) {
+                                    if (render.mTargetX - Math.abs(render.mStartX) < 10)
+                                        render.mStartX = (int) -(render.mTargetX - 10);
+                                } else {
+                                    int w = render.mScaleBitmapW - render.mViewWidth + 10;
+                                    if ((render.mTargetX + w) - Math.abs(render.mStartX) < 0)
+                                        render.mStartX = (int) -(render.mTargetX + w);
+                                }
+                            }
+
+                            //向下拖动
+                            if (dtY > 0) {
+                                if (render.mScaleBitmapH < render.mViewHeight) {
+                                    if (render.mTargetY - Math.abs(render.mStartY) < 10)
+                                        render.mStartY = (int) -(render.mTargetY - 10);
+                                } else {
+                                    int h = render.mScaleBitmapH - render.mViewHeight + 10;
+                                    if ((render.mTargetY + h) - Math.abs(render.mStartY) < 0)
+                                        render.mStartY = (int) -(render.mTargetY + h);
+                                }
+                            } else {
+                                if (render.mScaleBitmapH < render.mViewHeight) {
+                                    if (render.mViewHeight - (render.mTargetY + render.mStartY + render.mScaleBitmapH) < 10)
+                                        render.mStartY = render.mViewHeight - (int) (render.mTargetY + render.mScaleBitmapH) - 10;
+                                } else {
+                                    int h = render.mScaleBitmapH - render.mViewHeight + 10;
+                                    if ((render.mViewHeight + h) - (render.mTargetY + render.mStartY + render.mScaleBitmapH) < 10)
+                                        render.mStartY = (render.mViewHeight + h) - (int) (render.mTargetY + render.mScaleBitmapH);
+                                }
+                            }
+                        }
+                    } else if (mode == ZOOM) {
+                        float newDist = spacing(event);
+                        if (newDist > MIN_SPCE) {
+                            float scale = (newDist / oldDist) * preScale;
+                            scale = (scale >= MAX_SCALE) ? MAX_SCALE : scale;
+                            scale = (scale <= MIN_SCALE) ? MIN_SCALE : scale;
+                            render.bitmapScale = scale;
+
+                            float dtX = (scale - preScale) * render.mSrcBitmapW / 2;
+                            float dtY = (scale - preScale) * render.mSrcBitmapH / 2;
+                            render.mStartX = (int) (startOffset.x - dtX);
+                            render.mStartY = (int) (startOffset.y - dtY);
+                        }
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    mode = 0;
+                    if (render.bitmapScale <= 1.0) {
+                        render.resetScaleInfo();
+                    }
+                    break;
+                case MotionEvent.ACTION_POINTER_UP:
+                    mode = 0;
+                    if (render.bitmapScale <= 1.0) {
+                        render.resetScaleInfo();
+                    }
+                    break;
+                case MotionEvent.ACTION_POINTER_DOWN:
+                    oldDist = this.spacing(event);
+                    if (oldDist > MIN_SPCE) {
+                        midPoint(mid, event);
+                        mode = ZOOM;
+                    }
+                    break;
+            }
+            return gestureDetector.onTouchEvent(event);
+        }
+
+        public float spacing(MotionEvent event) {//两点的距离
+            float x = event.getX(0) - event.getX(1);
+            float y = event.getY(0) - event.getY(1);
+            return FloatMath.sqrt(x * x + y * y);
+        }
+
+        public void midPoint(PointF point, MotionEvent event) {//中点坐标
+            float x = event.getX(0) + event.getX(1);
+            float y = event.getY(0) + event.getY(1);
+            point.set(x / 2, y / 2);
+        }
+    }
+
+
     private void initView() {
         LayoutInflater layoutInflater = LayoutInflater.from(fragmentView.getContext());
         LinearLayout row = new LinearLayout(mainLayout.getContext());
@@ -269,13 +397,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 });
 
                 openglesView.setLongClickable(true);
-                openglesView.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent motionEvent) {
-                        gestureDetector.onTouchEvent(motionEvent);
-                        return true;
-                    }
-                });
+                openglesView.setOnTouchListener(new TouchListener());
 
                 openglesRender.addCheckCallback(new OpenglesRender.CheckCallback() {
                     @Override
@@ -763,59 +885,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
         for (int i = 0; i < MAX_WINDOW; i++) {
             LibImpl.stopPlay(i, this.deviceList.get(i));
         }
-    }
-
-    private boolean startSinglePlay(PlayerDevice dev) {
-        if (null == dev) {
-            Log.e(TAG, "device is null!!!");
-            return false;
-        }
-
-        dev.m_device_play_count++;
-        dev.m_video = renderMap.get(currentIndex);;
-        dev.m_video.mIsStopVideo = false;
-
-        if (!dev.m_play) {
-            int ret = LibImpl.startPlay(0, dev, dev.m_stream_type, dev.m_frame_type);
-            if (ret == 0) {
-                dev.m_online = true;
-                dev.m_playing = false;
-                setVideoInfo(0, T(R.string.tv_video_req_tip));
-            } else {
-                String selfID = "";
-                if (LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(dev.m_dev.getDevId())) != null) {
-                    selfID = LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(dev.m_dev.getDevId())).getNotifyStr();
-                }
-
-                Log.i("DeviceNotifyInfo", "DeviceNotifyInfo ary:" + LibImpl.mDeviceNotifyInfo + ".");
-                selfID = (isNullStr(selfID)) ? "" : ("(" + selfID + ")");
-                setVideoInfo(0, ConstantImpl.getTPSErrText(ret, false) + selfID);
-                toast(ConstantImpl.getTPSErrText(ret, false) + selfID);
-                return false;
-            }
-        } else {
-            setVideoInfo(0, dev.m_tipInfo);
-            setVideoInfo2(0, dev.m_tipTinfo2);
-        }
-
-        dev.m_play = true;
-        dev.m_view_id = currentIndex;
-
-        dev.m_audio = new AudioPlayer(currentIndex);
-        dev.m_audio.mIsAecm = false;
-        dev.m_audio.mIsNoiseReduction = false;
-        dev.m_audio.addRecordCallback(new AudioPlayer.MyRecordCallback() {
-            @Override
-            public void recvRecordData(byte[] data, int length, int reserver) {
-                if (reserver >= 0) {
-                    PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(reserver);
-                    if (null == dev || null == dev.m_dev) return;
-                    LibImpl.getInstance().recvRecordData(data, length, dev.m_dev.getDevId(), reserver);
-                }
-            }
-        });
-
-        return true;
     }
 
     private void setCurrentDevice(PlayerDevice device) {

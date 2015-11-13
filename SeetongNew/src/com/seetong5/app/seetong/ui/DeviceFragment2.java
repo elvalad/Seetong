@@ -14,7 +14,6 @@ import com.seetong5.app.seetong.comm.Define;
 import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
 import ipc.android.sdk.com.SDK_CONSTANT;
 
-import java.awt.font.TextAttribute;
 import java.util.List;
 
 /**
