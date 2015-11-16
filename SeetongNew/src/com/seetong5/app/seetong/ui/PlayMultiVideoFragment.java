@@ -677,6 +677,13 @@ public class PlayMultiVideoFragment extends BaseFragment {
         imageView.setVisibility(bShow ? View.VISIBLE : View.INVISIBLE);
     }
 
+    public void hideAllRecordIcon() {
+        for (int i = 0; i < MAX_WINDOW; i++) {
+            ImageView imageView = (ImageView) layoutMap.get(i).findViewById(R.id.imgRecord);
+            imageView.setVisibility(View.INVISIBLE);
+        }
+    }
+
     private void stopAllVoice() {
         for (int i = 0; i < MAX_WINDOW; i++) {
             if (null == deviceList.get(i) || null == deviceList.get(i).m_audio) continue;
@@ -931,6 +938,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
         /* 停止所有正在录制的视频 */
         stopVideoRecord();
+        hideAllRecordIcon();
         stopVideoSound();
         stopHighDefinition();
 
@@ -987,6 +995,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
         /* 停止所有正在录制的视频 */
         stopVideoRecord();
+        hideAllRecordIcon();
         stopVideoSound();
         stopHighDefinition();
 
