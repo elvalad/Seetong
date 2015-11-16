@@ -51,7 +51,7 @@ public class ForgetPasswordActivity extends BaseActivity {
     private ImageButton backButton;
     private Button obtainCheckCodeButton;
     private Button resetPasswordButton;
-    private Timestamp startTime = new Timestamp(System.currentTimeMillis());;
+    private Timestamp startTime = new Timestamp(System.currentTimeMillis());
     private Timestamp endTime;
 
     @Override
