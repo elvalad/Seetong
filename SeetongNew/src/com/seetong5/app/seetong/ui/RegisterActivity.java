@@ -52,7 +52,7 @@ public class RegisterActivity extends BaseActivity {
     private ImageButton backButton;
     private Button obtainCheckCodeButton;
     private Button registerButton;
-    private Timestamp startTime;
+    private Timestamp startTime = new Timestamp(System.currentTimeMillis());;
     private Timestamp endTime;
 
     @Override
