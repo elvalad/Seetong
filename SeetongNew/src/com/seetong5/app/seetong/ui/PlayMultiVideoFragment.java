@@ -247,10 +247,10 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            if (null == playerDevice) {
+            if (null == chosenPlayerDevice) {
                 return gestureDetector.onTouchEvent(event);
             }
-            OpenglesRender render = playerDevice.m_video;
+            OpenglesRender render = chosenPlayerDevice.m_video;
             if (null == render) {
                 return gestureDetector.onTouchEvent(event);
             }
