@@ -178,15 +178,15 @@
 
     <SlidingDrawer
             android:id="@+id/player_sliding_drawer"
-            android:background="@drawable/tps_sliding_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:handle="@+id/player_handle"
             android:content="@+id/player_content">
 
-        <ImageView
+        <ImageButton
                 android:id="@+id/player_handle"
                 android:src="@drawable/up"
+                android:background="@drawable/tps_sliding_background"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:scaleType="fitCenter"/>
@@ -198,5 +198,4 @@
                 android:layout_height="match_parent">
         </ListView>
     </SlidingDrawer>
-
 </LinearLayout>

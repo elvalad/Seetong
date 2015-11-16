@@ -61,7 +61,7 @@ public class PlayerActivity extends BaseActivity {
     private Button playerSpeakButton;
     private Button playerCaptureButton;
     private SlidingDrawer slidingDrawer;
-    private ImageView slidingHandle;
+    private ImageButton slidingHandle;
     private LinearLayout playerMainButtonLayout;
     private ListView playerDeviceListView;
     private PlayerDeviceListAdapter adapter;
@@ -72,7 +72,6 @@ public class PlayerActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         m_this = this;
         super.onCreate(savedInstanceState);
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_player);
         deviceId = getIntent().getStringExtra("device_id");
 
@@ -550,7 +549,7 @@ public class PlayerActivity extends BaseActivity {
         operatingAnim.setInterpolator(lin);
         slidingDrawer = (SlidingDrawer) findViewById(R.id.player_sliding_drawer);
         playerMainButtonLayout = (LinearLayout) findViewById(R.id.player_main_button);
-        slidingHandle = (ImageView) findViewById(R.id.player_handle);
+        slidingHandle = (ImageButton) findViewById(R.id.player_handle);
         slidingDrawer.setOnDrawerOpenListener(new SlidingDrawer.OnDrawerOpenListener() {
             @Override
             public void onDrawerOpened() {
