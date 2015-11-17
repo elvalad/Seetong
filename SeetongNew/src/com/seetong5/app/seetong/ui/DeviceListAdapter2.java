@@ -103,7 +103,9 @@ public class DeviceListAdapter2 extends BaseAdapter {
         Bitmap bmp = null;
         try {
             bmp = BitmapFactory.decodeFile(fileName);
-            if (null == bmp) bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.camera);
+            if (null == bmp) {
+                bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.camera);
+            }
         } catch (OutOfMemoryError err) {
             err.printStackTrace();
             bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.camera);

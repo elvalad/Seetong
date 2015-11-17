@@ -5,22 +5,28 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.*;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
+import com.polites.android.GestureImageView;
 import com.seetong5.app.seetong.R;
 
 /**
  * Created by gmk on 2015/9/23.
  */
-public class GalleryActivity extends BaseActivity {
+public class GalleryActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     public static GalleryActivity m_this = null;
     public int position = 0;	// 当前显示图片的位置
+    private ViewPager viewPager;
+    private GestureDetector gestureDetector;
+    private double Scale = 1.0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,32 +34,50 @@ public class GalleryActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_gallery);
-
-        MyGallery  galllery = (MyGallery) findViewById(R.id.mygallery);
+        gestureDetector = new GestureDetector(this, new MyOnGestureListener());
         Intent intent = getIntent();
-        position = intent.getIntExtra("position", 0);	// 获取GridViewActivity传来的图片位置position
-        ImageAdapter imgAdapter = new ImageAdapter(this);
-        galllery.setAdapter(imgAdapter);		// 设置图片ImageAdapter
-        galllery.setSelection(position); 		// 设置当前显示图片
-
-        Animation an= AnimationUtils.loadAnimation(this, R.anim.anim_image_scale);		// Gallery动画
-        galllery.setAnimation(an);
+        position = intent.getIntExtra("position", 0);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        ViewPagerAdapter adapter = new ViewPagerAdapter();
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(position);
+        viewPager.setOnPageChangeListener(this);
     }
 
-    public class ImageAdapter extends BaseAdapter {
-        private Context mContext;
-        private int mPos;
+    @Override
+    public void onPageScrolled(int i, float v, int i1) {
 
-        public ImageAdapter(Context context) {
-            mContext = context;
+    }
+
+    @Override
+    public void onPageSelected(int i) {
+        if (i == 0) {
+            toast(R.string.media_first_pic);
+        } else if (i == PictureFragment.mGridList.size() - 1) {
+            toast(R.string.media_last_pic);
         }
+    }
 
-        public void setOwnposition(int ownposition) {
-            this.mPos = ownposition;
-        }
+    @Override
+    public void onPageScrollStateChanged(int i) {
 
-        public int getOwnposition() {
-            return mPos;
+    }
+
+    class ViewPagerAdapter extends PagerAdapter {
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            String imagePath = PictureFragment.mGridList.get(position).getPath();
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+
+            View view = LayoutInflater.from(GalleryActivity.this).inflate(
+                    R.layout.zoom_image_layout, null);
+            ZoomImageView zoomImageView = (ZoomImageView) view
+                    .findViewById(R.id.zoom_image_view);
+            zoomImageView.setImageBitmap(bitmap);
+            zoomImageView.setOnTouchListener(new TouchListener());
+            container.addView(view);
+            return view;
         }
 
         @Override
@@ -62,28 +86,34 @@ public class GalleryActivity extends BaseActivity {
         }
 
         @Override
-        public Object getItem(int position) {
-            mPos=position;
-            return position;
+        public boolean isViewFromObject(View arg0, Object arg1) {
+            return arg0 == arg1;
         }
 
         @Override
-        public long getItemId(int position) {
-            mPos=position;
-            return position;
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            View view = (View) object;
+            container.removeView(view);
+        }
+    }
+
+    class TouchListener implements View.OnTouchListener {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            return gestureDetector.onTouchEvent(motionEvent);
+        }
+    }
+
+    class MyOnGestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            GalleryActivity.this.finish();
+            return super.onSingleTapConfirmed(e);
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            mPos=position;
-            ImageView imageView = new ImageView(mContext);
-            imageView.setBackgroundColor(0xFF000000);
-            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            imageView.setLayoutParams(new MyGallery.LayoutParams(Gallery.LayoutParams.MATCH_PARENT, Gallery.LayoutParams.MATCH_PARENT));
-            Bitmap bmp = BitmapFactory.decodeFile(PictureFragment.mGridList.get(position).getPath());
-            imageView.setImageBitmap(bmp);
-
-            return imageView;
+        public boolean onDoubleTap(MotionEvent e) {
+            return super.onDoubleTap(e);
         }
     }
 }
