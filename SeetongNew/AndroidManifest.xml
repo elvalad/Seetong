@@ -184,6 +184,9 @@
         <activity android:name="com.seetong5.app.seetong.ui.ChatAddVideo"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="com.seetong5.app.seetong.ui.NvrRecord"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:windowSoftInputMode="stateHidden"/>
 
 
         <activity

@@ -541,6 +541,13 @@
     <string name="cloud_player_wait_buffer">等待数据缓冲中</string>
     <string name="request_timeout">请求数据超时</string>
 
+    <string name="nvr_record">NVR录像</string>
+    <string name="get_nvr_record_failed">获取录像失败</string>
+    <string name="get_nvr_record_tip">正在获取录像信息</string>
+    <string name="get_nvr_record_timeout">获取录像超时</string>
+    <string name="get_nvr_record_not_found">该时间段没有录像</string>
+    <string name="nvr_record_replay_failed">录像回放失败</string>
+
     <string name="hint">Hint: touch the first or last day of month to move to previous or next month.</string>
 
     <string name="hit_input_friend_name">输入好友名称</string>

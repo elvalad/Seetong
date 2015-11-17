@@ -694,13 +694,21 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
     public void startRecordPlayBack() {
         if (null == chosenPlayerDevice) return;
+        chosenPlayerDevice.m_capacity_set = LibImpl.getInstance().getCapacitySet(chosenPlayerDevice);
+        if(chosenPlayerDevice.isNVR() && chosenPlayerDevice.is_p2p_replay()) {
+            /* 开启回放前先关闭正在播放的设备 */
+            stopCurrentPlayList();
+            Intent it = new Intent(this.getActivity(), NvrRecord.class);
+            it.putExtra(Constant.EXTRA_DEVICE_ID, chosenPlayerDevice.m_dev.getDevId());
+            this.startActivity(it);
+            return;
+        }
+
+        stopCurrentPlayList();
         if (!chosenPlayerDevice.is_p2p_replay()) {
             toast(R.string.tv_not_support_front_end_record);
             return;
         }
-
-        /* 开启回放前先关闭正在播放的设备 */
-        stopCurrentPlayList();
 
         Intent it = new Intent(this.getActivity(), FrontEndRecord.class);
         it.putExtra(Constant.EXTRA_DEVICE_ID, chosenPlayerDevice.m_dev.getDevId());

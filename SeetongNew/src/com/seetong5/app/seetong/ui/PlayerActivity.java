@@ -694,9 +694,13 @@ public class PlayerActivity extends BaseActivity {
 
     public void resetWidget() {
         playerStopButton.setImageResource(R.drawable.tps_play_stopall_off);
+        bPlaying = true;
         playerPlaybackButton.setImageResource(R.drawable.tps_play_recordplayback_off);
         playerSoundButton.setImageResource(R.drawable.tps_play_sound_off);
+        bVideoSoundOn = false;
         playerResolutionButton.setTextColor(getResources().getColor(R.color.gray));
+        playerResolutionButton.setText(R.string.player_resolution);
+        bHighDefinition = false;
         playerSettingButton.setImageResource(R.drawable.tps_play_set_off);
 
         playerRecordButton.setBackgroundResource(R.drawable.tps_play_record_off);

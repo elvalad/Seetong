@@ -542,6 +542,13 @@
     <string name="cloud_player_time">Wait for data buffer</string>
     <string name="request_timeout">Request data timeout</string>
 
+    <string name="nvr_record">NVR record</string>
+    <string name="get_nvr_record_failed">Failed to get record</string>
+    <string name="get_nvr_record_tip">Getting the record information</string>
+    <string name="get_nvr_record_timeout">Get record timeout</string>
+    <string name="get_nvr_record_not_found">This time there is no record</string>
+    <string name="nvr_record_replay_failed">Record playback fails</string>
+
     <string name="hint">Hint: touch the first or last day of month to move to previous or next month.</string>
 
     <string name="hit_input_friend_name">Input friend name</string>

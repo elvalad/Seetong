@@ -622,9 +622,13 @@ public class TimeLine extends View {
         invalidate();
     }
 
-    public void updSliderTimestamp(long t) {
+    public void setSliderTimestamp(long t) {
         mSliderTime = t;
         invalidate();
+    }
+
+    public long getSliderTimestamp() {
+        return mSliderTime;
     }
 
     private ObjectsRoster<ArchiveRecord> correctOverlappedRec(ObjectsRoster<ArchiveRecord> rec, long day) {

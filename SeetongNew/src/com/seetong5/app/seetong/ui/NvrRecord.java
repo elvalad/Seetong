@@ -1,6 +1,7 @@
 package com.seetong5.app.seetong.ui;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -34,17 +35,17 @@ import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
 import com.seetong5.app.seetong.ui.aid.MarqueeTextView;
 import com.seetong5.app.seetong.ui.ext.DateTimeHelper;
 import com.seetong5.app.seetong.ui.ext.TimeLine;
-import ipc.android.sdk.com.REPLAY_IPC_ACTION;
-import ipc.android.sdk.com.SDK_CONSTANT;
-import ipc.android.sdk.com.TPS_ReplayDevFileRsp;
+import ipc.android.sdk.com.*;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGestureListener, View.OnClickListener, View.OnTouchListener {
+public class NvrRecord extends BaseActivity implements GestureDetector.OnGestureListener, View.OnClickListener, View.OnTouchListener {
     String m_device_id;
     String m_play_file_name = "";
-    final int PLAY_WND_ID = 31;
+    final int PLAY_WND_ID = 29;
     int m_current_page = 0;
     String m_start_time;
     String m_end_time;
@@ -56,7 +57,9 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
     OpenglesView m_glView;
     OpenglesRender m_glRender;
 
+    private View m_time_line_layout;
     private TimeLine m_time_line;
+    private long m_begin_time = 0;
 
     private GestureDetector m_gd;
     private boolean m_is_layout_land = false;
@@ -69,7 +72,7 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
     SeekBar m_seekbar_h_sound;
     int m_play_seek_pos = 0;
     int m_play_speed = 0;
-    int m_play_status = REPLAY_IPC_ACTION.ACTION_STOP;
+    int m_play_status = REPLAY_NVR_ACTION.NVR_ACTION_STOP;
     int m_record_pos = 0;
 
     AudioManager m_audioManage;
@@ -80,7 +83,7 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cloud_end_record);
+        setContentView(R.layout.nvr_end_record);
         initWidget();
     }
 
@@ -90,13 +93,13 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
         m_device_id = getIntent().getStringExtra(Constant.EXTRA_DEVICE_ID);
 
         PlayerDevice dev = Global.getDeviceById(m_device_id);
-        // 确保先停止预览
-        //MainActivity.m_this.getVideoFragment().stopAndResetPlay(dev);
         if (null != dev) dev.m_replay = true;
 
         View menu = getLayoutInflater().inflate(R.layout.cloud_end_record_menu, null);
         m_menu = new PopupWindow(menu, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         menu.findViewById(R.id.btn_download).setOnClickListener(this);
+
+        ((TextView) findViewById(R.id.txt_title)).setText(m_device_id);
 
         m_gd = new GestureDetector(this, this);
         m_gd.setOnDoubleTapListener(new OnDoubleClick());
@@ -126,6 +129,7 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
             }
         });
 
+        m_time_line_layout = findViewById(R.id.timeline_layout);
         m_time_line = (TimeLine) findViewById(R.id.wgtTimeline);
         m_time_line.setRecordColor(getResources().getColor(R.color.timeline_schedule));
         m_time_line.setIndicatorColor(getResources().getColor(R.color.timeline_indicator));
@@ -137,7 +141,7 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
                 SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
                 m_find_date = new Date(time);
                 m_date = df.format(m_find_date);
-                stopReplay();
+                onBtnStop();
                 m_type = 0;
                 loadData(m_date);
             }
@@ -152,15 +156,12 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
                 if (mTipDlg.isShowing()) return;
                 m_current_record = record;
                 m_current_index = index;
-                String key = record.toString();
-                ArchiveRecord idx_record = m_idx_records.get(key);
-                if (null == idx_record) return;
-                String name = record.getName();
-                if (m_play_file_name.equals(name)) {
-                    setReplayPos(record, time);
-                } else {
-                    if (startReplay(record, idx_record, time) != 0) return;
+                if (m_play_status != REPLAY_NVR_ACTION.NVR_ACTION_STOP) {
+                    replaySeek(record, time);
+                    return;
                 }
+
+                if (startReplay(record, time) != 0) return;
             }
         });
 
@@ -174,7 +175,7 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
         m_seekbar_sound.setOnSeekBarChangeListener(osbcl_sound);
         m_seekbar_h_sound.setOnSeekBarChangeListener(osbcl_sound);
 
-        m_audioManage = (AudioManager)getSystemService(AUDIO_SERVICE);
+        m_audioManage = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         int maxVolume = m_audioManage.getStreamMaxVolume(AudioManager.STREAM_MUSIC);  //获取系统最大音量
         m_seekbar_sound.setMax(maxVolume);
         m_seekbar_h_sound.setMax(maxVolume);
@@ -204,6 +205,7 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
         findViewById(R.id.btn_calendar).setOnClickListener(this);
 
         setButtonStatus();
+        //setVideoInfo("[" + m_device_id + "]");
 
         Button btnFinish = (Button) findViewById(R.id.btn_title_right);
         btnFinish.setText(R.string.more);
@@ -219,13 +221,13 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             if (!fromUser) return;
-            if (m_play_status == REPLAY_IPC_ACTION.ACTION_STOP) {
+            if (m_play_status == REPLAY_NVR_ACTION.NVR_ACTION_STOP) {
                 m_seekbar_play.setProgress(0);
                 return;
             }
 
             m_play_seek_pos = progress;
-            LibImpl.getInstance().getFuncLib().ControlReplay(m_device_id, REPLAY_IPC_ACTION.ACTION_SEEK, progress);
+            LibImpl.getInstance().getFuncLib().ControlReplay(m_device_id, REPLAY_NVR_ACTION.NVR_ACTION_SEEK, progress);
             setVideoInfo(null);
             m_play_speed = 0;
         }
@@ -268,9 +270,6 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
     }
 
     public void setVideoInfo(final String msg) {
-        final PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(PLAY_WND_ID);
-        if (null == dev) return;
-
         MarqueeTextView v = (MarqueeTextView) findViewById(R.id.tvLiveInfo);
         v.setVisibility(View.VISIBLE);
 
@@ -293,7 +292,7 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
             }
         });*/
 
-        showTipDlg(R.string.get_cloud_end_record_tip, 60000, R.string.get_cloud_end_record_timeout);
+        showTipDlg(R.string.get_nvr_record_tip, 15000, R.string.get_nvr_record_timeout);
         loadData(date, m_type);
     }
 
@@ -302,11 +301,11 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
             @Override
             public void run() {
                 // 定时录像
-                int ret = LibImpl.getInstance().getFuncLib().SearchOssObjectList(m_device_id, date, type);
+                int ret = LibImpl.getInstance().getFuncLib().P2PSearchNvrRecByTime(m_device_id, date);
                 if (0 != ret) {
                     Message msg = m_handler.obtainMessage();
-                    msg.what = Define.MSG_CLOUD_END_RECORD;
-                    msg.arg1 = R.string.get_cloud_end_record_failed;
+                    msg.what = Define.MSG_NVR_RECORD;
+                    msg.arg1 = R.string.get_nvr_record_failed;
                     m_handler.sendMessage(msg);
                     return;
                 }
@@ -326,6 +325,19 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
+        if (m_is_layout_land) {
+            m_time_line_layout.setVisibility(m_time_line_layout.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+        }
+
+        final View v = findViewById(R.id.btn_play);
+        if (v.getVisibility() == View.VISIBLE) return false;
+        v.setVisibility(View.VISIBLE);
+        v.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                v.setVisibility(View.GONE);
+            }
+        }, 5000);
         return false;
     }
 
@@ -357,13 +369,13 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
                 return false;
             }
 
-            if (m_is_layout_land) {
+            /*if (m_is_layout_land) {
                 if (dev.m_playing) {
                     View v = findViewById(R.id.layout_h_play_control);
                     v.setVisibility(v.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
                     return true;
                 }
-            }
+            }*/
 
             return false;
         }
@@ -647,43 +659,25 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
     }
 
     private void onBtnPlay() {
-        /*if (m_records.isEmpty()) {
-            toast(R.string.get_front_end_record_not_found);
-            return;
-        }
-
         m_play_speed = 0;
         setVideoInfo(null);
-        if (m_play_status == REPLAY_IPC_ACTION.ACTION_STOP) {
-            findViewById(R.id.btn_play).setBackgroundResource(R.drawable.pause);
-            findViewById(R.id.btn_h_play).setBackgroundResource(R.drawable.pause);
-            startReplay(m_records.m_record_files.get(m_record_pos).m_file_path);
+        m_current_record = m_records.objectAt(0);
+        if (null == m_current_record) return;
+        if (m_play_status == REPLAY_NVR_ACTION.NVR_ACTION_STOP) {
+            startReplay(m_current_record, m_current_record.getStartTime());
             return;
         }
 
-        if (m_play_status == REPLAY_IPC_ACTION.ACTION_PAUSE) {
-            m_play_status = REPLAY_IPC_ACTION.ACTION_RESUME;
+        if (m_play_status == REPLAY_NVR_ACTION.NVR_ACTION_PAUSE) {
+            replayResume();
         } else {
-            m_play_status = REPLAY_IPC_ACTION.ACTION_PAUSE;
+            replayPause();
         }
-
-        LibImpl.getInstance().getFuncLib().ControlReplay(m_device_id, m_play_status, 0);*/
     }
 
     private void onBtnStop() {
-        /*if (m_records.m_record_files.isEmpty()) {
-            return;
-        }
-
-        if (m_play_status != REPLAY_IPC_ACTION.ACTION_STOP) {
-            findViewById(R.id.btn_play).setBackgroundResource(R.drawable.play);
-            findViewById(R.id.btn_h_play).setBackgroundResource(R.drawable.play);
-            //LibImpl.getInstance().getFuncLib().ControlReplay(m_device_id, REPLAY_IPC_ACTION.ACTION_STOP, 0);
-            m_play_status = REPLAY_IPC_ACTION.ACTION_STOP;
-            m_seekbar_play.setProgress(0);
-        }
-
-        stopReplay();*/
+        stopReplay();
+        m_seekbar_play.setProgress(0);
     }
 
     private void onBtnFast() {
@@ -730,7 +724,7 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
         layout.setBackgroundColor(Color.rgb(207, 232, 179));
         layout.addView(calendar);*/
 
-        LayoutInflater inflater=(LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater=(LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View vi = inflater.inflate(R.layout.my_calendar, null);
 
         final AlertDialog dlg = new AlertDialog.Builder(this)/*.setTitle(R.string.dev_list_tip_title_input_user_pwd)*/
@@ -804,14 +798,6 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
         LibImpl.getInstance().removeHandler(m_handler);
         stopReplay();
         m_glRender.destory();
-        PlayerDevice dev = Global.getDeviceById(m_device_id);
-        if (null != dev) {
-            dev.m_replay = false;
-            dev.m_video = null;
-            if (dev.m_last_view_id > -1 && !dev.m_user_stop) {
-                MainActivity.m_this.addDeviceToLive(dev);
-            }
-        }
         super.onDestroy();
     }
 
@@ -835,38 +821,30 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
     }
 
     public void startFullScreen(boolean isFull) {
-        // 全屏时切换为横屏显示视频
-        //mbIsFullScreen = isFull;
-        //配置视频视图间隔
-//		float smallInterval = this.getResources().getDimensionPixelSize(R.dimen.small_interval);
-//		int width = mbIsFullScreen ? 0 : FunUtils.px2dip(this, smallInterval);
-//		findViewById(R.id.Linear_Fourview).setPadding(width, width, width, width);
-
-        /*int show = isFull ? View.GONE : View.VISIBLE;
+        int show = isFull ? View.GONE : View.VISIBLE;
+        m_time_line_layout.setVisibility(show);
         findViewById(R.id.layout_title).setVisibility(show);
-        //m_view.findViewById(R.id.hsv_video_ptz).setVisibility(show);
-        findViewById(R.id.layout_play_control).setVisibility(show);
-        findViewById(R.id.layout_action).setVisibility(show);
-
-        if (!isFull) {
-            findViewById(R.id.layout_h_play_control).setVisibility(View.GONE);
-        }*/
+        //findViewById(R.id.layout_h_play_control).setVisibility(show);
     }
 
     @Override
     public void handleMessage(Message msg) {
-        if (!isTopActivity(CloudEndRecord.class.getName())) return;
+        if (!isTopActivity(NvrRecord.class.getName())) return;
         int flag = msg.arg1;
         switch (msg.what) {
-            case Define.MSG_CLOUD_END_RECORD:
-                onCloudEndRecord(msg);
+            case Define.MSG_NVR_RECORD:
+                onNvrRecord(msg);
                 break;
             case Define.MSG_RECEIVER_MEDIA_FIRST_FRAME:
                 onReceiverMediaFirstFrame();
                 break;
-            case SDK_CONSTANT.TPS_MSG_RSP_SEARCH_OSS_OBJECTLIST:
-                ObjectsRoster<ArchiveRecord> resp = (ObjectsRoster<ArchiveRecord>) msg.obj;
-                onGetCloudEndRecord(flag, resp);
+            case SDK_CONSTANT.TPS_MSG_RSP_SEARCH_NVR_REC:
+                TPS_NotifyInfo ni = (TPS_NotifyInfo) msg.obj;
+                onGetNvrRecord(flag, ni);
+                break;
+            case SDK_CONSTANT.TPS_MSG_RSP_NVR_REPLAY:
+                TPS_ReplayDevFileRsp rdfr = (TPS_ReplayDevFileRsp) msg.obj;
+                onNvrReplayResp(flag, rdfr);
                 break;
             case SDK_CONSTANT.TPS_MSG_RSP_OSS_REPLAY_PARAM:
                 onOssReplayParam();
@@ -897,15 +875,30 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
         }
     }
 
+    private void onNvrReplayResp(int flag, TPS_ReplayDevFileRsp rdfr) {
+        if (flag != 0) {
+            mTipDlg.dismiss();
+            if (-7 == flag) {
+                toast(T(R.string.nvr_record_replay_failed) + "-" + T(R.string.err_all_stream_full));
+            } else if (-9 == flag) {
+                toast(T(R.string.nvr_record_replay_failed) + "-" + T(R.string.err_get_video_cfg_fail));
+            } else if (-10 == flag) {
+                toast(T(R.string.nvr_record_replay_failed) + "-" + T(R.string.err_get_stream_fail));
+            } else {
+                toast(T(R.string.nvr_record_replay_failed) + "-" + flag);
+            }
+        }
+    }
+
     private void onOssReplayFinish() {
         ArchiveRecord r = m_time_line.getNext(m_current_index);
         if (null == r) return;
-        Log.i(CloudEndRecord.class.getName(), "onOssReplayFinish:current file=[" + m_current_record.getName() + "],next file=[" + r.getName() + "]");
+        Log.i(NvrRecord.class.getName(), "onOssReplayFinish:current file=[" + m_current_record.getName() + "],next file=[" + r.getName() + "]");
         m_time_line.selectTime(r.getStartTime());
     }
 
     private void onOssPlayBeginCache() {
-        if (m_play_status != REPLAY_IPC_ACTION.ACTION_PLAY) return;
+        if (m_play_status != REPLAY_NVR_ACTION.NVR_ACTION_PLAY) return;
         mTipDlg.setCancelable(true);
         mTipDlg.setCallback(new ProgressDialog.ICallback() {
             @Override
@@ -914,7 +907,7 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
 
             @Override
             public boolean onCancel() {
-                CloudEndRecord.this.finish();
+                NvrRecord.this.finish();
                 return true;
             }
         });
@@ -923,12 +916,12 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
     }
 
     private void onOssPlayEndCache() {
-        if (m_play_status != REPLAY_IPC_ACTION.ACTION_PLAY) return;
+        if (m_play_status != REPLAY_NVR_ACTION.NVR_ACTION_PLAY) return;
         mTipDlg.dismiss();
     }
 
     private void onReceiverMediaFirstFrame() {
-        m_play_status = REPLAY_IPC_ACTION.ACTION_PLAY;
+        m_play_status = REPLAY_NVR_ACTION.NVR_ACTION_PLAY;
         mTipDlg.dismiss();
     }
 
@@ -936,18 +929,18 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
 
     }
 
-    private void onCloudEndRecord(Message msg) {
+    private void onNvrRecord(Message msg) {
         switch (msg.arg1) {
-            case R.string.get_cloud_end_record_failed:
+            case R.string.get_nvr_record_failed:
                 mTipDlg.dismiss();
-                toast(R.string.get_cloud_end_record_failed);
+                toast(R.string.get_nvr_record_failed);
                 break;
-            case R.string.cloud_end_record_replay_failed:
+            case R.string.nvr_record_replay_failed:
                 mTipDlg.dismiss();
                 if (msg.arg2 != 0) {
                     toast(ConstantImpl.getOssErrText(msg.arg2));
                 } else {
-                    toast(R.string.get_cloud_end_record_failed);
+                    toast(R.string.nvr_record_replay_failed);
                 }
                 break;
         }
@@ -955,7 +948,7 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
 
     private void onReplaySetPosition(Message msg) {
         double timestamp = (double) msg.obj;
-        long time = m_current_record.getStartTime() + (long)timestamp;
+        long time = m_begin_time + (long)timestamp;
         m_time_line.setSliderTimestamp(time);
     }
 
@@ -967,163 +960,129 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
         }
 
         TPS_ReplayDevFileRsp data = (TPS_ReplayDevFileRsp) msg.obj;
-        PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(PLAY_WND_ID);
-        if (null == dev) return;
         switch (data.getnActionType()) {
-            case REPLAY_IPC_ACTION.ACTION_PLAY:
-                dev.m_replay_duration = data.getnVideoSecs();
-                m_seekbar_play.setMax(dev.m_replay_duration);
-                findViewById(R.id.btn_play).setBackgroundResource(R.drawable.pause);
-                findViewById(R.id.btn_h_play).setBackgroundResource(R.drawable.pause);
+            case REPLAY_NVR_ACTION.NVR_ACTION_PLAY:
+                onActionPlay(data);
                 break;
-            case REPLAY_IPC_ACTION.ACTION_PAUSE:
+            case REPLAY_NVR_ACTION.NVR_ACTION_PAUSE:
                 findViewById(R.id.btn_play).setBackgroundResource(R.drawable.play);
                 findViewById(R.id.btn_h_play).setBackgroundResource(R.drawable.play);
                 break;
-            case REPLAY_IPC_ACTION.ACTION_RESUME:
+            case REPLAY_NVR_ACTION.NVR_ACTION_RESUME:
                 findViewById(R.id.btn_play).setBackgroundResource(R.drawable.pause);
                 findViewById(R.id.btn_h_play).setBackgroundResource(R.drawable.pause);
                 break;
-            case REPLAY_IPC_ACTION.ACTION_FAST:
+            case REPLAY_NVR_ACTION.NVR_ACTION_FAST:
                 break;
-            case REPLAY_IPC_ACTION.ACTION_SLOW:
+            case REPLAY_NVR_ACTION.NVR_ACTION_SLOW:
                 break;
-            case REPLAY_IPC_ACTION.ACTION_SEEK:
+            case REPLAY_NVR_ACTION.NVR_ACTION_SEEK:
                 m_seekbar_play.setProgress(m_play_seek_pos);
                 break;
-            case REPLAY_IPC_ACTION.ACTION_FRAMESKIP:
+            case REPLAY_NVR_ACTION.NVR_ACTION_FRAMESKIP:
                 break;
-            case REPLAY_IPC_ACTION.ACTION_STOP:
-                findViewById(R.id.btn_play).setBackgroundResource(R.drawable.play);
-                findViewById(R.id.btn_h_play).setBackgroundResource(R.drawable.play);
-                break;
-            case REPLAY_IPC_ACTION.ACTION_CAPIMG:
-                break;
-            case REPLAY_IPC_ACTION.ACTION_CHANGE_SOUND:
-                break;
-            case REPLAY_IPC_ACTION.ACTION_RECV_DECODEPARAM:
+            case REPLAY_NVR_ACTION.NVR_ACTION_STOP:
+                onActionStop();
                 break;
         }
     }
 
-    private void onGetCloudEndRecord(int flag, ObjectsRoster<ArchiveRecord> resp) {
-        if (flag != 0 || null == resp) {
+    private void onActionPlay(TPS_ReplayDevFileRsp data) {
+        PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(m_device_id);
+        if (null == dev) return;
+        dev.m_replay_duration = data.getnVideoSecs();
+        m_seekbar_play.setMax(dev.m_replay_duration);
+        final View v = findViewById(R.id.btn_play);
+        v.setBackgroundResource(R.drawable.pause);
+        findViewById(R.id.btn_h_play).setBackgroundResource(R.drawable.pause);
+        v.setVisibility(View.GONE);
+    }
+
+    private void onActionStop() {
+        final View v = findViewById(R.id.btn_play);
+        v.setBackgroundResource(R.drawable.play);
+        findViewById(R.id.btn_h_play).setBackgroundResource(R.drawable.play);
+        v.setVisibility(View.VISIBLE);
+    }
+
+    private void onGetNvrRecord(int flag, TPS_NotifyInfo ni) {
+        if (flag != 0 || null == ni) {
             mTipDlg.dismiss();
-            toast(R.string.get_cloud_end_record_failed);
+            toast(R.string.get_nvr_record_failed);
             return;
         }
 
-        /*long time = System.currentTimeMillis() - 600000;
-        ArchiveRecord r = new ArchiveRecord(0, 0, time, 60000, "", "", "", m_device_id, "");
-        resp.objectAdd(r, false);
-        time -= 500000;
-        r = new ArchiveRecord(1, 1, time, 60000, "", "", "", m_device_id, "");
-        resp.objectAdd(r, false);
-        time -= 400000;
-        r = new ArchiveRecord(2, 2, time, 60000, "", "", "", m_device_id, "");
-        resp.objectAdd(r, false);
-        time -= 300000;
-        r = new ArchiveRecord(3, 3, time, 60000, "", "", "", m_device_id, "");
-        resp.objectAdd(r, false);
-        time -= 200000;
-        r = new ArchiveRecord(4, 4, time, 60000, "", "", "", m_device_id, "");
-        resp.objectAdd(r, false);*/
-
-        Map<String, ArchiveRecord> idx_record = new HashMap<>();
-
-        List<ArchiveRecord> lst = resp.getObjectList();
-        Iterator itr = lst.iterator();
-        while (itr.hasNext()) {
-            ArchiveRecord record = (ArchiveRecord) itr.next();
-            String name = record.getName();
-            if (TextUtils.isEmpty(name) || !name.contains(".idx")) continue;
-            m_idx_records.put(record.toString(), record);
-            name = name.substring(0, name.lastIndexOf(".idx"));
-            idx_record.put(name, record);
-            itr.remove();
+        String szInfo = new String(ni.getSzInfo()).trim();
+        if (TextUtils.isEmpty(szInfo)) {
+            mTipDlg.dismiss();
+            toast(R.string.get_nvr_record_not_found);
+            return;
         }
 
-        itr = lst.iterator();
-        while (itr.hasNext()) {
-            ArchiveRecord record = (ArchiveRecord) itr.next();
-            String name = record.getName();
-            name = name.substring(0, name.lastIndexOf("."));
-            if (null != idx_record.get(name)) continue;
-            Log.w(CloudEndRecord.class.getName(), "record not index file,name=[" + name + "]");
-            itr.remove();
+        ObjectsRoster<ArchiveRecord> resp = new ObjectsRoster<ArchiveRecord>();
+        DateFormat df = new SimpleDateFormat("yyyyMMdd");
+        String date = df.format(m_find_date);
+        Calendar c = Calendar.getInstance();
+        try {
+            Date d = df.parse(date);
+            c.setTime(d);
+            m_begin_time = c.getTimeInMillis();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return;
         }
 
-        /*if (!m_records.isEmpty()) {
-            ArchiveRecord record = m_records.objectAt(m_type == 1 ? 0 : 1);
-            ArchiveRecord r = new ArchiveRecord(0, 0, record.getStartTime(), record.getDuration(), "aaa.flv", "", "", m_device_id, "");
-            lst.add(r);
-        }*/
-
-        if (m_type != 0) {
-            itr = lst.iterator();
-            while (itr.hasNext()) {
-                // 时间重叠判断，使用不同颜色显示
-                ArchiveRecord record = (ArchiveRecord) itr.next();
-                ArchiveRecord s = m_records.objectAt(record.getStartTime());
-                ArchiveRecord e = m_records.objectAt(record.getEndTime());
-                if (null != s && null != e) {
-                    if (s == e) {
-                        s.setColorStartTime(record.getStartTime());
-                        s.setColorDuration(record.getDuration());
-                    } else {
-                        s.setColorStartTime(record.getStartTime());
-                        s.setColorDuration(s.getDuration());
-                    }
-
-                    if (m_type == 1) {
-                        s.setColor(getResources().getColor(R.color.timeline_alarm));
-                    } else if (m_type == 2) {
-                        s.setColor(getResources().getColor(R.color.timeline_motion));
-                    }
-                } else if (null != s) {
-                    s.setColorStartTime(record.getStartTime());
-                    s.setColorDuration(s.getDuration());
-                    if (m_type == 1) {
-                        s.setColor(getResources().getColor(R.color.timeline_alarm));
-                    } else if (m_type == 2) {
-                        s.setColor(getResources().getColor(R.color.timeline_motion));
-                    }
-                } else if (null != e) {
-                    e.setColorStartTime(e.getStartTime());
-                    e.setColorDuration(record.getDuration());
-                    if (m_type == 1) {
-                        e.setColor(getResources().getColor(R.color.timeline_alarm));
-                    } else if (m_type == 2) {
-                        e.setColor(getResources().getColor(R.color.timeline_motion));
-                    }
-                } else {
-                    record.setColorStartTime(record.getStartTime());
-                    record.setColorDuration(record.getDuration());
-                    if (m_type == 1) {
-                        record.setColor(getResources().getColor(R.color.timeline_alarm));
-                    } else if (m_type == 2) {
-                        record.setColor(getResources().getColor(R.color.timeline_motion));
-                    }
-
-                    m_records.objectAdd(record, false);
-                }
+        char t = 'C';
+        long first_time = 0;
+        ArchiveRecord r = null;
+        for (int i = 0; i < 1440; i++) {
+            c.add(Calendar.MINUTE, 1);
+            int type = -1;
+            if (szInfo.charAt(i) == 'A') {
+                // 计划录像
+                type = 0;
+            } else if (szInfo.charAt(i) == 'B') {
+                // 移动录像
+                type = 1;
+            } else if (szInfo.charAt(i) == 'C') {
+                // 无录像
+                type = 3;
+            } else if (szInfo.charAt(i) == 'D') {
+                type = 4;
             }
-        } else {
-            resp.setObjectList(lst);
-            m_records = resp;
+
+            if (t == szInfo.charAt(i) && (i + 1 < 1440)) continue;
+            t = szInfo.charAt(i);
+
+            if (null == r) {
+                if (0 == first_time) first_time = c.getTimeInMillis();
+                r = new ArchiveRecord();
+                r.setDevId(m_device_id);
+                r.setStartTime(c.getTimeInMillis());
+                r.setRecType(String.valueOf(type));
+                /*if (type == 0) {
+                    r.setColor(getResources().getColor(R.color.timeline_alarm));
+                } else if (type == 1) {
+                    r.setColor(getResources().getColor(R.color.timeline_motion));
+                }*/
+            } else {
+                r.setDuration(c.getTimeInMillis() - r.getStartTime());
+                /*r.setColorStartTime(r.getStartTime());
+                r.setColorDuration(r.getDuration());*/
+                resp.objectAdd(r, false);
+                r = null;
+            }
         }
 
-        if (m_type == 0) {
-            m_type = 1;
-            loadData(m_date, m_type);
-            return;
-        } else if (m_type == 1) {
-            m_type = 2;
-            loadData(m_date, m_type);
+        if (resp.getObjectList().isEmpty()) {
+            mTipDlg.dismiss();
+            toast(R.string.get_nvr_record_not_found);
             return;
         }
 
+        m_records = resp;
         m_time_line.setRecords(m_records);
+        m_time_line.setSliderTimestamp(first_time);
         mTipDlg.dismiss();
     }
 
@@ -1151,27 +1110,18 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
         }*/
     }
 
-    private int startReplay(final ArchiveRecord record, final ArchiveRecord idx_record, final long time) {
-        if (null == record || null == idx_record) return -1;
-        long offset = time - record.getStartTime();
-        final int pos = (int)offset / 1000;
-        Log.d(CloudEndRecord.class.getName(), "startReplay:record=[" + record + "],pos=[" + pos + "]");
-        String name = record.getName();
-        if (m_play_status != REPLAY_IPC_ACTION.ACTION_STOP) {
-            if (!m_play_file_name.equals(name)) {
-                stopReplay();
-            } else {
-                return 0;
-            }
+    private int startReplay(final ArchiveRecord record, final long time) {
+        if (null == record) return -1;
+        DateFormat df = new SimpleDateFormat("yyyyMMddHHmm");
+        final String date = df.format(new Date(time));
+        Log.d(NvrRecord.class.getName(), "startReplay:record=[" + record + "],pos=[" + date + "]");
+        if (m_play_status != REPLAY_NVR_ACTION.NVR_ACTION_STOP) {
+            stopReplay();
         }
 
         Global.acquirePower();
         final PlayerDevice dev = Global.getDeviceById(m_device_id);
         if (null == dev) return -1;
-        /*if (dev.m_view_id != PLAY_WND_ID) {
-            MainActivity.m_this.getVideoFragment().stopPlay(dev, true);
-
-        }*/
 
         dev.m_view_id = PLAY_WND_ID;
         dev.m_audio = new AudioPlayer(PLAY_WND_ID);
@@ -1194,13 +1144,11 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
             dev.m_video.mIsStopVideo = false;
         }
 
-        m_play_file_name = record.getName();
         mTipDlg.setCallback(new ProgressDialog.ICallback() {
             @Override
             public void onTimeout() {
-                m_play_file_name = "";
                 mTipDlg.setCallback(null);
-                stopReplay();
+                onBtnStop();
             }
 
             @Override
@@ -1209,45 +1157,141 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
             }
         });
 
-        showTipDlg(R.string.cloud_player_wait_buffer, 60000, R.string.request_timeout);
+        showTipDlg(R.string.cloud_player_wait_buffer, 15000, R.string.request_timeout);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                int ret = LibImpl.getInstance().startCloudReplay(m_device_id, PLAY_WND_ID, record, idx_record, pos);
-                if (ret != 0) ret = LibImpl.getInstance().startCloudReplay(m_device_id, PLAY_WND_ID, record, idx_record, pos);
+                int ret = LibImpl.getInstance().startNvrReplay(m_device_id, PLAY_WND_ID, record, date);
+                if (ret != 0) ret = LibImpl.getInstance().startNvrReplay(m_device_id, PLAY_WND_ID, record, date);
                 if (ret != 0) {
                     dev.m_view_id = -1;
                     dev.m_voice = false;
                     dev.m_audio = null;
                     dev.m_video = null;
-                    m_play_file_name = "";
 
                     Message msg = m_handler.obtainMessage();
-                    msg.what = Define.MSG_CLOUD_END_RECORD;
-                    msg.arg1 = R.string.cloud_end_record_replay_failed;
+                    msg.what = Define.MSG_NVR_RECORD;
+                    msg.arg1 = R.string.nvr_record_replay_failed;
                     msg.arg2 = ret;
                     m_handler.sendMessage(msg);
                     return;
                 }
 
                 dev.m_first_frame = false;
-                m_play_status = REPLAY_IPC_ACTION.ACTION_PLAY;
+                m_play_status = REPLAY_NVR_ACTION.NVR_ACTION_PLAY;
+                TPS_ReplayDevFileRsp rdfr = new TPS_ReplayDevFileRsp();
+                rdfr.setnResult(0);
+                rdfr.setnActionType(m_play_status);
+                rdfr.setnVideoSecs((int)time);
+                sendMessage(m_handler, SDK_CONSTANT.TPS_MSG_RSP_REPLAY_DEV_FILE, 0, 0, rdfr);
             }
         }).start();
 
         return 0;
     }
 
+    private void replaySeek(final ArchiveRecord record, final long time) {
+        if (null == record) return;
+        DateFormat df = new SimpleDateFormat("yyyyMMddHHmm");
+        final String date = df.format(new Date(time));
+        Log.d(NvrRecord.class.getName(), "replaySeek:record=[" + record + "],pos=[" + date + "]");
+
+        final PlayerDevice dev = Global.getDeviceById(m_device_id);
+        if (null == dev) return;
+
+        if (m_play_status == REPLAY_NVR_ACTION.NVR_ACTION_PAUSE) {
+            replayResume();
+        }
+
+        mTipDlg.setCallback(new ProgressDialog.ICallback() {
+            @Override
+            public void onTimeout() {
+                mTipDlg.setCallback(null);
+                onBtnStop();
+            }
+
+            @Override
+            public boolean onCancel() {
+                return false;
+            }
+        });
+
+        showTipDlg(R.string.cloud_player_wait_buffer, 15000, R.string.request_timeout);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int ret = LibImpl.getInstance().getFuncLib().P2PControlNVRReplay(m_device_id, REPLAY_NVR_ACTION.NVR_ACTION_SEEK, 0, date);
+                if (ret != 0) ret = LibImpl.getInstance().getFuncLib().P2PControlNVRReplay(m_device_id, REPLAY_NVR_ACTION.NVR_ACTION_SEEK, 0, date);
+                if (ret != 0) {
+                    Message msg = m_handler.obtainMessage();
+                    msg.what = Define.MSG_NVR_RECORD;
+                    msg.arg1 = R.string.nvr_record_replay_failed;
+                    msg.arg2 = ret;
+                    m_handler.sendMessage(msg);
+                    return;
+                }
+
+                dev.m_first_frame = false;
+            }
+        }).start();
+    }
+
+    private void replayPause() {
+        final PlayerDevice dev = Global.getDeviceById(m_device_id);
+        if (null == dev) return;
+
+        int ret = LibImpl.getInstance().getFuncLib().P2PControlNVRReplay(m_device_id, REPLAY_NVR_ACTION.NVR_ACTION_PAUSE, 0, "");
+        if (ret != 0) {
+            Message msg = m_handler.obtainMessage();
+            msg.what = Define.MSG_NVR_RECORD;
+            msg.arg1 = R.string.nvr_record_replay_failed;
+            msg.arg2 = ret;
+            m_handler.sendMessage(msg);
+            return;
+        }
+
+        m_play_status = REPLAY_NVR_ACTION.NVR_ACTION_PAUSE;
+        TPS_ReplayDevFileRsp rdfr = new TPS_ReplayDevFileRsp();
+        rdfr.setnResult(0);
+        rdfr.setnActionType(m_play_status);
+        sendMessage(m_handler, SDK_CONSTANT.TPS_MSG_RSP_REPLAY_DEV_FILE, 0, 0, rdfr);
+    }
+
+    private void replayResume() {
+        final PlayerDevice dev = Global.getDeviceById(m_device_id);
+        if (null == dev) return;
+
+        int ret = LibImpl.getInstance().getFuncLib().P2PControlNVRReplay(m_device_id, REPLAY_NVR_ACTION.NVR_ACTION_RESUME, 0, "");
+        if (ret != 0) {
+            Message msg = m_handler.obtainMessage();
+            msg.what = Define.MSG_NVR_RECORD;
+            msg.arg1 = R.string.nvr_record_replay_failed;
+            msg.arg2 = ret;
+            m_handler.sendMessage(msg);
+            return;
+        }
+
+        m_play_status = REPLAY_NVR_ACTION.NVR_ACTION_RESUME;
+        TPS_ReplayDevFileRsp rdfr = new TPS_ReplayDevFileRsp();
+        rdfr.setnResult(0);
+        rdfr.setnActionType(m_play_status);
+        sendMessage(m_handler, SDK_CONSTANT.TPS_MSG_RSP_REPLAY_DEV_FILE, 0, 0, rdfr);
+    }
+
     public void stopReplay() {
-        Log.d(CloudEndRecord.class.getName(), "stopReplay:m_play_status=[" + m_play_status + "]");
+        Log.d(NvrRecord.class.getName(), "stopReplay:m_play_status=[" + m_play_status + "]");
         Global.releasePower();
-        m_play_file_name = "";
-        if (m_play_status == REPLAY_IPC_ACTION.ACTION_STOP) return;
+        if (m_play_status == REPLAY_NVR_ACTION.NVR_ACTION_STOP) return;
+
         PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(PLAY_WND_ID);
         if (null == dev) return;
 
-        LibImpl.getInstance().stopCloudReplay(dev.m_devId, PLAY_WND_ID);
-        m_play_status = REPLAY_IPC_ACTION.ACTION_STOP;
+        LibImpl.getInstance().stopNvrReplay(dev.m_devId, PLAY_WND_ID);
+        m_play_status = REPLAY_NVR_ACTION.NVR_ACTION_STOP;
+        TPS_ReplayDevFileRsp rdfr = new TPS_ReplayDevFileRsp();
+        rdfr.setnResult(0);
+        rdfr.setnActionType(m_play_status);
+        sendMessage(m_handler, SDK_CONSTANT.TPS_MSG_RSP_REPLAY_DEV_FILE, 0, 0, rdfr);
 
         dev.m_view_id = -1;
         dev.m_playing = false;
@@ -1269,10 +1313,10 @@ public class CloudEndRecord extends BaseActivity implements GestureDetector.OnGe
 
     private void setReplayPos(final ArchiveRecord record, final long time) {
         if (null == record) return;
-        m_play_status = REPLAY_IPC_ACTION.ACTION_SEEK;
+        m_play_status = REPLAY_NVR_ACTION.NVR_ACTION_SEEK;
         long offset = time - record.getStartTime();
         final int pos = (int)offset / 1000;
-        Log.d(CloudEndRecord.class.getName(), "setReplayPos:pos=[" + pos + "]");
+        Log.d(NvrRecord.class.getName(), "setReplayPos:pos=[" + pos + "]");
         final PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(PLAY_WND_ID);
         if (null == dev) return;
         showTipDlg(R.string.cloud_player_wait_buffer, 60000, R.string.request_timeout);

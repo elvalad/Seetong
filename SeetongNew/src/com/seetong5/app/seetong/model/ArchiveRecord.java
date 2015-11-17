@@ -266,7 +266,7 @@ public final class ArchiveRecord implements Parcelable, Comparable<ArchiveRecord
 
     @Override
     public String toString() {
-        String name = mName.substring(0, mName.indexOf('.'));
+        String name = null == mName ? "" : mName.substring(0, mName.indexOf('.'));
         return "ArchiveRecord{" +
                 "mName='" + name + '\'' + "}";
     }
