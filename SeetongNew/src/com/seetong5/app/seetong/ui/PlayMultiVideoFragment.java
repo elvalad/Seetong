@@ -479,7 +479,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         stopCurrentPlay();
         chosenPlayerDevice = dev;
         modifyDeviceList(dev);
-        startPlayList();
+        startSinglePlay();
     }
 
     private void modifyDeviceList(PlayerDevice dev) {
@@ -794,6 +794,61 @@ public class PlayMultiVideoFragment extends BaseFragment {
         chosenPlayerDevice.m_audio.stopOutAudio();
         chosenPlayerDevice.m_voice = false;
         toast(R.string.fvu_tip_close_voice);
+    }
+
+    private void startSinglePlay() {
+        RelativeLayout layout = layoutMap.get(currentIndex);
+        deviceList.get(currentIndex).m_device_play_count++;
+        deviceList.get(currentIndex).m_video = renderMap.get(currentIndex);
+        deviceList.get(currentIndex).m_video.mIsStopVideo = false;
+
+        deviceList.get(currentIndex).m_device_play_count++;
+        deviceList.get(currentIndex).m_video = renderMap.get(currentIndex);
+        deviceList.get(currentIndex).m_video.mIsStopVideo = false;
+
+        if (!deviceList.get(currentIndex).m_play) {
+            int ret = LibImpl.startPlay(currentIndex, deviceList.get(currentIndex), deviceList.get(currentIndex).m_stream_type, deviceList.get(currentIndex).m_frame_type);
+            if (ret == 0) {
+                deviceList.get(currentIndex).m_online = true;
+                deviceList.get(currentIndex).m_playing = false;
+                setVideoInfo(currentIndex, T(R.string.tv_video_req_tip));
+            } else {
+                String selfID = "";
+                if (LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(deviceList.get(currentIndex).m_dev.getDevId())) != null) {
+                    selfID = LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(deviceList.get(currentIndex).m_dev.getDevId())).getNotifyStr();
+                }
+
+                Log.i("DeviceNotifyInfo", "DeviceNotifyInfo ary:" + LibImpl.mDeviceNotifyInfo + ".");
+                selfID = (isNullStr(selfID)) ? "" : ("(" + selfID + ")");
+                setVideoInfo(currentIndex, ConstantImpl.getTPSErrText(ret, false) + selfID);
+                toast(ConstantImpl.getTPSErrText(ret, false) + selfID);;
+            }
+        } else {
+            setVideoInfo(currentIndex, deviceList.get(currentIndex).m_tipInfo);
+            setVideoInfo2(currentIndex, deviceList.get(currentIndex).m_tipTinfo2);
+        }
+        deviceList.get(currentIndex).m_play = true;
+        deviceList.get(currentIndex).m_view_id = currentIndex;
+
+        View view = layout.findViewById(R.id.tvLiveInfo);
+        view.setVisibility(View.VISIBLE);
+        view = deviceList.get(currentIndex).m_video.getSurface();
+        view.setBackgroundColor(Color.TRANSPARENT);
+        view.setVisibility(View.VISIBLE);
+
+        deviceList.get(currentIndex).m_audio = new AudioPlayer(currentIndex);
+        deviceList.get(currentIndex).m_audio.mIsAecm = false;
+        deviceList.get(currentIndex).m_audio.mIsNoiseReduction = false;
+        deviceList.get(currentIndex).m_audio.addRecordCallback(new AudioPlayer.MyRecordCallback() {
+            @Override
+            public void recvRecordData(byte[] data, int length, int reserver) {
+                if (reserver >= 0) {
+                    PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(reserver);
+                    if (null == dev || null == dev.m_dev) return;
+                    LibImpl.getInstance().recvRecordData(data, length, dev.m_dev.getDevId(), reserver);
+                }
+            }
+        });
     }
 
     private boolean startPlay(List<PlayerDevice> devList) {
