@@ -4,14 +4,22 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:padding="2dp">
+    
+    <ImageView
+            android:id="@+id/device_setting_image"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"/>
 
     <TextView
             android:id="@+id/device_setting_option"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_alignParentLeft="true"
+            android:layout_toRightOf="@+id/device_setting_image"
+            android:layout_marginLeft="15dp"
             android:textSize="15sp" />
 
     <ImageView

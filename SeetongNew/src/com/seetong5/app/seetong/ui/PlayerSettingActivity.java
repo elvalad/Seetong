@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.seetong5.app.seetong.Global;
@@ -37,19 +38,30 @@ public class PlayerSettingActivity extends BaseActivity {
     private String deviceId = null;
     private PlayerDevice playerDevice;
     private Adapter adapter;
-    private List<Integer> data = new ArrayList<>();
+    private List<SettingContent> data = new ArrayList<>();
     private ProgressDialog mTipDlg;
+
+    class SettingContent {
+        Integer settingOptionR;
+        Integer settingImageR;
+
+        public SettingContent(Integer settingOptionR, Integer settingImageR) {
+            this.settingOptionR = settingOptionR;
+            this.settingImageR = settingImageR;
+        }
+    }
 
     class Adapter extends BaseAdapter {
         Context m_context;
         LayoutInflater m_inflater;
-        List<Integer> m_data;
+        List<SettingContent> m_data;
 
         private class ViewHolder {
             public TextView deviceSettingOption;
+            public ImageView deviceSettingImage;
         }
 
-        public Adapter(Context context, List<Integer> data) {
+        public Adapter(Context context, List<SettingContent> data) {
             m_context = context;
             m_data = data;
             m_inflater = LayoutInflater.from(context);
@@ -77,16 +89,18 @@ public class PlayerSettingActivity extends BaseActivity {
                 viewHolder = new ViewHolder();
                 view = m_inflater.inflate(R.layout.player_setting_item, parent, false);
                 viewHolder.deviceSettingOption = (TextView) view.findViewById(R.id.device_setting_option);
+                viewHolder.deviceSettingImage = (ImageView) view.findViewById(R.id.device_setting_image);
                 view.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) view.getTag();
             }
 
-            viewHolder.deviceSettingOption.setText(T(m_data.get(position)));
+            viewHolder.deviceSettingOption.setText(T(m_data.get(position).settingOptionR));
+            viewHolder.deviceSettingImage.setBackgroundResource(m_data.get(position).settingImageR);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemClick(m_data.get(position));
+                    onItemClick(m_data.get(position).settingOptionR);
                 }
             });
 
@@ -454,20 +468,33 @@ public class PlayerSettingActivity extends BaseActivity {
     private void getData() {
         int devType = playerDevice.m_dev.getDevType();
         if (100 == devType) { // IPC
-            data.add(R.string.dev_list_tip_title_input_dev_alias);
-            data.add(R.string.dev_list_tip_title_modify_user_pwd);
-            data.add(R.string.dev_list_tip_title_modify_media_parameter);
-            data.add(R.string.image_flip);
-            data.add(R.string.motion_detect);
-            data.add(R.string.tv_alarm_setting);
-            data.add(R.string.tv_storage_setting);
-            data.add(R.string.tv_timezone_setting);
-            data.add(R.string.front_end_record);
-            data.add(R.string.restore_factory_settings);
+            SettingContent[] settingContents = new SettingContent[10];
+            settingContents[0] = new SettingContent(R.string.dev_list_tip_title_input_dev_alias, R.drawable.tps_device_setting_alais);
+            data.add(settingContents[0]);
+            settingContents[1] = new SettingContent(R.string.dev_list_tip_title_modify_user_pwd, R.drawable.tps_device_setting_password);
+            data.add(settingContents[1]);
+            settingContents[2] = new SettingContent(R.string.dev_list_tip_title_modify_media_parameter, R.drawable.tps_device_setting_alais);
+            data.add(settingContents[2]);
+            settingContents[3] = new SettingContent(R.string.image_flip, R.drawable.tps_device_setting_flip);
+            data.add(settingContents[3]);
+            settingContents[4] = new SettingContent(R.string.motion_detect, R.drawable.tps_device_setting_motion);
+            data.add(settingContents[4]);
+            settingContents[5] = new SettingContent(R.string.tv_alarm_setting, R.drawable.tps_device_setting_alarm);
+            data.add(settingContents[5]);
+            settingContents[6] = new SettingContent(R.string.tv_storage_setting, R.drawable.tps_device_setting_storage);
+            data.add(settingContents[6]);
+            settingContents[7] = new SettingContent(R.string.tv_timezone_setting, R.drawable.tps_device_setting_time);
+            data.add(settingContents[7]);
+            settingContents[8] = new SettingContent(R.string.front_end_record, R.drawable.tps_device_setting_front_end_record);
+            data.add(settingContents[8]);
+            settingContents[9] = new SettingContent(R.string.restore_factory_settings, R.drawable.tps_device_setting_factory);
+            data.add(settingContents[9]);
         } else if (200 == devType) { // NVR
-            data.add(R.string.dev_list_tip_title_input_dev_alias);
+            SettingContent settingContent = new SettingContent(R.string.dev_list_tip_title_input_dev_alias, R.drawable.tps_device_setting_alais);
+            data.add(settingContent);
         } else if (201 == devType) { // NVR4.0
-            data.add(R.string.dev_list_tip_title_input_dev_alias);
+            SettingContent settingContent = new SettingContent(R.string.dev_list_tip_title_input_dev_alias, R.drawable.tps_device_setting_alais);
+            data.add(settingContent);
         }
     }
 
