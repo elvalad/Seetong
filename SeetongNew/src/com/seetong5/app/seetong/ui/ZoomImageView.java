@@ -417,11 +417,14 @@ public class ZoomImageView extends View {
         centerPointY = (yPoint0 + yPoint1) / 2;
     }
 
-    public int getCurrentStatus() {
-        return this.currentStatus;
-    }
-
-    public void setCurrentStatus(int currentStatus) {
-        this.currentStatus = currentStatus;
+    public void setViewResize() {
+        if (totalRatio == 1.0) {
+            currentStatus = STATUS_ZOOM_OUT;
+            totalRatio = (float) 2.5;
+        } else if (totalRatio > 1.0) {
+            currentStatus = STATUS_INIT;
+            totalRatio = (float) 1.0;
+        }
+        postInvalidate();
     }
 }

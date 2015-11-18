@@ -26,7 +26,6 @@ public class GalleryActivity extends BaseActivity implements ViewPager.OnPageCha
     public int position = 0;	// 当前显示图片的位置
     private ViewPager viewPager;
     private GestureDetector gestureDetector;
-    private double Scale = 1.0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,11 +68,9 @@ public class GalleryActivity extends BaseActivity implements ViewPager.OnPageCha
         public Object instantiateItem(ViewGroup container, int position) {
             String imagePath = PictureFragment.mGridList.get(position).getPath();
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-
-            View view = LayoutInflater.from(GalleryActivity.this).inflate(
-                    R.layout.zoom_image_layout, null);
-            ZoomImageView zoomImageView = (ZoomImageView) view
-                    .findViewById(R.id.zoom_image_view);
+            View view = LayoutInflater.from(GalleryActivity.this).inflate(R.layout.zoom_image_layout, null);
+            ZoomImageView zoomImageView = (ZoomImageView) view.findViewById(R.id.zoom_image_view);
+            zoomImageView.setTag(position);
             zoomImageView.setImageBitmap(bitmap);
             zoomImageView.setOnTouchListener(new TouchListener());
             container.addView(view);
@@ -113,6 +110,8 @@ public class GalleryActivity extends BaseActivity implements ViewPager.OnPageCha
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
+            ZoomImageView zoomImageView = (ZoomImageView) viewPager.findViewWithTag(viewPager.getCurrentItem());
+            zoomImageView.setViewResize();
             return super.onDoubleTap(e);
         }
     }
