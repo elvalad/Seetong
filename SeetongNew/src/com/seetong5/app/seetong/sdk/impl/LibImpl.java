@@ -2725,6 +2725,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             int[] pRgbBuffer = new int[nWidth * nHeight * 16 / 8];
             s_pca.YUV2IntRGBAgent(nWidth, nHeight, pDecData, pRgbBuffer, 16);
             Bitmap _bitmap = Bitmap.createBitmap(nWidth, nHeight, Bitmap.Config.RGB_565);
+            if (_bitmap == null) return;
             _bitmap.setPixels(pRgbBuffer, 0, nWidth, 0, 0, nWidth, nHeight);
 
             try {

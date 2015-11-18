@@ -55,6 +55,8 @@ public class PlayMultiVideoFragment extends BaseFragment {
     private Map<Integer, LinearLayout> rowLayoutMap = new HashMap<>();
     private Map<Integer, RelativeLayout> layoutMap = new HashMap<>();
     private Map<Integer, OpenglesRender> renderMap = new HashMap<>();
+    private PointF prePoint = new PointF();
+    private PointF curPoint = new PointF();
 
     public static PlayMultiVideoFragment newInstance(PlayerDevice playerDevice, int index) {
         return new PlayMultiVideoFragment(playerDevice, index);
@@ -137,21 +139,30 @@ public class PlayMultiVideoFragment extends BaseFragment {
     class OnDoubleClick extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
-            setCurrentWindow(e);
+            if (!bFullScreen) {
+                setCurrentWindow(e);
+            }
             return false;
         }
 
         @Override
-        public boolean onDoubleTap(MotionEvent e) {
+        public boolean onDoubleTapEvent(MotionEvent e) {
             setCurrentWindow(e);
+            return super.onDoubleTapEvent(e);
+        }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
             if (bFullScreen) {
                 resetCurrentWindow();
                 bFullScreen = false;
             } else {
-                fullCurrentWindow();
-                bFullScreen = true;
+                if ((Math.abs(curPoint.x - prePoint.x) < 20f) && (Math.abs(curPoint.y - prePoint.y) < 20f)) {
+                    setCurrentWindow(e);
+                    fullCurrentWindow();
+                    bFullScreen = true;
+                }
             }
-
             return true;
         }
     }
@@ -256,6 +267,8 @@ public class PlayMultiVideoFragment extends BaseFragment {
             }
             switch (event.getAction() & MotionEvent.ACTION_MASK) {
                 case MotionEvent.ACTION_DOWN:
+                    prePoint.set(curPoint.x, curPoint.y);
+                    curPoint.set(event.getRawX(), event.getRawY());
                     mode = DRAG;
                     preScale = render.bitmapScale;
                     start.set(event.getX(), event.getY());
