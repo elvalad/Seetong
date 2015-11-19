@@ -881,7 +881,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
                     selfID = (isNullStr(selfID)) ? "" : ("(" + selfID + ")");
                     setVideoInfo(i, ConstantImpl.getTPSErrText(ret, false) + selfID);
                     toast(ConstantImpl.getTPSErrText(ret, false) + selfID);
-                    continue;
                 }
             } else {
                 setVideoInfo(i, devList.get(i).m_tipInfo);
@@ -945,7 +944,9 @@ public class PlayMultiVideoFragment extends BaseFragment {
         RelativeLayout layout;
         View view;
         stopVideoRecord();
+        hideAllRecordIcon();
         stopVideoSound();
+        stopHighDefinition();
         for (int i = 0; i< MAX_WINDOW; i++) {
             LibImpl.stopPlay(i, this.deviceList.get(i));
             layout = layoutMap.get(i);
