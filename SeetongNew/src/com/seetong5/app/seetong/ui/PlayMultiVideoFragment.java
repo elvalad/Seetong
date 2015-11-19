@@ -1120,7 +1120,8 @@ public class PlayMultiVideoFragment extends BaseFragment {
     public void setVideoInfo(String devID, final String msg) {
         Log.d("setTipText", devID + "," + msg);
         int index = LibImpl.getInstance().getIndexByDeviceID(devID);
-        if ((index < 0) || (index > MAX_WINDOW - 1)) {
+        PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(devID);
+        if ((index < 0) || (index > MAX_WINDOW - 1) || !dev.m_play) {
             return;
         }
         setVideoInfo(index, msg);
@@ -1269,7 +1270,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     }
 
     private void onRecvFirstFrame(PlayerDevice dev) {
-        if (null == dev) return;
+        if (null == dev || !dev.m_play) return;
         setTipText(dev.m_devId, "");
     }
 

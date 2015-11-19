@@ -19,11 +19,10 @@ import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
 import com.seetong5.app.seetong.sdk.impl.LibImpl;
 import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
+import com.seetong5.app.seetong.ui.ext.MyTipDialog;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * PlayerActivity 是播放设备录像的 Activity，它在 DeviceFragment 包含设备信息时，点击会进入.
@@ -49,6 +48,8 @@ public class PlayerActivity extends BaseActivity {
     private static boolean bVideoSoundOn = false;
     private static boolean bHighDefinition = false;
     private static boolean bActive = true;
+    private Timestamp startTime;
+    private Timestamp endTime;
 
     private ImageButton playerBackButton;
     private ImageButton playerStopButton;
@@ -640,6 +641,7 @@ public class PlayerActivity extends BaseActivity {
 
     private void onVideoRecord() {
         boolean bRet = false;
+        startTime = new Timestamp(System.currentTimeMillis());
         if (currentFragmentName.equals("play_video_fragment")) {
             bRet = playVideoFragment.startVideoRecord();
         } else if (currentFragmentName.equals("play_multi_video_fragment")) {
@@ -652,10 +654,22 @@ public class PlayerActivity extends BaseActivity {
     }
 
     private void offVideoRecord() {
-        if (currentFragmentName.equals("play_video_fragment")) {
-            playVideoFragment.stopVideoRecord();
-        } else if (currentFragmentName.equals("play_multi_video_fragment")) {
-            multiVideoFragment.stopVideoRecord();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.SECOND, -10);
+        endTime = new Timestamp(calendar.getTimeInMillis());
+        if (endTime.before(startTime)) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    MyTipDialog.popDialog(PlayerActivity.m_this, R.string.dlg_tip, R.string.player_exit_record, R.string.sure);
+                }
+            });
+        } else {
+            if (currentFragmentName.equals("play_video_fragment")) {
+                playVideoFragment.stopVideoRecord();
+            } else if (currentFragmentName.equals("play_multi_video_fragment")) {
+                multiVideoFragment.stopVideoRecord();
+            }
         }
     }
 
