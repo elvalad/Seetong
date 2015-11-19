@@ -125,15 +125,15 @@ public class DeviceListAdapter2 extends BaseAdapter {
         viewHolder.deviceChooseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "to player activity device is" + playerDevice.toString());
                 MainActivity2.m_this.playVideo(devId);
             }
         });
 
-        viewHolder.deviceReplayButton.setOnClickListener(new View.OnClickListener() {
+        viewHolder.deviceChooseButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
-
+            public boolean onLongClick(View view) {
+                MainActivity2.m_this.deleteDevice(devId);
+                return true;
             }
         });
 

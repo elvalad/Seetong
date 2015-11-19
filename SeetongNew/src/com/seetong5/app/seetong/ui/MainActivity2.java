@@ -14,6 +14,7 @@ import com.seetong5.app.seetong.Global;
 import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
 import com.seetong5.app.seetong.model.DeviceSetting;
+import com.seetong5.app.seetong.sdk.impl.ConstantImpl;
 import com.seetong5.app.seetong.sdk.impl.LibImpl;
 import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
 import com.seetong5.app.seetong.ui.ext.MyTipDialog;
@@ -223,6 +224,93 @@ public class MainActivity2 extends BaseActivity {
         startActivity(intent);
     }
 
+    /**
+     * 在 DeviceFragment 中长按某个设备会弹出对话框，询问用户是否删除此设备.
+     * @param devId
+     */
+    public void deleteDevice(String devId) {
+        final PlayerDevice dev = Global.getDeviceById(devId);
+        final String name = dev.m_dev.getDevName();
+        String deleteTitle = dev.isNVR() ? T(R.string.device_you_want_to_delete) + T(R.string.device_group) + " NVR:"+ dev.m_dev.getDevName() + " ?"
+                : T(R.string.device_you_want_to_delete) +  " IPC:" + dev.m_dev.getDevId() + " ?";
+        MyTipDialog.popDialog(this, deleteTitle, R.string.sure, R.string.cancel,
+                new MyTipDialog.IDialogMethod() {
+                    @Override
+                    public void sure() {
+                        mTipDlg.setTitle(R.string.pdlg_delete_device);
+                        mTipDlg.setTimeoutToast(T(R.string.timeout_retry));
+                        mTipDlg.setCallback(new ProgressDialog.ICallback() {
+                            @Override
+                            public void onTimeout() {
+                                sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, null);
+                            }
+
+                            @Override
+                            public boolean onCancel() {
+                                return false;
+                            }
+                        });
+                        mTipDlg.show(20000);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (!dev.isNVR()) {
+                                    final int ret = LibImpl.getInstance().delDevice(dev);
+                                    if (0 != ret) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                String err = ConstantImpl.getDelDeviceErrText(ret);
+                                                toast(err + " " + T(R.string.operation_failed_retry));
+                                                mTipDlg.dismiss();
+                                            }
+                                        });
+                                    }
+
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            /* 删除IPC设备之后更新设备列表 */
+                                            sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, null);
+                                            mTipDlg.dismiss();
+                                            toast(R.string.device_delete_success);
+                                        }
+                                    });
+                                } else {
+                                    if (!"".equals(name)) {
+                                        final int ret = LibImpl.getInstance().delNVR(name);
+                                        if (0 != ret) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    String err = ConstantImpl.getDelDeviceErrText(ret);
+                                                    toast(err + " " + T(R.string.operation_failed_retry));
+                                                    mTipDlg.dismiss();
+                                                }
+                                            });
+
+                                            return;
+                                        }
+
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                /* 删除NVR设备之后更新设备列表 */
+                                                sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, null);
+                                                mTipDlg.dismiss();
+                                                toast(R.string.device_delete_success);
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }).start();
+                    }
+                }
+        );
+    }
+
     public static interface ParseDevListResult {
         void onResult(List<PlayerDevice> devices);
     }
@@ -423,7 +511,6 @@ public class MainActivity2 extends BaseActivity {
                     break;
             }
         }
-    };
-
+    }
 }
 

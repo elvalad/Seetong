@@ -781,6 +781,9 @@
     <string name="device_add_add">添加</string>
     <string name="device_add_now">正在添加设备</string>
     <string name="device_add_success">设备添加成功</string>
+    <string name="device_delete_success">设备删除成功</string>
+    <string name="device_you_want_to_delete">删除设备</string>
+    <string name="device_group">组</string>
 
     <string name="more_seetong">Seetong</string>
     <string name="more_alarm">报警消息</string>
