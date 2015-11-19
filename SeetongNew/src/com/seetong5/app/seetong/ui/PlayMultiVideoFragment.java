@@ -1259,7 +1259,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         if (null != dev) {
             setVideoInfo2(dev.m_devId, msg);
         } else {
-            List<PlayerDevice> lst = Global.getDeviceByGroup(devId);
+            List<PlayerDevice> lst = Global.getDeviceByName(devId);
             if (null != lst) {
                 for (PlayerDevice d : lst) {
                     setVideoInfo2(d.m_devId, msg);

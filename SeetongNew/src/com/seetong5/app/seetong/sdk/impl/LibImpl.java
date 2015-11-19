@@ -1701,7 +1701,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                         dev.m_dev.setOnLine(Device.ONLINE);
                         if (nResult == 0) setTipText(devId, R.string.ipc_err_p2p_svr_connect_success);
                     } else {
-                        List<PlayerDevice> lst = Global.getDeviceByGroup(devId);
+                        List<PlayerDevice> lst = Global.getDeviceByName(devId);
                         if (null != lst) {
                             for (PlayerDevice d : lst) {
                                 d.m_connect_ok = true;
@@ -1841,7 +1841,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     int nResult = ni.getnResult();
                     if (TextUtils.isEmpty(devID)) return 0;
 
-                    List<PlayerDevice> lst = Global.getDeviceByGroup(devID);
+                    List<PlayerDevice> lst = Global.getDeviceByName(devID);
                     if (null != lst) {
                         for (PlayerDevice dev : lst) {
                             dev.m_connect_ok = false;

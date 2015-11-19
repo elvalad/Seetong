@@ -7,15 +7,8 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.*;
-import android.view.GestureDetector.SimpleOnGestureListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.BaseAdapter;
-import android.widget.Gallery;
-import android.widget.ImageView;
-import com.polites.android.GestureImageView;
+
 import com.seetong5.app.seetong.R;
 
 /**
