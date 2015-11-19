@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 import com.android.zxing.ui.CaptureTDCodeUI;
 import com.seetong5.app.seetong.Global;
 import com.seetong5.app.seetong.R;
@@ -254,6 +255,7 @@ public class AddDeviceActivity extends BaseActivity {
                     if (m_ui.mTipDlg.isTimeout()) return;
                     m_ui.mTipDlg.dismiss();
                     if ((msg.obj != null) && (msg.obj instanceof LibImpl.MsgObject)) {
+                        m_ui.hideInputPanel(null);
                         String xml = (String) ((LibImpl.MsgObject) msg.obj).recvObj;
                         Intent it = new Intent(m_ui, DeviceFragment2.class);
                         it.putExtra(Constant.DEVICE_INFO_KEY, m_ui.mDevInfo.getDevId());

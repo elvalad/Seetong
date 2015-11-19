@@ -55,6 +55,7 @@
             android:icon="@drawable/ico_launcher"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
+            android:largeHeap="true"
             android:theme="@android:style/Theme.Light.NoTitleBar">
         <activity
                 android:name="com.seetong5.app.seetong.ui.LoginActivity"

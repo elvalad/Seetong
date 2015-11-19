@@ -53,6 +53,7 @@ public class ForgetPasswordActivity extends BaseActivity {
     private Button resetPasswordButton;
     private Timestamp startTime = new Timestamp(System.currentTimeMillis());
     private Timestamp endTime;
+    private EditText forgetPwdEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,30 @@ public class ForgetPasswordActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 ForgetPasswordActivity.this.finish();
+            }
+        });
+
+        forgetPwdEditText = (EditText) findViewById(R.id.forget_password);
+        forgetPwdEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    if (!DataCheckUtil.isRightEmail(gStr(R.id.forget_user)) &&
+                            !DataCheckUtil.isRightPhone(gStr(R.id.forget_user))) {
+                        EditText phoneMailText = (EditText) findViewById(R.id.forget_phone_mail);
+                        phoneMailText.setVisibility(View.VISIBLE);
+                        if (isNullStr(gStr(R.id.forget_phone_mail))) {
+                            toast(R.string.forget_input_phone_mail);
+                            return;
+                        }
+
+                        if (!DataCheckUtil.isRightEmail(gStr(R.id.forget_phone_mail)) &&
+                                !DataCheckUtil.isRightPhone(gStr(R.id.forget_phone_mail))) {
+                            toast(R.string.forget_input_correct_phone_mail);
+                            return;
+                        }
+                    }
+                }
             }
         });
 
@@ -118,23 +143,6 @@ public class ForgetPasswordActivity extends BaseActivity {
         if (isNullStr(gStr(R.id.forget_user))) {
             toast(R.string.forget_user_null);
             return;
-        }
-
-        if (!DataCheckUtil.isRightEmail(gStr(R.id.forget_user)) &&
-                !DataCheckUtil.isRightPhone(gStr(R.id.forget_user))) {
-            //toast(R.string.forget_input_phone_mail);
-            EditText phoneMailText = (EditText) findViewById(R.id.forget_phone_mail);
-            phoneMailText.setVisibility(View.VISIBLE);
-            if (isNullStr(gStr(R.id.forget_phone_mail))) {
-                toast(R.string.forget_input_phone_mail);
-                return;
-            }
-
-            if (!DataCheckUtil.isRightEmail(gStr(R.id.forget_phone_mail)) &&
-                    !DataCheckUtil.isRightPhone(gStr(R.id.forget_phone_mail))) {
-                toast(R.string.forget_input_correct_phone_mail);
-                return;
-            }
         }
 
         getVerifyCode();

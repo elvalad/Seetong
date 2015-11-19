@@ -31,6 +31,7 @@ public class DeviceFragment2 extends BaseFragment {
     private DeviceNoMsgFragment deviceNoMsgFragment;
     private DeviceListFragment deviceListFragment;
     private BaseFragment currentFragment;
+    private ProgressDialog mTipDlg;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,6 +81,8 @@ public class DeviceFragment2 extends BaseFragment {
         switch (requestCode) {
             case Constant.ADD_DEVICE_REQ_ID:
                 /* TODO: 收到此返回消息后需要动态更新设备列表 */
+                mTipDlg = new ProgressDialog(MainActivity2.m_this, R.string.device_add_now);
+                mTipDlg.setCancelable(false);
                 final String devId = data.getStringExtra(Constant.DEVICE_INFO_KEY);
                 String xml = data.getStringExtra(Constant.DEVICE_LIST_CONTENT_KEY);
                 MainActivity2.m_this.onNotifyDevData(xml, new MainActivity2.ParseDevListResult() {
@@ -89,6 +92,19 @@ public class DeviceFragment2 extends BaseFragment {
                             @Override
                             public void run() {
                                 initWidget(view);
+                                mTipDlg.setCallback(new ProgressDialog.ICallback() {
+                                    @Override
+                                    public void onTimeout() {
+                                        mTipDlg.dismiss();
+                                        toast(R.string.device_add_success);
+                                    }
+
+                                    @Override
+                                    public boolean onCancel() {
+                                        return false;
+                                    }
+                                });
+                                mTipDlg.show(3000);
                             }
                         });
                     }

@@ -781,6 +781,8 @@
     <string name="device_add_password_hint_text">请输入设备密码</string>
     <string name="device_add_scan">扫一扫</string>
     <string name="device_add_add">添加</string>
+    <string name="device_add_now">正在添加设备</string>
+    <string name="device_add_success">设备添加成功</string>
 
     <string name="more_seetong">Seetong</string>
     <string name="more_alarm">报警消息</string>
