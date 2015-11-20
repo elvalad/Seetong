@@ -44,7 +44,7 @@ public class AddDeviceActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(AddDeviceActivity.class.getName(), "onCreate...");
+        //Log.i(AddDeviceActivity.class.getName(), "onCreate...");
         super.onCreate(savedInstanceState);
         mhHandler = new MyHandler(this);
         setContentView(R.layout.activity_add_device);
@@ -272,8 +272,8 @@ public class AddDeviceActivity extends BaseActivity {
                 default:
                     break;
             }
-        };
-    };
+        }
+    }
 
     TDCodeOnClickListener mTdCodeOnClickListener;
 

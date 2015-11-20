@@ -73,7 +73,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "PlayMultiVideoFragment onCreateView...");
+        //Log.d(TAG, "PlayMultiVideoFragment onCreateView...");
         PlayerActivity.m_this.setPlayMultiVideoFragment(this);
         Global.m_audioManage.setMode(AudioManager.MODE_NORMAL);
         fragmentView = inflater.inflate(R.layout.play_multi_video, container, false);
@@ -818,7 +818,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                     selfID = LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(deviceList.get(currentIndex).m_dev.getDevId())).getNotifyStr();
                 }
 
-                Log.i("DeviceNotifyInfo", "DeviceNotifyInfo ary:" + LibImpl.mDeviceNotifyInfo + ".");
+                //Log.i("DeviceNotifyInfo", "DeviceNotifyInfo ary:" + LibImpl.mDeviceNotifyInfo + ".");
                 selfID = (isNullStr(selfID)) ? "" : ("(" + selfID + ")");
                 setVideoInfo(currentIndex, ConstantImpl.getTPSErrText(ret, false) + selfID);
                 toast(ConstantImpl.getTPSErrText(ret, false) + selfID);;
@@ -877,7 +877,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                         selfID = LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(devList.get(i).m_dev.getDevId())).getNotifyStr();
                     }
 
-                    Log.i("DeviceNotifyInfo", "DeviceNotifyInfo ary:" + LibImpl.mDeviceNotifyInfo + ".");
+                    //Log.i("DeviceNotifyInfo", "DeviceNotifyInfo ary:" + LibImpl.mDeviceNotifyInfo + ".");
                     selfID = (isNullStr(selfID)) ? "" : ("(" + selfID + ")");
                     setVideoInfo(i, ConstantImpl.getTPSErrText(ret, false) + selfID);
                     toast(ConstantImpl.getTPSErrText(ret, false) + selfID);
@@ -1118,7 +1118,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
 
     public void setVideoInfo(String devID, final String msg) {
-        Log.d("setTipText", devID + "," + msg);
+        //Log.d("setTipText", devID + "," + msg);
         int index = LibImpl.getInstance().getIndexByDeviceID(devID);
         PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(devID);
         if ((index < 0) || (index > MAX_WINDOW - 1) || !dev.m_play) {
@@ -1306,6 +1306,8 @@ public class PlayMultiVideoFragment extends BaseFragment {
     }
 
     public void setTipText(String devID, Object msg) {
+        PlayerDevice dev = Global.getDeviceById(devID);
+        if (null == dev || !dev.m_play) return;
         setTipText(devID, msg, "");
     }
 

@@ -14,7 +14,6 @@ import com.android.opengles.FrameBuffer;
 import com.android.opengles.OpenglesRender;
 import com.android.system.MediaPlayer;
 import com.android.system.MessageNotification;
-import com.android.utils.NetworkUtils;
 import com.custom.etc.EtcInfo;
 import com.seetong5.app.seetong.Config;
 import com.seetong5.app.seetong.Global;
@@ -32,7 +31,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.*;
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.*;
@@ -100,15 +98,6 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        /*new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Global.getNetType();
-                int ret = s_func.initExAgent(Global.m_mobile_net_sub_type_2);
-                m_fc_inited = (0 == ret);
-            }
-        }).start();*/
     }
 
     public static int startPlay(int index, PlayerDevice dev, int nStreamNo, int nFrameType) {

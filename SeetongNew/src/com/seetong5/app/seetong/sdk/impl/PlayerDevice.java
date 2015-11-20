@@ -8,7 +8,6 @@ import ipc.android.sdk.com.NetSDK_IPC_ENTRY;
 import ipc.android.sdk.com.NetSDK_UserAccount;
 import ipc.android.sdk.com.TPS_AddWachtRsp;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
