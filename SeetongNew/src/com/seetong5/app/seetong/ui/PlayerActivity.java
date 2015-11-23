@@ -141,14 +141,14 @@ public class PlayerActivity extends BaseActivity {
         PlayerActivity.this.finish();
         /* TODO:在单路fragment和多路fragment之间切换时需要注意这里该如何处理 */
         if (currentFragmentName.equals("play_video_fragment")) {
-            playVideoFragment.stopPlay();
+            //playVideoFragment.stopPlay();
             /* 退出单画面播放页面时要关闭自动循环播放 */
             if (autoPlayThread != null) {
                 bAutoCyclePlaying = false;
                 handler.removeCallbacks(autoPlayThread);
             }
         } else if (currentFragmentName.equals("play_multi_video_fragment")){
-            multiVideoFragment.stopPlayList();
+            //multiVideoFragment.stopPlayList();
             /* 退出多画面播放时要关闭自动循环播放*/
             if (autoPlayThread != null) {
                 bAutoCyclePlaying = false;
@@ -752,16 +752,22 @@ public class PlayerActivity extends BaseActivity {
     }
 
     private void showPlayVideoFragment() {
+        if (playVideoFragment == null) {
+            playVideoFragment = new PlayVideoFragment(this.playerDevice, 0);
+        }
         getSupportFragmentManager()
             .beginTransaction()
-            .add(R.id.player_fragment_container, PlayVideoFragment.newInstance(this.playerDevice, 0))
+            .add(R.id.player_fragment_container, playVideoFragment)
             .commit();
     }
 
     private void showPlayMultiVideoFragment() {
+        if (multiVideoFragment == null) {
+            multiVideoFragment = new PlayMultiVideoFragment(this.playerDevice, 0);
+        }
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.player_fragment_container, PlayMultiVideoFragment.newInstance(this.playerDevice, 0))
+                .add(R.id.player_fragment_container, multiVideoFragment)
                 .commit();
     }
 

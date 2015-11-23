@@ -91,6 +91,12 @@ public class PlayMultiVideoFragment extends BaseFragment {
         startPlayList();
     }
 
+    @Override
+    public void onDestroy() {
+        stopPlayList();
+        super.onDestroy();
+    }
+
     class MyOnGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
@@ -714,6 +720,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             Intent it = new Intent(this.getActivity(), NvrRecord.class);
             it.putExtra(Constant.EXTRA_DEVICE_ID, chosenPlayerDevice.m_dev.getDevId());
             this.startActivity(it);
+            this.getActivity().finish();
             return;
         }
 
@@ -955,6 +962,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             setVideoInfo(i, T(R.string.tv_video_stop_tip));
             setVideoInfo2(i, "");
             this.deviceList.get(i).m_video.mIsStopVideo = true;
+            this.deviceList.get(i).m_video.destory();
             layout.invalidate();
         }
     }
