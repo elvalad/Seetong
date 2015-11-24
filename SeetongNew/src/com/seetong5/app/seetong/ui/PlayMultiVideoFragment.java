@@ -58,10 +58,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
     private PointF prePoint = new PointF();
     private PointF curPoint = new PointF();
 
-    public static PlayMultiVideoFragment newInstance(PlayerDevice playerDevice, int index) {
-        return new PlayMultiVideoFragment(playerDevice, index);
-    }
-
     public PlayMultiVideoFragment() {}
 
     public PlayMultiVideoFragment(PlayerDevice playerDevice, int index) {
@@ -89,12 +85,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         startPlayList();
-    }
-
-    @Override
-    public void onDestroy() {
-        stopPlayList();
-        super.onDestroy();
     }
 
     class MyOnGestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -440,7 +430,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             row.setOrientation(LinearLayout.HORIZONTAL);
         }
 
-        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_next_video);
+        //animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_next_video);
     }
 
     private List<PlayerDevice> getDeviceList(PlayerDevice device) {
@@ -941,7 +931,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             }
         }
 
-        fragmentView.setAnimation(animation);
+        //fragmentView.setAnimation(animation);
         layoutMap.get(currentIndex).setBackgroundColor(getResources().getColor(R.color.video_view_focus_border));
 
         return true;
@@ -961,16 +951,14 @@ public class PlayMultiVideoFragment extends BaseFragment {
             view.setBackgroundColor(Color.BLACK);
             setVideoInfo(i, T(R.string.tv_video_stop_tip));
             setVideoInfo2(i, "");
-            this.deviceList.get(i).m_video.mIsStopVideo = true;
-            this.deviceList.get(i).m_video.destory();
-            layout.invalidate();
         }
     }
 
-    private void stopCurrentPlayList() {
+    public void stopCurrentPlayList() {
         PlayerActivity.m_this.resetWidget();
         stopVideoRecord();
         stopVideoSound();
+        if (this.deviceList.size() == 0) return;
         for (int i = 0; i < MAX_WINDOW; i++) {
             LibImpl.stopPlay(i, this.deviceList.get(i));
         }
@@ -1060,7 +1048,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         chosenPlayerDevice = this.deviceList.get(currentIndex);
         /* 切换之后设置PlayerActivity当前播放的设备ID */
         PlayerActivity.m_this.setCurrentDeviceId(this.chosenPlayerDevice.m_devId);
-        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_prev_video);
+        //animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_prev_video);
         Boolean bRet = startPlay(this.deviceList);
         if (!bRet) {
             Log.e(TAG, "Start previous device err!!!");
@@ -1117,7 +1105,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         chosenPlayerDevice = this.deviceList.get(currentIndex);
         /* 切换之后设置PlayerActivity当前播放的设备ID */
         PlayerActivity.m_this.setCurrentDeviceId(this.chosenPlayerDevice.m_devId);
-        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_next_video);
+        //animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_next_video);
         Boolean bRet = startPlay(this.deviceList);
         if (!bRet) {
             Log.e(TAG, "Start next device err!!!");
@@ -1177,6 +1165,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     public void setVideoInfo2(final int index, final String msg) {
         MarqueeTextView v = (MarqueeTextView) layoutMap.get(index).findViewById(R.id.tvMsgInfo);
         v.setVisibility(Config.m_show_video_info ? View.VISIBLE : View.GONE);
+        if (deviceList.size() == 0) return;
         deviceList.get(index).m_tipTinfo2 = msg;
         if (msg.equals("")) {
             v.setText(msg);

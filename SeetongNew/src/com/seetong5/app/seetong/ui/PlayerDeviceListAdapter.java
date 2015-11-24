@@ -74,12 +74,14 @@ public class PlayerDeviceListAdapter extends BaseAdapter {
         final String devId = playerDevice.m_dev.getDevId();
         String fileName = Global.getSnapshotDir() + "/" + devId + ".jpg";
         Bitmap bmp = null;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 8;
         try {
-            bmp = BitmapFactory.decodeFile(fileName);
-            if (null == bmp) bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.camera);
+            bmp = BitmapFactory.decodeFile(fileName, options);
+            if (null == bmp) bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.camera, options);
         } catch (OutOfMemoryError err) {
             err.printStackTrace();
-            bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.camera);
+            bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.camera, options);
         }
 
         if (null != bmp) {

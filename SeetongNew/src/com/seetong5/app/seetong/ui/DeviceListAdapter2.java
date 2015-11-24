@@ -101,8 +101,10 @@ public class DeviceListAdapter2 extends BaseAdapter {
         final String devId = playerDevice.m_dev.getDevId();
         String fileName = Global.getSnapshotDir() + "/" + devId + ".jpg";
         Bitmap bmp = null;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
         try {
-            bmp = BitmapFactory.decodeFile(fileName);
+            bmp = BitmapFactory.decodeFile(fileName, options);
             if (null == bmp) {
                 bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.camera);
             }

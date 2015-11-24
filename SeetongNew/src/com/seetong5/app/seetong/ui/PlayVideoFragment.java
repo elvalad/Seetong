@@ -50,10 +50,6 @@ public class PlayVideoFragment extends BaseFragment {
 
     public static final int FLING_MOVEMENT_THRESHOLD = 100;
 
-    public static PlayVideoFragment newInstance(PlayerDevice playerDevice, int index) {
-        return new PlayVideoFragment(playerDevice, index);
-    }
-
     public PlayVideoFragment() {}
 
     public PlayVideoFragment(PlayerDevice playerDevice, int index) {
@@ -136,8 +132,8 @@ public class PlayVideoFragment extends BaseFragment {
         public boolean onDoubleTap(MotionEvent e) {
             //toast("play multi video");
             //stopCurrentPlay();
-            PlayerActivity.m_this.setCurrentFragment("play_multi_video_fragment");
-            PlayerActivity.m_this.playMultiVideo(playerDevice, currentIndex);
+            //PlayerActivity.m_this.setCurrentFragment("play_multi_video_fragment");
+            //PlayerActivity.m_this.playMultiVideo(playerDevice, currentIndex);
             return true;
         }
     }

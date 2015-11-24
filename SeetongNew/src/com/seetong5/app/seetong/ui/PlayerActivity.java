@@ -141,14 +141,12 @@ public class PlayerActivity extends BaseActivity {
         PlayerActivity.this.finish();
         /* TODO:在单路fragment和多路fragment之间切换时需要注意这里该如何处理 */
         if (currentFragmentName.equals("play_video_fragment")) {
-            //playVideoFragment.stopPlay();
             /* 退出单画面播放页面时要关闭自动循环播放 */
             if (autoPlayThread != null) {
                 bAutoCyclePlaying = false;
                 handler.removeCallbacks(autoPlayThread);
             }
         } else if (currentFragmentName.equals("play_multi_video_fragment")){
-            //multiVideoFragment.stopPlayList();
             /* 退出多画面播放时要关闭自动循环播放*/
             if (autoPlayThread != null) {
                 bAutoCyclePlaying = false;
@@ -545,9 +543,6 @@ public class PlayerActivity extends BaseActivity {
             }
         });
 
-        final Animation operatingAnim = AnimationUtils.loadAnimation(this, R.anim.anim_rotate_player_device_list);
-        LinearInterpolator lin = new LinearInterpolator();
-        operatingAnim.setInterpolator(lin);
         slidingDrawer = (SlidingDrawer) findViewById(R.id.player_sliding_drawer);
         playerMainButtonLayout = (LinearLayout) findViewById(R.id.player_main_button);
         slidingHandle = (ImageButton) findViewById(R.id.player_handle);
@@ -765,41 +760,10 @@ public class PlayerActivity extends BaseActivity {
         if (multiVideoFragment == null) {
             multiVideoFragment = new PlayMultiVideoFragment(this.playerDevice, 0);
         }
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.player_fragment_container, multiVideoFragment)
-                .commit();
-    }
-
-    public void playSignalVideo(PlayerDevice playerDevice, int index) {
-        /* 自动循环播放开启时不允许切换单画面和多画面 */
-        if (bAutoCyclePlaying) return;
-        this.playerDevice = playerDevice;
-        /* 多画面播放向单画面播放切换时要关闭自动循环播放 */
-        if (autoPlayThread != null) {
-            resetPlayCycleButton();
-            handler.removeCallbacks(autoPlayThread);
-            bAutoCyclePlaying = false;
-        }
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.player_fragment_container, PlayVideoFragment.newInstance(this.playerDevice, index))
-                .commit();
-    }
-
-    public void playMultiVideo(PlayerDevice playerDevice, int index) {
-        /* 自动循环播放开启时不允许切换单画面和多画面 */
-        if (bAutoCyclePlaying) return;
-        this.playerDevice = playerDevice;
-        /* 单画面播放向多画面播放切换时要关闭自动循环播放 */
-        if (autoPlayThread != null) {
-            resetPlayCycleButton();
-            handler.removeCallbacks(autoPlayThread);
-            bAutoCyclePlaying = false;
-        }
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.player_fragment_container, PlayMultiVideoFragment.newInstance(this.playerDevice, index))
                 .commit();
     }
 
