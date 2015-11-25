@@ -714,15 +714,16 @@ public class PlayMultiVideoFragment extends BaseFragment {
             return;
         }
 
-        stopCurrentPlayList();
         if (!chosenPlayerDevice.is_p2p_replay()) {
             toast(R.string.tv_not_support_front_end_record);
             return;
         }
 
+        stopCurrentPlayList();
         Intent it = new Intent(this.getActivity(), FrontEndRecord.class);
         it.putExtra(Constant.EXTRA_DEVICE_ID, chosenPlayerDevice.m_dev.getDevId());
         this.startActivity(it);
+        this.getActivity().finish();
     }
 
     public boolean startVideoSound() {
@@ -961,6 +962,13 @@ public class PlayMultiVideoFragment extends BaseFragment {
         if (this.deviceList.size() == 0) return;
         for (int i = 0; i < MAX_WINDOW; i++) {
             LibImpl.stopPlay(i, this.deviceList.get(i));
+            View view = layoutMap.get(i).findViewById(R.id.liveVideoView);
+            view.setBackgroundColor(Color.BLACK);
+            view = layoutMap.get(i).findViewById(R.id.tvLiveInfo);
+            view.setVisibility(View.GONE);
+            view = layoutMap.get(i).findViewById(R.id.tvMsgInfo);
+            view.setVisibility(View.GONE);
+            layoutMap.get(i).invalidate();
         }
     }
 
