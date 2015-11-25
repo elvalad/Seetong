@@ -800,10 +800,8 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
         stopReplay();
         m_glRender.destory();
         PlayerDevice dev = Global.getDeviceById(m_device_id);
-        if (null != dev) {
-            dev.m_replay = false;
-            dev.m_video = null;
-        }
+        dev.m_replay = false;
+
         super.onDestroy();
     }
 
@@ -1289,7 +1287,7 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
         Global.releasePower();
         if (m_play_status == REPLAY_NVR_ACTION.NVR_ACTION_STOP) return;
 
-        PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(PLAY_WND_ID);
+        PlayerDevice dev = Global.getDeviceById(m_device_id);//LibImpl.getInstance().getPlayerDevice(PLAY_WND_ID);
         if (null == dev) return;
 
         LibImpl.getInstance().stopNvrReplay(dev.m_devId, PLAY_WND_ID);
