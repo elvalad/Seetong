@@ -254,7 +254,7 @@ public class PlayerActivity extends BaseActivity {
     public void modifyUserPwd(final PlayerDevice dev) {
         if (null == dev) return;
         m_modifyUserPwdDev = dev;
-        showTipDlg(R.string.dlg_get_user_list_tip, 15000, R.string.dlg_check_your_device_user_and_pwd);
+        showTipDlg(R.string.dlg_get_user_list_tip, 20000, R.string.dlg_check_your_device_user_and_pwd);
         int ret = LibImpl.getInstance().getFuncLib().GetP2PDevConfig(dev.m_dev.getDevId(), NetSDK_CMD_TYPE.CMD_GET_SYSTEM_USER_CONFIG);
         if (0 == ret) return;
         toast(R.string.dlg_check_your_device_user_and_pwd);
