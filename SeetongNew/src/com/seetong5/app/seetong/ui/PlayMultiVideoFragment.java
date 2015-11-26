@@ -1244,7 +1244,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 //CheckDefaultUserPwd(LibImpl.getInstance().getPlayerDevice(msgObj.devID));
                 return true;
             case NetSDK_CMD_TYPE.CMD_SET_SYSTEM_USER_CONFIG:
-                //onSetUserConfig(msg.arg1);
+                onSetUserConfig(msg.arg1);
                 return true;
             case SDK_CONSTANT.TPS_MSG_NOTIFY_DISP_INFO:
                 TPS_NotifyInfo tni = (TPS_NotifyInfo) msg.obj;
@@ -1261,6 +1261,58 @@ public class PlayMultiVideoFragment extends BaseFragment {
     private void onGetUserConfig(int flag, String devId, List<NetSDK_UserAccount> obj) {
         final List<NetSDK_UserAccount> lstUser = obj;
         PlayerActivity.m_this.mTipDlg.dismiss();
+
+        if (0 != flag || lstUser.isEmpty()) {
+            toast(R.string.dlg_get_user_list_fail_tip);
+            return;
+        }
+
+        // 已经设置新的用户信息，再次获取并验证
+        if (null != PlayerActivity.m_this.m_modifyInfo) {
+            PlayerActivity.m_this.m_modifyDefaultPassword = false;
+            boolean found = false;
+            for(NetSDK_UserAccount u : lstUser) {
+                if (!u.getUserName().equals(PlayerActivity.m_this.m_modifyInfo.getUserName()) ||
+                        !u.getPassword().equals(PlayerActivity.m_this.m_modifyInfo.getUserPassword())) continue;
+                found = true;
+                break;
+            }
+
+            final DeviceInfo info = PlayerActivity.m_this.m_modifyInfo;
+            PlayerActivity.m_this.m_modifyInfo = null;
+            if (!found) {
+                toast(R.string.dlg_set_user_info_fail_tip);
+                return;
+            }
+
+            PlayerActivity.m_this.m_modifyUserPwdDev.m_dev.setLoginName(info.getUserName());
+            PlayerActivity.m_this.m_modifyUserPwdDev.m_dev.setLoginPassword(info.getUserPassword());
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    // 验证设置成功，调用更新函数通知云平台同步修改
+                    int ret = FunclibAgent.getInstance().ModifyDevPassword(playerDevice.m_dev.getDevId(), info.getUserName(), info.getUserPassword());
+
+                    // 获取视频参数，取消修改默认密码字幕
+                    LibImpl.m_change_default_pwd_dev = playerDevice;
+                    FunclibAgent.getInstance().GetP2PDevConfig(playerDevice.m_devId, 501);
+
+                    if (0 != ret) {
+                        PlayerActivity.m_this.mTipDlg.dismiss();
+                        toast(R.string.dlg_set_user_info_fail_tip);
+                        return;
+                    }
+
+                    Global.m_devInfo.setUserName(info.getUserName());
+                    Global.m_devInfo.setUserPassword(info.getUserPassword());
+                    PlayerActivity.m_this.mTipDlg.dismiss();
+                    toast(R.string.dlg_set_user_info_succeed_tip);
+                }
+            }).start();
+
+            return;
+        }
 
         final ClearEditText etUser = new ClearEditText(this.getActivity());
         etUser.setHint(R.string.dev_list_hint_input_user_name);
@@ -1463,12 +1515,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                             @Override
                             public void run() {
                                 // 设置设备用户信息
-                                int ret = FunclibAgent.getInstance().SetP2PDevConfig(playerDevice.m_dev.getDevId(), NetSDK_CMD_TYPE.CMD_SET_SYSTEM_USER_CONFIG, xml);
-                                if (0 == ret) {
-                                    PlayerActivity.m_this.mTipDlg.dismiss();
-                                    toast(R.string.dlg_set_user_info_succeed_tip);
-                                    return;
-                                }
+                                FunclibAgent.getInstance().SetP2PDevConfig(playerDevice.m_dev.getDevId(), NetSDK_CMD_TYPE.CMD_SET_SYSTEM_USER_CONFIG, xml);
                             }
                         }).start();
                     }
