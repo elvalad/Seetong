@@ -227,6 +227,7 @@
     <string name="dlg_set_user_info_timeout_tip">Setting up user information timeout</string>
     <string name="dlg_get_user_list_fail_tip">Failed to get user list</string>
     <string name="dlg_get_user_list_timeout_tip">Get User lists timeout</string>
+    <string name="dlg_check_your_device_user_and_pwd">Please make sure the device account and password are correct</string>
     <string name="dlg_set_user_info_fail_tip">Failed to set user information</string>
     <string name="dlg_set_user_info_succeed_tip">Setting up user information successfully</string>
     <string name="dlg_set_user_info_username_or_pwd_incorrect_tip">Please enter the correct user name and password</string>

@@ -33,7 +33,6 @@ import com.umeng.update.UpdateStatus;
 import ipc.android.sdk.com.Device;
 import ipc.android.sdk.com.TPS_AlarmInfo;
 import ipc.android.sdk.impl.DeviceInfo;
-import ipc.android.sdk.impl.FunclibAgent;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

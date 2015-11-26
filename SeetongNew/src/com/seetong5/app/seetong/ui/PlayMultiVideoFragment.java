@@ -1,18 +1,24 @@
 package com.seetong5.app.seetong.ui;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.*;
 import android.media.AudioManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.TextUtils;
+import android.text.method.PasswordTransformationMethod;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -27,10 +33,14 @@ import com.seetong5.app.seetong.comm.Define;
 import com.seetong5.app.seetong.sdk.impl.ConstantImpl;
 import com.seetong5.app.seetong.sdk.impl.LibImpl;
 import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
+import com.seetong5.app.seetong.ui.aid.ClearEditText;
 import com.seetong5.app.seetong.ui.aid.MarqueeTextView;
 import ipc.android.sdk.com.*;
+import ipc.android.sdk.impl.DeviceInfo;
+import ipc.android.sdk.impl.FunclibAgent;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -1214,7 +1224,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 //showAlarmIcon(new String(ta.getSzDevId()).trim(), true);
                 return true;
             case SDK_CONSTANT.TPS_MSG_NOTIFY_LOGIN_FAILED:
-                //onLoginFailed((PlayerDevice) msg.obj);
+                onLoginFailed((PlayerDevice) msg.obj);
                 return true;
             case LibImpl.MSG_VIDEO_SET_STATUS_INFO:
                 onSetStatusInfo(msg);
@@ -1230,8 +1240,12 @@ public class PlayMultiVideoFragment extends BaseFragment {
             case NetSDK_CMD_TYPE.CMD_GET_SYSTEM_USER_CONFIG:
                 msgObj = (LibImpl.MsgObject) msg.obj;
                 List<NetSDK_UserAccount> lst = (List<NetSDK_UserAccount>) msgObj.recvObj;
+                onGetUserConfig(msg.arg1, msgObj.devID, lst);
                 //CheckDefaultUserPwd(LibImpl.getInstance().getPlayerDevice(msgObj.devID));
-                return false;
+                return true;
+            case NetSDK_CMD_TYPE.CMD_SET_SYSTEM_USER_CONFIG:
+                //onSetUserConfig(msg.arg1);
+                return true;
             case SDK_CONSTANT.TPS_MSG_NOTIFY_DISP_INFO:
                 TPS_NotifyInfo tni = (TPS_NotifyInfo) msg.obj;
                 onNotifyDispInfo(tni);
@@ -1242,6 +1256,326 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
 
         return false;
+    }
+
+    private void onGetUserConfig(int flag, String devId, List<NetSDK_UserAccount> obj) {
+        final List<NetSDK_UserAccount> lstUser = obj;
+        PlayerActivity.m_this.mTipDlg.dismiss();
+
+        final ClearEditText etUser = new ClearEditText(this.getActivity());
+        etUser.setHint(R.string.dev_list_hint_input_user_name);
+        etUser.setPadding(10, 10, 10, 10);
+        etUser.setSingleLine(true);
+        etUser.setInputType(EditorInfo.TYPE_CLASS_TEXT|EditorInfo.TYPE_TEXT_VARIATION_FILTER|EditorInfo.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+        etUser.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Define.DEVICE_NAEM_LENGTH)});
+
+        final ClearEditText etPwd = new ClearEditText(this.getActivity());
+        etPwd.setHint(R.string.dev_list_hint_input_password);
+        etPwd.setPadding(10, 10, 10, 10);
+        etPwd.setSingleLine(true);
+        etPwd.setInputType(EditorInfo.TYPE_CLASS_TEXT|EditorInfo.TYPE_TEXT_VARIATION_PASSWORD);
+        etPwd.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Define.DEVICE_PWD_LENGTH)});
+
+        final ClearEditText etNewUser = new ClearEditText(this.getActivity());
+        etNewUser.setHint(R.string.dev_list_hint_input_new_user_name);
+        etNewUser.setPadding(10, 10, 10, 10);
+        etNewUser.setSingleLine(true);
+        etNewUser.setInputType(EditorInfo.TYPE_CLASS_TEXT);
+        etNewUser.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Define.DEVICE_NAEM_LENGTH)});
+
+        final ClearEditText etNewPwd = new ClearEditText(this.getActivity());
+        etNewPwd.setHint(R.string.dev_list_hint_input_new_password);
+        etNewPwd.setPadding(10, 10, 10, 10);
+        etNewPwd.setSingleLine(true);
+        etNewPwd.setInputType(EditorInfo.TYPE_CLASS_TEXT|EditorInfo.TYPE_TEXT_VARIATION_PASSWORD);
+        etNewPwd.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Define.DEVICE_PWD_LENGTH)});
+
+        final ClearEditText etNewPwd2 = new ClearEditText(this.getActivity());
+        etNewPwd2.setHint(R.string.dev_list_hint_input_new_password_2);
+        etNewPwd2.setPadding(10, 10, 10, 10);
+        etNewPwd2.setSingleLine(true);
+        etNewPwd2.setInputType(EditorInfo.TYPE_CLASS_TEXT|EditorInfo.TYPE_TEXT_VARIATION_PASSWORD);
+        etNewPwd2.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Define.DEVICE_PWD_LENGTH)});
+
+        LinearLayout layout = new LinearLayout(this.getActivity());
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(5, 0, 5, 0);
+        layout.setBackgroundColor(Color.rgb(207, 232, 179));
+        layout.addView(etUser);
+        layout.addView(etPwd);
+        layout.addView(etNewUser);
+        layout.addView(etNewPwd);
+        layout.addView(etNewPwd2);
+        int titleId = R.string.dev_list_tip_title_modify_default_user_pwd;
+
+        AlertDialog m_modify_user_pwd_dlg = new AlertDialog.Builder(this.getActivity()).setTitle(titleId)
+                .setView(layout)
+                .setNegativeButton(this.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                            field.setAccessible(true);
+                            field.set(dialog, true);
+                        } catch (NoSuchFieldException | IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+
+                        PlayerActivity.m_this.hideInputPanel(etUser);
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton(this.getString(R.string.sure), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        final String userName = etUser.getText().toString();
+                        final String password = etPwd.getText().toString();
+                        final String newUser = etNewUser.getText().toString();
+                        final String newPwd = etNewPwd.getText().toString();
+                        String newPwd2 = etNewPwd2.getText().toString();
+                        if ("".equals(userName) || "".equals(password) || "".equals(newUser)) {
+                            try {
+                                Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                                field.setAccessible(true);
+                                field.set(dialog, false);
+                            } catch (NoSuchFieldException | IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+
+                            if ("".equals(userName)) {
+                                etUser.setShakeAnimation();
+                                return;
+                            }
+
+                            if ("".equals(password)) {
+                                etPwd.setShakeAnimation();
+                                return;
+                            }
+
+                            if ("".equals(newUser)) {
+                                etNewUser.setShakeAnimation();
+                                return;
+                            }
+
+                            return;
+                        }
+
+                        boolean found = false;
+                        // 找到要修改的用户
+                        NetSDK_UserAccount foundUser = null;
+                        for (NetSDK_UserAccount u : lstUser) {
+                            if (!u.getUserName().equals(userName) || !u.getPassword().equals(password)) continue;
+                            foundUser = u;
+                            found = true;
+                            break;
+                        }
+
+                        if (!found) {
+                            // 未找到，提示重新输入
+                            try {
+                                Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                                field.setAccessible(true);
+                                field.set(dialog, false);
+                            } catch (NoSuchFieldException | IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+
+                            toast(R.string.dlg_set_user_info_username_or_pwd_incorrect_tip);
+                            return;
+                        }
+
+                        // 是否需要修改密码
+                        if ("".equals(newPwd) || "".equals(newPwd2)) {
+                            try {
+                                Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                                field.setAccessible(true);
+                                field.set(dialog, false);
+                            } catch (NoSuchFieldException | IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+
+                            if ("".equals(newPwd)) {
+                                etNewPwd.setShakeAnimation();
+                                return;
+                            }
+
+                            if ("".equals(newPwd2)) {
+                                etNewPwd2.setShakeAnimation();
+                                return;
+                            }
+
+                            return;
+                        }
+
+                        if (password.equals(newPwd)) {
+                            try {
+                                Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                                field.setAccessible(true);
+                                field.set(dialog, false);
+                            } catch (NoSuchFieldException | IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+
+                            if ("".equals(newPwd)) {
+                                etNewPwd.setShakeAnimation();
+                                return;
+                            }
+
+                            toast(R.string.dlg_set_user_info_new_pwd_incorrect_tip);
+                            return;
+                        }
+
+                        if (!newPwd.equals(newPwd2)) {
+                            try {
+                                Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                                field.setAccessible(true);
+                                field.set(dialog, false);
+                            } catch (NoSuchFieldException | IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+
+                            toast(R.string.dlg_set_user_info_confirm_pwd_incorrect_tip);
+                            return;
+                        }
+
+                        try {
+                            Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                            field.setAccessible(true);
+                            field.set(dialog, true);
+                        } catch (NoSuchFieldException | IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+
+                        PlayerActivity.m_this.hideInputPanel(etUser);
+                        dialog.dismiss();
+                        PlayerActivity.m_this.showTipDlg(R.string.dlg_set_user_list_tip, 20000, R.string.dlg_set_user_info_timeout_tip);
+                        PlayerActivity.m_this.m_modifyInfo = new DeviceInfo();
+                        PlayerActivity.m_this.m_modifyInfo.setUserName(newUser);
+                        PlayerActivity.m_this.m_modifyInfo.setUserPassword(newPwd);
+                        foundUser.setUserName(newUser);
+                        foundUser.setPassword(newPwd);
+                        List<AbstractDataSerialBase> lst = new ArrayList<>();
+                        lst.addAll(lstUser);
+                        foundUser.addHead(false);
+                        final String xml = foundUser.toXMLString(lst, "UserConfig");
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 设置设备用户信息
+                                int ret = FunclibAgent.getInstance().SetP2PDevConfig(playerDevice.m_dev.getDevId(), NetSDK_CMD_TYPE.CMD_SET_SYSTEM_USER_CONFIG, xml);
+                                if (0 == ret) {
+                                    PlayerActivity.m_this.mTipDlg.dismiss();
+                                    toast(R.string.dlg_set_user_info_succeed_tip);
+                                    return;
+                                }
+                            }
+                        }).start();
+                    }
+                }).create();
+        m_modify_user_pwd_dlg.show();
+    }
+
+    private void onSetUserConfig(int flag) {
+        final PlayerDevice dev = playerDevice;
+        if (0 != flag) {
+            PlayerActivity.m_this.m_modifyInfo = null;
+            toast(R.string.dlg_set_user_info_fail_tip);
+            return;
+        }
+
+        if (null == dev) return;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // 已经设置新的用户信息，再次发送获取请求并验证
+                FunclibAgent.getInstance().GetP2PDevConfig(dev.m_dev.getDevId(), NetSDK_CMD_TYPE.CMD_GET_SYSTEM_USER_CONFIG);
+            }
+        }).start();
+    }
+
+    private void onLoginFailed(final PlayerDevice dev) {
+        if (null == dev) return;
+        setTipText(dev.m_devId, R.string.tv_video_req_user_name_pwd_incorrect_tip);
+        Context ctx = this.getActivity();
+        final ClearEditText etUser = new ClearEditText(ctx);
+        etUser.setHint(R.string.dev_list_hint_input_user_name);
+        etUser.setPadding(10, 10, 10, 10);
+        etUser.setSingleLine(true);
+        etUser.setInputType(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_FILTER | EditorInfo.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+        etUser.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Define.DEVICE_NAEM_LENGTH)});
+
+        final ClearEditText etPwd = new ClearEditText(ctx);
+        etPwd.setHint(R.string.dev_list_hint_input_password);
+        etPwd.setPadding(10, 10, 10, 10);
+        etPwd.setSingleLine(true);
+        etPwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        etPwd.setInputType(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_PASSWORD);
+        etPwd.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Define.DEVICE_PWD_LENGTH)});
+
+        LinearLayout layout = new LinearLayout(ctx);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(5, 0, 5, 0);
+        layout.setBackgroundColor(Color.rgb(207, 232, 179));
+        layout.addView(etUser);
+        layout.addView(etPwd);
+
+        AlertDialog d = new AlertDialog.Builder(ctx).setTitle(R.string.dev_list_tip_title_input_user_pwd)
+                .setView(layout)
+                .setNegativeButton(this.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                            field.setAccessible(true);
+                            field.set(dialog, true);
+                        } catch (NoSuchFieldException | IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+
+                        PlayerActivity.m_this.hideInputPanel(etUser);
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton(this.getString(R.string.sure), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String userName = etUser.getText().toString();
+                        String password = etPwd.getText().toString();
+                        if ("".equals(userName) || "".equals(password)) {
+                            try {
+                                Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                                field.setAccessible(true);
+                                field.set(dialog, false);
+                            } catch (NoSuchFieldException | IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+
+                            return;
+                        }
+
+                        try {
+                            Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                            field.setAccessible(true);
+                            field.set(dialog, true);
+                        } catch (NoSuchFieldException | IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+
+                        PlayerActivity.m_this.hideInputPanel(etUser);
+                        dialog.dismiss();
+
+                        int ret = FunclibAgent.getInstance().ModifyDevPassword(dev.m_dev.getDevId(), userName, password);
+                        if (0 != ret) {
+                            toast(R.string.dlg_set_user_info_fail_tip);
+                            return;
+                        }
+
+                        toast(R.string.dlg_set_user_info_succeed_tip);
+                        int index = LibImpl.getInstance().getIndexByDeviceID(dev.m_devId);
+                    }
+                }).create();
+        d.show();
     }
 
     private void onSetStatusInfo(android.os.Message msg) {

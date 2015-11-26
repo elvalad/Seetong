@@ -20,6 +20,9 @@ import com.seetong5.app.seetong.comm.Define;
 import com.seetong5.app.seetong.sdk.impl.LibImpl;
 import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
 import com.seetong5.app.seetong.ui.ext.MyTipDialog;
+import ipc.android.sdk.com.NetSDK_CMD_TYPE;
+import ipc.android.sdk.com.NetSDK_UserAccount;
+import ipc.android.sdk.impl.DeviceInfo;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -50,6 +53,10 @@ public class PlayerActivity extends BaseActivity {
     private static boolean bActive = true;
     private Timestamp startTime;
     private Timestamp endTime;
+    public ProgressDialog mTipDlg;
+    public DeviceInfo m_modifyInfo;
+    public boolean m_modifyDefaultPassword = false;
+    public PlayerDevice m_modifyUserPwdDev = null;
 
     private ImageButton playerBackButton;
     private ImageButton playerStopButton;
@@ -75,6 +82,9 @@ public class PlayerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
         deviceId = getIntent().getStringExtra("device_id");
+
+        mTipDlg = new ProgressDialog(this, R.string.dlg_login_server_tip);
+        mTipDlg.setCancelable(false);
 
         LibImpl.getInstance().addHandler(m_handler);
         playerDevice = LibImpl.findDeviceByID(PlayerActivity.m_this.getCurrentDeviceId());
@@ -234,10 +244,38 @@ public class PlayerActivity extends BaseActivity {
                 MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_DEV_ALIAS, 0, 0, dev);
                 break;
             case Constant.DEVICE_CONFIG_ITEM_MODIFY_USER_PWD:
+                modifyUserPwd(dev);
                 break;
             case Constant.DEVICE_CONFIG_ITEM_MODIFY_MEDIA_PARAM:
                 break;
         }
+    }
+
+    public void modifyUserPwd(final PlayerDevice dev) {
+        if (null == dev) return;
+        m_modifyUserPwdDev = dev;
+        showTipDlg(R.string.dlg_get_user_list_tip, 15000, R.string.dlg_check_your_device_user_and_pwd);
+        int ret = LibImpl.getInstance().getFuncLib().GetP2PDevConfig(dev.m_dev.getDevId(), NetSDK_CMD_TYPE.CMD_GET_SYSTEM_USER_CONFIG);
+        if (0 == ret) return;
+        toast(R.string.dlg_check_your_device_user_and_pwd);
+    }
+
+    public void showTipDlg(int resId, int timeout, int timeoutMsg) {
+        mTipDlg.setTitle(T(resId));
+        mTipDlg.setTimeoutToast(T(timeoutMsg));
+        mTipDlg.setCallback(new ProgressDialog.ICallback() {
+            @Override
+            public void onTimeout() {
+                m_modifyInfo = null;
+                m_modifyDefaultPassword = false;
+            }
+
+            @Override
+            public boolean onCancel() {
+                return false;
+            }
+        });
+        mTipDlg.show(timeout);
     }
 
     private void initWidget() {

@@ -5,16 +5,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.*;
 import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.view.inputmethod.EditorInfo;
+import android.widget.*;
+import com.seetong5.app.seetong.Config;
 import com.seetong5.app.seetong.Global;
 import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
@@ -23,6 +23,10 @@ import com.seetong5.app.seetong.sdk.impl.LibImpl;
 import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
 import com.seetong5.app.seetong.ui.aid.ClearEditText;
 import com.seetong5.app.seetong.ui.ext.MyTipDialog;
+import ipc.android.sdk.com.AbstractDataSerialBase;
+import ipc.android.sdk.com.NetSDK_CMD_TYPE;
+import ipc.android.sdk.com.NetSDK_UserAccount;
+import ipc.android.sdk.impl.DeviceInfo;
 import ipc.android.sdk.impl.FunclibAgent;
 
 import java.lang.reflect.Field;
@@ -286,61 +290,11 @@ public class PlayerSettingActivity extends BaseActivity {
     }
 
     private void onModifyUserPwd() {
-        final PlayerSettingActivity self = this;
-        final String _devName = playerDevice.m_dev.getDevGroupName();
-        Resources mResources = self.getResources();
-        final ClearEditText etAddGroup = new ClearEditText(self);
-        etAddGroup.setHint(R.string.dev_list_tip_title_modify_user_pwd);
-        etAddGroup.setPadding(10, 10, 10, 10);
-        etAddGroup.setSingleLine(true);
-        etAddGroup.setText("");
-        etAddGroup.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Define.DEVICE_NAEM_LENGTH)});
-        new AlertDialog.Builder(self).setTitle(R.string.dev_list_tip_title_modify_user_pwd)
-                .setView(etAddGroup)
-                .setNegativeButton(mResources.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
-                            field.setAccessible(true);
-                            field.set(dialog, true);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                        self.hideInputPanel(etAddGroup);
-                        dialog.dismiss();
-                    }
-                }).setPositiveButton(mResources.getString(R.string.sure), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String value = etAddGroup.getText().toString();
-                if ("".equals(value)) {
-                    try {
-                        Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
-                        field.setAccessible(true);
-                        field.set(dialog, false);
-                    } catch (NoSuchFieldException | IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-                    return;
-                }
-
-                self.hideInputPanel(etAddGroup);
-                int ret = FunclibAgent.getInstance().ModifyDevPassword(playerDevice.m_dev.getDevId(), playerDevice.m_user, value);
-                if (0 != ret) {
-                    toast(ConstantImpl.getModifyDevNameErrText(ret));
-                    return;
-                }
-
-                //Intent it = new Intent(self, DeviceFragment.class);
-                //it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
-                //it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS);
-                //it.putExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME, value);
-                //self.setResult(RESULT_OK, it);
-                dialog.dismiss();
-                finish();
-            }
-        }).create().show();
+        Intent it = new Intent(this, DeviceFragment.class);
+        it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
+        it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_USER_PWD);
+        this.setResult(RESULT_OK, it);
+        finish();
     }
 
     private void onModifyMediaParameter() {
