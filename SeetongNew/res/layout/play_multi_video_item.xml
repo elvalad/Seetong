@@ -29,7 +29,6 @@
                 android:singleLine="true"
                 android:gravity="center"
                 android:textSize="12sp"
-                android:text="100241-channel01"
                 android:textColor="#ffffff"
                 android:visibility="visible"/>
 
