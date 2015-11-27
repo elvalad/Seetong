@@ -992,7 +992,7 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
     }
 
     private void onActionPlay(TPS_ReplayDevFileRsp data) {
-        PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(m_device_id);
+        PlayerDevice dev = Global.getDeviceById(m_device_id);//LibImpl.getInstance().getPlayerDevice(PLAY_WND_ID);
         if (null == dev) return;
         dev.m_replay_duration = data.getnVideoSecs();
         m_seekbar_play.setMax(dev.m_replay_duration);
