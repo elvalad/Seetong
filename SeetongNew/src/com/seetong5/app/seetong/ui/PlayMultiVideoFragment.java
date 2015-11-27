@@ -810,24 +810,21 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
     private void startSinglePlay() {
         RelativeLayout layout = layoutMap.get(currentIndex);
-        deviceList.get(currentIndex).m_device_play_count++;
-        deviceList.get(currentIndex).m_video = renderMap.get(currentIndex);
-        deviceList.get(currentIndex).m_video.mIsStopVideo = false;
+        PlayerDevice dev = deviceList.get(currentIndex);
+        dev.m_device_play_count++;
+        dev.m_video = renderMap.get(currentIndex);
+        dev.m_video.mIsStopVideo = false;
 
-        deviceList.get(currentIndex).m_device_play_count++;
-        deviceList.get(currentIndex).m_video = renderMap.get(currentIndex);
-        deviceList.get(currentIndex).m_video.mIsStopVideo = false;
-
-        if (!deviceList.get(currentIndex).m_play) {
-            int ret = LibImpl.startPlay(currentIndex, deviceList.get(currentIndex), deviceList.get(currentIndex).m_stream_type, deviceList.get(currentIndex).m_frame_type);
+        if (!dev.m_play) {
+            int ret = LibImpl.startPlay(currentIndex, dev, dev.m_stream_type, dev.m_frame_type);
             if (ret == 0) {
-                deviceList.get(currentIndex).m_online = true;
-                deviceList.get(currentIndex).m_playing = false;
+                dev.m_online = true;
+                dev.m_playing = false;
                 setVideoInfo(currentIndex, T(R.string.tv_video_req_tip));
             } else {
                 String selfID = "";
-                if (LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(deviceList.get(currentIndex).m_dev.getDevId())) != null) {
-                    selfID = LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(deviceList.get(currentIndex).m_dev.getDevId())).getNotifyStr();
+                if (LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(dev.m_dev.getDevId())) != null) {
+                    selfID = LibImpl.mDeviceNotifyInfo.get(LibImpl.getRightDeviceID(dev.m_dev.getDevId())).getNotifyStr();
                 }
 
                 //Log.i("DeviceNotifyInfo", "DeviceNotifyInfo ary:" + LibImpl.mDeviceNotifyInfo + ".");
@@ -836,22 +833,22 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 toast(ConstantImpl.getTPSErrText(ret, false) + selfID);;
             }
         } else {
-            setVideoInfo(currentIndex, deviceList.get(currentIndex).m_tipInfo);
-            setVideoInfo2(currentIndex, deviceList.get(currentIndex).m_tipTinfo2);
+            setVideoInfo(currentIndex, dev.m_tipInfo);
+            setVideoInfo2(currentIndex, dev.m_tipTinfo2);
         }
-        deviceList.get(currentIndex).m_play = true;
-        deviceList.get(currentIndex).m_view_id = currentIndex;
+        dev.m_play = true;
+        dev.m_view_id = currentIndex;
 
         View view = layout.findViewById(R.id.tvLiveInfo);
         view.setVisibility(View.VISIBLE);
-        view = deviceList.get(currentIndex).m_video.getSurface();
+        view = dev.m_video.getSurface();
         view.setBackgroundColor(Color.TRANSPARENT);
         view.setVisibility(View.VISIBLE);
 
-        deviceList.get(currentIndex).m_audio = new AudioPlayer(currentIndex);
-        deviceList.get(currentIndex).m_audio.mIsAecm = false;
-        deviceList.get(currentIndex).m_audio.mIsNoiseReduction = false;
-        deviceList.get(currentIndex).m_audio.addRecordCallback(new AudioPlayer.MyRecordCallback() {
+        dev.m_audio = new AudioPlayer(currentIndex);
+        dev.m_audio.mIsAecm = false;
+        dev.m_audio.mIsNoiseReduction = false;
+        dev.m_audio.addRecordCallback(new AudioPlayer.MyRecordCallback() {
             @Override
             public void recvRecordData(byte[] data, int length, int reserver) {
                 if (reserver >= 0) {
