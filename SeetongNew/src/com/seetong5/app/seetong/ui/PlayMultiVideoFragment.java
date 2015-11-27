@@ -163,7 +163,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 resetCurrentWindow();
                 bFullScreen = false;
             } else {
-                if ((Math.abs(curPoint.x - prePoint.x) < 20f) && (Math.abs(curPoint.y - prePoint.y) < 20f)) {
+                if ((Math.abs(curPoint.x - prePoint.x) < 30f) && (Math.abs(curPoint.y - prePoint.y) < 30f)) {
                     setCurrentWindow(e);
                     fullCurrentWindow();
                     bFullScreen = true;
