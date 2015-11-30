@@ -16,6 +16,7 @@
 
             <RelativeLayout
                 style="@style/linearTitle"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/small_interval"
                 android:background="@color/clear"
