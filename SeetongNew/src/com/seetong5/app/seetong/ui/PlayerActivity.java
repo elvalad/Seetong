@@ -386,7 +386,7 @@ public class PlayerActivity extends BaseActivity {
                 if (bAutoCyclePlaying) {
                     return false;
                 }
-                view = findViewById(R.id.player_record_playback);
+
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     playerPlaybackButton.setImageResource(R.drawable.tps_play_recordplayback_on);
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
@@ -461,7 +461,6 @@ public class PlayerActivity extends BaseActivity {
                     return false;
                 }
 
-                view = findViewById(R.id.player_setting);
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     playerSettingButton.setImageResource(R.drawable.tps_play_set_on);
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
@@ -806,6 +805,7 @@ public class PlayerActivity extends BaseActivity {
     }
 
     public void startChoosenPlay(PlayerDevice choosenDevice) {
+        if (bAutoCyclePlaying) return;
         if (currentFragmentName.equals("play_video_fragment")) {
             this.playVideoFragment.startChoosenPlay(choosenDevice);
         } else if (currentFragmentName.equals("play_multi_video_fragment")) {
