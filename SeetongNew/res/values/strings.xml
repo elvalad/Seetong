@@ -813,4 +813,6 @@
     <string name="player_auto_play_on">自动循环播放</string>
     <string name="player_auto_play_off">关闭自动循环播放</string>
     <string name="player_exit_record">录像时间太短，请10秒之后再停止</string>
+    <string name="player_choose_other_dev">该设备已在播放</string>
+
 </resources>

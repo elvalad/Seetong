@@ -483,8 +483,10 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
     public void startChoosenPlay(PlayerDevice dev) {
         for (int i = 0; i < MAX_WINDOW; i++) {
-            if (dev.equals(deviceList.get(i)))
+            if (dev.equals(deviceList.get(i))) {
+                toast(R.string.player_choose_other_dev);
                 return;
+            }
         }
         stopCurrentPlay();
         chosenPlayerDevice = dev;
