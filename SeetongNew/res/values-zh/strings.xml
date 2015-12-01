@@ -398,7 +398,7 @@
     <string name="reg_error_null">用户注册成功</string>
     <string name="reg_error_user">用户名错误</string>
     <string name="reg_error_password">登录密码错误</string>
-    <string name="reg_error_code">验证码错误</string>
+    <string name="reg_error_code">校验码错误</string>
     <string name="reg_error_user_length">用户名长度错误</string>
     <string name="reg_error_psw_length">登录密码长度错误</string>
     <string name="reg_error_mail">联系邮箱错误</string>

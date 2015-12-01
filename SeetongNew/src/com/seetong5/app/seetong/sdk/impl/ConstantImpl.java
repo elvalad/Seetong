@@ -480,7 +480,6 @@ public class ConstantImpl extends SDK_CONSTANT {
             case reset_psw_error_user_empty:
                 return Global.m_res.getString(R.string.reset_psw_error_user_empty);
             case reset_psw_error_code_valid:
-                return Global.m_res.getString(R.string.reset_psw_error_code_valid);
             case reset_psw_error_code:
                 return Global.m_res.getString(R.string.reset_psw_error_code);
             case reset_psw_error_user:
