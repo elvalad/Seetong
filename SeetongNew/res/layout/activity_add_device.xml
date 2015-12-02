@@ -55,7 +55,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/device_add_id_hint_text"
-                        android:textSize="12sp"
+                        android:textSize="15sp"
                         android:textColorHint="#dddddd" />
 
         </RelativeLayout>
@@ -92,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/device_add_account_hint_text"
                         android:text="admin"
-                        android:textSize="12sp"
+                        android:textSize="15sp"
                         android:textColorHint="#dddddd" />
 
         </RelativeLayout>
@@ -129,7 +129,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/device_add_password_hint_text"
                         android:text="123456"
-                        android:textSize="12sp"
+                        android:textSize="15sp"
                         android:inputType="textPassword"
                         android:textColorHint="#dddddd" />
 

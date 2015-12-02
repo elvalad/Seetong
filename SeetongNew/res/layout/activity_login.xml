@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/login_account_hint_text"
-                android:textSize="12sp"
+                android:textSize="15sp"
                 android:inputType="textEmailAddress"
                 android:textColorHint="#dddddd" />
     </RelativeLayout>
@@ -70,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/login_password_hint_text"
-                android:textSize="12sp"
+                android:textSize="15sp"
                 android:inputType="textPassword"
                 android:textColorHint="#dddddd"/>
 
@@ -112,7 +112,7 @@
         <Button
                 android:id="@+id/login_register"
                 android:text="@string/login_register"
-                android:textSize="12sp"
+                android:textSize="15sp"
                 android:textColor="#919191"
                 android:background="#00000000"
                 android:layout_width="wrap_content"
@@ -126,7 +126,7 @@
         <Button
                 android:id="@+id/login_forget"
                 android:text="@string/login_forget_password"
-                android:textSize="12sp"
+                android:textSize="15sp"
                 android:textColor="#919191"
                 android:background="#00000000"
                 android:layout_width="wrap_content"

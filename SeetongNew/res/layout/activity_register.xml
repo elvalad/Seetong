@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:hint="@string/register_account_hint_text"
-                android:textSize="12sp"
+                android:textSize="15sp"
                 android:textColorHint="#dddddd"
                 android:inputType="textEmailAddress"/>
 
@@ -58,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:hint="@string/register_password_hint_text"
-                android:textSize="12sp"
+                android:textSize="15sp"
                 android:textColorHint="#dddddd"
                 android:inputType="textPassword"/>
 
@@ -69,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:hint="@string/register_password_verify_hint_text"
-                android:textSize="12sp"
+                android:textSize="15sp"
                 android:textColorHint="#dddddd"
                 android:inputType="textPassword"/>
 
@@ -86,7 +86,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:hint="@string/register_verify_code_hint_text"
-                    android:textSize="12sp"
+                    android:textSize="15sp"
                     android:textColorHint="#dddddd"
                     android:layout_weight="2"
                     android:inputType="number"/>
@@ -100,7 +100,7 @@
                     android:id="@+id/register_verify_button"
                     android:text="@string/register_gain_verify_code_hint_text"
                     android:textColor="#ffffff"
-                    android:textSize="12sp"
+                    android:textSize="15sp"
                     android:background="@drawable/tps_register_loginbtn"
                     android:layout_width="200dp"
                     android:layout_height="30dp"
@@ -111,7 +111,7 @@
                 android:id="@+id/register_register"
                 android:text="@string/register_button_text"
                 android:textColor="#ffffff"
-                android:textSize="15sp"
+                android:textSize="18sp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/tps_register_loginbtn"
                 android:layout_width="match_parent"

@@ -15,7 +15,7 @@ public class MainReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String devId = intent.getStringExtra(MainActivity2.DEVICE_ID_KEY);
         if (!TextUtils.isEmpty(devId)) {
-            Intent it = new Intent(context, MainActivity.class);
+            Intent it = new Intent(context, MainActivity2.class);
             it.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
             //it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             it.putExtra(MainActivity2.DEVICE_ID_KEY, devId);
