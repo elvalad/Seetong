@@ -25,6 +25,7 @@ public class StickyGridAdapter extends BaseAdapter implements
     private GridView mGridView;
     private Point mPoint = new Point(0, 0);//用来封装ImageView的宽和高的对象
     private boolean choosenMode = false;
+    private boolean videoMode = false;
 
     public StickyGridAdapter(Context context, List<MediaGridItem> list,
                              GridView mGridView) {
@@ -108,6 +109,13 @@ public class StickyGridAdapter extends BaseAdapter implements
             mViewHolder.imageButton.setVisibility(View.GONE);
         }
 
+        mViewHolder.videoItem = (ImageView) convertView.findViewById(R.id.media_video_item);
+        if (videoMode) {
+            mViewHolder.videoItem.setVisibility(View.VISIBLE);
+        } else {
+            mViewHolder.videoItem.setVisibility(View.GONE);
+        }
+
         return convertView;
     }
 
@@ -132,6 +140,7 @@ public class StickyGridAdapter extends BaseAdapter implements
     public static class ViewHolder {
         public MyImageView mImageView;
         public ImageButton imageButton;
+        public ImageView videoItem;
     }
 
     public static class HeaderViewHolder {
@@ -145,6 +154,10 @@ public class StickyGridAdapter extends BaseAdapter implements
 
     public void setChoosenMode(boolean choosenMode) {
         this.choosenMode = choosenMode;
+    }
+
+    public void setVideoMode(boolean videoMode) {
+        this.videoMode = videoMode;
     }
 }
 

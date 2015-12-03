@@ -65,6 +65,7 @@ public class VideoFragment2 extends BaseFragment {
                 }
 
                 adapter = new StickyGridAdapter(VideoFragment2.this.getActivity(), mGridList, mGridView);
+                adapter.setVideoMode(true);
                 mGridView.setAdapter(adapter);
                 mGridView.setOnItemClickListener(listener);
             }

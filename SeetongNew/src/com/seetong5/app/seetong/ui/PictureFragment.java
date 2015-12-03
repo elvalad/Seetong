@@ -62,6 +62,7 @@ public class PictureFragment extends BaseFragment {
                     }
                 }
                 adapter = new StickyGridAdapter(PictureFragment.this.getActivity(), mGridList, mGridView);
+                adapter.setVideoMode(false);
                 mGridView.setAdapter(adapter);
                 mGridView.setOnItemClickListener(listener);
             }
