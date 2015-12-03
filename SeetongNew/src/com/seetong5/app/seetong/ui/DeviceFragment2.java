@@ -40,7 +40,7 @@ public class DeviceFragment2 extends BaseFragment {
         view = inflater.inflate(R.layout.device2, container);
         deviceNoMsgFragment = DeviceNoMsgFragment.newInstance();
         deviceListFragment = DeviceListFragment.newInstance();
-        currentFragment = deviceNoMsgFragment;
+        currentFragment = deviceListFragment;
         initWidget(view);
 
         return view;
@@ -53,7 +53,7 @@ public class DeviceFragment2 extends BaseFragment {
             /* 此函数用于 Fragment 嵌套，此时默认显示 DeviceListFragment */
             getChildFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.device_fragment_container, deviceNoMsgFragment)
+                    .replace(R.id.device_fragment_container, deviceListFragment)
                     .commit();
         }
     }

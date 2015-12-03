@@ -62,18 +62,20 @@ public class MainActivity2 extends BaseActivity {
         mExitHandler = new ExitHandler(this);
         LibImpl.getInstance().addHandler(m_handler);
         Global.initDirs();
-
         MessageNotification.getInstance().setContext(this);
+        setContentView(R.layout.activity_main);
+        initWidget();
         String xml = getIntent().getStringExtra(Constant.DEVICE_LIST_CONTENT_KEY);
+        if (xml == null) {
+            deviceFragment.updateDeviceFragment(0);
+            return;
+        }
         onNotifyDevData(xml, new ParseDevListResult() {
             @Override
             public void onResult(List<PlayerDevice> devices) {
                 sendMessage(Define.MSG_PARSE_DEV_LIST, 0, 0, null);
             }
         });
-
-        setContentView(R.layout.activity_main);
-        initWidget();
     }
 
     @Override
