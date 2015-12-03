@@ -737,6 +737,10 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
                 m_find_date = date;
                 SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
                 m_date = df.format(m_find_date);
+                if (date.after(calendar.getToday())) {
+                    toast(R.string.nvr_record_choose_right_time);
+                    return;
+                }
                 m_time_line.setDisplayedDate(DateTimeHelper.getDayStartMark(date.getTime()));
                 dlg.dismiss();
                 onBtnStop();

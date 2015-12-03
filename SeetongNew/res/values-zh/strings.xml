@@ -548,6 +548,7 @@
     <string name="get_nvr_record_timeout">获取录像超时</string>
     <string name="get_nvr_record_not_found">该时间段没有录像</string>
     <string name="nvr_record_replay_failed">录像回放失败</string>
+    <string name="nvr_record_choose_right_time">请选择正确的时间段</string>
 
     <string name="hint">Hint: touch the first or last day of month to move to previous or next month.</string>
 

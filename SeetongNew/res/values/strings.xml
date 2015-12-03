@@ -549,6 +549,7 @@
     <string name="get_nvr_record_timeout">Get record timeout</string>
     <string name="get_nvr_record_not_found">This time there is no record</string>
     <string name="nvr_record_replay_failed">Record playback fails</string>
+    <string name="nvr_record_choose_right_time">Please choose a right time</string>
 
     <string name="hint">Hint: touch the first or last day of month to move to previous or next month.</string>
 

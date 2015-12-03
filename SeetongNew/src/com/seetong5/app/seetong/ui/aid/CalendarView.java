@@ -286,6 +286,10 @@ public class CalendarView extends View implements View.OnTouchListener {
         }
     }
 
+    public Date getToday() {
+        return today;
+    }
+
     public Date getSelectedStartDate() {
         return selectedStartDate;
     }
