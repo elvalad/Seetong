@@ -118,7 +118,7 @@ public class Global {
 
     synchronized public static List<PlayerDevice> getSortedDeviceList() {
         sortDeviceListByOnline(m_deviceList);
-        sortDeviceListByPlayCount(m_deviceList);
+        //sortDeviceListByPlayCount(m_deviceList);
         return m_deviceList;
     }
 
@@ -126,7 +126,9 @@ public class Global {
         if (null == m_deviceList || null == dev) return null;
         for (int i = 0; i < m_deviceList.size(); i++) {
             if (dev.equals(m_deviceList.get(i))) {
-                Collections.swap(m_deviceList, 0, i);
+                for (int j = i; j > 0; j--) {
+                    Collections.swap(m_deviceList, j, j - 1);
+                }
             }
         }
         return m_deviceList;
