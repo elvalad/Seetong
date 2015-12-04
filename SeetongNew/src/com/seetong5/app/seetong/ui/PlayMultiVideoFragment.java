@@ -60,7 +60,8 @@ public class PlayMultiVideoFragment extends BaseFragment {
     public static final int FLING_MOVEMENT_THRESHOLD = 100;
     public static final int MAX_WINDOW = 4;
     public static final int MAX_WINDOW_BY_ROW = 2;
-    private static boolean bFullScreen = false;
+    private static boolean bFullScreen = true;
+    private boolean bSinglePlay = true;
     private Animation animation;
     private Map<Integer, LinearLayout> rowLayoutMap = new HashMap<>();
     private Map<Integer, RelativeLayout> layoutMap = new HashMap<>();
@@ -95,6 +96,9 @@ public class PlayMultiVideoFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         startPlayList();
+        if (bFullScreen) {
+            fullCurrentWindow();
+        }
     }
 
     class MyOnGestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -162,6 +166,10 @@ public class PlayMultiVideoFragment extends BaseFragment {
             if (bFullScreen) {
                 resetCurrentWindow();
                 bFullScreen = false;
+                if (bSinglePlay) {
+                    startPlayList();
+                    bSinglePlay = false;
+                }
             } else {
                 if ((Math.abs(curPoint.x - prePoint.x) < 30f) && (Math.abs(curPoint.y - prePoint.y) < 30f)) {
                     setCurrentWindow(e);
