@@ -880,7 +880,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
         for (int i = 0; i < MAX_WINDOW; i++) {
             if (i > Global.getDeviceList().size() - 1) break;
             layout = layoutMap.get(i);
-            devList.get(i).m_device_play_count++;
             devList.get(i).m_video = renderMap.get(i);
             devList.get(i).m_video.mIsStopVideo = false;
 

@@ -592,7 +592,6 @@ public class PlayVideoFragment extends BaseFragment {
             return false;
         }
 
-        dev.m_device_play_count++;
         dev.m_video = this.openglesRender;
         dev.m_video.mIsStopVideo = false;
 
