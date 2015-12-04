@@ -156,7 +156,7 @@
             android:id="@+id/more_exit_button"
             android:text="@string/more_exit"
             android:textColor="#ffffff"
-            android:textSize="15sp"
+            android:textSize="18sp"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
