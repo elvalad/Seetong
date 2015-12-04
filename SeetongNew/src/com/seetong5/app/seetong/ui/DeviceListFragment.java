@@ -97,6 +97,9 @@ public class DeviceListFragment extends BaseFragment {
             case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_ONLINE:
                 adapter.notifyDataSetChanged();
                 break;
+            case Define.MSG_ENABLE_ALIAS:
+                adapter.updateDeviceList();
+                break;
             default:
                 break;
         }

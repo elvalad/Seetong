@@ -164,6 +164,9 @@ public class DeviceFragment2 extends BaseFragment {
                 case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_ONLINE:
                     deviceListFragment.handleMessage(msg);
                     break;
+                case Define.MSG_ENABLE_ALIAS:
+                    deviceListFragment.handleMessage(msg);
+                    break;
                 default:
                     break;
             }

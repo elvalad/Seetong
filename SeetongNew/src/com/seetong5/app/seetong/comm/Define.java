@@ -13,14 +13,13 @@ public class Define {
     public static final int MSG_FRONT_END_RECORD = 104;
     public static final int MSG_CLOUD_END_RECORD = 105;
     public static final int MSG_PARSE_DEV_LIST = 106;
-    public static final int MSG_PLAY_SINGLE_VIDEO = 107;
-    public static final int MSG_PLAY_MULTI_VIDEO = 108;
+    public static final int MSG_NVR_RECORD = 107;
     public static final int MSG_UPDATE_DEV_LIST = 109;
     public static final int MSG_UPDATE_SCREENSHOT_LIST = 110;
     public static final int MSG_UPDATE_DEV_ALIAS = 111;
     public static final int MSG_UPDATE_VIDEORECORD_LIST = 112;
     public static final int MSG_SHOW_PICTURE_FRAGMENT = 113;
-    public static final int MSG_NVR_RECORD = 107;
+    public static final int MSG_ENABLE_ALIAS = 114;
     public static final int MSG_DEVICE_CONFIG = 60004;
 
 
@@ -77,6 +76,7 @@ public class Define {
     public static final String CFG_NOT_PROMPT_MODIFY_PASSWORD = "cfg_not_prompt_modify_password";
     public static final String CFG_IN_CALL_MODE = "cfg_in_call_mode";
     public static final String CFG_SHOW_VIDEO_INFO = "cfg_show_video_info";
+    public static final String CFG_SHOW_ALIAS = "cfg_show_alias";
 
     /** xml文件名 */
     public static final String LOGIN_USER_CONFIG_FILE = "lu_config";

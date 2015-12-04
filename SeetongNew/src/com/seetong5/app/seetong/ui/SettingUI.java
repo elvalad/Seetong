@@ -8,6 +8,7 @@ import com.android.system.MediaPlayer;
 import com.seetong5.app.seetong.Config;
 import com.seetong5.app.seetong.Global;
 import com.seetong5.app.seetong.R;
+import com.seetong5.app.seetong.comm.Define;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +23,7 @@ public class SettingUI extends BaseActivity {
     Spinner m_cbxAlarmSound;
     ToggleButton m_btnInCallMode;
     ToggleButton m_tb_show_video_info;
+    ToggleButton m_tb_show_alias;
     ArrayList<String> m_soundAry = new ArrayList<>();
     ArrayAdapter<String> m_adpAry;
 
@@ -30,6 +32,12 @@ public class SettingUI extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_ui);
         initWidget();
+    }
+
+    @Override
+    public void onBackPressed() {
+        MainActivity2.m_this.sendMessage(Define.MSG_ENABLE_ALIAS, 0, 0, null);
+        this.finish();
     }
 
     protected void initWidget() {
@@ -81,6 +89,7 @@ public class SettingUI extends BaseActivity {
 
         m_btnInCallMode = (ToggleButton) findViewById(R.id.tb_in_call_mode);
         m_tb_show_video_info = (ToggleButton) findViewById(R.id.tb_show_video_info);
+        m_tb_show_alias = (ToggleButton) findViewById(R.id.tb_show_alias);
 
         String[] ls = getResources().getStringArray(R.array.string_ary_alarm_sound_name);
         Collections.addAll(m_soundAry, ls);
@@ -131,6 +140,7 @@ public class SettingUI extends BaseActivity {
         m_cbxAlarmSound.setSelection(Config.m_alarm_sound);
         m_btnInCallMode.setChecked(Config.m_in_call_mode);
         m_tb_show_video_info.setChecked(Config.m_show_video_info);
+        m_tb_show_alias.setChecked(Config.m_show_alias);
     }
 
     public void saveData() {
@@ -143,6 +153,7 @@ public class SettingUI extends BaseActivity {
         Config.m_alarm_sound = m_cbxAlarmSound.getSelectedItemPosition();
         Config.m_in_call_mode = m_btnInCallMode.isChecked();
         Config.m_show_video_info = m_tb_show_video_info.isChecked();
+        Config.m_show_alias = m_tb_show_alias.isChecked();
         Config.saveData();
     }
 

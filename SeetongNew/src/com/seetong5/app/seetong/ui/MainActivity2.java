@@ -418,6 +418,9 @@ public class MainActivity2 extends BaseActivity {
             case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_ONLINE:
                 deviceFragment.handleMessage(msg);
                 break;
+            case Define.MSG_ENABLE_ALIAS:
+                deviceFragment.handleMessage(msg);
+                break;
             default:
                 break;
         }

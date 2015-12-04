@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.seetong5.app.seetong.Config;
 import com.seetong5.app.seetong.Global;
 import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.sdk.impl.LibImpl;
@@ -91,6 +92,7 @@ public class DeviceListAdapter2 extends BaseAdapter {
             viewHolder.deviceState.setText(" " + MainActivity2.m_this.getResources().getString(R.string.device_state_off) + " ");
         }
 
+        viewHolder.deviceName.setVisibility(Config.m_show_alias ? View.VISIBLE : View.GONE);
         if (playerDevice.isNVR()) {
             viewHolder.deviceName.setText(" Name:" + playerDevice.m_dev.getDevGroupName() + " ");
         } else {
