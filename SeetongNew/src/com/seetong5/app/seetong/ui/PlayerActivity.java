@@ -89,6 +89,7 @@ public class PlayerActivity extends BaseActivity {
         LibImpl.getInstance().addHandler(m_handler);
         playerDevice = LibImpl.findDeviceByID(PlayerActivity.m_this.getCurrentDeviceId());
         playerDevice.m_device_play_count++;
+        Global.riseToTop(playerDevice);
         initParams = (LinearLayout.LayoutParams) findViewById(R.id.player_fragment_container).getLayoutParams();
         initWidget();
         if (currentFragmentName.equals("play_multi_video_fragment")) {

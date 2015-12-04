@@ -122,6 +122,16 @@ public class Global {
         return m_deviceList;
     }
 
+    synchronized public static List<PlayerDevice> riseToTop(PlayerDevice dev) {
+        if (null == m_deviceList || null == dev) return null;
+        for (int i = 0; i < m_deviceList.size(); i++) {
+            if (dev.equals(m_deviceList.get(i))) {
+                Collections.swap(m_deviceList, 0, i);
+            }
+        }
+        return m_deviceList;
+    }
+
     synchronized public static void clearDeviceList() {
         m_deviceList.clear();
     }
