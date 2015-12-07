@@ -474,24 +474,6 @@ public class PlayerActivity extends BaseActivity {
         });
 
         playerRecordButton = (Button) findViewById(R.id.player_record);
-        playerRecordButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (bAutoCyclePlaying) {
-                    return false;
-                }
-
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    playerRecordButton.setBackgroundResource(R.drawable.tps_play_record_on);
-                    playerRecordButton.setTextColor(getResources().getColor(R.color.green));
-                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    playerRecordButton.setBackgroundResource(R.drawable.tps_play_record_off);
-                    playerRecordButton.setTextColor(getResources().getColor(R.color.gray));
-                }
-
-                return false;
-            }
-        });
         playerRecordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -685,7 +667,9 @@ public class PlayerActivity extends BaseActivity {
 
         if (!bRet) {
             resetWidget();
+            return;
         }
+        setRecordState(true);
     }
 
     private void offVideoRecord() {
@@ -705,6 +689,7 @@ public class PlayerActivity extends BaseActivity {
             } else if (currentFragmentName.equals("play_multi_video_fragment")) {
                 multiVideoFragment.stopVideoRecord();
             }
+            setRecordState(false);
         }
     }
 
@@ -826,6 +811,16 @@ public class PlayerActivity extends BaseActivity {
 
     public void setCurrentDeviceId(String deviceId) {
         this.deviceId = deviceId;
+    }
+
+    public void setRecordState(boolean bRecord) {
+        if (bRecord) {
+            playerRecordButton.setBackgroundResource(R.drawable.tps_play_record_on);
+            playerRecordButton.setTextColor(getResources().getColor(R.color.green));
+        } else {
+            playerRecordButton.setBackgroundResource(R.drawable.tps_play_record_off);
+            playerRecordButton.setTextColor(getResources().getColor(R.color.gray));
+        }
     }
 
     public void sendMessage(int what, int arg1, int arg2, Object obj) {

@@ -224,6 +224,11 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
         /* 多画面选择不同的窗口时，PlayerActivity的设备Id也要随着变换 */
         PlayerActivity.m_this.setCurrentDeviceId(this.chosenPlayerDevice.m_devId);
+        if (chosenPlayerDevice.m_record) {
+            PlayerActivity.m_this.setRecordState(true);
+        } else {
+            PlayerActivity.m_this.setRecordState(false);
+        }
     }
 
     private void fullCurrentWindow() {
