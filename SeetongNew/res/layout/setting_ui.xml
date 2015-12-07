@@ -55,6 +55,46 @@
             </RelativeLayout>
 
             <RelativeLayout
+                    style="@style/linearTitle"
+                    android:visibility="visible"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/small_interval"
+                    android:background="@color/clear"
+                    android:tag="001">
+
+                <TextView
+                        android:id="@+id/tvPollingTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/tv_polling_time"
+                        android:textColor="#008214"
+                        android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                <SeekBar
+                        android:id="@+id/sbPollingTime"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/big_interval"
+                        android:layout_marginRight="@dimen/small_interval"
+                        android:layout_toLeftOf="@+id/tvPollingTimeValue"
+                        android:layout_toRightOf="@+id/tvPollingTime"
+                        android:max="10"
+                        android:progress="5" />
+
+                <TextView
+                        android:id="@+id/tvPollingTimeValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="10/15"
+                        android:textColor="#008214"
+                        android:textSize="@dimen/tvNodeSettingFontSize" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 style="@style/linearTitle"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/small_interval"

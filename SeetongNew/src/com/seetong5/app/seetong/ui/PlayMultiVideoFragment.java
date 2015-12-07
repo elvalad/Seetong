@@ -822,7 +822,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
         RelativeLayout layout = layoutMap.get(currentIndex);
         PlayerDevice dev = deviceList.get(currentIndex);
         dev.m_device_play_count++;
-        Global.riseToTop(dev);
         dev.m_video = renderMap.get(currentIndex);
         dev.m_video.mIsStopVideo = false;
 

@@ -16,6 +16,8 @@ import java.util.Collections;
 public class SettingUI extends BaseActivity {
     TextView mtvPtzValue;
     SeekBar mPtzBar;
+    TextView mPollingTimeValue;
+    SeekBar mPollingTimeBar;
     ToggleButton mtbAutoPlay;
     RadioGroup mrgViewSelect;
     Spinner mspPicSetting;
@@ -59,6 +61,25 @@ public class SettingUI extends BaseActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        mPollingTimeValue = (TextView) findViewById(R.id.tvPollingTimeValue);
+        mPollingTimeBar = (SeekBar) findViewById(R.id.sbPollingTime);
+        mPollingTimeBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                mPollingTimeValue.setText((i < 1 ? 5 : i + 5) + "/" + (seekBar.getMax() + 5));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
 
@@ -141,6 +162,8 @@ public class SettingUI extends BaseActivity {
         m_btnInCallMode.setChecked(Config.m_in_call_mode);
         m_tb_show_video_info.setChecked(Config.m_show_video_info);
         m_tb_show_alias.setChecked(Config.m_show_alias);
+        mPollingTimeBar.setProgress(Config.m_polling_time);
+        mPollingTimeValue.setText((mPollingTimeBar.getProgress() + 5) + "/" + (mPollingTimeBar.getMax() + 5));
     }
 
     public void saveData() {
@@ -154,6 +177,7 @@ public class SettingUI extends BaseActivity {
         Config.m_in_call_mode = m_btnInCallMode.isChecked();
         Config.m_show_video_info = m_tb_show_video_info.isChecked();
         Config.m_show_alias = m_tb_show_alias.isChecked();
+        Config.m_polling_time = (mPollingTimeBar.getProgress() < 1) ? 1 : mPollingTimeBar.getProgress();
         Config.saveData();
     }
 

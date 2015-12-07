@@ -14,6 +14,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.*;
+import com.seetong5.app.seetong.Config;
 import com.seetong5.app.seetong.Global;
 import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
@@ -89,7 +90,6 @@ public class PlayerActivity extends BaseActivity {
         LibImpl.getInstance().addHandler(m_handler);
         playerDevice = LibImpl.findDeviceByID(PlayerActivity.m_this.getCurrentDeviceId());
         playerDevice.m_device_play_count++;
-        Global.riseToTop(playerDevice);
         initParams = (LinearLayout.LayoutParams) findViewById(R.id.player_fragment_container).getLayoutParams();
         initWidget();
         if (currentFragmentName.equals("play_multi_video_fragment")) {
@@ -150,6 +150,7 @@ public class PlayerActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, null);
+        Global.riseToTop(playerDevice);
         PlayerActivity.this.finish();
         /* TODO:在单路fragment和多路fragment之间切换时需要注意这里该如何处理 */
         if (currentFragmentName.equals("play_video_fragment")) {
@@ -616,11 +617,11 @@ public class PlayerActivity extends BaseActivity {
                 if (currentFragmentName.equals("play_video_fragment")) {
                     playVideoFragment.autoCyclePlay();
                     /* 设置自动循环播放时间 */
-                    handler.postDelayed(autoPlayThread, 5000);
+                    handler.postDelayed(autoPlayThread, (Config.m_polling_time + 5) * 1000);
                 } else if (currentFragmentName.equals("play_multi_video_fragment")) {
                     multiVideoFragment.autoCyclePlay();
                     /* 设置自动循环播放时间 */
-                    handler.postDelayed(autoPlayThread, 5000);
+                    handler.postDelayed(autoPlayThread, (Config.m_polling_time + 5) * 1000);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

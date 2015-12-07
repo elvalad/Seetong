@@ -77,6 +77,7 @@ public class Define {
     public static final String CFG_IN_CALL_MODE = "cfg_in_call_mode";
     public static final String CFG_SHOW_VIDEO_INFO = "cfg_show_video_info";
     public static final String CFG_SHOW_ALIAS = "cfg_show_alias";
+    public static final String POLLING_TIME = "polling_time";
 
     /** xml文件名 */
     public static final String LOGIN_USER_CONFIG_FILE = "lu_config";

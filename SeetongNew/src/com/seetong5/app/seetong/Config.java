@@ -17,6 +17,7 @@ public class Config {
     public static boolean m_in_call_mode = false;
     public static boolean m_show_video_info = false;
     public static boolean m_show_alias = false;
+    public static int m_polling_time = 5;
 
     public static void loadData() {
         SharePreferenceUtil spu = Global.m_spu;
@@ -32,6 +33,8 @@ public class Config {
         m_in_call_mode = spu.loadBooleanSharedPreference(Define.CFG_IN_CALL_MODE);
         m_show_video_info = spu.loadBooleanSharedPreference(Define.CFG_SHOW_VIDEO_INFO);
         m_show_alias = spu.loadBooleanSharedPreference(Define.CFG_SHOW_ALIAS);
+        m_polling_time = spu.loadIntSharedPreference(Define.POLLING_TIME);
+        if (m_polling_time < 1 || m_polling_time > 10) m_polling_time = 5;
     }
 
     public static void saveData() {
@@ -45,5 +48,6 @@ public class Config {
         spu.saveSharedPreferences(Define.CFG_IN_CALL_MODE, m_in_call_mode);
         spu.saveSharedPreferences(Define.CFG_SHOW_VIDEO_INFO, m_show_video_info);
         spu.saveSharedPreferences(Define.CFG_SHOW_ALIAS, m_show_alias);
+        spu.saveSharedPreferences(Define.POLLING_TIME, m_polling_time);
     }
 }
