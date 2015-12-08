@@ -9,6 +9,7 @@ import android.graphics.*;
 import android.media.AudioManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
@@ -19,6 +20,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -68,6 +70,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     private Map<Integer, OpenglesRender> renderMap = new HashMap<>();
     private PointF prePoint = new PointF();
     private PointF curPoint = new PointF();
+    private Chronometer[] timer = new Chronometer[4];
 
     public PlayMultiVideoFragment() {}
 
@@ -669,6 +672,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
         chosenPlayerDevice.m_record = true;
         showRecordIcon(chosenPlayerDevice.m_devId, true);
+
         return true;
     }
 
@@ -687,23 +691,19 @@ public class PlayMultiVideoFragment extends BaseFragment {
         LibImpl.getInstance().getFuncLib().StopRecordAgent(chosenPlayerDevice.m_dev.getDevId());
         chosenPlayerDevice.m_record = false;
         showRecordIcon(chosenPlayerDevice.m_devId, false);
+    }
 
-        /*for (int i = 0; i < MAX_WINDOW; i++) {
-            if (null == this.deviceList.get(i) || !this.deviceList.get(i).m_playing) {
-                //toast(R.string.before_open_video_preview);
-                return;
-            }
-
-            TPS_AddWachtRsp rsp = this.deviceList.get(i).m_add_watch_rsp;
+    public void stopAllVideoRecord() {
+        for (int i = 0; i < MAX_WINDOW; i++) {
+            TPS_AddWachtRsp rsp = deviceList.get(i).m_add_watch_rsp;
             if (null == rsp) {
-                toast(R.string.tv_video_wait_video_stream_tip);
-                return;
+                continue;
             }
 
-            LibImpl.getInstance().getFuncLib().StopRecordAgent(this.deviceList.get(i).m_dev.getDevId());
-            this.deviceList.get(i).m_record = false;
-            showRecordIcon(chosenPlayerDevice.m_devId, false);
-        }*/
+            LibImpl.getInstance().getFuncLib().StopRecordAgent(deviceList.get(i).m_dev.getDevId());
+            deviceList.get(i).m_record = false;
+            showRecordIcon(deviceList.get(i).m_devId, false);
+        }
     }
 
     public void showRecordIcon(String devId, boolean bShow) {
@@ -713,12 +713,23 @@ public class PlayMultiVideoFragment extends BaseFragment {
         if (dev.m_view_id < 0) return;
         ImageView imageView = (ImageView) layoutMap.get(currentIndex).findViewById(R.id.imgRecord);
         imageView.setVisibility(bShow ? View.VISIBLE : View.INVISIBLE);
+        timer[currentIndex] = (Chronometer) layoutMap.get(currentIndex).findViewById(R.id.recordChronometer);
+        timer[currentIndex].setVisibility(bShow ? View.VISIBLE : View.INVISIBLE);
+        if (bShow) {
+            timer[currentIndex].setBase(SystemClock.elapsedRealtime());
+            timer[currentIndex].start();
+        } else {
+            timer[currentIndex].stop();
+        }
     }
 
     public void hideAllRecordIcon() {
         for (int i = 0; i < MAX_WINDOW; i++) {
             ImageView imageView = (ImageView) layoutMap.get(i).findViewById(R.id.imgRecord);
             imageView.setVisibility(View.INVISIBLE);
+            timer[i] = (Chronometer) layoutMap.get(i).findViewById(R.id.recordChronometer);
+            timer[i].setVisibility(View.INVISIBLE);
+            timer[i].stop();
         }
     }
 
@@ -966,7 +977,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     public void stopPlayList() {
         RelativeLayout layout;
         View view;
-        stopVideoRecord();
+        stopAllVideoRecord();
         hideAllRecordIcon();
         stopVideoSound();
         stopHighDefinition();
@@ -982,7 +993,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
     public void stopCurrentPlayList() {
         PlayerActivity.m_this.resetWidget();
-        stopVideoRecord();
+        stopAllVideoRecord();
         stopVideoSound();
         if (this.deviceList.size() == 0) return;
         for (int i = 0; i < MAX_WINDOW; i++) {
@@ -1047,7 +1058,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         PlayerActivity.m_this.resetWidget();
 
         /* 停止所有正在录制的视频 */
-        stopVideoRecord();
+        stopAllVideoRecord();
         hideAllRecordIcon();
         stopVideoSound();
         stopHighDefinition();
@@ -1104,7 +1115,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         PlayerActivity.m_this.resetWidget();
 
         /* 停止所有正在录制的视频 */
-        stopVideoRecord();
+        stopAllVideoRecord();
         hideAllRecordIcon();
         stopVideoSound();
         stopHighDefinition();
