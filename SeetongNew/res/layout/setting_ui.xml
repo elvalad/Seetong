@@ -382,5 +382,36 @@
                         android:textOn="" />
             </RelativeLayout>
 
+            <RelativeLayout
+                    android:id="@+id/layout_show_devid"
+                    style="@style/linearTitle"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/small_interval"
+                    android:layout_marginTop="@dimen/big_interval"
+                    android:background="@color/clear"
+                    android:tag="007">
+
+                <TextView
+                        android:id="@+id/tv_show_devid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/tv_show_devid"
+                        android:textColor="#008214"
+                        android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                <ToggleButton
+                        android:id="@+id/tb_show_devid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/big_interval"
+                        android:layout_toRightOf="@+id/tv_show_devid"
+                        android:background="@drawable/n_sel_tb_autoplay"
+                        android:checked="true"
+                        android:textOff=""
+                        android:textOn="" />
+            </RelativeLayout>
+
         </LinearLayout>
 </RelativeLayout>

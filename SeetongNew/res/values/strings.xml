@@ -307,6 +307,7 @@
     <string name="tv_show_video_info">Debug Info:</string>
     <string name="tv_show_alias">Enable Alias:</string>
     <string name="tv_polling_time">Polling Time:</string>
+    <string name="tv_show_devid">Show ID:</string>
 
     <string name="tv_stream">Stream:</string>
     <string name="tv_main_stream">Main</string>

@@ -92,13 +92,25 @@ public class DeviceListAdapter2 extends BaseAdapter {
             viewHolder.deviceState.setText(" " + MainActivity2.m_this.getResources().getString(R.string.device_state_off) + " ");
         }
 
-        viewHolder.deviceName.setVisibility(Config.m_show_alias ? View.VISIBLE : View.GONE);
-        if (playerDevice.isNVR()) {
-            viewHolder.deviceName.setText(" Name:" + playerDevice.m_dev.getDevGroupName() + " ");
+        if (Config.m_show_alias && Config.m_show_devid) {
+            viewHolder.deviceName.setVisibility(Config.m_show_alias ? View.VISIBLE : View.GONE);
+            if (playerDevice.isNVR()) {
+                viewHolder.deviceName.setText(" Name:" + playerDevice.m_dev.getDevGroupName() + " ");
+            } else {
+                viewHolder.deviceName.setText(" Name:" + LibImpl.getInstance().getDeviceAlias(playerDevice.m_dev) + " ");
+            }
+            viewHolder.deviceId.setVisibility(Config.m_show_devid ? View.VISIBLE : View.GONE);
+            viewHolder.deviceId.setText(" Id:" + playerDevice.m_dev.getDevId() + " ");
         } else {
-            viewHolder.deviceName.setText(" Name:" + LibImpl.getInstance().getDeviceAlias(playerDevice.m_dev) + " ");
+            viewHolder.deviceName.setVisibility(Config.m_show_alias ? View.VISIBLE : View.GONE);
+            if (playerDevice.isNVR()) {
+                viewHolder.deviceName.setText(playerDevice.m_dev.getDevGroupName() + " ");
+            } else {
+                viewHolder.deviceName.setText(LibImpl.getInstance().getDeviceAlias(playerDevice.m_dev) + " ");
+            }
+            viewHolder.deviceId.setVisibility(Config.m_show_devid ? View.VISIBLE : View.GONE);
+            viewHolder.deviceId.setText(playerDevice.m_dev.getDevId() + " ");
         }
-        viewHolder.deviceId.setText(" Id:" + playerDevice.m_dev.getDevId() + " ");
 
         final String devId = playerDevice.m_dev.getDevId();
         String fileName = Global.getSnapshotDir() + "/" + devId + ".jpg";

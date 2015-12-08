@@ -90,6 +90,10 @@ public class SharePreferenceUtil {
 		return sharedpreferences.getBoolean(key, false);
 	}
 
+    public boolean loadBooleanSharedPreference(String key, boolean b) {
+        return sharedpreferences.getBoolean(key, b);
+    }
+
 	public boolean saveAllSharePreference(String keyName, List<?> list) {
 		int size = list.size();
 		if (size < 1) {

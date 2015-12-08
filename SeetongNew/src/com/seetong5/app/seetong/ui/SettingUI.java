@@ -1,6 +1,7 @@
 package com.seetong5.app.seetong.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -26,6 +27,7 @@ public class SettingUI extends BaseActivity {
     ToggleButton m_btnInCallMode;
     ToggleButton m_tb_show_video_info;
     ToggleButton m_tb_show_alias;
+    ToggleButton m_tb_show_devid;
     ArrayList<String> m_soundAry = new ArrayList<>();
     ArrayAdapter<String> m_adpAry;
 
@@ -111,6 +113,7 @@ public class SettingUI extends BaseActivity {
         m_btnInCallMode = (ToggleButton) findViewById(R.id.tb_in_call_mode);
         m_tb_show_video_info = (ToggleButton) findViewById(R.id.tb_show_video_info);
         m_tb_show_alias = (ToggleButton) findViewById(R.id.tb_show_alias);
+        m_tb_show_devid = (ToggleButton) findViewById(R.id.tb_show_devid);
 
         String[] ls = getResources().getStringArray(R.array.string_ary_alarm_sound_name);
         Collections.addAll(m_soundAry, ls);
@@ -162,6 +165,7 @@ public class SettingUI extends BaseActivity {
         m_btnInCallMode.setChecked(Config.m_in_call_mode);
         m_tb_show_video_info.setChecked(Config.m_show_video_info);
         m_tb_show_alias.setChecked(Config.m_show_alias);
+        m_tb_show_devid.setChecked(Config.m_show_devid);
         mPollingTimeBar.setProgress(Config.m_polling_time);
         mPollingTimeValue.setText((mPollingTimeBar.getProgress() + 5) + "/" + (mPollingTimeBar.getMax() + 5));
     }
@@ -177,6 +181,7 @@ public class SettingUI extends BaseActivity {
         Config.m_in_call_mode = m_btnInCallMode.isChecked();
         Config.m_show_video_info = m_tb_show_video_info.isChecked();
         Config.m_show_alias = m_tb_show_alias.isChecked();
+        Config.m_show_devid = m_tb_show_devid.isChecked();
         Config.m_polling_time = (mPollingTimeBar.getProgress() < 1) ? 1 : mPollingTimeBar.getProgress();
         Config.saveData();
     }
