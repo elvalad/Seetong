@@ -87,4 +87,48 @@ public class DataCheckUtil {
 		}
 		return isOK;
 	}
+
+    /**
+     * 密码强度
+     * @return Z = 字母 S = 数字 T = 特殊字符
+     */
+    public static int checkPassword(String passwordStr) {
+        String regexZ = "\\d*";
+        String regexS = "[a-zA-Z]+";
+        String regexT = "\\W+$";
+        String regexZT = "\\D*";
+        String regexST = "[\\d\\W]*";
+        String regexZS = "\\w*";
+        String regexZST = "[\\w\\W]*";
+
+        if (passwordStr.matches(regexZ)) {
+            //return "弱";
+            return 0;
+        }
+        if (passwordStr.matches(regexS)) {
+            //return "弱";
+            return 0;
+        }
+        if (passwordStr.matches(regexT)) {
+            //return "弱";
+            return 0;
+        }
+        if (passwordStr.matches(regexZT)) {
+            //return "中";
+            return 1;
+        }
+        if (passwordStr.matches(regexST)) {
+            //return "中";
+            return 1;
+        }
+        if (passwordStr.matches(regexZS)) {
+            //return "中";
+            return 1;
+        }
+        if (passwordStr.matches(regexZST)) {
+            //return "强";
+            return 2;
+        }
+        return 0;
+    }
 }

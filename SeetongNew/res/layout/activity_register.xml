@@ -51,7 +51,7 @@
                 android:textColorHint="#dddddd"
                 android:inputType="textEmailAddress"/>
 
-        <EditText
+        <!--<EditText
                 android:id="@+id/register_password"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/tps_register_txtview_bg_m"
@@ -60,7 +60,36 @@
                 android:hint="@string/register_password_hint_text"
                 android:textSize="15sp"
                 android:textColorHint="#dddddd"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"/>-->
+
+        <LinearLayout
+                android:layout_marginTop="15dp"
+                android:background="@drawable/tps_register_txtview_bg_m"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="30dp">
+
+            <EditText
+                    android:id="@+id/register_password"
+                    android:background="#00000000"
+                    android:layout_weight="5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:hint="@string/register_password_hint_text"
+                    android:textSize="15sp"
+                    android:textColorHint="#dddddd"
+                    android:inputType="textPassword"/>
+
+            <TextView
+                    android:id="@+id/register_password_strength"
+                    android:text="@string/register_password_strength_0"
+                    android:visibility="gone"
+                    android:textColor="@color/password_strength_0"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+        </LinearLayout>
 
         <EditText
                 android:id="@+id/register_confirm_password"

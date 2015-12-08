@@ -1,12 +1,19 @@
 package com.seetong5.app.seetong.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
+import android.widget.TextView;
 import com.android.utils.NetworkUtils;
 import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.sdk.impl.ConstantImpl;
@@ -54,6 +61,8 @@ public class RegisterActivity extends BaseActivity {
     private Button registerButton;
     private Timestamp startTime = new Timestamp(System.currentTimeMillis());
     private Timestamp endTime;
+    private EditText registerEditPassword;
+    private TextView passwordStrength;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +121,41 @@ public class RegisterActivity extends BaseActivity {
                     v.getBackground().setAlpha(255);
                 }
                 return false;
+            }
+        });
+
+        passwordStrength = (TextView) findViewById(R.id.register_password_strength);
+        registerEditPassword = (EditText) findViewById(R.id.register_password);
+        registerEditPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                passwordStrength.setVisibility(View.VISIBLE);
+                switch (DataCheckUtil.checkPassword(charSequence.toString())) {
+                    case 0:
+                        passwordStrength.setText(R.string.register_password_strength_0);
+                        passwordStrength.setTextColor(getResources().getColor(R.color.password_strength_0));
+                        break;
+                    case 1:
+                        passwordStrength.setText(R.string.register_password_strength_1);
+                        passwordStrength.setTextColor(getResources().getColor(R.color.password_strength_1));
+                        break;
+                    case 2:
+                        passwordStrength.setText(R.string.register_password_strength_2);
+                        passwordStrength.setTextColor(getResources().getColor(R.color.password_strength_2));
+                        break;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (registerEditPassword.getText().length() == 0) {
+                    passwordStrength.setVisibility(View.GONE);
+                }
             }
         });
     }
