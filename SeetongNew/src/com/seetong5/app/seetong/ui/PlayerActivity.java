@@ -6,10 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.*;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
@@ -90,7 +93,13 @@ public class PlayerActivity extends BaseActivity {
         LibImpl.getInstance().addHandler(m_handler);
         playerDevice = LibImpl.findDeviceByID(PlayerActivity.m_this.getCurrentDeviceId());
         playerDevice.m_device_play_count++;
+
+        DisplayMetrics dm = getResources().getDisplayMetrics();
         initParams = (LinearLayout.LayoutParams) findViewById(R.id.player_fragment_container).getLayoutParams();
+        initParams.width = dm.widthPixels;
+        initParams.height = (initParams.width * 9) / 16;
+        findViewById(R.id.player_fragment_container).setLayoutParams(initParams);
+
         initWidget();
         if (currentFragmentName.equals("play_multi_video_fragment")) {
             setCurrentFragment("play_multi_video_fragment");
@@ -224,9 +233,17 @@ public class PlayerActivity extends BaseActivity {
         findViewById(R.id.player_split_line).setVisibility(show);
         findViewById(R.id.player_main_button).setVisibility(show);
         if (bFullScreen) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            DisplayMetrics dm = getResources().getDisplayMetrics();
+            params.width = dm.widthPixels;
+            params.height = (params.width * 9) / 16;
             findViewById(R.id.player_fragment_container).setLayoutParams(params);
         } else {
+            final WindowManager.LayoutParams attrs = getWindow().getAttributes();
+            attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().setAttributes(attrs);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             findViewById(R.id.player_fragment_container).setLayoutParams(initParams);
         }
     }
@@ -287,17 +304,16 @@ public class PlayerActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, null);
+                Global.riseToTop(playerDevice);
                 PlayerActivity.this.finish();
                 /* TODO:在单路fragment和多路fragment之间切换时需要注意这里该如何处理 */
                 if (currentFragmentName.equals("play_video_fragment")) {
-                    playVideoFragment.stopPlay();
                     /* 退出单画面播放页面时要关闭自动循环播放 */
                     if (autoPlayThread != null) {
                         bAutoCyclePlaying = false;
                         handler.removeCallbacks(autoPlayThread);
                     }
                 } else if (currentFragmentName.equals("play_multi_video_fragment")){
-                    multiVideoFragment.stopPlayList();
                     /* 退出多画面播放时要关闭自动循环播放*/
                     if (autoPlayThread != null) {
                         bAutoCyclePlaying = false;
