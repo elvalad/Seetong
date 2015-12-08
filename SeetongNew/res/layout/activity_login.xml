@@ -22,18 +22,23 @@
             android:id="@+id/mix_account"
             android:layout_below="@+id/seetong_logo"
             android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <TextView
+        <!--<TextView
                 android:text="@string/login_account"
                 android:textSize="15sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content" />-->
+        <ImageView
+                android:src="@drawable/tps_login_account"
+                android:layout_width="25dp"
+                android:layout_height="25dp"/>
 
         <com.seetong5.app.seetong.ui.ext.RegexpEditText
                 android:id="@+id/login_account"
-                android:layout_marginLeft="80dp"
+                android:layout_marginLeft="60dp"
                 android:background="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,6 +51,8 @@
     <ImageView
             android:id="@+id/account_line"
             android:src="@drawable/line"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_below="@+id/mix_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -54,18 +61,24 @@
             android:id="@+id/mix_password"
             android:layout_below="@+id/account_line"
             android:layout_marginTop="15dp"
+            android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-        <TextView
+        <!--<TextView
                 android:text="@string/login_password"
                 android:textSize="15sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content" />-->
+
+        <ImageView
+                android:src="@drawable/tps_login_password"
+                android:layout_width="25dp"
+                android:layout_height="25dp"/>
 
         <com.seetong5.app.seetong.ui.ext.RegexpEditText
                 android:id="@+id/login_password"
-                android:layout_marginLeft="80dp"
+                android:layout_marginLeft="60dp"
                 android:background="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -76,7 +89,7 @@
 
         <ImageButton
                 android:id="@+id/login_hide_password"
-                android:layout_marginLeft="290dp"
+                android:layout_marginLeft="270dp"
                 android:src="@drawable/tps_hide_password_02"
                 android:background="#00000000"
                 android:scaleType="fitXY"
@@ -87,6 +100,8 @@
     <ImageView
             android:id="@+id/password_line"
             android:src="@drawable/line"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_below="@+id/mix_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
