@@ -1005,6 +1005,10 @@ public class PlayMultiVideoFragment extends BaseFragment {
         return this.chosenPlayerDevice;
     }
 
+    public int getCurrentIndex() {
+        return currentIndex;
+    }
+
     private PlayerDevice getPlayerDeviceByIndex(PlayerDevice device, int index) {
         List<PlayerDevice> list = new LinkedList<>();
         list.addAll(Global.getSelfDeviceList());

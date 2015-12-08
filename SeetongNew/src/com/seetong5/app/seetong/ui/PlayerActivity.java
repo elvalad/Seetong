@@ -52,8 +52,8 @@ public class PlayerActivity extends BaseActivity {
     private static boolean bVideoSoundOn = false;
     private static boolean bHighDefinition = false;
     private static boolean bActive = true;
-    private Timestamp startTime;
-    private Timestamp endTime;
+    private Timestamp[] startTime = new Timestamp[4];
+    private Timestamp[] endTime = new Timestamp[4];
     public ProgressDialog mTipDlg;
     public DeviceInfo m_modifyInfo;
     public boolean m_modifyDefaultPassword = false;
@@ -658,7 +658,8 @@ public class PlayerActivity extends BaseActivity {
 
     private void onVideoRecord() {
         boolean bRet = false;
-        startTime = new Timestamp(System.currentTimeMillis());
+        int currentIndex = multiVideoFragment.getCurrentIndex();
+        startTime[currentIndex] = new Timestamp(System.currentTimeMillis());
         if (currentFragmentName.equals("play_video_fragment")) {
             bRet = playVideoFragment.startVideoRecord();
         } else if (currentFragmentName.equals("play_multi_video_fragment")) {
@@ -673,10 +674,11 @@ public class PlayerActivity extends BaseActivity {
     }
 
     private void offVideoRecord() {
+        int currentIndex = multiVideoFragment.getCurrentIndex();
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.SECOND, -10);
-        endTime = new Timestamp(calendar.getTimeInMillis());
-        if (endTime.before(startTime)) {
+        endTime[currentIndex] = new Timestamp(calendar.getTimeInMillis());
+        if (endTime[currentIndex].before(startTime[currentIndex])) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
