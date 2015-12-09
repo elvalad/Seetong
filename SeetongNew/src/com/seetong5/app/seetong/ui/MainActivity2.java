@@ -20,7 +20,10 @@ import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
 import com.seetong5.app.seetong.ui.ext.MyTipDialog;
 import ipc.android.sdk.com.Device;
 import ipc.android.sdk.com.SDK_CONSTANT;
+import org.json.JSONArray;
+import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -94,6 +97,7 @@ public class MainActivity2 extends BaseActivity {
                 new MyTipDialog.IDialogMethod() {
                     @Override
                     public void sure() {
+                        saveData();
                         exitDialog(true);
                     }
                 }
@@ -323,6 +327,7 @@ public class MainActivity2 extends BaseActivity {
             public void run() {
                 try {
                     parseDevList(xml);
+                    loadData();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -515,6 +520,47 @@ public class MainActivity2 extends BaseActivity {
                 default:
                     break;
             }
+        }
+    }
+
+    private void loadData() {
+        List<String> list = new ArrayList<>();
+        String jsonArrayString = Global.m_spu.loadStringSharedPreference(Define.DEV_LIST_ORDER);
+        //Log.d(TAG, "json array string is : " + jsonArrayString);
+        try {
+            JSONArray jsonArray = new JSONArray(jsonArrayString);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                list.add(jsonArray.getString(i));
+                //Log.d(TAG, "load device order : " + list.get(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < Global.getDeviceList().size(); j++) {
+                if (list.get(i).equals(Global.getDeviceList().get(j).m_devId)) {
+                    Global.getDeviceList().get(j).m_device_exit_index = i;
+                }
+            }
+        }
+
+        Global.sortDeviceListByExitIndex();
+        /*for (int i = 0; i < Global.getDeviceList().size(); i++) {
+            Log.d(TAG, "device exit index :" + Global.getDeviceList().get(i).m_devId + " index : " + Global.getDeviceList().get(i).m_device_exit_index);
+        }*/
+    }
+
+    private void saveData() {
+        boolean bSaveData = Global.m_spu.saveSharedPreferences(Define.IS_SAVE_DEV_LIST, true);
+        //Log.d(TAG, "save device order : " + bSaveData);
+        if (bSaveData) {
+            List<String> list = new ArrayList<>();
+            for (int i =  0; i < Global.getDeviceList().size(); i++) {
+                list.add(Global.getDeviceList().get(i).m_devId);
+            }
+            JSONArray jsonArray = new JSONArray(list);
+            Global.m_spu.saveSharedPreferences(Define.DEV_LIST_ORDER, jsonArray.toString());
         }
     }
 }

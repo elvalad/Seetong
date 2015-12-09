@@ -134,6 +134,18 @@ public class Global {
         return m_deviceList;
     }
 
+    synchronized public static void sortDeviceListByExitIndex() {
+        class DeviceSortByExitIndex implements Comparator<PlayerDevice> {
+            @Override
+            public int compare(PlayerDevice dev1, PlayerDevice dev2) {
+                return dev1.m_device_exit_index == dev2.m_device_exit_index ? 0 :
+                        (dev1.m_device_exit_index < dev2.m_device_exit_index ? -1 : 1);
+            }
+        }
+
+        Collections.sort(m_deviceList, new DeviceSortByExitIndex());
+    }
+
     synchronized public static void clearDeviceList() {
         m_deviceList.clear();
     }

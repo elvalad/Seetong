@@ -77,6 +77,7 @@ public class PlayerDevice {
     public int m_open_video_stream_result;
 
     public int m_device_play_count;
+    public int m_device_exit_index;
 
     {
         m_port_id = -1;
@@ -96,6 +97,7 @@ public class PlayerDevice {
         m_open_video_stream_result = -1;
 
         m_device_play_count = 0;
+        m_device_exit_index = -1;
     }
 
     @Override

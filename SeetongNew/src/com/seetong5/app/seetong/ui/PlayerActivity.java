@@ -232,12 +232,13 @@ public class PlayerActivity extends BaseActivity {
         findViewById(R.id.player_operation_button).setVisibility(show);
         findViewById(R.id.player_split_line).setVisibility(show);
         findViewById(R.id.player_main_button).setVisibility(show);
+        findViewById(R.id.player_sliding_drawer).setVisibility(show);
         if (bFullScreen) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            DisplayMetrics dm = getResources().getDisplayMetrics();
-            params.width = dm.widthPixels;
-            params.height = (params.width * 9) / 16;
+            //DisplayMetrics dm = getResources().getDisplayMetrics();
+            //params.width = dm.widthPixels;
+            //params.height = dm.heightPixels;
             findViewById(R.id.player_fragment_container).setLayoutParams(params);
         } else {
             final WindowManager.LayoutParams attrs = getWindow().getAttributes();
