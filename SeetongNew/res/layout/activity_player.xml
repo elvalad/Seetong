@@ -52,13 +52,24 @@
 
         <ImageButton
             android:id="@+id/player_stop_all"
-            android:src="@drawable/tps_play_stopall_off"
+            android:src="@drawable/tps_play_single"
             android:layout_gravity="center_horizontal|center_vertical"
             android:background="#00000000"
             android:scaleType="fitCenter"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:visibility="gone"/>
+
+        <ImageButton
+                android:id="@+id/player_switch_window"
+                android:src="@drawable/tps_play_single"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:background="#00000000"
+                android:scaleType="fitCenter"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"/>
 
         <ImageButton
             android:id="@+id/player_cycle"

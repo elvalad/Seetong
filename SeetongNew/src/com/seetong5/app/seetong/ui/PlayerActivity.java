@@ -11,11 +11,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
 import android.widget.*;
 import com.seetong5.app.seetong.Config;
 import com.seetong5.app.seetong.Global;
@@ -25,7 +21,6 @@ import com.seetong5.app.seetong.sdk.impl.LibImpl;
 import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
 import com.seetong5.app.seetong.ui.ext.MyTipDialog;
 import ipc.android.sdk.com.NetSDK_CMD_TYPE;
-import ipc.android.sdk.com.NetSDK_UserAccount;
 import ipc.android.sdk.impl.DeviceInfo;
 
 import java.sql.Timestamp;
@@ -50,6 +45,7 @@ public class PlayerActivity extends BaseActivity {
     private int[] viewLocation = new int[4];
 
     private static boolean bPlaying = true;
+    private static boolean bSinglePlay = true;
     private static boolean bAutoCyclePlaying = false;
     private static boolean bVideoRecord = false;
     private static boolean bVideoSoundOn = false;
@@ -64,6 +60,7 @@ public class PlayerActivity extends BaseActivity {
 
     private ImageButton playerBackButton;
     private ImageButton playerStopButton;
+    private ImageButton playerSwitchWindowButton;
     private ImageButton playerCycleButton;
     private ImageButton playerPlaybackButton;
     private ImageButton playerSoundButton;
@@ -333,24 +330,50 @@ public class PlayerActivity extends BaseActivity {
 
                 if (currentFragmentName.equals("play_video_fragment")) {
                     if (bPlaying) {
-                        playerStopButton.setImageResource(R.drawable.tps_play_stopall_on);
+                        playerStopButton.setImageResource(R.drawable.tps_play_multi);
                         playVideoFragment.stopPlay();
                         bPlaying = false;
                     } else {
-                        playerStopButton.setImageResource(R.drawable.tps_play_stopall_off);
+                        playerStopButton.setImageResource(R.drawable.tps_play_single);
                         playVideoFragment.startPlay();
                         bPlaying = true;
                     }
                 } else if (currentFragmentName.equals("play_multi_video_fragment")) {
                     if (bPlaying) {
-                        playerStopButton.setImageResource(R.drawable.tps_play_stopall_on);
+                        playerStopButton.setImageResource(R.drawable.tps_play_multi);
                         multiVideoFragment.stopPlayList();
                         bPlaying = false;
                     } else {
-                        playerStopButton.setImageResource(R.drawable.tps_play_stopall_off);
+                        playerStopButton.setImageResource(R.drawable.tps_play_single);
                         multiVideoFragment.startPlayList();
                         bPlaying = true;
                     }
+                }
+            }
+        });
+
+        playerSwitchWindowButton = (ImageButton) findViewById(R.id.player_switch_window);
+        if (bSinglePlay) {
+            playerSwitchWindowButton.setImageResource(R.drawable.tps_play_single);
+        } else {
+            playerSwitchWindowButton.setImageResource(R.drawable.tps_play_multi);
+        }
+
+        playerSwitchWindowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (bAutoCyclePlaying) {
+                    return;
+                }
+
+                if (bSinglePlay) {
+                    playerSwitchWindowButton.setImageResource(R.drawable.tps_play_multi);
+                    multiVideoFragment.setSinglePlay(false);
+                    bSinglePlay = false;
+                } else {
+                    playerSwitchWindowButton.setImageResource(R.drawable.tps_play_single);
+                    multiVideoFragment.setSinglePlay(true);
+                    bSinglePlay = true;
                 }
             }
         });
@@ -743,7 +766,7 @@ public class PlayerActivity extends BaseActivity {
     }
 
     public void resetWidget() {
-        playerStopButton.setImageResource(R.drawable.tps_play_stopall_off);
+        playerStopButton.setImageResource(R.drawable.tps_play_single);
         bPlaying = true;
         playerPlaybackButton.setImageResource(R.drawable.tps_play_recordplayback_off);
         playerSoundButton.setImageResource(R.drawable.tps_play_sound_off);
@@ -846,6 +869,16 @@ public class PlayerActivity extends BaseActivity {
         } else {
             playerResolutionButton.setTextColor(getResources().getColor(R.color.gray));
             playerResolutionButton.setText(R.string.player_resolution);
+        }
+    }
+
+    public void setSwitchWindowState(boolean bSingle) {
+        if (bSingle) {
+            playerSwitchWindowButton.setImageResource(R.drawable.tps_play_single);
+            bSinglePlay = true;
+        } else {
+            playerSwitchWindowButton.setImageResource(R.drawable.tps_play_multi);
+            bSinglePlay = false;
         }
     }
 

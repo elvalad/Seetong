@@ -169,6 +169,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             if (bFullScreen) {
                 resetCurrentWindow();
                 bFullScreen = false;
+                PlayerActivity.m_this.setSwitchWindowState(false);
                 if (bSinglePlay) {
                     startPlayList();
                     bSinglePlay = false;
@@ -178,6 +179,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                     setCurrentWindow(e);
                     fullCurrentWindow();
                     bFullScreen = true;
+                    PlayerActivity.m_this.setSwitchWindowState(true);
                 }
             }
             return true;
@@ -237,6 +239,18 @@ public class PlayMultiVideoFragment extends BaseFragment {
             PlayerActivity.m_this.setResolutionState(true);
         } else if (chosenPlayerDevice.m_stream_type == Define.SUB_STREAM_TYPE) {
             PlayerActivity.m_this.setResolutionState(false);
+        }
+    }
+
+    public void setSinglePlay(boolean bSingle) {
+        if (bSingle) {
+            fullCurrentWindow();
+            bFullScreen = true;
+            bSinglePlay = true;
+        } else {
+            resetCurrentWindow();
+            bFullScreen = false;
+            bSinglePlay = false;
         }
     }
 
