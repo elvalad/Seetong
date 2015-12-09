@@ -232,6 +232,12 @@ public class PlayMultiVideoFragment extends BaseFragment {
         } else {
             PlayerActivity.m_this.setRecordState(false);
         }
+
+        if (chosenPlayerDevice.m_stream_type == Define.MAIN_STREAM_TYPE) {
+            PlayerActivity.m_this.setResolutionState(true);
+        } else if (chosenPlayerDevice.m_stream_type == Define.SUB_STREAM_TYPE) {
+            PlayerActivity.m_this.setResolutionState(false);
+        }
     }
 
     private void fullCurrentWindow() {

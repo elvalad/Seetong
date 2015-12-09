@@ -446,13 +446,9 @@ public class PlayerActivity extends BaseActivity {
 
                 /* 选择高清播放 */
                 if (bHighDefinition) {
-                    playerResolutionButton.setTextColor(getResources().getColor(R.color.gray));
-                    playerResolutionButton.setText(R.string.player_resolution);
                     bHighDefinition = false;
                     offHighDefinition();
                 } else {
-                    playerResolutionButton.setTextColor(getResources().getColor(R.color.green));
-                    playerResolutionButton.setText(R.string.player_high_resolution);
                     bHighDefinition = true;
                     onHighDefinition();
                 }
@@ -662,6 +658,7 @@ public class PlayerActivity extends BaseActivity {
         if (!bRet) {
             resetWidget();
         }
+        setResolutionState(true);
     }
 
     private void offHighDefinition() {
@@ -670,6 +667,7 @@ public class PlayerActivity extends BaseActivity {
         } else if (currentFragmentName.equals("play_multi_video_fragment")) {
             multiVideoFragment.stopHighDefinition();
         }
+        setResolutionState(false);
     }
 
     private void onVideoRecord() {
@@ -838,6 +836,16 @@ public class PlayerActivity extends BaseActivity {
         } else {
             playerRecordButton.setBackgroundResource(R.drawable.tps_play_record_off);
             playerRecordButton.setTextColor(getResources().getColor(R.color.gray));
+        }
+    }
+
+    public void setResolutionState(boolean bHighReso) {
+        if (bHighReso) {
+            playerResolutionButton.setTextColor(getResources().getColor(R.color.green));
+            playerResolutionButton.setText(R.string.player_high_resolution);
+        } else {
+            playerResolutionButton.setTextColor(getResources().getColor(R.color.gray));
+            playerResolutionButton.setText(R.string.player_resolution);
         }
     }
 
