@@ -41,7 +41,7 @@
     <ImageView
         android:id="@+id/player_blank"
         android:layout_width="match_parent"
-        android:layout_height="10dp"/>
+        android:layout_height="5dp"/>
 
     <LinearLayout
         android:id="@+id/player_operation_button"
@@ -112,11 +112,11 @@
 
     </LinearLayout>
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/player_split_line"
         android:background="@drawable/tps_login_grayline"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" />-->
 
     <LinearLayout
          android:id="@+id/player_main_button"

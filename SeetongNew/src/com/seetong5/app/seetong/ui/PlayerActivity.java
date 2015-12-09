@@ -230,7 +230,6 @@ public class PlayerActivity extends BaseActivity {
         findViewById(R.id.player_title).setVisibility(show);
         findViewById(R.id.player_blank).setFadingEdgeLength(show);
         findViewById(R.id.player_operation_button).setVisibility(show);
-        findViewById(R.id.player_split_line).setVisibility(show);
         findViewById(R.id.player_main_button).setVisibility(show);
         findViewById(R.id.player_sliding_drawer).setVisibility(show);
         if (bFullScreen) {

@@ -49,8 +49,8 @@
                         android:layout_height="wrap_content" />-->
                 <ImageView
                         android:src="@drawable/tps_device_icon"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"/>
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"/>
 
                 <com.seetong5.app.seetong.ui.ext.RegexpEditText
                         android:id="@+id/device_add_id"
@@ -89,8 +89,8 @@
                         android:layout_height="wrap_content" />-->
                 <ImageView
                         android:src="@drawable/tps_login_account"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"/>
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"/>
 
                 <com.seetong5.app.seetong.ui.ext.RegexpEditText
                         android:id="@+id/device_add_account"
@@ -131,8 +131,8 @@
 
                 <ImageView
                         android:src="@drawable/tps_login_password"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"/>
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"/>
 
                 <com.seetong5.app.seetong.ui.ext.RegexpEditText
                         android:id="@+id/device_add_password"
