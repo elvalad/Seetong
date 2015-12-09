@@ -250,7 +250,10 @@ public class PlayMultiVideoFragment extends BaseFragment {
         } else {
             resetCurrentWindow();
             bFullScreen = false;
-            bSinglePlay = false;
+            if (bSinglePlay) {
+                startPlayList();
+                bSinglePlay = false;
+            }
         }
     }
 
