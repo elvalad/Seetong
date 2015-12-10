@@ -76,7 +76,7 @@ public class MainActivity2 extends BaseActivity {
         onNotifyDevData(xml, new ParseDevListResult() {
             @Override
             public void onResult(List<PlayerDevice> devices) {
-                boolean bExitNormally = Global.m_spu.loadBooleanSharedPreference(Define.EXIT_APP_NORMALLY);
+                boolean bExitNormally = Global.m_spu.loadBooleanSharedPreference(Define.EXIT_APP_NORMALLY, true);
                 if (!bExitNormally) {
                     String devId = Global.m_spu.loadStringSharedPreference(Define.SAVE_EXIT_DEVICE);
                     playVideo(devId);
