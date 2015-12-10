@@ -79,7 +79,9 @@ public class MainActivity2 extends BaseActivity {
                 boolean bExitNormally = Global.m_spu.loadBooleanSharedPreference(Define.EXIT_APP_NORMALLY, true);
                 if (!bExitNormally) {
                     String devId = Global.m_spu.loadStringSharedPreference(Define.SAVE_EXIT_DEVICE);
-                    playVideo(devId);
+                    if (null != devId) {
+                        playVideo(devId);
+                    }
                 }
                 sendMessage(Define.MSG_PARSE_DEV_LIST, 0, 0, null);
             }
