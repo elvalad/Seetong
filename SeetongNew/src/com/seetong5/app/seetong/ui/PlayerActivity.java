@@ -97,6 +97,7 @@ public class PlayerActivity extends BaseActivity {
         initParams.height = (initParams.width * 9) / 16;
         findViewById(R.id.player_fragment_container).setLayoutParams(initParams);
 
+        bSinglePlay = Global.m_spu.loadBooleanSharedPreference(Define.SAVE_EXIT_WINDOW);
         initWidget();
         if (currentFragmentName.equals("play_multi_video_fragment")) {
             setCurrentFragment("play_multi_video_fragment");
@@ -121,6 +122,14 @@ public class PlayerActivity extends BaseActivity {
         } else if (currentFragmentName.equals("play_multi_video_fragment")) {
             multiVideoFragment.startPlayList();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Global.m_spu.saveSharedPreferences(Define.EXIT_APP_NORMALLY, false);
+        Global.m_spu.saveSharedPreferences(Define.SAVE_EXIT_DEVICE, multiVideoFragment.getDeviceList().get(0).m_devId);
+        Global.m_spu.saveSharedPreferences(Define.SAVE_EXIT_WINDOW, bSinglePlay);
     }
 
     @Override

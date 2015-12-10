@@ -81,6 +81,9 @@ public class Define {
     public static final String POLLING_TIME = "polling_time";
     public static final String IS_SAVE_DEV_LIST = "is_save_dev_list";
     public static final String DEV_LIST_ORDER = "dev_list_order";
+    public static final String EXIT_APP_NORMALLY = "exit_app_normally";
+    public static final String SAVE_EXIT_DEVICE = "save_exit_device";
+    public static final String SAVE_EXIT_WINDOW = "save_exit_window";
 
     /** xml文件名 */
     public static final String LOGIN_USER_CONFIG_FILE = "lu_config";

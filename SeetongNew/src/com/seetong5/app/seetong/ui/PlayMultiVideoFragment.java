@@ -98,10 +98,11 @@ public class PlayMultiVideoFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        startPlayList();
+        bFullScreen = Global.m_spu.loadBooleanSharedPreference(Define.SAVE_EXIT_WINDOW);
         if (bFullScreen) {
             fullCurrentWindow();
         }
+        startPlayList();
     }
 
     class MyOnGestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -1041,6 +1042,10 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
     public int getCurrentIndex() {
         return currentIndex;
+    }
+
+    public List<PlayerDevice> getDeviceList() {
+        return deviceList;
     }
 
     private PlayerDevice getPlayerDeviceByIndex(PlayerDevice device, int index) {
