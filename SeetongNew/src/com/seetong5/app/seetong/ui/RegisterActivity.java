@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.TextureView;
@@ -36,18 +38,16 @@ public class RegisterActivity extends BaseActivity {
         public String userEmail;
         public String userPhone;
         public String userPwd;
-        public String confirmPwd;
         public String verifyCode;
 
         public RegisterInfo() {
 
         }
 
-        public RegisterInfo(String userEmail, String userPhone, String userPwd, String confirmPwd, String verifyCode) {
+        public RegisterInfo(String userEmail, String userPhone, String userPwd, String verifyCode) {
             this.userEmail = userEmail;
             this.userPhone = userPhone;
             this.userPwd = userPwd;
-            this.confirmPwd = confirmPwd;
             this.verifyCode = verifyCode;
         }
     }
@@ -158,6 +158,16 @@ public class RegisterActivity extends BaseActivity {
                 }
             }
         });
+        registerEditPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    registerEditPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                } else {
+                    registerEditPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+            }
+        });
     }
 
     private void onRegister() {
@@ -241,11 +251,6 @@ public class RegisterActivity extends BaseActivity {
             return false;
         }
 
-        if (isNullStr(gStr(R.id.register_confirm_password))) {
-            toast(R.string.register_confirm_password_null);
-            return false;
-        }
-
         if (isNullStr(gStr(R.id.register_verify_code))) {
             toast(R.string.register_verify_code_null);
             return false;
@@ -258,32 +263,27 @@ public class RegisterActivity extends BaseActivity {
         } else if (!DataCheckUtil.isRightUserPwd(gStr(R.id.register_password))) {
             toast(R.string.register_invalid_user_password);
         } else {
-            if (gStr(R.id.register_password).compareToIgnoreCase(gStr(R.id.register_confirm_password)) != 0) {
-                toast(R.string.register_invalid_user_confirm_password);
-            } else {
-                if (mRegInfo == null) {
-                    mRegInfo = new RegisterInfo();
-                }
+            if (mRegInfo == null) {
+                mRegInfo = new RegisterInfo();
+            }
 
-                if (DataCheckUtil.isRightEmail(gStr(R.id.register_user))) {
-                    bRegByMail = true;
-                    mRegInfo.userEmail = gStr(R.id.register_user);
-                } else if (DataCheckUtil.isRightPhone(gStr(R.id.register_user))) {
-                    bRegByMail = false;
-                    mRegInfo.userPhone = gStr(R.id.register_user);
-                }
-                mRegInfo.userPwd = gStr(R.id.register_password);
-                mRegInfo.confirmPwd = gStr(R.id.register_confirm_password);
-                mRegInfo.verifyCode = gStr(R.id.register_verify_code);
+            if (DataCheckUtil.isRightEmail(gStr(R.id.register_user))) {
+                bRegByMail = true;
+                mRegInfo.userEmail = gStr(R.id.register_user);
+            } else if (DataCheckUtil.isRightPhone(gStr(R.id.register_user))) {
+                bRegByMail = false;
+                mRegInfo.userPhone = gStr(R.id.register_user);
+            }
+            mRegInfo.userPwd = gStr(R.id.register_password);
+            mRegInfo.verifyCode = gStr(R.id.register_verify_code);
 
-                /* 检查校验码是否过期 */
-                Calendar calendar = Calendar.getInstance();
-                calendar.add(Calendar.MINUTE, -10);
-                endTime = new Timestamp(calendar.getTimeInMillis());
-                if (endTime.after(startTime)) {
-                    toast(R.string.register_verify_code_invalid);
-                    return false;
-                }
+            /* 检查校验码是否过期 */
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MINUTE, -10);
+            endTime = new Timestamp(calendar.getTimeInMillis());
+            if (endTime.after(startTime)) {
+                toast(R.string.register_verify_code_invalid);
+                return false;
             }
         }
 

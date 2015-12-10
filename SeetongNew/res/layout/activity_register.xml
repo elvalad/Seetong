@@ -99,6 +99,7 @@
                 android:layout_height="30dp"
                 android:hint="@string/register_password_verify_hint_text"
                 android:textSize="15sp"
+                android:visibility="gone"
                 android:textColorHint="#dddddd"
                 android:inputType="textPassword"/>
 

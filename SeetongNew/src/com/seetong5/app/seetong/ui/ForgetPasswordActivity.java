@@ -3,6 +3,8 @@ package com.seetong5.app.seetong.ui;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -32,17 +34,15 @@ public class ForgetPasswordActivity extends BaseActivity {
         public String userEmail;
         public String userPhone;
         public String userPwd;
-        public String confirmPwd;
         public String verifyCode;
 
         public ForgetInfo() {}
 
-        public ForgetInfo(String userName, String userEmail, String userPhone, String userPwd, String confirmPwd, String verifyCode) {
+        public ForgetInfo(String userName, String userEmail, String userPhone, String userPwd, String verifyCode) {
             this.userName = userName;
             this.userEmail = userEmail;
             this.userPhone = userPhone;
             this.userPwd = userPwd;
-            this.confirmPwd = confirmPwd;
             this.verifyCode = verifyCode;
         }
     }
@@ -75,30 +75,6 @@ public class ForgetPasswordActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 ForgetPasswordActivity.this.finish();
-            }
-        });
-
-        forgetPwdEditText = (EditText) findViewById(R.id.forget_password);
-        forgetPwdEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b) {
-                    if (!DataCheckUtil.isRightEmail(gStr(R.id.forget_user)) &&
-                            !DataCheckUtil.isRightPhone(gStr(R.id.forget_user))) {
-                        EditText phoneMailText = (EditText) findViewById(R.id.forget_phone_mail);
-                        phoneMailText.setVisibility(View.VISIBLE);
-                        if (isNullStr(gStr(R.id.forget_phone_mail))) {
-                            toast(R.string.forget_input_phone_mail);
-                            return;
-                        }
-
-                        if (!DataCheckUtil.isRightEmail(gStr(R.id.forget_phone_mail)) &&
-                                !DataCheckUtil.isRightPhone(gStr(R.id.forget_phone_mail))) {
-                            toast(R.string.forget_input_correct_phone_mail);
-                            return;
-                        }
-                    }
-                }
             }
         });
 
@@ -143,6 +119,32 @@ public class ForgetPasswordActivity extends BaseActivity {
         });
 
         passwordStrength = (TextView) findViewById(R.id.forget_password_strength);
+        forgetPwdEditText = (EditText) findViewById(R.id.forget_password);
+        forgetPwdEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    forgetPwdEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    if (!DataCheckUtil.isRightEmail(gStr(R.id.forget_user)) &&
+                            !DataCheckUtil.isRightPhone(gStr(R.id.forget_user))) {
+                        EditText phoneMailText = (EditText) findViewById(R.id.forget_phone_mail);
+                        phoneMailText.setVisibility(View.VISIBLE);
+                        if (isNullStr(gStr(R.id.forget_phone_mail))) {
+                            toast(R.string.forget_input_phone_mail);
+                            return;
+                        }
+
+                        if (!DataCheckUtil.isRightEmail(gStr(R.id.forget_phone_mail)) &&
+                                !DataCheckUtil.isRightPhone(gStr(R.id.forget_phone_mail))) {
+                            toast(R.string.forget_input_correct_phone_mail);
+                            return;
+                        }
+                    }
+                } else {
+                    forgetPwdEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+            }
+        });
         forgetPwdEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -243,11 +245,6 @@ public class ForgetPasswordActivity extends BaseActivity {
             return false;
         }
 
-        if (isNullStr(gStr(R.id.forget_confirm_password))) {
-            toast(R.string.forget_confirm_password_null);
-            return false;
-        }
-
         if (isNullStr(gStr(R.id.forget_verify_code))) {
             toast(R.string.forget_verify_code_null);
             return false;
@@ -257,42 +254,36 @@ public class ForgetPasswordActivity extends BaseActivity {
             toast(R.string.forget_invalid_user_password);
             return false;
         } else {
-            if (gStr(R.id.forget_password).compareToIgnoreCase(gStr(R.id.forget_confirm_password)) != 0) {
-                toast(R.string.forget_invalid_user_confirm_password);
-                return false;
+            if (forgetInfo == null) {
+                forgetInfo = new ForgetInfo();
+            }
+
+            forgetInfo.userName = gStr(R.id.forget_user);
+            if (DataCheckUtil.isRightEmail(gStr(R.id.forget_user))) {
+                bRegByMail = true;
+                forgetInfo.userEmail = gStr(R.id.forget_user);
+            } else if (DataCheckUtil.isRightPhone(gStr(R.id.forget_user))) {
+                bRegByMail = false;
+                forgetInfo.userPhone = gStr(R.id.forget_user);
             } else {
-                if (forgetInfo == null) {
-                    forgetInfo = new ForgetInfo();
-                }
-
-                forgetInfo.userName = gStr(R.id.forget_user);
-                if (DataCheckUtil.isRightEmail(gStr(R.id.forget_user))) {
+                if (DataCheckUtil.isRightEmail(gStr(R.id.forget_phone_mail))) {
                     bRegByMail = true;
-                    forgetInfo.userEmail = gStr(R.id.forget_user);
-                } else if (DataCheckUtil.isRightPhone(gStr(R.id.forget_user))) {
+                    forgetInfo.userEmail = gStr(R.id.forget_phone_mail);
+                } else if (DataCheckUtil.isRightPhone(gStr(R.id.forget_phone_mail))) {
                     bRegByMail = false;
-                    forgetInfo.userPhone = gStr(R.id.forget_user);
-                } else {
-                    if (DataCheckUtil.isRightEmail(gStr(R.id.forget_phone_mail))) {
-                        bRegByMail = true;
-                        forgetInfo.userEmail = gStr(R.id.forget_phone_mail);
-                    } else if (DataCheckUtil.isRightPhone(gStr(R.id.forget_phone_mail))) {
-                        bRegByMail = false;
-                        forgetInfo.userPhone = gStr(R.id.forget_phone_mail);
-                    }
+                    forgetInfo.userPhone = gStr(R.id.forget_phone_mail);
                 }
-                forgetInfo.userPwd = gStr(R.id.forget_password);
-                forgetInfo.confirmPwd = gStr(R.id.forget_confirm_password);
-                forgetInfo.verifyCode = gStr(R.id.forget_verify_code);
+            }
+            forgetInfo.userPwd = gStr(R.id.forget_password);
+            forgetInfo.verifyCode = gStr(R.id.forget_verify_code);
 
-                /* 检查校验码是否过期 */
-                Calendar calendar = Calendar.getInstance();
-                calendar.add(Calendar.MINUTE, -10);
-                endTime = new Timestamp(calendar.getTimeInMillis());
-                if (endTime.after(startTime)) {
-                    toast(R.string.forget_verify_code_invalid);
-                    return false;
-                }
+            /* 检查校验码是否过期 */
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MINUTE, -10);
+            endTime = new Timestamp(calendar.getTimeInMillis());
+            if (endTime.after(startTime)) {
+                toast(R.string.forget_verify_code_invalid);
+                return false;
             }
         }
 
