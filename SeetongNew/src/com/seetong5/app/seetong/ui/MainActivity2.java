@@ -534,6 +534,8 @@ public class MainActivity2 extends BaseActivity {
         List<String> list = new ArrayList<>();
         String jsonArrayString = Global.m_spu.loadStringSharedPreference(Define.DEV_LIST_ORDER);
         //Log.d(TAG, "json array string is : " + jsonArrayString);
+        if (null == jsonArrayString) return;
+
         try {
             JSONArray jsonArray = new JSONArray(jsonArrayString);
             for (int i = 0; i < jsonArray.length(); i++) {

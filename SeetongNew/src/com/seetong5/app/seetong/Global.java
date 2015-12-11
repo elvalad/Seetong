@@ -559,7 +559,7 @@ public class Global {
         if (Define.LOGIN_TYPE_DEVICE == m_loginType) {
             return Define.RootDirPath + "/default/images";
         } else {
-            Log.e(TAG, "========================>>>>>dev info is: " + m_devInfo.getUserName());
+            //Log.e(TAG, "========================>>>>>dev info is: " + m_devInfo.getUserName());
             return Define.RootDirPath + "/" + m_devInfo.getUserName() + "/images";
         }
     }
