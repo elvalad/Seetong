@@ -1,8 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:weightSum="1">
+              android:layout_height="match_parent">
 
     <RelativeLayout
             android:id="@+id/register_top_bar"
@@ -31,40 +31,53 @@
                 android:layout_centerHorizontal="true" />
     </RelativeLayout>
 
-    <LinearLayout
-            android:id="@+id/register_medim_frame"
-            android:orientation="vertical"
+    <RelativeLayout
+            android:id="@+id/mix_register_account"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp">
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:src="@drawable/tps_login_account"
+                android:layout_width="25dp"
+                android:layout_height="25dp"/>
 
         <EditText
                 android:id="@+id/register_user"
-                android:background="@drawable/tps_register_txtview_bg_m"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:background="#00000000"
+                android:layout_marginLeft="60dp"
                 android:hint="@string/register_account_hint_text"
                 android:textSize="15sp"
                 android:textColorHint="#dddddd"
                 android:inputType="textEmailAddress"/>
+    </RelativeLayout>
 
-        <!--<EditText
-                android:id="@+id/register_password"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/tps_register_txtview_bg_m"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:hint="@string/register_password_hint_text"
-                android:textSize="15sp"
-                android:textColorHint="#dddddd"
-                android:inputType="textPassword"/>-->
+    <ImageView
+            android:id="@+id/register_account_line"
+            android:src="@drawable/line"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    <RelativeLayout
+            android:id="@+id/mix_register_password"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:src="@drawable/tps_login_password"
+                android:layout_width="25dp"
+                android:layout_height="25dp"/>
 
         <LinearLayout
-                android:layout_marginTop="15dp"
-                android:background="@drawable/tps_register_txtview_bg_m"
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
                 android:layout_height="30dp">
@@ -72,6 +85,7 @@
             <EditText
                     android:id="@+id/register_password"
                     android:background="#00000000"
+                    android:layout_marginLeft="60dp"
                     android:layout_weight="5"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
@@ -91,63 +105,82 @@
 
         </LinearLayout>
 
-        <EditText
-                android:id="@+id/register_confirm_password"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/tps_register_txtview_bg_m"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:hint="@string/register_password_verify_hint_text"
-                android:textSize="15sp"
-                android:visibility="gone"
-                android:textColorHint="#dddddd"
-                android:inputType="textPassword"/>
+    </RelativeLayout>
 
-        <LinearLayout
-                android:id="@+id/register_verify_frame"
-                android:layout_marginTop="15dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="30dp">
+    <ImageView
+            android:id="@+id/register_password_line"
+            android:src="@drawable/line"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-            <EditText
-                    android:id="@+id/register_verify_code"
-                    android:background="@drawable/tps_register_txtview_bg_s"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:hint="@string/register_verify_code_hint_text"
-                    android:textSize="15sp"
-                    android:textColorHint="#dddddd"
-                    android:layout_weight="2"
-                    android:inputType="number"/>
+   <LinearLayout
+           android:id="@+id/mix_register_verify"
+           android:layout_marginTop="20dp"
+           android:layout_marginRight="20dp"
+           android:orientation="horizontal"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
 
-            <TextView
-                    android:text="       "
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+       <LinearLayout
+               android:orientation="vertical"
+               android:layout_marginLeft="20dp"
+               android:layout_marginRight="20dp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content">
 
-            <Button
-                    android:id="@+id/register_verify_button"
-                    android:text="@string/register_gain_verify_code_hint_text"
-                    android:textColor="#ffffff"
-                    android:textSize="15sp"
-                    android:background="@drawable/tps_register_loginbtn"
-                    android:layout_width="200dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"/>
-        </LinearLayout>
+           <RelativeLayout
+                   android:layout_marginLeft="10dp"
+                   android:layout_marginRight="20dp"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content">
 
-        <Button
-                android:id="@+id/register_register"
-                android:text="@string/register_button_text"
-                android:textColor="#ffffff"
-                android:textSize="18sp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/tps_register_loginbtn"
-                android:layout_width="match_parent"
-                android:layout_height="30dp" />
+               <ImageView
+                       android:src="@drawable/tps_register_verify"
+                       android:layout_width="25dp"
+                       android:layout_height="25dp"/>
 
-    </LinearLayout>
+               <EditText
+                       android:id="@+id/register_verify_code"
+                       android:background="#00000000"
+                       android:layout_marginLeft="60dp"
+                       android:layout_width="wrap_content"
+                       android:layout_height="30dp"
+                       android:hint="@string/register_verify_code_hint_text"
+                       android:textSize="15sp"
+                       android:textColorHint="#dddddd"
+                       android:inputType="number"/>
+           </RelativeLayout>
+
+           <ImageView
+                   android:id="@+id/register_verify_line"
+                   android:src="@drawable/line"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content" />
+       </LinearLayout>
+
+       <Button
+               android:id="@+id/register_verify_button"
+               android:text="@string/register_gain_verify_code_hint_text"
+               android:textColor="#ffffff"
+               android:textSize="15sp"
+               android:background="@drawable/tps_register_loginbtn"
+               android:layout_width="wrap_content"
+               android:layout_height="30dp"/>
+
+   </LinearLayout>
+
+    <Button
+            android:id="@+id/register_register"
+            android:text="@string/register_button_text"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/tps_register_loginbtn"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
 
 </LinearLayout>
-

@@ -125,10 +125,15 @@ public class ForgetPasswordActivity extends BaseActivity {
             public void onFocusChange(View view, boolean b) {
                 if (b) {
                     forgetPwdEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    if (DataCheckUtil.isNullStr(gStr(R.id.forget_user))) {
+                        toast(R.string.forget_user_null);
+                        return;
+                    }
+
                     if (!DataCheckUtil.isRightEmail(gStr(R.id.forget_user)) &&
                             !DataCheckUtil.isRightPhone(gStr(R.id.forget_user))) {
-                        EditText phoneMailText = (EditText) findViewById(R.id.forget_phone_mail);
-                        phoneMailText.setVisibility(View.VISIBLE);
+                        findViewById(R.id.mix_forget_phone_mail).setVisibility(View.VISIBLE);
+                        findViewById(R.id.forget_phone_mail_line).setVisibility(View.VISIBLE);
                         if (isNullStr(gStr(R.id.forget_phone_mail))) {
                             toast(R.string.forget_input_phone_mail);
                             return;
