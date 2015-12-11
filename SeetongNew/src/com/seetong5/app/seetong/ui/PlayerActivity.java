@@ -97,7 +97,7 @@ public class PlayerActivity extends BaseActivity {
         initParams.height = (initParams.width * 9) / 16;
         findViewById(R.id.player_fragment_container).setLayoutParams(initParams);
 
-        bSinglePlay = Global.m_spu.loadBooleanSharedPreference(Define.SAVE_EXIT_WINDOW);
+        bSinglePlay = Global.m_spu.loadBooleanSharedPreference(Define.SAVE_EXIT_WINDOW, true);
         initWidget();
         if (currentFragmentName.equals("play_multi_video_fragment")) {
             setCurrentFragment("play_multi_video_fragment");

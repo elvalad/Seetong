@@ -98,7 +98,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        bFullScreen = Global.m_spu.loadBooleanSharedPreference(Define.SAVE_EXIT_WINDOW);
+        bFullScreen = Global.m_spu.loadBooleanSharedPreference(Define.SAVE_EXIT_WINDOW, true);
         if (bFullScreen) {
             fullCurrentWindow();
         }
