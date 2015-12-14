@@ -123,6 +123,11 @@ public class PlayerDevice {
         return 200 == devType || 201 == devType;
     }
 
+    public String getNvrId() {
+        if (!isNVR()) return m_devId;
+        return m_devId.substring(0, m_devId.indexOf("-CH"));
+    }
+
     public String getDeviceName() {
         if (null == m_dev) return "";
         String _devName = isNVR() ? null : m_dev.getDevName();

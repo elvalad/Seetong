@@ -19,6 +19,7 @@ import com.seetong5.app.seetong.Config;
 import com.seetong5.app.seetong.Global;
 import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
+import com.seetong5.app.seetong.comm.NetworkUtils;
 import com.seetong5.app.seetong.model.*;
 import com.seetong5.app.seetong.tools.Event;
 import com.seetong5.app.seetong.ui.BaseActivity;
@@ -27,6 +28,8 @@ import ipc.android.sdk.com.*;
 import ipc.android.sdk.com.Device;
 import ipc.android.sdk.impl.FunclibAgent;
 import ipc.android.sdk.impl.PlayCtrlAgent;
+import net.tsz.afinal.FinalHttp;
+import net.tsz.afinal.http.AjaxCallBack;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -43,7 +46,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
     private static String TAG = "LibImpl";
     private static LibImpl m_impl = null;
 
-    private boolean m_exit = true;
+    private boolean m_exit = false;
     public boolean m_stop_play = false;
     private boolean m_stop_snapshot = false;
     private boolean m_fc_inited = false;
@@ -60,8 +63,14 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
     }
 
     public static LibImpl getInstance() {
-        if (null == m_impl) m_impl = new LibImpl();
-        m_impl.initFuncLib();
+        if (null != m_impl) return m_impl;
+        m_impl = new LibImpl();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                m_impl.initFuncLib();
+            }
+        }).start();
         return m_impl;
     }
 
@@ -83,21 +92,120 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         m_fc_inited = false;
     }
 
-    private synchronized void initFuncLib() {
-        if (m_fc_inited || m_exit) return;
-        Thread thread = new Thread() {
-            public void run() {
-                Global.getNetType();
-                int ret = s_func.initExAgent(Global.m_mobile_net_sub_type_2);
-                m_fc_inited = (0 == ret);
+    private synchronized int initFuncLib() {
+        if (m_fc_inited) return 0;
+        int ret = s_func.initExAgent(Global.m_mobile_net_sub_type_2);
+        if (0 != ret) ret = s_func.initExAgent(Global.m_mobile_net_sub_type_2);
+        if (0 != ret) ret = s_func.initExAgent(Global.m_mobile_net_sub_type_2);
+        m_fc_inited = (0 == ret);
+        return ret;
+    }
+
+    public static void getNetType() {
+        if (NetworkUtils.isMobile(Global.m_ctx)) {
+            Global.m_mobile_net_type = NetworkUtils.getProvidersName(Global.m_ctx);
+            Global.m_mobile_net_sub_type = NetworkUtils.getNetSubType(Global.m_ctx);
+            if (NetworkUtils.is2G(Global.m_ctx)) {
+                Global.m_mobile_net_sub_type_2 = 2;
+            } else if (NetworkUtils.is3G(Global.m_ctx)) {
+                Global.m_mobile_net_sub_type_2 = 1;
+            } else if (NetworkUtils.is4G(Global.m_ctx)) {
+                Global.m_mobile_net_sub_type_2 = 5;
             }
-        };
-        thread.start();
-        try {
-            thread.join(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } else if (NetworkUtils.isWifi(Global.m_ctx)) {
+            Global.m_mobile_net_type = "WF";
+            Global.m_mobile_net_sub_type_2 = 0;
+        } else if (NetworkUtils.isEthernet(Global.m_ctx)) {
+            Global.m_mobile_net_type = "ET";
+        } else {
+            Global.m_mobile_net_type = "UN";
         }
+    }
+
+    public static void getSubNetType() {
+        getNetType();
+        switch (Global.m_mobile_net_type) {
+            case "YD":
+                if (NetworkUtils.is2G(Global.m_ctx)) {
+                    Global.m_mobile_net_type_2 = "M14";
+                } else if (NetworkUtils.is3G(Global.m_ctx)) {
+                    Global.m_mobile_net_type_2 = "M10";
+                } else if (NetworkUtils.is4G(Global.m_ctx)) {
+                    Global.m_mobile_net_type_2 = "M7";
+                }
+                break;
+            case "DX":
+                if (NetworkUtils.is2G(Global.m_ctx)) {
+                    Global.m_mobile_net_type_2 = "M13";
+                } else if (NetworkUtils.is3G(Global.m_ctx)) {
+                    Global.m_mobile_net_type_2 = "M11";
+                } else if (NetworkUtils.is4G(Global.m_ctx)) {
+                    Global.m_mobile_net_type_2 = "M8";
+                }
+                break;
+            case "LT":
+                if (NetworkUtils.is2G(Global.m_ctx)) {
+                    Global.m_mobile_net_type_2 = "M15";
+                } else if (NetworkUtils.is3G(Global.m_ctx)) {
+                    Global.m_mobile_net_type_2 = "M12";
+                } else if (NetworkUtils.is4G(Global.m_ctx)) {
+                    Global.m_mobile_net_type_2 = "M9";
+                }
+                break;
+            case "WF":
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int type = s_func.SearchIpType("");
+                        if (type == 1) {
+                            Global.m_mobile_net_type_2 = "M1";
+                        } else if (type == 2) {
+                            Global.m_mobile_net_type_2 = "M2";
+                        } else if (type == 3) {
+                            Global.m_mobile_net_type_2 = "M3";
+                        } else if (type == 4) {
+                            Global.m_mobile_net_type_2 = "M4";
+                        } else if (type == 5) {
+                            Global.m_mobile_net_type_2 = "M5";
+                        } else if (type == 6) {
+                            Global.m_mobile_net_type_2 = "M6";
+                        }
+                    }
+                }).start();
+                break;
+        }
+
+        if (TextUtils.isEmpty(Global.m_mobile_net_type_2)) {
+            Global.m_mobile_net_type_2 = "M16";
+        }
+    }
+
+    public void httpRequest(String url) {
+        FinalHttp fh = new FinalHttp();
+        fh.configCharset("gb2312");//gb2312==UTF-8
+        fh.configTimeout(15 * 1000);
+        fh.get(url, /*params*/null, new AjaxCallBack<Object>() {
+            @Override
+            public void onSuccess(Object t) {
+                Log.d("httpRequest", "onSuccess result=" + t.toString());
+            }
+
+            @Override
+            public void onFailure(Throwable t, int errorNo, String strMsg) {
+                Log.d("httpRequest", "onFailure result=" + strMsg);
+                super.onFailure(t, errorNo, strMsg);
+            }
+
+            @Override
+            public void onStart() {
+                Log.d("httpRequest", "onStart...");
+            }
+
+            @Override
+            public void onLoading(long count, long current) {
+                Log.d("httpRequest", "onLoading...");
+            }
+        });
     }
 
     public static int startPlay(int index, PlayerDevice dev, int nStreamNo, int nFrameType) {
@@ -633,6 +741,9 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
     }
 
     public int Login(String pUserName, String pPwd, String pVmsIp, short nVmsPort) {
+        int ret = 0;
+        if (!m_fc_inited) ret = initFuncLib();
+        if (ret != 0) return ret;
         return s_func.LoginAgent(pUserName, pPwd, pVmsIp, nVmsPort);
     }
 
@@ -950,14 +1061,14 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
 
     public String getCapacitySet(PlayerDevice dev) {
         String capacity = m_device_capacityset_map.get(dev.m_devId);
-        if (TextUtils.isEmpty(capacity)) capacity = m_device_capacityset_map.get(dev.m_dev.getDevGroupName());
+        if (TextUtils.isEmpty(capacity)) capacity = m_device_capacityset_map.get(dev.getNvrId());
         return capacity == null ? "" : capacity;
     }
 
     public int getDeviceNetType(PlayerDevice dev) {
         Integer type = m_device_net_type_map.get(dev.m_devId);
         if (null == type) {
-            if (null != dev.m_dev) type = m_device_net_type_map.get(dev.m_dev.getDevGroupName());
+            if (null != dev.m_dev) type = m_device_net_type_map.get(dev.getNvrId());
         }
 
         return null == type ? -1 : type;
@@ -1521,7 +1632,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         m_device_net_type_map.put(devId, ni.getnResult());
         PlayerDevice dev = findDeviceByID(devId);
         if (null == dev) {
-            List<PlayerDevice> lst = Global.getDeviceByGroup(devId);
+            List<PlayerDevice> lst = Global.getDeviceByNvrId(devId);
             if (null != lst) {
                 for (PlayerDevice d : lst) {
                     d.m_net_type = ni.getnResult();
@@ -1589,7 +1700,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     String devId = new String(ni.getSzDevId()).trim();
                     PlayerDevice dev = Global.getDeviceById(devId);
                     if (null == dev) {
-                        List<PlayerDevice> lst = Global.getDeviceByGroup(devId);
+                        List<PlayerDevice> lst = Global.getDeviceByNvrId(devId);
                         if (null == lst) return 0;
                         for (PlayerDevice d : lst) {
                             if (-1 == result) setTipText(d.m_devId, R.string.dlg_login_fail_user_pwd_incorrect_tip);
@@ -1660,7 +1771,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     mDeviceNotifyInfo.put(devID, ni);
                     PlayerDevice dev = findDeviceByID(devID);
                     if (null == dev) {
-                        List<PlayerDevice> lst = Global.getDeviceByGroup(devID);
+                        List<PlayerDevice> lst = Global.getDeviceByNvrId(devID);
                         if (null == lst) return 0;
                         for (PlayerDevice d : lst) {
                             if (nResult == 0) setTipText(d.m_devId, R.string.ipc_err_p2p_disconnected, errorText);
@@ -1690,7 +1801,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                         dev.m_dev.setOnLine(Device.ONLINE);
                         if (nResult == 0) setTipText(devId, R.string.ipc_err_p2p_svr_connect_success);
                     } else {
-                        List<PlayerDevice> lst = Global.getDeviceByName(devId);
+                        List<PlayerDevice> lst = Global.getDeviceByNvrId(devId);
                         if (null != lst) {
                             for (PlayerDevice d : lst) {
                                 d.m_connect_ok = true;
@@ -1776,7 +1887,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                             setTipText(dev.m_devId, R.string.dlg_login_fail_addr_error_tip);
                         }
                     } else {
-                        List<PlayerDevice> lst = Global.getDeviceByGroup(devId);
+                        List<PlayerDevice> lst = Global.getDeviceByNvrId(devId);
                         if (null != lst) {
                             for (PlayerDevice d : lst) {
                                 d.m_debug_msg_2 = msg;
@@ -1830,7 +1941,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     int nResult = ni.getnResult();
                     if (TextUtils.isEmpty(devID)) return 0;
 
-                    List<PlayerDevice> lst = Global.getDeviceByName(devID);
+                    List<PlayerDevice> lst = Global.getDeviceByNvrId(devID);
                     if (null != lst) {
                         for (PlayerDevice dev : lst) {
                             dev.m_connect_ok = false;

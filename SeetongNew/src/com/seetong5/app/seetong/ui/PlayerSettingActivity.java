@@ -272,7 +272,7 @@ public class PlayerSettingActivity extends BaseActivity {
 
                 self.hideInputPanel(etAddGroup);
                 int enterTypes = Global.m_loginType;
-                int ret = LibImpl.getInstance().saveDeviceAlias(playerDevice.m_dev.getDevId(), value, enterTypes);
+                int ret = LibImpl.getInstance().saveDeviceAlias(playerDevice.getNvrId(), value, enterTypes);
                 if (ret != 0) {
                     toast(ConstantImpl.getModifyDevNameErrText(ret));
                     return;

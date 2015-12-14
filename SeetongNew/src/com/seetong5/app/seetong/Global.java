@@ -4,7 +4,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.res.Configuration;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.media.AudioManager;
 import android.os.*;
@@ -33,6 +34,7 @@ import com.umeng.update.UpdateStatus;
 import ipc.android.sdk.com.Device;
 import ipc.android.sdk.com.TPS_AlarmInfo;
 import ipc.android.sdk.impl.DeviceInfo;
+import ipc.android.sdk.impl.FunclibAgent;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -74,6 +76,8 @@ public class Global {
     public static int m_mobile_net_sub_type_2 = 0;
     public static String m_mobile_net_type = "";
     public static String m_mobile_net_type_2 = "";
+
+    public static PackageInfo m_pkg_info = null;
 
     public static final int MSG_ADD_ALARM_DATA = 1;
     public static final int MSG_VIDEO_UI_DESTROYED = 2;
@@ -297,6 +301,16 @@ public class Global {
         return lst;
     }
 
+    synchronized public static List<PlayerDevice> getDeviceByNvrId(String id) {
+        List<PlayerDevice> lst = new ArrayList<>();
+        if (null == m_deviceList) return null;
+        for (PlayerDevice dev : m_deviceList) {
+            if (dev.m_devId.contains(id)) lst.add(dev);
+        }
+
+        return lst;
+    }
+
     synchronized public static void delDevice(String devId) {
         if (null == m_deviceList) return;
         for (PlayerDevice dev : m_deviceList) {
@@ -396,7 +410,7 @@ public class Global {
         m_oss.setAccessId(OSS_ACCESS_ID);
         m_oss.setAccessKey(OSS_ACCESS_KEY);*/
 
-        String languageToLoad  = "en";
+        /*String languageToLoad  = "en";
         int flags = Tools.getLanguageTypes();
         switch(flags){
             case 0:
@@ -418,7 +432,13 @@ public class Global {
         Configuration config = m_ctx.getResources().getConfiguration();
         DisplayMetrics metrics = m_ctx.getResources().getDisplayMetrics();
         config.locale = locale;
-        m_ctx.getResources().updateConfiguration(config, metrics);
+        m_ctx.getResources().updateConfiguration(config, metrics);*/
+
+        try {
+            m_pkg_info = m_ctx.getPackageManager().getPackageInfo(m_ctx.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         PowerManager localPowerManager = (PowerManager) m_ctx.getSystemService(Context.POWER_SERVICE);
         m_wakeLock = localPowerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "My Lock");
@@ -426,101 +446,31 @@ public class Global {
 
         m_spu = new SharePreferenceUtil(m_ctx, Define.SEETONG_CONFIG_FILE);
         m_spu_login = new SharePreferenceUtil(m_ctx, Define.LOGIN_ALL_CONFIG_FILE);
+        LibImpl.getInstance();
         m_alarmMessage = new AlarmMessage();
         Config.loadData();
         Intent intent = new Intent(ctx, MainService.class);
         ctx.startService(intent);
-        ctx.bindService(new Intent(ctx, MainService.class), m_conn, Context.BIND_AUTO_CREATE);
+        //ctx.bindService(new Intent(ctx, MainService.class), m_conn, Context.BIND_AUTO_CREATE);
     }
 
     public static void onAppTerminate() {
         Config.saveData();
         if (null != m_deviceList) m_deviceList.clear();
         if (null != m_devInfoList) m_devInfoList.clear();
-        m_ctx.unbindService(m_conn);
+        //m_ctx.unbindService(m_conn);
         Intent intent = new Intent(m_ctx, MainService.class);
-        m_ctx.stopService(intent);
+        //m_ctx.stopService(intent);
     }
 
     public static void initMain() {
+        ShareSDK.initSDK(m_ctx);
         getNetType();
         initUmServer();
-        ShareSDK.initSDK(m_ctx);
     }
 
     public static void getNetType() {
-        if (NetworkUtils.isMobile(m_ctx)) {
-            m_mobile_net_type = NetworkUtils.getProvidersName(m_ctx);
-            m_mobile_net_sub_type = NetworkUtils.getNetSubType(m_ctx);
-            if (NetworkUtils.is2G(m_ctx)) {
-                m_mobile_net_sub_type_2 = 2;
-            } else if (NetworkUtils.is3G(m_ctx)) {
-                m_mobile_net_sub_type_2 = 1;
-            } else if (NetworkUtils.is4G(m_ctx)) {
-                m_mobile_net_sub_type_2 = 5;
-            }
-        } else if (NetworkUtils.isWifi(m_ctx)) {
-            m_mobile_net_type = "WF";
-        } else if (NetworkUtils.isEthernet(m_ctx)) {
-            m_mobile_net_type = "ET";
-        } else {
-            m_mobile_net_type = "UN";
-        }
-
-        switch (m_mobile_net_type) {
-            case "YD":
-                if (NetworkUtils.is2G(m_ctx)) {
-                    m_mobile_net_type_2 = "M14";
-                } else if (NetworkUtils.is3G(m_ctx)) {
-                    m_mobile_net_type_2 = "M10";
-                } else if (NetworkUtils.is4G(m_ctx)) {
-                    m_mobile_net_type_2 = "M7";
-                }
-                break;
-            case "DX":
-                if (NetworkUtils.is2G(m_ctx)) {
-                    m_mobile_net_type_2 = "M13";
-                } else if (NetworkUtils.is3G(m_ctx)) {
-                    m_mobile_net_type_2 = "M11";
-                } else if (NetworkUtils.is4G(m_ctx)) {
-                    m_mobile_net_type_2 = "M8";
-                }
-                break;
-            case "LT":
-                if (NetworkUtils.is2G(m_ctx)) {
-                    m_mobile_net_type_2 = "M15";
-                } else if (NetworkUtils.is3G(m_ctx)) {
-                    m_mobile_net_type_2 = "M12";
-                } else if (NetworkUtils.is4G(m_ctx)) {
-                    m_mobile_net_type_2 = "M9";
-                }
-                break;
-            case "WF":
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        int type = LibImpl.getInstance().getFuncLib().SearchIpType("");
-                        if (type == 1) {
-                            m_mobile_net_type_2 = "M1";
-                        } else if (type == 2) {
-                            m_mobile_net_type_2 = "M2";
-                        } else if (type == 3) {
-                            m_mobile_net_type_2 = "M3";
-                        } else if (type == 4) {
-                            m_mobile_net_type_2 = "M4";
-                        } else if (type == 5) {
-                            m_mobile_net_type_2 = "M5";
-                        } else if (type == 6) {
-                            m_mobile_net_type_2 = "M6";
-                        }
-                    }
-                }).start();
-                break;
-        }
-
-        if (TextUtils.isEmpty(m_mobile_net_type_2)) {
-            m_mobile_net_type_2 = "M16";
-        }
+        LibImpl.getSubNetType();
     }
 
     public static void initDirs() {
@@ -557,16 +507,15 @@ public class Global {
 
     public static String getImageDir() {
         if (Define.LOGIN_TYPE_DEVICE == m_loginType) {
-            return Define.RootDirPath + "/default/images";
+            return Define.RootDirPath + "/default/images/" + m_devInfo.getDevId();
         } else {
-            //Log.e(TAG, "========================>>>>>dev info is: " + m_devInfo.getUserName());
             return Define.RootDirPath + "/" + m_devInfo.getUserName() + "/images";
         }
     }
 
     public static String getVideoDir() {
         if (Define.LOGIN_TYPE_DEVICE == m_loginType) {
-            return Define.RootDirPath + "/default/videos";
+            return Define.RootDirPath + "/default/videos/" + m_devInfo.getDevId();
         } else {
             return Define.RootDirPath + "/" + m_devInfo.getUserName() + "/videos";
         }
@@ -574,7 +523,7 @@ public class Global {
 
     public static String getAudioDir() {
         if (Define.LOGIN_TYPE_DEVICE == m_loginType) {
-            return Define.RootDirPath + "/default/audios";
+            return Define.RootDirPath + "/default/audios/" + m_devInfo.getDevId();
         } else {
             return Define.RootDirPath + "/" + m_devInfo.getUserName() + "/audios";
         }
@@ -582,7 +531,7 @@ public class Global {
 
     public static String getCloudDir() {
         if (Define.LOGIN_TYPE_DEVICE == m_loginType) {
-            return Define.RootDirPath + "/default/cloud";
+            return Define.RootDirPath + "/default/cloud/" + m_devInfo.getDevId();
         } else {
             return Define.RootDirPath + "/" + m_devInfo.getUserName() + "/cloud";
         }
@@ -602,9 +551,6 @@ public class Global {
     }
 
     private static void doInitUmServer() {
-        /** ######1.检测软件更新 ######*/
-        checkUpdate();
-
         /** ######2.程序运行信息统计 ######*/
         MobclickAgent.setDebugMode(true);
         MobclickAgent.updateOnlineConfig(m_ctx);
@@ -612,6 +558,15 @@ public class Global {
         /** ######3.反馈得到回复时提醒 ######*/
         //当开发者回复用户反馈后，如果需要提醒用户，请在应用程序的入口Activity的OnCreate()方法中下添加以下代码
         //UMFeedbackService.enableNewReplyNotification(this, NotificationType.AlertDialog);
+    }
+
+    public static void versionUpdate() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                checkUpdate();
+            }
+        }).start();
     }
 
     private static void checkUpdate() {
