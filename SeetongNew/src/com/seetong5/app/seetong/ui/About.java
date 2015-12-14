@@ -63,13 +63,20 @@ public class About extends BaseActivity {
         m_listView.setAdapter(m_adapter);
         m_listView.setOnItemClickListener(m_adapter);
         m_version = (TextView) findViewById(R.id.lab_version);
+        m_version.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Integer count = (Integer) v.getTag(R.id.lab_version);
+                if (null == count) count = 0;
+                count++;
+                if (count == 6) {
+                }
+                v.setTag(R.id.lab_version, count);
+            }
+        });
 
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(this.getPackageName(), 0);
-            m_version.setText(T(R.string.tv_version_info_prefix) + info.versionName);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+
+        m_version.setText(T(R.string.tv_version_info_prefix) + Global.m_pkg_info.versionName);
     }
 
     class ListViewAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {

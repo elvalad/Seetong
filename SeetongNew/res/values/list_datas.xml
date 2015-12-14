@@ -63,6 +63,7 @@
         <item>16</item>-->
     </string-array>
     <string-array name="string_ary_alarm_sound_name">
+        <item>None</item>
         <item>alarm sound 1</item>
         <item>alarm sound 2</item>
         <item>alarm sound 3</item>
