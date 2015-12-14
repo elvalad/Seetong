@@ -88,8 +88,10 @@ public class DeviceListAdapter2 extends BaseAdapter {
 
         if (playerDevice.m_dev.getOnLine() != 0) {
             viewHolder.deviceState.setText(" " + MainActivity2.m_this.getResources().getString(R.string.device_state_on) + " ");
+            viewHolder.deviceState.setBackgroundResource(R.drawable.tps_list_online);
         } else {
             viewHolder.deviceState.setText(" " + MainActivity2.m_this.getResources().getString(R.string.device_state_off) + " ");
+            viewHolder.deviceState.setBackgroundResource(R.drawable.tps_list_offline);
         }
 
         if (Config.m_show_alias && Config.m_show_devid) {
