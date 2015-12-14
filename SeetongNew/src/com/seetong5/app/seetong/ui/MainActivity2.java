@@ -64,6 +64,7 @@ public class MainActivity2 extends BaseActivity {
         mTipDlg.setCancelable(false);
         mExitHandler = new ExitHandler(this);
         LibImpl.getInstance().addHandler(m_handler);
+        Global.initMain();
         Global.initDirs();
         MessageNotification.getInstance().setContext(this);
         setContentView(R.layout.activity_main);
