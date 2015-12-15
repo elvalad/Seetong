@@ -93,6 +93,7 @@ public class MoreFragment2 extends BaseFragment {
                         if (Define.LOGIN_TYPE_USER == Global.m_loginType) {
                             Global.m_spu_login.saveSharedPreferences(Define.IS_SAVE_PWD, false);
                             Global.m_spu_login.saveSharedPreferences(Define.USR_PSW, "");
+                            Global.m_spu.saveSharedPreferences(Define.EXIT_APP_NORMALLY, true);
                         }
 
                         mExitTipDlg = new ProgressDialog(MoreFragment2.this.getActivity(), R.string.dlg_app_logout_tip);
