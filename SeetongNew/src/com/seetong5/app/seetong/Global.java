@@ -36,9 +36,8 @@ import ipc.android.sdk.com.TPS_AlarmInfo;
 import ipc.android.sdk.impl.DeviceInfo;
 import ipc.android.sdk.impl.FunclibAgent;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.PrintStream;
+import java.io.*;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -400,6 +399,7 @@ public class Global {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 arg1.printStackTrace(new PrintStream(baos));
                 MobclickAgent.reportError(m_ctx, baos.toString());
+                saveCrashInfo2File(arg1);
                 Log.e(TAG, "Thread.setDefaultUncaughtExceptionHandler is fail...end");
             }
         });
@@ -650,4 +650,49 @@ public class Global {
         PushManager.setTags(m_ctx, lst);
         Log.d(TAG, "initPushTags,login type=" + m_loginType + ",set tags=" + lst);
     }
+
+    private static Map<String, String> infos = new HashMap<>();
+    private static DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+
+    private static String saveCrashInfo2File(Throwable ex) {
+        StringBuffer sb = new StringBuffer();
+        for (Map.Entry<String, String> entry : infos.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            sb.append(key + "=" + value + "\n");
+        }
+
+        Writer writer  = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(writer);
+        ex.printStackTrace(printWriter);
+        Throwable cause = ex.getCause();
+        while (cause != null) {
+            cause.printStackTrace(printWriter);
+            cause = cause.getCause();
+        }
+        printWriter.close();
+        String result = writer.toString();
+        sb.append(result);
+        try {
+            long timestamp = System.currentTimeMillis();
+            String time = formatter.format(new Date());
+            String fileName =  "Seetong-" + "crash-" + time + "-" + timestamp + ".log";
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
+                String path = "/sdcard/crash/";
+                File dir = new File(path);
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+                FileOutputStream fos = new FileOutputStream(path + fileName);
+                fos.write(sb.toString().getBytes());
+                fos.close();
+            }
+            return fileName;
+        } catch (Exception e) {
+            Log.e(TAG, "Save crash info to file...", e);
+        }
+
+        return null;
+    }
+
 }
