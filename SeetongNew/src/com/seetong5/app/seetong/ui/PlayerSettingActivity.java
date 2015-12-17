@@ -190,7 +190,8 @@ public class PlayerSettingActivity extends BaseActivity {
                 }).setPositiveButton(this.getString(R.string.sure), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String value = etAddGroup.getText().toString();
+                showTipDlg(R.string.dev_list_tip_title_input_dev_alias, 15000, R.string.dlg_dev_alias_timeout_tip);
+                final String value = etAddGroup.getText().toString();
                 if ("".equals(value)) {
                     try {
                         Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
@@ -210,21 +211,27 @@ public class PlayerSettingActivity extends BaseActivity {
                     e.printStackTrace();
                 }
 
-                self.hideInputPanel(etAddGroup);
-                int enterTypes = Global.m_loginType;
-                int ret = LibImpl.getInstance().saveDeviceAlias(playerDevice.m_dev.getDevId(), value, enterTypes);
-                if (ret != 0) {
-                    toast(ConstantImpl.getModifyDevNameErrText(ret));
-                    return;
-                }
-
-                Intent it = new Intent(self, PlayerActivity.class);
-                it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
-                it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS);
-                it.putExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME, value);
-                self.setResult(RESULT_OK, it);
                 dialog.dismiss();
-                finish();
+                self.hideInputPanel(etAddGroup);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int enterTypes = Global.m_loginType;
+                        int ret = LibImpl.getInstance().saveDeviceAlias(playerDevice.m_dev.getDevId(), value, enterTypes);
+                        if (ret != 0) {
+                            toast(ConstantImpl.getModifyDevNameErrText(ret));
+                            return;
+                        }
+
+                        if (mTipDlg.isShowing()) mTipDlg.dismiss();
+                        Intent it = new Intent(self, PlayerActivity.class);
+                        it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
+                        it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS);
+                        it.putExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME, value);
+                        self.setResult(RESULT_OK, it);
+                        finish();
+                    }
+                }).start();
             }
         }).create().show();
     }
@@ -258,7 +265,8 @@ public class PlayerSettingActivity extends BaseActivity {
                 }).setPositiveButton(mResources.getString(R.string.sure), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String value = etAddGroup.getText().toString();
+                showTipDlg(R.string.dev_list_tip_title_input_dev_alias, 15000, R.string.dlg_dev_alias_timeout_tip);
+                final String value = etAddGroup.getText().toString();
                 if ("".equals(value)) {
                     try {
                         Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
@@ -270,21 +278,27 @@ public class PlayerSettingActivity extends BaseActivity {
                     return;
                 }
 
-                self.hideInputPanel(etAddGroup);
-                int enterTypes = Global.m_loginType;
-                int ret = LibImpl.getInstance().saveDeviceAlias(playerDevice.getNvrId(), value, enterTypes);
-                if (ret != 0) {
-                    toast(ConstantImpl.getModifyDevNameErrText(ret));
-                    return;
-                }
-
-                Intent it = new Intent(self, PlayerActivity.class);
-                it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
-                it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS);
-                it.putExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME, value);
-                self.setResult(RESULT_OK, it);
                 dialog.dismiss();
-                finish();
+                self.hideInputPanel(etAddGroup);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int enterTypes = Global.m_loginType;
+                        int ret = LibImpl.getInstance().saveDeviceAlias(playerDevice.getNvrId(), value, enterTypes);
+                        if (ret != 0) {
+                            toast(ConstantImpl.getModifyDevNameErrText(ret));
+                            return;
+                        }
+
+                        if (mTipDlg.isShowing()) mTipDlg.dismiss();
+                        Intent it = new Intent(self, PlayerActivity.class);
+                        it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
+                        it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS);
+                        it.putExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME, value);
+                        self.setResult(RESULT_OK, it);
+                        finish();
+                    }
+                }).start();
             }
         }).create().show();
     }

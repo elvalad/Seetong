@@ -501,6 +501,7 @@
     <string name="dev_list_tip_rename_camera">长按分组中的摄像机即可修改摄像机别名</string>
     <string name="dev_list_hint_input_dev_alias">输入摄像机别名</string>
     <string name="dev_list_tip_title_input_dev_alias">修改摄像机别名</string>
+    <string name="dlg_dev_alias_timeout_tip">修改别名超时</string>
     <string name="dev_list_tip_title_modify_user_pwd">修改设备密码</string>
     <string name="dev_list_tip_title_modify_default_user_pwd">修改设备默认用户名和密码</string>
     <string name="dev_list_tip_title_modify_media_parameter">修改媒体参数</string>
