@@ -551,7 +551,6 @@ public class PlayVideoFragment extends BaseFragment {
         playerDevice.m_audio.startOutAudio();
         playerDevice.m_voice = true;
         toast(R.string.fvu_tip_open_voice);
-        PlayerActivity.m_this.setVideoSoundWidget();
 
         return true;
     }

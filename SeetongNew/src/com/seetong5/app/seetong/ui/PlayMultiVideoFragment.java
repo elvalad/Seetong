@@ -824,7 +824,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
         chosenPlayerDevice.m_audio.startOutAudio();
         chosenPlayerDevice.m_voice = true;
         toast(R.string.fvu_tip_open_voice);
-        PlayerActivity.m_this.setVideoSoundWidget();
 
         return true;
     }

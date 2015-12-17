@@ -771,7 +771,7 @@ public class PlayerActivity extends BaseActivity {
     }
 
     public void setVideoSoundWidget() {
-        playerSoundButton.setImageResource(R.drawable.tps_play_sound_on);
+        playerSoundButton.setImageResource(R.drawable.tps_play_sound_off);
     }
 
     public void resetWidget() {
