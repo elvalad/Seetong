@@ -776,7 +776,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             Intent it = new Intent(this.getActivity(), NvrRecord.class);
             it.putExtra(Constant.EXTRA_DEVICE_ID, chosenPlayerDevice.m_dev.getDevId());
             this.startActivity(it);
-            //this.getActivity().finish();
+            this.getActivity().finish();
             return;
         }
 
@@ -789,7 +789,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         Intent it = new Intent(this.getActivity(), FrontEndRecord.class);
         it.putExtra(Constant.EXTRA_DEVICE_ID, chosenPlayerDevice.m_dev.getDevId());
         this.startActivity(it);
-        //this.getActivity().finish();
+        this.getActivity().finish();
     }
 
     public boolean startVideoSound() {

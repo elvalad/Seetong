@@ -1,6 +1,7 @@
 package com.seetong5.app.seetong.ui;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -678,7 +679,7 @@ public class FrontEndRecord extends BaseActivity implements GestureDetector.OnGe
         layout.setBackgroundColor(Color.rgb(207, 232, 179));
         layout.addView(calendar);*/
 
-        LayoutInflater inflater=(LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater=(LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View vi = inflater.inflate(R.layout.my_calendar, null);
 
         final AlertDialog dlg = new AlertDialog.Builder(this)/*.setTitle(R.string.dev_list_tip_title_input_user_pwd)*/
@@ -760,13 +761,15 @@ public class FrontEndRecord extends BaseActivity implements GestureDetector.OnGe
 
     @Override
     protected void onPause() {
+        LibImpl.getInstance().m_stop_play = true;
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-        super.onResume();
+        LibImpl.getInstance().m_stop_play = false;
         LibImpl.getInstance().addHandler(m_handler);
+        super.onResume();
     }
 
     @Override
@@ -1031,7 +1034,6 @@ public class FrontEndRecord extends BaseActivity implements GestureDetector.OnGe
         dev.m_online = true;
         dev.m_playing = false;
         dev.m_voice = true;
-        dev.m_audio.startOutAudio();
 
         View v = dev.m_video.getSurface();
         v.setBackgroundColor(Color.TRANSPARENT);
@@ -1093,10 +1095,13 @@ public class FrontEndRecord extends BaseActivity implements GestureDetector.OnGe
 
         dev.m_view_id = -1;
         dev.m_playing = false;
+        dev.m_replay = false;
         dev.m_voice = false;
-        if (null != dev.m_audio) dev.m_audio.stopOutAudio();
-        dev.m_play = false;
-        dev.m_ptz_auto = false;
+        if (null != dev.m_audio) {
+            dev.m_audio.stopOutAudio();
+            dev.m_audio = null;
+        }
+
         m_glRender.getSurface().setBackgroundColor(Color.BLACK);
         m_glRender.resetScaleInfo();    //缩放窗口复原
         m_seekbar_play.setProgress(0);
