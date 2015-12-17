@@ -533,6 +533,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         chosenPlayerDevice = dev;
         modifyDeviceList(dev);
         startSinglePlay();
+        PlayerActivity.m_this.setCurrentDeviceId(dev.m_devId);
     }
 
     private void modifyDeviceList(PlayerDevice dev) {
