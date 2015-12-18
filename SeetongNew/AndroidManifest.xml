@@ -257,7 +257,10 @@
         <service android:name="com.seetong5.service.MainService"/>
         <receiver android:name="com.seetong5.service.MainReceiver">
             <intent-filter>
-                <action android:name="com.seetong.app.seetong.ALARM_EVENT"/>
+                <action android:name="com.seetong5.app.seetong.ALARM_EVENT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.LOCALE_CHANGED"/>
             </intent-filter>
         </receiver>
 

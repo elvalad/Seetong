@@ -17,6 +17,7 @@ import com.seetong5.app.seetong.Global;
 import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.model.ShareRecord;
 import com.seetong5.app.seetong.tools.MD5;
+import com.seetong5.app.seetong.ui.utils.ActivityUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.youku.uploader.IUploadResponseHandler;
 import com.youku.uploader.YoukuUploader;
@@ -135,6 +136,7 @@ public class BaseActivity extends FragmentActivity {
         m_tip_dlg = new ProgressDialog(this);
         m_youku = YoukuUploader.getInstance(Global.YOUKU_CLIENT_ID, Global.YOUKU_CLIENT_SECRET, this);
         Global.mPushAgent.onAppStart();
+        ActivityUtil.addToList(this);
     }
 
     @Override

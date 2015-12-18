@@ -4,8 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import com.seetong5.app.seetong.ui.MainActivity;
+import android.util.Log;
 import com.seetong5.app.seetong.ui.MainActivity2;
+import com.seetong5.app.seetong.ui.utils.ActivityUtil;
 
 /**
  * Created by Administrator on 2014-05-13.
@@ -20,6 +21,10 @@ public class MainReceiver extends BroadcastReceiver {
             //it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             it.putExtra(MainActivity2.DEVICE_ID_KEY, devId);
             context.startActivity(it);
+        }
+
+        if (intent.getAction().equals(Intent.ACTION_LOCALE_CHANGED)) {
+            ActivityUtil.stopApp();
         }
     }
 }
