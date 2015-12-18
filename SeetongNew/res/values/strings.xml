@@ -147,7 +147,7 @@
     <string name="change_video_view">View</string>
     <string name="choice_stream">Stream</string>
     <!-- LocalAlbumUI -->
-    <string name="dlg_delete_picture_tip">Be sure to delete the picture?</string>
+    <string name="dlg_delete_picture_tip">Be sure to delete?</string>
     <string name="album_no_vaild_file_path">Invalid path</string>
     <string name="album_no_vaild_picture">Invalid picture</string>
     <string name="album_no_any_picture">There is no picture.</string>

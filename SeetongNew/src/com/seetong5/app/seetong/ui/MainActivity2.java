@@ -564,7 +564,7 @@ public class MainActivity2 extends BaseActivity {
         }*/
     }
 
-    private void saveData() {
+    public void saveData() {
         Global.m_spu.saveSharedPreferences(Define.EXIT_APP_NORMALLY, true);
         boolean bSaveData = Global.m_spu.saveSharedPreferences(Define.IS_SAVE_DEV_LIST, true);
         //Log.d(TAG, "save device order : " + bSaveData);
