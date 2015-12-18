@@ -96,7 +96,7 @@ public class Define {
     public static final String SYSTEM_CONFIG_FILE = "system_config";
     public static final String CORE_CONFIG_FILE = "core_config";
 
-    public static final String INTENT_ACTION_ALARM_EVENT = "com.seetong.app.seetong.ALARM_EVENT";
+    public static final String INTENT_ACTION_ALARM_EVENT = "com.seetong5.app.seetong.ALARM_EVENT";
 
     //------------------------Handler MSG ID-------------------------------
     /** 最小的消息ID */
