@@ -78,10 +78,14 @@ public class PlayerDeviceListAdapter extends BaseAdapter {
         options.inSampleSize = 8;
         try {
             bmp = BitmapFactory.decodeFile(fileName, options);
-            if (null == bmp) bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.camera, options);
+            if (null == bmp) {
+                options.inSampleSize = 1;
+                bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.camera_small, options);
+            }
         } catch (OutOfMemoryError err) {
             err.printStackTrace();
-            bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.camera, options);
+            options.inSampleSize = 1;
+            bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.camera_small, options);
         }
 
         if (null != bmp) {
