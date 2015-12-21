@@ -105,7 +105,7 @@
 
         <activity
                 android:name="com.seetong5.app.seetong.ui.GalleryActivity"
-                android:screenOrientation="portrait">
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
 
         <activity

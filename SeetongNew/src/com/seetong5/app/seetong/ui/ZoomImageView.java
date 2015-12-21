@@ -10,13 +10,14 @@ import android.graphics.Matrix;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 /**
  * 自定义的ImageView控制，可对图片进行多点触控缩放和拖动
  *
  * @author guolin
  */
-public class ZoomImageView extends View {
+public class ZoomImageView extends ImageView {
 
     /**
      * 初始化状态常量
