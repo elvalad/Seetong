@@ -446,8 +446,8 @@ public class PlayerSettingActivity extends BaseActivity {
             data.add(settingContents[3]);
             settingContents[4] = new SettingContent(R.string.motion_detect, R.drawable.tps_device_setting_motion);
             data.add(settingContents[4]);
-            settingContents[5] = new SettingContent(R.string.tv_alarm_setting, R.drawable.tps_device_setting_alarm);
-            data.add(settingContents[5]);
+            //settingContents[5] = new SettingContent(R.string.tv_alarm_setting, R.drawable.tps_device_setting_alarm);
+            //data.add(settingContents[5]);
             settingContents[6] = new SettingContent(R.string.tv_storage_setting, R.drawable.tps_device_setting_storage);
             data.add(settingContents[6]);
             settingContents[7] = new SettingContent(R.string.tv_timezone_setting, R.drawable.tps_device_setting_time);
@@ -457,11 +457,13 @@ public class PlayerSettingActivity extends BaseActivity {
             settingContents[9] = new SettingContent(R.string.restore_factory_settings, R.drawable.tps_device_setting_factory);
             data.add(settingContents[9]);
         } else if (200 == devType) { // NVR
-            SettingContent settingContent = new SettingContent(R.string.dev_list_tip_title_input_dev_alias, R.drawable.tps_device_setting_alais);
-            data.add(settingContent);
+            SettingContent[] settingContents = new SettingContent[2];
+            settingContents[0] = new SettingContent(R.string.dev_list_tip_title_input_dev_alias, R.drawable.tps_device_setting_alais);
+            data.add(settingContents[0]);
         } else if (201 == devType) { // NVR4.0
-            SettingContent settingContent = new SettingContent(R.string.dev_list_tip_title_input_dev_alias, R.drawable.tps_device_setting_alais);
-            data.add(settingContent);
+            SettingContent[] settingContents = new SettingContent[2];
+            settingContents[0] = new SettingContent(R.string.dev_list_tip_title_input_dev_alias, R.drawable.tps_device_setting_alais);
+            data.add(settingContents[0]);
         }
     }
 

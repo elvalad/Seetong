@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
 import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
+import com.umeng.analytics.MobclickAgent;
 import ipc.android.sdk.com.SDK_CONSTANT;
 
 import java.util.List;
@@ -44,6 +45,16 @@ public class DeviceFragment2 extends BaseFragment {
         initWidget(view);
 
         return view;
+    }
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("MainActivity2");
+    }
+
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("MainActivity2");
     }
 
     @Override

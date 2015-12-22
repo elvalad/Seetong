@@ -408,33 +408,43 @@ public class MainActivity2 extends BaseActivity {
     public void handleMessage(android.os.Message msg) {
         switch (msg.what) {
             case Define.MSG_UPDATE_DEV_ALIAS:
+                if (null == deviceFragment) return;
                 deviceFragment.handleMessage(msg);
                 break;
             case Define.MSG_UPDATE_SCREENSHOT_LIST:
+                if (null == mediaFragment) return;
                 mediaFragment.handleMessage(msg);
                 break;
             case Define.MSG_SHOW_PICTURE_FRAGMENT:
+                if (null == mediaFragment) return;
                 mediaFragment.handleMessage(msg);
                 break;
             case Define.MSG_UPDATE_DEV_LIST:
+                if (null == deviceFragment) return;
                 deviceFragment.handleMessage(msg);
                 break;
             case SDK_CONSTANT.TPS_MSG_P2P_CONNECT_OK:
+                if (null == deviceFragment) return;
                 deviceFragment.handleMessage(msg);
                 break;
             case SDK_CONSTANT.TPS_MSG_P2P_OFFLINE:
+                if (null == deviceFragment) return;
                 deviceFragment.handleMessage(msg);
                 break;
             case SDK_CONSTANT.TPS_MSG_P2P_NVR_OFFLINE:
+                if (null == deviceFragment) return;
                 deviceFragment.handleMessage(msg);
                 break;
             case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_OFFLINE:
+                if (null == deviceFragment) return;
                 deviceFragment.handleMessage(msg);
                 break;
             case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_ONLINE:
+                if (null == deviceFragment) return;
                 deviceFragment.handleMessage(msg);
                 break;
             case Define.MSG_ENABLE_ALIAS:
+                if (null == deviceFragment) return;
                 deviceFragment.handleMessage(msg);
                 break;
             default:
