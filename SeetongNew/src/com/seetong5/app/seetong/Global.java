@@ -376,7 +376,7 @@ public class Global {
         }
     }
 
-    public static void onAppStart(Context ctx) {
+    public static void onAppStart(final Context ctx) {
         Log.i(TAG, "onAppStart...");
         m_ctx = ctx;
         mPushAgent = PushAgent.getInstance(Global.m_ctx);
@@ -400,7 +400,11 @@ public class Global {
                 arg1.printStackTrace(new PrintStream(baos));
                 MobclickAgent.reportError(m_ctx, baos.toString());
                 saveCrashInfo2File(arg1);
+                Intent it = ctx.getPackageManager().getLaunchIntentForPackage(ctx.getPackageName());
+                it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                ctx.startActivity(it);
                 Log.e(TAG, "Thread.setDefaultUncaughtExceptionHandler is fail...end");
+                android.os.Process.killProcess(android.os.Process.myPid());
             }
         });
 

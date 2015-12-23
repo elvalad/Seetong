@@ -65,6 +65,17 @@ public class MainActivity2 extends BaseActivity {
         mExitHandler = new ExitHandler(this);
         LibImpl.getInstance().addHandler(m_handler);
         Global.initMain();
+        String devId = getIntent().getStringExtra(DEVICE_ID_KEY);
+        int login_succeed = getIntent().getIntExtra(Constant.EXTRA_LOGIN_SUCCEED, 0);
+        if (1 != login_succeed || Define.LOGIN_TYPE_NONE == Global.m_loginType) {
+            Log.i(TAG, "not login, start LoginActivity");
+            Intent it = getApplicationContext().getPackageManager().getLaunchIntentForPackage(getApplicationContext().getPackageName());
+            it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            getApplicationContext().startActivity(it);
+            android.os.Process.killProcess(android.os.Process.myPid());
+            return;
+        }
+
         Global.initDirs();
         MessageNotification.getInstance().setContext(this);
         setContentView(R.layout.activity_main);

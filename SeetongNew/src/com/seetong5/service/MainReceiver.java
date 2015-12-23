@@ -27,6 +27,7 @@ public class MainReceiver extends BroadcastReceiver {
             it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             Global.m_spu.saveSharedPreferences(Define.EXIT_APP_NORMALLY, true);
             context.startActivity(it);
+            android.os.Process.killProcess(android.os.Process.myPid());
         }
 
         if (intent.getAction().equals(Intent.ACTION_LOCALE_CHANGED)) {
