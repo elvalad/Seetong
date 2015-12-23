@@ -51,6 +51,7 @@ public class PlayerActivity extends BaseActivity {
     private static boolean bVideoSoundOn = false;
     private static boolean bHighDefinition = false;
     private static boolean bActive = true;
+    private static boolean bSlidingOpen = false;
     private Timestamp[] startTime = new Timestamp[4];
     private Timestamp[] endTime = new Timestamp[4];
     public ProgressDialog mTipDlg;
@@ -141,6 +142,11 @@ public class PlayerActivity extends BaseActivity {
             setFullScreen(true);
         } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             setFullScreen(false);
+        }
+
+        if (bSlidingOpen) {
+            slidingHandle.setImageResource(R.drawable.down);
+            playerMainButtonLayout.setVisibility(View.GONE);
         }
     }
 
@@ -617,6 +623,7 @@ public class PlayerActivity extends BaseActivity {
             public void onDrawerOpened() {
                 slidingHandle.setImageResource(R.drawable.down);
                 playerMainButtonLayout.setVisibility(View.GONE);
+                bSlidingOpen = true;
             }
         });
         slidingDrawer.setOnDrawerCloseListener(new SlidingDrawer.OnDrawerCloseListener() {
@@ -624,6 +631,7 @@ public class PlayerActivity extends BaseActivity {
             public void onDrawerClosed() {
                 slidingHandle.setImageResource(R.drawable.up);
                 playerMainButtonLayout.setVisibility(View.VISIBLE);
+                bSlidingOpen = false;
             }
         });
 
