@@ -29,7 +29,7 @@ public class About extends BaseActivity {
 
     private ListView m_listView;
     private ListViewAdapter m_adapter;
-    private int m_itemTextRes[] = {R.string.tv_soft_description, R.string.tv_feedback, R.string.tv_version_update};
+    private int m_itemTextRes[] = {/*R.string.tv_soft_description,*/ R.string.tv_feedback, R.string.tv_version_update};
     private final Class<?>[] m_itemActivity = new Class<?>[] { SoftDescriptionUI.class };
     private TextView m_version;
     private ProgressDialog mTipDlg;
@@ -126,16 +126,17 @@ public class About extends BaseActivity {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-            if (pos == 1) {
+            if (pos == 0) {
                 Intent data=new Intent(Intent.ACTION_SENDTO);
                 data.setData(Uri.parse("mailto:help@seetong.com"));
                 data.putExtra(Intent.EXTRA_SUBJECT, "意见反馈");
                 data.putExtra(Intent.EXTRA_TEXT, "");
                 startActivity(data);
-            } else if (pos == 2) {
-                mTipDlg.setTitle(T(R.string.check_new_version_please_wait));
-                mTipDlg.show();
-                checkUpdate();
+            } else if (pos == 1) {
+                //mTipDlg.setTitle(T(R.string.check_new_version_please_wait));
+                //mTipDlg.show();
+                //checkUpdate();
+                toast(R.string.about_update_delay);
             } else {
                 Intent it = new Intent(m_ctx, m_itemActivity[pos]);
                 m_ctx.startActivity(it);

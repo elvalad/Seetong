@@ -823,4 +823,6 @@
     <string name="player_exit_record">Record time is too short, please stop after 10s</string>
     <string name="player_choose_other_dev">The device is playing</string>
 
+    <string name="about_update_delay">Seetong 5.0 update delay</string>
+
 </resources>
