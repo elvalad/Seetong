@@ -49,6 +49,7 @@
     </LinearLayout>
 
     <LinearLayout
+            android:id="@+id/mixRecord"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:orientation="horizontal"
@@ -72,7 +73,18 @@
                 android:layout_height="wrap_content"
                 android:visibility="invisible"/>
     </LinearLayout>
-    
+
+    <TextView
+            android:id="@+id/bandwidth"
+            android:layout_alignBottom="@+id/mixRecord"
+            android:layout_alignLeft="@+id/mixRecord"
+            android:text="0 kb/s"
+            android:textSize="10sp"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     <ImageView
             android:id="@+id/screenShotFlash"
             android:scaleType="fitXY"

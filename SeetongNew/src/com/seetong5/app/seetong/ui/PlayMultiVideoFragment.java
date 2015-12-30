@@ -20,10 +20,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Chronometer;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.*;
 import com.android.audio.AudioPlayer;
 import com.android.opengles.OpenglesRender;
 import com.android.opengles.OpenglesView;
@@ -64,6 +61,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     public static final int MAX_WINDOW_BY_ROW = 2;
     private static boolean bFullScreen = true;
     private boolean bSinglePlay = true;
+    private boolean bShowNetSpeed = false;
     private Animation animation;
     private Map<Integer, LinearLayout> rowLayoutMap = new HashMap<>();
     private Map<Integer, RelativeLayout> layoutMap = new HashMap<>();
@@ -71,6 +69,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     private PointF prePoint = new PointF();
     private PointF curPoint = new PointF();
     private Chronometer[] timer = new Chronometer[4];
+    private TextView bandwidth;
 
     public PlayMultiVideoFragment() {}
 
@@ -156,6 +155,15 @@ public class PlayMultiVideoFragment extends BaseFragment {
             if (!bFullScreen) {
                 setCurrentWindow(e);
             }
+
+            if (bShowNetSpeed) {
+                bShowNetSpeed = false;
+                layoutMap.get(currentIndex).findViewById(R.id.bandwidth).setVisibility(View.GONE);
+            } else {
+                bShowNetSpeed = true;
+                layoutMap.get(currentIndex).findViewById(R.id.bandwidth).setVisibility(View.VISIBLE);
+            }
+
             return false;
         }
 
@@ -287,6 +295,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         for (int i = 0; i < MAX_WINDOW; i++) {
             layoutMap.get(i).setVisibility(View.VISIBLE);
             renderMap.get(i).getSurface().setVisibility(View.VISIBLE);
+            layoutMap.get(i).findViewById(R.id.bandwidth).setVisibility(View.GONE);
         }
     }
 
@@ -1311,6 +1320,11 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 return true;
             case Define.MSG_RECEIVER_MEDIA_FIRST_FRAME:
                 onRecvFirstFrame((PlayerDevice) msg.obj);
+                return true;
+            case Define.MSG_UPDATE_NET_SPEED:
+                String netSpeed = (String) msg.obj;
+                bandwidth = (TextView) layoutMap.get(currentIndex).findViewById(R.id.bandwidth);
+                bandwidth.setText(netSpeed);
                 return true;
         }
 

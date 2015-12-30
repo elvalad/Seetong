@@ -5,7 +5,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.TrafficStats;
 import android.os.*;
+import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -43,6 +45,9 @@ public class PlayerActivity extends BaseActivity {
     private PlayVideoFragment playVideoFragment;
     private PlayMultiVideoFragment multiVideoFragment;
     private int[] viewLocation = new int[4];
+    private long lastTotalRxBytes = 0;
+    private long lastTimeStamp = 0;
+    private Timer timer = new Timer();
 
     private static boolean bPlaying = true;
     private static boolean bSinglePlay = true;
@@ -107,6 +112,7 @@ public class PlayerActivity extends BaseActivity {
             setCurrentFragment("play_video_fragment");
             showPlayVideoFragment();
         }
+        startShowNetSpeed();
     }
 
     @Override
@@ -165,6 +171,7 @@ public class PlayerActivity extends BaseActivity {
     protected void onDestroy() {
         Log.i(PlayerActivity.class.getName(), "onDestroy...");
         LibImpl.getInstance().removeHandler(m_handler);
+        stopShowNetSpeed();
         super.onDestroy();
     }
 
@@ -929,5 +936,41 @@ public class PlayerActivity extends BaseActivity {
             map.put("device", Global.getSelfDeviceList().get(i));
             data.add(map);
         }
+    }
+
+    private void showNetSpeed() {
+        long nowTotalRxBytes = getTotalRxBytes();
+        long nowTimeStamp = System.currentTimeMillis();
+        long speed = ((nowTotalRxBytes - lastTotalRxBytes) * 1000 / (nowTimeStamp - lastTimeStamp));//ºÁÃë×ª»»
+
+        lastTimeStamp = nowTimeStamp;
+        lastTotalRxBytes = nowTotalRxBytes;
+        Message msg = m_handler.obtainMessage();
+        msg.what = Define.MSG_UPDATE_NET_SPEED;
+        msg.obj = String.valueOf(speed) + " kb/s";
+        m_handler.sendMessage(msg);
+    }
+
+    TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            showNetSpeed();
+        }
+    };
+
+    private long getTotalRxBytes() {
+        return TrafficStats.getUidRxBytes(PlayerActivity.m_this.getApplicationInfo().uid) ==
+                TrafficStats.UNSUPPORTED ? 0 :(TrafficStats.getTotalRxBytes() / 1024);
+    }
+
+    public void startShowNetSpeed() {
+        lastTotalRxBytes = getTotalRxBytes();
+        lastTimeStamp = System.currentTimeMillis();
+        timer.schedule(task, 1000, 2000);
+    }
+
+    public void stopShowNetSpeed() {
+        timer.cancel();
+        task.cancel();
     }
 }
