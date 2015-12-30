@@ -154,16 +154,15 @@ public class PlayMultiVideoFragment extends BaseFragment {
         public boolean onSingleTapConfirmed(MotionEvent e) {
             if (!bFullScreen) {
                 setCurrentWindow(e);
-            }
-
-            if (bShowNetSpeed) {
-                bShowNetSpeed = false;
-                layoutMap.get(currentIndex).findViewById(R.id.bandwidth).setVisibility(View.GONE);
             } else {
-                bShowNetSpeed = true;
-                layoutMap.get(currentIndex).findViewById(R.id.bandwidth).setVisibility(View.VISIBLE);
+                if (bShowNetSpeed) {
+                    bShowNetSpeed = false;
+                    layoutMap.get(currentIndex).findViewById(R.id.bandwidth).setVisibility(View.GONE);
+                } else {
+                    bShowNetSpeed = true;
+                    layoutMap.get(currentIndex).findViewById(R.id.bandwidth).setVisibility(View.VISIBLE);
+                }
             }
-
             return false;
         }
 
@@ -296,6 +295,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             layoutMap.get(i).setVisibility(View.VISIBLE);
             renderMap.get(i).getSurface().setVisibility(View.VISIBLE);
             layoutMap.get(i).findViewById(R.id.bandwidth).setVisibility(View.GONE);
+            bShowNetSpeed = false;
         }
     }
 
