@@ -258,6 +258,15 @@ public class LoginActivity extends BaseActivity {
                 @Override
                 public void run() {
                     DeviceInfo devInfo = mDevInfo;
+                    boolean bFirstLogin = Global.m_spu_login.loadBooleanSharedPreference(Define.IS_FIRST_LOGIN, false);
+                    if (bFirstLogin) {
+                        try {
+                            Thread.sleep(3000);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        Global.m_spu_login.saveSharedPreferences(Define.IS_FIRST_LOGIN, false);
+                    }
 
                     final int ret = LibImpl.getInstance().Login(devInfo.getUserName(), devInfo.getUserPassword(), devInfo.getDevIP(), (short) devInfo.getDevPort());
                     if (ret != 0) {

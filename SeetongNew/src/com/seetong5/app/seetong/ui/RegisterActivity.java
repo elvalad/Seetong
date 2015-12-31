@@ -14,7 +14,9 @@ import android.widget.ImageButton;
 
 import android.widget.TextView;
 import com.android.utils.NetworkUtils;
+import com.seetong5.app.seetong.Global;
 import com.seetong5.app.seetong.R;
+import com.seetong5.app.seetong.comm.Define;
 import com.seetong5.app.seetong.sdk.impl.ConstantImpl;
 import com.seetong5.app.seetong.sdk.impl.LibImpl;
 import com.seetong5.app.seetong.ui.ext.CountDownButtonHelper;
@@ -194,6 +196,7 @@ public class RegisterActivity extends BaseActivity {
                                 Intent it = new Intent(RegisterActivity.this, LoginActivity.class);
                                 it.putExtra(Constant.REG_USER_KEY, gStr(R.id.register_user));
                                 it.putExtra(Constant.REG_PASSWORD_KEY, gStr(R.id.register_password));
+                                Global.m_spu_login.saveSharedPreferences(Define.IS_FIRST_LOGIN, true);
                                 startActivity(it);
                                 RegisterActivity.this.finish();
                             } else {

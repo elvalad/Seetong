@@ -85,6 +85,7 @@ public class Define {
     public static final String EXIT_APP_NORMALLY = "exit_app_normally";
     public static final String SAVE_EXIT_DEVICE = "save_exit_device";
     public static final String SAVE_EXIT_WINDOW = "save_exit_window";
+    public static final String IS_FIRST_LOGIN = "is_first_login";
 
     /** xml文件名 */
     public static final String LOGIN_USER_CONFIG_FILE = "lu_config";
