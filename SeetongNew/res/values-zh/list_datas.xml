@@ -63,7 +63,6 @@
         <item>16</item>-->
     </string-array>
     <string-array name="string_ary_alarm_sound_name">
-        <item>无</item>
         <item>报警声音1</item>
         <item>报警声音2</item>
         <item>报警声音3</item>
