@@ -172,6 +172,7 @@ public class PlayerActivity extends BaseActivity {
         Log.i(PlayerActivity.class.getName(), "onDestroy...");
         LibImpl.getInstance().removeHandler(m_handler);
         stopShowNetSpeed();
+        bSlidingOpen = false;
         super.onDestroy();
     }
 
