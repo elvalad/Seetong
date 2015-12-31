@@ -5,6 +5,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -58,6 +59,7 @@ public class ForgetPasswordActivity extends BaseActivity {
     private Timestamp endTime;
     private EditText forgetPwdEditText;
     private TextView passwordStrength;
+    private static final int MSG_GET_VERIFY_CODE_FASE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,6 +200,7 @@ public class ForgetPasswordActivity extends BaseActivity {
             toast(R.string.dlg_network_check_tip);
             return false;
         } else {
+            obtainCheckCodeButton.setEnabled(false);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -210,8 +213,10 @@ public class ForgetPasswordActivity extends BaseActivity {
                     }
 
                     if (iRet != 0) {
+                        sendMessage(MSG_GET_VERIFY_CODE_FASE, 0, 0, null);
                         toast(ConstantImpl.getRegNumberErrText(iRet));
                     } else {
+                        sendMessage(MSG_GET_VERIFY_CODE_FASE, 0, 0, null);
                         startTime = new Timestamp(System.currentTimeMillis());
                         runOnUiThread(new Runnable() {
                             @Override
@@ -328,6 +333,24 @@ public class ForgetPasswordActivity extends BaseActivity {
 
                 }
             }).start();
+        }
+    }
+
+    public void sendMessage(int what, int arg1, int arg2, Object obj) {
+        android.os.Message msg = m_handler.obtainMessage();
+        msg.arg1 = arg1;
+        msg.arg2 = arg2;
+        msg.what = what;
+        msg.obj = obj;
+        m_handler.sendMessage(msg);
+    }
+
+    @Override
+    public void handleMessage(android.os.Message msg) {
+        switch (msg.what) {
+            case MSG_GET_VERIFY_CODE_FASE:
+                obtainCheckCodeButton.setEnabled(true);
+                break;
         }
     }
 }

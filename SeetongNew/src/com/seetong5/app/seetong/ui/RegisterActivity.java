@@ -62,6 +62,7 @@ public class RegisterActivity extends BaseActivity {
     private Timestamp endTime;
     private EditText registerEditPassword;
     private TextView passwordStrength;
+    private static final int MSG_GET_VERIFY_CODE_FASE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -300,19 +301,21 @@ public class RegisterActivity extends BaseActivity {
                 toast(ConstantImpl.getRegNumberErrText(bRet));
                 return false;
             }*/
-
+            obtainCheckCodeButton.setEnabled(false);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                      /* TODO:后续需要区分中文和英文的反馈信息 */
                     int bRet = LibImpl.getInstance().getFuncLib().GetRegNumber(gStr(R.id.register_user), "zh-cn");
                     if (bRet != 0) {
+                        sendMessage(MSG_GET_VERIFY_CODE_FASE, 0, 0, null);
                         if (bRet == SDK_CONSTANT.get_reg_number_error_other) {
                             toast(R.string.register_network_err);
                         } else {
                             toast(ConstantImpl.getRegNumberErrText(bRet));
                         }
                     } else {
+                        sendMessage(MSG_GET_VERIFY_CODE_FASE, 0, 0, null);
                         startTime = new Timestamp(System.currentTimeMillis());
                         runOnUiThread(new Runnable() {
                             @Override
@@ -333,6 +336,24 @@ public class RegisterActivity extends BaseActivity {
             }).start();
         }
         return true;
+    }
+
+    public void sendMessage(int what, int arg1, int arg2, Object obj) {
+        android.os.Message msg = m_handler.obtainMessage();
+        msg.arg1 = arg1;
+        msg.arg2 = arg2;
+        msg.what = what;
+        msg.obj = obj;
+        m_handler.sendMessage(msg);
+    }
+
+    @Override
+    public void handleMessage(android.os.Message msg) {
+        switch (msg.what) {
+            case MSG_GET_VERIFY_CODE_FASE:
+                obtainCheckCodeButton.setEnabled(true);
+                break;
+        }
     }
 }
 
