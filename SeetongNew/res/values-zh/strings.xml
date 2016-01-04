@@ -76,6 +76,7 @@
     <string name="tv_media_param">媒体参数</string>
     <string name="tv_device_config">设备配置</string>
     <string name="tv_soft_description">软件说明</string>
+    <string name="tv_crash_info">崩溃信息</string>
     <string name="tv_version_update">版本更新</string>
     <string name="tv_feedback">意见反馈</string>
     <string name="check_new_version_please_wait">检测新版本，请稍候</string>

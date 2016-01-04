@@ -118,6 +118,10 @@
                 android:screenOrientation="portrait">
         </activity>
 
+        <activity android:name="com.seetong5.app.seetong.ui.CrashInfo"
+                  android:screenOrientation="portrait">
+        </activity>
+
         <activity
                 android:name="com.seetong5.app.seetong.ui.LoginUI2"
                 android:screenOrientation="portrait"

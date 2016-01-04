@@ -10,15 +10,11 @@ import android.content.res.Resources;
 import android.media.AudioManager;
 import android.os.*;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import cn.sharesdk.framework.ShareSDK;
 import com.android.utils.SharePreferenceUtil;
 import com.baidu.android.pushservice.PushManager;
-import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
-import com.seetong5.app.seetong.comm.NetworkUtils;
-import com.seetong5.app.seetong.comm.Tools;
 import com.seetong5.app.seetong.model.*;
 import com.seetong5.app.seetong.sdk.impl.LibImpl;
 import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
@@ -34,7 +30,6 @@ import com.umeng.update.UpdateStatus;
 import ipc.android.sdk.com.Device;
 import ipc.android.sdk.com.TPS_AlarmInfo;
 import ipc.android.sdk.impl.DeviceInfo;
-import ipc.android.sdk.impl.FunclibAgent;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -507,6 +502,11 @@ public class Global {
         if (!(dir.exists())) {
             dir.mkdirs();
         }
+
+        dir = new File(getCrashinfoDir());
+        if (!(dir.exists())) {
+            dir.mkdirs();
+        }
     }
 
     public static String getImageDir() {
@@ -543,6 +543,10 @@ public class Global {
 
     public static String getSnapshotDir() {
         return Define.RootDirPath + "/snapshot";
+    }
+
+    public static String getCrashinfoDir() {
+        return Define.RootDirPath + "/" + m_devInfo.getUserName() + "/crash";
     }
 
     public static void initUmServer() {
@@ -666,6 +670,10 @@ public class Global {
             sb.append(key + "=" + value + "\n");
         }
 
+        Date date = new Date();
+        DateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time = format.format(date);
+        sb.append(time + "\n");
         Writer writer  = new StringWriter();
         PrintWriter printWriter = new PrintWriter(writer);
         ex.printStackTrace(printWriter);
@@ -678,19 +686,11 @@ public class Global {
         String result = writer.toString();
         sb.append(result);
         try {
-            long timestamp = System.currentTimeMillis();
-            String time = formatter.format(new Date());
-            String fileName =  "Seetong-" + "crash-" + time + "-" + timestamp + ".log";
-            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-                String path = "/sdcard/crash/";
-                File dir = new File(path);
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
-                FileOutputStream fos = new FileOutputStream(path + fileName);
-                fos.write(sb.toString().getBytes());
-                fos.close();
-            }
+            String fileName = "crash.log";
+            String path = getCrashinfoDir();
+            FileOutputStream fos = new FileOutputStream(path + "/" +fileName);
+            fos.write(sb.toString().getBytes());
+            fos.close();
             return fileName;
         } catch (Exception e) {
             Log.e(TAG, "Save crash info to file...", e);
