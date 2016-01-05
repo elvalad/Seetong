@@ -172,8 +172,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/big_interval"
-                    android:layout_toRightOf="@+id/tvSerAddress"
+                    android:layout_centerHorizontal="true"
                     android:background="@drawable/n_sel_tb_autoplay"
                     android:textOff=""
                     android:textOn="" />
@@ -203,8 +202,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/big_interval"
-                    android:layout_toRightOf="@+id/tvUserName"
                     android:entries="@array/t_login_modes" />
             </RelativeLayout>
 
@@ -232,8 +229,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/big_interval"
-                    android:layout_toRightOf="@+id/tvRegCode"
                     android:entries="@array/n_Optimizer_types" />
             </RelativeLayout>
 
@@ -260,8 +255,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/big_interval"
-                        android:layout_toRightOf="@+id/tv_in_call_mode"
+                        android:layout_centerHorizontal="true"
                         android:background="@drawable/n_sel_tb_autoplay"
                         android:textOff=""
                         android:textOn="" />
@@ -270,8 +264,8 @@
             <RelativeLayout
                 style="@style/linearTitle"
                 android:layout_height="wrap_content"
-                android:layout_margin="15px"
-                android:layout_marginTop="30px"
+                android:layout_margin="@dimen/small_interval"
+                android:layout_marginTop="@dimen/big_interval"
                 android:background="@color/clear"
                 android:tag="006">
 
@@ -289,8 +283,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/big_interval"
-                    android:layout_toRightOf="@+id/tv_enable_alarm"
+                    android:layout_centerHorizontal="true"
                     android:background="@drawable/n_sel_tb_autoplay"
                     android:textOff=""
                     android:textOn="" />
@@ -326,8 +319,8 @@
             <RelativeLayout
                     style="@style/linearTitle"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15px"
-                    android:layout_marginTop="30px"
+                    android:layout_margin="@dimen/small_interval"
+                    android:layout_marginTop="@dimen/big_interval"
                     android:background="@color/clear"
                     android:tag="006">
 
@@ -345,8 +338,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/big_interval"
-                        android:layout_toRightOf="@+id/tv_show_video_info"
+                        android:layout_centerHorizontal="true"
                         android:background="@drawable/n_sel_tb_autoplay"
                         android:textOff=""
                         android:textOn="" />
@@ -375,8 +367,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/big_interval"
-                        android:layout_toRightOf="@+id/tv_show_alias"
+                        android:layout_centerHorizontal="true"
                         android:background="@drawable/n_sel_tb_autoplay"
                         android:textOff=""
                         android:textOn="" />
@@ -405,8 +396,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/big_interval"
-                        android:layout_toRightOf="@+id/tv_show_devid"
+                        android:layout_centerHorizontal="true"
                         android:background="@drawable/n_sel_tb_autoplay"
                         android:checked="true"
                         android:textOff=""
