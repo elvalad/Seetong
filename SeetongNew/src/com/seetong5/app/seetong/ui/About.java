@@ -32,6 +32,7 @@ public class About extends BaseActivity {
     private final Class<?>[] m_itemActivity = new Class<?>[] { CrashInfo.class ,SoftDescriptionUI.class };
     private TextView m_version;
     private ProgressDialog mTipDlg;
+    private ImageView aboutQrcode;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,15 @@ public class About extends BaseActivity {
     protected void initWidget() {
         mTipDlg = new ProgressDialog(this, "");
         mTipDlg.setCancelable(true);
+
+        aboutQrcode = (ImageView) findViewById(R.id.about_qr_code);
+        aboutQrcode.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                toast("Save seetong qrcode");
+                return false;
+            }
+        });
 
         m_listView = (ListView) findViewById(R.id.lvItems);
         m_adapter = new ListViewAdapter(m_listView.getContext());
