@@ -1016,6 +1016,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         stopVideoSound();
         stopHighDefinition();
         for (int i = 0; i< MAX_WINDOW; i++) {
+            if (i > Global.getDeviceList().size() - 1) break;
             LibImpl.stopPlay(i, this.deviceList.get(i));
             layout = layoutMap.get(i);
             view = layout.findViewById(R.id.liveVideoView);
