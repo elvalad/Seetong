@@ -779,6 +779,7 @@ public class FrontEndRecord extends BaseActivity implements GestureDetector.OnGe
         stopReplay();
         PlayerDevice dev = Global.getDeviceById(m_device_id);
         dev.m_replay = false;
+        LibImpl.getInstance().m_stop_play = false;
         m_glRender.destory();
     }
 
