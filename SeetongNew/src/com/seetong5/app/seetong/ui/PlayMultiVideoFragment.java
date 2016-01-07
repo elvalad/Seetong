@@ -948,7 +948,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                     //Log.i("DeviceNotifyInfo", "DeviceNotifyInfo ary:" + LibImpl.mDeviceNotifyInfo + ".");
                     selfID = (isNullStr(selfID)) ? "" : ("(" + selfID + ")");
                     setVideoInfo(i, ConstantImpl.getTPSErrText(ret, false) + selfID);
-                    toast(ConstantImpl.getTPSErrText(ret, false) + selfID);
+                    //toast(ConstantImpl.getTPSErrText(ret, false) + selfID);
                 }
             } else {
                 setVideoInfo(i, devList.get(i).m_tipInfo);
