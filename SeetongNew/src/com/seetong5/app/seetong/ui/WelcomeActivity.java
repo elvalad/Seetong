@@ -22,6 +22,9 @@ public class WelcomeActivity extends BaseActivity {
     private DeviceInfo mDevInfo = new DeviceInfo();
     private String userName = null;
     private String userPwd = null;
+    private boolean bTimeOut = true;
+    private Thread timeoutThread;
+    private Thread loginThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,21 @@ public class WelcomeActivity extends BaseActivity {
         LibImpl.getInstance().init();
         LibImpl.getInstance().addHandler(m_handler);
         initWidget();
+        timeoutThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(10000);
+                    if (bTimeOut) {
+                        loginThread.interrupt();
+                        sendMessage(0, GO_TO_LOGIN_ACTIVITY, 0, null);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        timeoutThread.start();
     }
 
     @Override
@@ -72,16 +90,19 @@ public class WelcomeActivity extends BaseActivity {
             sendMessage(0, GO_TO_LOGIN_ACTIVITY, 0, null);
         } else {
             Global.m_devInfo = mDevInfo;
-            new Thread(new Runnable() {
+            loginThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     DeviceInfo devInfo = mDevInfo;
                     final int ret = LibImpl.getInstance().Login(devInfo.getUserName(), devInfo.getUserPassword(), devInfo.getDevIP(), (short) devInfo.getDevPort());
+                    bTimeOut = false;
+                    timeoutThread.interrupt();
                     if (ret != 0) {
                         sendMessage(0, GO_TO_LOGIN_ACTIVITY, 0, null);
                     }
                 }
-            }).start();
+            });
+            loginThread.start();
         }
     }
 
