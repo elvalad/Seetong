@@ -39,7 +39,9 @@ public class WelcomeActivity extends BaseActivity {
                 try {
                     Thread.sleep(10000);
                     if (bTimeOut) {
-                        loginThread.interrupt();
+                        if ((null !=  loginThread) && loginThread.isAlive()) {
+                            loginThread.interrupt();
+                        }
                         sendMessage(0, GO_TO_LOGIN_ACTIVITY, 0, null);
                     }
                 } catch (InterruptedException e) {
@@ -65,6 +67,13 @@ public class WelcomeActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         LibImpl.getInstance().removeHandler(m_handler);
+        if ((null !=  loginThread) && loginThread.isAlive()) {
+            loginThread.interrupt();
+        }
+
+        if ((null != timeoutThread) && timeoutThread.isAlive()) {
+            timeoutThread.interrupt();
+        }
     }
 
     private void initWidget() {
@@ -96,7 +105,9 @@ public class WelcomeActivity extends BaseActivity {
                     DeviceInfo devInfo = mDevInfo;
                     final int ret = LibImpl.getInstance().Login(devInfo.getUserName(), devInfo.getUserPassword(), devInfo.getDevIP(), (short) devInfo.getDevPort());
                     bTimeOut = false;
-                    timeoutThread.interrupt();
+                    if ((null != timeoutThread) && timeoutThread.isAlive()) {
+                        timeoutThread.interrupt();
+                    }
                     if (ret != 0) {
                         sendMessage(0, GO_TO_LOGIN_ACTIVITY, 0, null);
                     }
