@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.seetong5.app.seetong.Global;
 import com.seetong5.app.seetong.R;
+import com.seetong5.app.seetong.comm.Define;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengUpdateListener;
@@ -70,7 +71,11 @@ public class About extends BaseActivity {
             @Override
             public boolean onLongClick(View view) {
                 String fileName = "seetong_qrcode.jpg";
-                File file = new File(Global.getImageDir(), fileName);
+                File dir = new File(Define.RootDirPath + "/default/images/");
+                if (!(dir.exists())) {
+                    dir.mkdirs();
+                }
+                File file = new File(dir , fileName);
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.seetong_qrcode);
                 try {
                     FileOutputStream fos = new FileOutputStream(file);
@@ -169,8 +174,9 @@ public class About extends BaseActivity {
                 //checkUpdate();
                 toast(R.string.about_update_delay);
             } else {
-                Intent it = new Intent(m_ctx, m_itemActivity[pos]);
-                m_ctx.startActivity(it);
+                toast(R.string.about_upload_log);
+                //Intent it = new Intent(m_ctx, m_itemActivity[pos]);
+                //m_ctx.startActivity(it);
             }
         }
     }

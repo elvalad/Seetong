@@ -76,7 +76,7 @@
     <string name="tv_media_param">Media Param</string>
     <string name="tv_device_config">Device Config</string>
     <string name="tv_soft_description">Description</string>
-    <string name="tv_crash_info">Crash info</string>
+    <string name="tv_crash_info">Upload log</string>
     <string name="tv_version_update">Version update</string>
     <string name="tv_feedback">Feedback</string>
     <string name="check_new_version_please_wait">The new version is detected , please wait</string>
@@ -825,6 +825,7 @@
     <string name="player_choose_other_dev">The device is playing</string>
 
     <string name="about_update_delay">Seetong 5.0 update delay</string>
+    <string name="about_upload_log">Upload crash log</string>
     <string name="about_save_qrcode">Long click save the qr code</string>
     <string name="about_save_qrcode_tip">Save the qr code to the album</string>
 

@@ -57,15 +57,22 @@
             android:screenOrientation="portrait"
             android:largeHeap="true"
             android:theme="@android:style/Theme.Light.NoTitleBar">
+
         <activity
-                android:name="com.seetong5.app.seetong.ui.LoginActivity"
+                android:name="com.seetong5.app.seetong.ui.WelcomeActivity"
+                android:windowSoftInputMode="stateHidden|adjustPan"
                 android:launchMode="singleTop"
-                android:screenOrientation="portrait"
-                android:windowSoftInputMode="stateHidden|adjustPan">
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+
+        <activity
+                android:name="com.seetong5.app.seetong.ui.LoginActivity"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="stateHidden|adjustPan">
         </activity>
 
         <activity

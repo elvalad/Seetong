@@ -56,7 +56,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
-        LibImpl.getInstance().init();
+        //LibImpl.getInstance().init();
         bHidePassword = true;
         initWidget();
     }

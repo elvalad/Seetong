@@ -76,7 +76,7 @@
     <string name="tv_media_param">媒体参数</string>
     <string name="tv_device_config">设备配置</string>
     <string name="tv_soft_description">软件说明</string>
-    <string name="tv_crash_info">崩溃信息</string>
+    <string name="tv_crash_info">上传日志</string>
     <string name="tv_version_update">版本更新</string>
     <string name="tv_feedback">意见反馈</string>
     <string name="check_new_version_please_wait">检测新版本，请稍候</string>
@@ -823,6 +823,7 @@
     <string name="player_choose_other_dev">该设备已在播放</string>
 
     <string name="about_update_delay">暂时不能更新</string>
+    <string name="about_upload_log">上传崩溃日志</string>
     <string name="about_save_qrcode">长按保存微信公众号二维码</string>
     <string name="about_save_qrcode_tip">保存二维码到相册</string>
 
