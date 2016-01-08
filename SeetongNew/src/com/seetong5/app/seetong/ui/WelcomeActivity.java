@@ -20,8 +20,8 @@ import ipc.android.sdk.impl.DeviceInfo;
 public class WelcomeActivity extends BaseActivity {
     private static final int GO_TO_LOGIN_ACTIVITY = 9000;
     private DeviceInfo mDevInfo = new DeviceInfo();
-    private String userName = null;
-    private String userPwd = null;
+    private String userName = "";
+    private String userPwd = "";
     private boolean bTimeOut = true;
     private Thread timeoutThread;
     private Thread loginThread;
@@ -31,7 +31,6 @@ public class WelcomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         LibImpl.getInstance().init();
-        LibImpl.getInstance().addHandler(m_handler);
         initWidget();
         timeoutThread = new Thread(new Runnable() {
             @Override
@@ -77,10 +76,11 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     private void initWidget() {
+        LibImpl.getInstance().addHandler(m_handler);
         Global.m_loginType = Define.LOGIN_TYPE_USER;
         userName = Global.m_spu_login.loadStringSharedPreference(Define.USR_NAME);
         userPwd = Global.m_spu_login.loadStringSharedPreference(Define.USR_PSW);
-        if ((!"".equals(userName)) && (!"".equals(userPwd))) {
+        if ((null != userName) && (null != userPwd) && (!"".equals(userName)) && (!"".equals(userPwd))) {
             onDefaultLogin();
         } else {
             Message msg = Message.obtain();
