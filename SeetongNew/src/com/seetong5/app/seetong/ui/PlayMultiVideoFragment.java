@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.*;
 import android.media.AudioManager;
 import android.opengl.GLSurfaceView;
@@ -135,16 +136,17 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 return false;
             }
 
-            /* 如果GestureDetector检测到用户向左滑动，则显示上一个设备的视频 */
-            if ((e2.getX() - e1.getX()) > FLING_MOVEMENT_THRESHOLD) {
-                showPreviousDeviceListVideo(playerDevice);
-            }
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                /* 如果GestureDetector检测到用户向左滑动，则显示上一个设备的视频 */
+                if ((e2.getX() - e1.getX()) > FLING_MOVEMENT_THRESHOLD) {
+                    showPreviousDeviceListVideo(playerDevice);
+                }
 
-            /* 如果GestureDetector检测到用户向右滑动，这显示下一个设备的视频 */
-            if ((e1.getX() - e2.getX()) > FLING_MOVEMENT_THRESHOLD) {
-                showNextDeviceListVideo(playerDevice);
+                /* 如果GestureDetector检测到用户向右滑动，这显示下一个设备的视频 */
+                if ((e1.getX() - e2.getX()) > FLING_MOVEMENT_THRESHOLD) {
+                    showNextDeviceListVideo(playerDevice);
+                }
             }
-
             return false;
         }
     }
