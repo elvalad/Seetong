@@ -174,7 +174,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            /*
             if (bFullScreen) {
                 resetCurrentWindow();
                 bFullScreen = false;
@@ -190,7 +189,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                     bFullScreen = true;
                     PlayerActivity.m_this.setSwitchWindowState(true);
                 }
-            }*/
+            }
             return true;
         }
     }
