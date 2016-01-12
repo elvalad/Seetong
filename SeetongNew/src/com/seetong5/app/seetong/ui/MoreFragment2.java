@@ -1,14 +1,19 @@
 package com.seetong5.app.seetong.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import android.widget.EditText;
 import com.baidu.android.pushservice.PushManager;
+import com.seetong5.app.seetong.Config;
 import com.seetong5.app.seetong.Global;
 import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
@@ -23,16 +28,23 @@ import com.seetong5.app.seetong.ui.ext.MyTipDialog;
 public class MoreFragment2 extends BaseFragment {
 
     ProgressDialog mExitTipDlg;
+    private int playSettingState = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         MainActivity2.m_this.setMoreFragment(this);
         View view = inflater.inflate(R.layout.more2, container);
-
+        loadData();
         initWidget(view);
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Config.saveData();
     }
 
     private void initWidget(View view) {
@@ -51,6 +63,14 @@ public class MoreFragment2 extends BaseFragment {
             public void onClick(View v) {
                 Intent intent = new Intent(MoreFragment2.this.getActivity(), SettingUI.class);
                 startActivity(intent);
+            }
+        });
+
+        Button playSettingButton = (Button) view.findViewById(R.id.more_play_setting_button);
+        playSettingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBtnPlaySetting();
             }
         });
 
@@ -82,6 +102,48 @@ public class MoreFragment2 extends BaseFragment {
                 return false;
             }
         });
+    }
+
+    private void loadData() {
+        int bufferSize = Config.m_frame_buffer_size;
+        if (bufferSize == 20) {
+            playSettingState = 0;
+        } else if (bufferSize == 50) {
+            playSettingState = 1;
+        } else {
+            playSettingState = 2;
+        }
+    }
+
+    private void onBtnPlaySetting() {
+        new AlertDialog.Builder(this.getActivity())
+                .setTitle(R.string.more_play_setting)
+                .setSingleChoiceItems(new String[]{
+                        getString(R.string.more_play_setting_low_delay),
+                        getString(R.string.more_play_setting_normal),
+                        getString(R.string.more_play_setting_smooth)}, playSettingState, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                Config.m_frame_buffer_size = 20;
+                                playSettingState = 0;
+                                break;
+                            case 1:
+                                Config.m_frame_buffer_size = 50;
+                                playSettingState = 1;
+                                break;
+                            case 2:
+                                Config.m_frame_buffer_size = 100;
+                                playSettingState = 2;
+                                break;
+                            default:
+                                Config.m_frame_buffer_size = 50;
+                                playSettingState = 1;
+                                break;
+                        }
+                        dialog.dismiss();
+                    }
+                }).show();
     }
 
     private void onBtnLogout() {

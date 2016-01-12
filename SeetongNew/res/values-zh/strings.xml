@@ -798,8 +798,14 @@
     <string name="more_seetong">Seetong</string>
     <string name="more_alarm">报警消息</string>
     <string name="more_setting">系统设置</string>
+    <string name="more_play_setting">播放设置</string>
+    <string name="more_play_setting_low_delay">低延时</string>
+    <string name="more_play_setting_normal">正常</string>
+    <string name="more_play_setting_smooth">流畅</string>
     <string name="more_about">关于我们</string>
     <string name="more_exit">注销</string>
+    <string name="more_sure">确定</string>
+    <string name="more_cancel">取消</string>
 
     <string name="media_picture">图片</string>
     <string name="media_video">录像</string>

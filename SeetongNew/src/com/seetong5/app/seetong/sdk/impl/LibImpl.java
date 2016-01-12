@@ -1311,14 +1311,14 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
 
             //0:视频 1:音频
             //最大缓冲帧数
-            int ret = s_pca.OpenStreamAgent(port, videoParam, videoParam.length, 0, 50);
+            int ret = s_pca.OpenStreamAgent(port, videoParam, videoParam.length, 0, Config.m_frame_buffer_size);
             dev.m_open_video_stream_result = ret;
             Log.i(TAG, "onNvrReplayResp-->OpenStreamAgent, port=" + port + ",videoParam=" + tvp + ",ret=" + ret);
             if (ret != 0) {
                 Log.e(TAG, "onNvrReplayResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",videoParam=" + tvp + ",ret=" + ret);
                 try {
                     Thread.sleep(100);
-                    ret = s_pca.OpenStreamAgent(port, videoParam, videoParam.length, 0, 50);
+                    ret = s_pca.OpenStreamAgent(port, videoParam, videoParam.length, 0, Config.m_frame_buffer_size);
                     dev.m_open_video_stream_result = ret;
                     Log.d(TAG, "onNvrReplayResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",videoParam=" + tvp + ",ret=" + ret);
                     if (ret != 0) {
@@ -2297,14 +2297,14 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
 
             //0:视频 1:音频
             //最大缓冲帧数
-            int ret = s_pca.OpenStreamAgent(port, videoParam, videoParam.length, 0, 50);
+            int ret = s_pca.OpenStreamAgent(port, videoParam, videoParam.length, 0, Config.m_frame_buffer_size);
             dev.m_open_video_stream_result = ret;
             Log.d(TAG, "onMsgRspAddWatch-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",videoParam=" + tvp + ",ret=" + ret);
             if (ret != 0) {
                 Log.e(TAG, "onMsgRspAddWatch-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",videoParam=" + tvp + ",ret=" + ret);
                 try {
                     Thread.sleep(100);
-                    ret = s_pca.OpenStreamAgent(port, videoParam, videoParam.length, 0, 50);
+                    ret = s_pca.OpenStreamAgent(port, videoParam, videoParam.length, 0, Config.m_frame_buffer_size);
                     dev.m_open_video_stream_result = ret;
                     Log.d(TAG, "onMsgRspAddWatch-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",videoParam=" + tvp + ",ret=" + ret);
                     if (ret != 0) {

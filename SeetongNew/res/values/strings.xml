@@ -800,8 +800,14 @@
     <string name="more_seetong">Seetong</string>
     <string name="more_alarm">Alarm Message</string>
     <string name="more_setting">System Settings</string>
+    <string name="more_play_setting">Play Settings</string>
+    <string name="more_play_setting_low_delay">Low delay</string>
+    <string name="more_play_setting_normal">Normal</string>
+    <string name="more_play_setting_smooth">Smooth</string>
     <string name="more_about">About</string>
     <string name="more_exit">Log out</string>
+    <string name="more_sure">Sure</string>
+    <string name="more_cancel">Cancel</string>
 
     <string name="media_picture">Picture</string>
     <string name="media_video">Video</string>

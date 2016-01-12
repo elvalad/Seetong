@@ -80,6 +80,7 @@ public class Define {
     public static final String CFG_SHOW_ALIAS = "cfg_show_alias";
     public static final String CFG_SHOW_DEVID = "cfg_show_devid";
     public static final String POLLING_TIME = "polling_time";
+    public static final String CFG_FRAME_BUFFER_SIZE = "frame_buffer_size";
     public static final String IS_SAVE_DEV_LIST = "is_save_dev_list";
     public static final String DEV_LIST_ORDER = "dev_list_order";
     public static final String EXIT_APP_NORMALLY = "exit_app_normally";
