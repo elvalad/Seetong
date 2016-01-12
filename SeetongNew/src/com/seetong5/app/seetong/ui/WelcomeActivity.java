@@ -133,6 +133,7 @@ public class WelcomeActivity extends BaseActivity {
             case GO_TO_LOGIN_ACTIVITY:
                 Intent intent = new Intent();
                 intent.setClass(WelcomeActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
                 break;
