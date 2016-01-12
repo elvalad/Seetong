@@ -216,6 +216,10 @@ public class PlayerActivity extends BaseActivity {
             setFullScreen(true);
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             setFullScreen(false);
+            if (bSlidingOpen) {
+                slidingHandle.setImageResource(R.drawable.down);
+                playerMainButtonLayout.setVisibility(View.GONE);
+            }
         }
     }
 
