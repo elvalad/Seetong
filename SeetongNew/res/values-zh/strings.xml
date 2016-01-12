@@ -827,4 +827,6 @@
     <string name="about_save_qrcode">长按保存微信公众号二维码</string>
     <string name="about_save_qrcode_tip">保存二维码到相册</string>
 
+    <string name="welcome_topsee">智 能 感 知 互 联 , 人 人 安 心 快 乐</string>
+    <string name="welcome_copyright">Copyright © 2016 Seetong. All rights reserved.</string>
 </resources>
