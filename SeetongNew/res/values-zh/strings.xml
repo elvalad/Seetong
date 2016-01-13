@@ -829,7 +829,10 @@
     <string name="player_choose_other_dev">该设备已在播放</string>
 
     <string name="about_update_delay">暂时不能更新</string>
-    <string name="about_upload_log">上传崩溃日志</string>
+    <string name="about_upload_log_success">上传日志文件成功</string>
+    <string name="about_upload_log_fail">上传日志文件失败</string>
+    <string name="about_upload_log_now">正在上传日志文件</string>
+    <string name="about_no_log">没有日志文件</string>
     <string name="about_save_qrcode">长按保存微信公众号二维码</string>
     <string name="about_save_qrcode_tip">保存二维码到相册</string>
 

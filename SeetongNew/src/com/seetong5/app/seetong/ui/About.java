@@ -17,17 +17,19 @@ import android.widget.*;
 import com.seetong5.app.seetong.Global;
 import com.seetong5.app.seetong.R;
 import com.seetong5.app.seetong.comm.Define;
+import com.seetong5.app.seetong.sdk.impl.LibImpl;
+import com.seetong5.app.seetong.ui.utils.LogcatUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengUpdateListener;
 import com.umeng.update.UpdateResponse;
 import com.umeng.update.UpdateStatus;
+import net.lingala.zip4j.model.ZipParameters;
+import net.lingala.zip4j.util.Zip4jConstants;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
+
 
 /**
  * Created by Administrator on 2014-07-28.
@@ -64,7 +66,7 @@ public class About extends BaseActivity {
 
     protected void initWidget() {
         mTipDlg = new ProgressDialog(this, "");
-        mTipDlg.setCancelable(true);
+        mTipDlg.setCancelable(false);
 
         aboutQrcode = (ImageView) findViewById(R.id.about_qr_code);
         aboutQrcode.setOnLongClickListener(new View.OnLongClickListener() {
@@ -174,10 +176,59 @@ public class About extends BaseActivity {
                 //checkUpdate();
                 toast(R.string.about_update_delay);
             } else {
-                toast(R.string.about_upload_log);
+                mTipDlg.setTitle(T(R.string.about_upload_log_now));
+                mTipDlg.show();
+                try {
+                    uploadLogFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 //Intent it = new Intent(m_ctx, m_itemActivity[pos]);
                 //m_ctx.startActivity(it);
             }
+        }
+    }
+
+    private void uploadLogFile() throws IOException{
+        final String dirName = LogcatUtil.getInstance(Global.m_ctx).getPathLogcat();
+        final String zipFileName = "android_log.zip";
+        final File dir = new File(dirName);
+        if (!dir.exists()) {
+            toast(R.string.about_no_log);
+        } else {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        net.lingala.zip4j.core.ZipFile zipFile = new net.lingala.zip4j.core.ZipFile(dirName + "/" + zipFileName);
+                        ZipParameters parameters = new ZipParameters();
+                        parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
+                        parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
+
+                        File[] files = dir.listFiles();
+                        if (files.length == 0) {
+                            toast(R.string.about_no_log);
+                        }
+
+                        for (File f : files) {
+                            if (!f.getName().equals(zipFileName)) {
+                                zipFile.addFile(f, parameters);
+                            }
+                        }
+
+                        int ret = LibImpl.getInstance().getFuncLib().UploadFile(dirName + "/" + zipFileName, zipFileName);
+                        if (ret == 0) {
+                            toast(R.string.about_upload_log_success);
+                            mTipDlg.dismiss();
+                        } else {
+                            toast(R.string.about_upload_log_fail);
+                            mTipDlg.dismiss();
+                        }
+                    } catch (net.lingala.zip4j.exception.ZipException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
         }
     }
 

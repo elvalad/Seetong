@@ -831,7 +831,10 @@
     <string name="player_choose_other_dev">The device is playing</string>
 
     <string name="about_update_delay">Seetong 5.0 update delay</string>
-    <string name="about_upload_log">Upload crash log</string>
+    <string name="about_upload_log_success">Upload log file success</string>
+    <string name="about_upload_log_fail">Upload log file fail</string>
+    <string name="about_upload_log_now">Upload log file now</string>
+    <string name="about_no_log">No log file</string>
     <string name="about_save_qrcode">Long click save the qr code</string>
     <string name="about_save_qrcode_tip">Save the qr code to the album</string>
 

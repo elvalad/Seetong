@@ -15,10 +15,10 @@ import java.text.SimpleDateFormat;
 public class LogcatUtil {
     private static String SEETONG_LOGCAT_NOW = "seetong_logcat_0.log";
     private static String SEETONG_LOGCAT_PRE = "seetong_logcat_1.log";
-    private String logcatFile = SEETONG_LOGCAT_NOW;
-    private static int MAX_LINE_NUMBER = 50000;
+    private static String logcatFile = SEETONG_LOGCAT_NOW;
+    private static int MAX_LINE_NUMBER = 100000;
     private static LogcatUtil INSTANCE = null;
-    private static String PATH_LOGCAT;
+    private static String PATH_LOGCAT = Define.RootDirPath + "/log";
     private LogDumper mLogDumper = null;
     private int mPid;
 
@@ -94,6 +94,14 @@ public class LogcatUtil {
                 e.printStackTrace();
             }
         }
+    }
+
+    public String getPathLogcat() {
+        return PATH_LOGCAT;
+    }
+
+    public String getLogcatFile() {
+        return logcatFile;
     }
 
     private class LogDumper extends Thread {
