@@ -121,7 +121,7 @@
             <ImageView
                     android:id="@+id/more_play_setting_img"
                     android:layout_marginLeft="20dp"
-                    android:src="@drawable/tps_more_about"
+                    android:src="@drawable/tps_more_play_set"
                     android:layout_width="25dp"
                     android:layout_height="50dp" />
 

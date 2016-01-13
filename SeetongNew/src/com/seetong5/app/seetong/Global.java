@@ -18,6 +18,7 @@ import com.seetong5.app.seetong.comm.Define;
 import com.seetong5.app.seetong.model.*;
 import com.seetong5.app.seetong.sdk.impl.LibImpl;
 import com.seetong5.app.seetong.sdk.impl.PlayerDevice;
+import com.seetong5.app.seetong.ui.utils.LogcatUtil;
 import com.seetong5.service.MainService;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
@@ -399,6 +400,7 @@ public class Global {
                 it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 ctx.startActivity(it);
                 Log.e(TAG, "Thread.setDefaultUncaughtExceptionHandler is fail...end");
+                LogcatUtil.getInstance(m_ctx).stop();
                 android.os.Process.killProcess(android.os.Process.myPid());
             }
         });
@@ -445,6 +447,7 @@ public class Global {
 
         m_spu = new SharePreferenceUtil(m_ctx, Define.SEETONG_CONFIG_FILE);
         m_spu_login = new SharePreferenceUtil(m_ctx, Define.LOGIN_ALL_CONFIG_FILE);
+        LogcatUtil.getInstance(ctx).start();
         LibImpl.getInstance();
         m_alarmMessage = new AlarmMessage();
         Config.loadData();
@@ -460,6 +463,7 @@ public class Global {
         //m_ctx.unbindService(m_conn);
         Intent intent = new Intent(m_ctx, MainService.class);
         //m_ctx.stopService(intent);
+        LogcatUtil.getInstance(m_ctx).stop();
     }
 
     public static void initMain() {
