@@ -702,7 +702,7 @@
     <string name="oss_error_set_replaypos_failed">Setting playback position fails</string>
 
     <string name="get_reg_number_error_param">Phone number or email is not correct</string>
-    <string name="get_reg_number_error_quik">Send interval less than 1 minutes</string>
+    <string name="get_reg_number_error_quik">Try again after 180 seconds</string>
     <string name="get_reg_number_error_sendmsg">Failed to send text messages</string>
     <string name="get_reg_number_error_phonemail_used">User name has used</string>
     <string name="get_reg_number_error_user_not_find">The user account does not exist</string>
