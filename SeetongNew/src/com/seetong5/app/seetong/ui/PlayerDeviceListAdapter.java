@@ -69,7 +69,12 @@ public class PlayerDeviceListAdapter extends BaseAdapter {
         if (null == playerDevice) {
             return view;
         }
-        viewHolder.deviceId.setText(" Id:" + playerDevice.m_dev.getDevId() + " ");
+
+        if (playerDevice.m_dev.getOnLine() != 0) {
+            viewHolder.deviceId.setText(" Id:" + playerDevice.m_dev.getDevId() + " " + PlayerActivity.m_this.getResources().getString(R.string.device_state_on));
+        } else {
+            viewHolder.deviceId.setText(" Id:" + playerDevice.m_dev.getDevId() + " " + PlayerActivity.m_this.getResources().getString(R.string.device_state_off));
+        }
 
         final String devId = playerDevice.m_dev.getDevId();
         String fileName = Global.getSnapshotDir() + "/" + devId + ".jpg";
