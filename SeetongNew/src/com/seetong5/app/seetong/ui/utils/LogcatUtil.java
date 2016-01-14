@@ -171,7 +171,7 @@ public class LogcatUtil {
                             out.close();
                         }
                         try {
-                            out = new FileOutputStream(new File(mDir, "seetong_logcat" + ".log"));
+                            out = new FileOutputStream(new File(mDir, logcatFile));
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
