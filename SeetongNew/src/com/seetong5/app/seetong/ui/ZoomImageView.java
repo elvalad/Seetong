@@ -315,6 +315,7 @@ public class ZoomImageView extends ImageView {
                 translateY = height - scaledHeight;
             }
         }
+
         // 缩放后对图片进行偏移，以保证缩放后中心点位置不变
         matrix.postTranslate(translateX, translateY);
         totalTranslateX = translateX;
@@ -353,7 +354,7 @@ public class ZoomImageView extends ImageView {
             matrix.reset();
             int bitmapWidth = sourceBitmap.getWidth();
             int bitmapHeight = sourceBitmap.getHeight();
-            if (bitmapWidth > width || bitmapHeight > height) {
+            /*if (bitmapWidth > width || bitmapHeight > height)*/ {
                 if (bitmapWidth - width > bitmapHeight - height) {
                     // 当图片宽度大于屏幕宽度时，将图片等比例压缩，使它可以完全显示出来
                     float ratio = width / (bitmapWidth * 1.0f);
@@ -375,7 +376,7 @@ public class ZoomImageView extends ImageView {
                 }
                 currentBitmapWidth = bitmapWidth * initRatio;
                 currentBitmapHeight = bitmapHeight * initRatio;
-            } else {
+            } /*else {
                 // 当图片的宽高都小于屏幕宽高时，直接让图片居中显示
                 float translateX = (width - sourceBitmap.getWidth()) / 2f;
                 float translateY = (height - sourceBitmap.getHeight()) / 2f;
@@ -385,7 +386,7 @@ public class ZoomImageView extends ImageView {
                 totalRatio = initRatio = 1f;
                 currentBitmapWidth = bitmapWidth;
                 currentBitmapHeight = bitmapHeight;
-            }
+            }*/
             canvas.drawBitmap(sourceBitmap, matrix, null);
         }
     }
@@ -417,12 +418,12 @@ public class ZoomImageView extends ImageView {
     }
 
     public void setViewResize() {
-        if (totalRatio == 1.0) {
+        if (totalRatio < 2.5) {
             currentStatus = STATUS_ZOOM_OUT;
             totalRatio = (float) 2.5;
-        } else if (totalRatio > 1.0) {
-            currentStatus = STATUS_INIT;
-            totalRatio = (float) 1.0;
+        } else if (totalRatio >= 2.5) {
+            currentStatus = STATUS_ZOOM_IN;
+            totalRatio = initRatio;
         }
         postInvalidate();
     }
