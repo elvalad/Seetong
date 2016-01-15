@@ -161,8 +161,10 @@ public class LoginActivity extends BaseActivity {
         LibImpl.getInstance().addHandler(m_handler);
         Global.m_loginType = Define.LOGIN_TYPE_USER;
         if (!"".equals(gStr(R.id.login_account)) && !"".equals(gStr(R.id.login_password))) {
-            onBtnLogin();
-            return;
+            boolean bFirstLogin = Global.m_spu_login.loadBooleanSharedPreference(Define.IS_FIRST_LOGIN, false);
+            if (bFirstLogin) {
+                onBtnLogin();
+            }
         }
     }
 
