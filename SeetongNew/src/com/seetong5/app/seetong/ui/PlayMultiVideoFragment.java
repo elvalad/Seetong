@@ -192,6 +192,8 @@ public class PlayMultiVideoFragment extends BaseFragment {
                     PlayerActivity.m_this.setSwitchWindowState(true);
                 }
             }
+
+            showControlPanel();
             return true;
         }
     }
@@ -559,6 +561,20 @@ public class PlayMultiVideoFragment extends BaseFragment {
         LibImpl.stopPlay(currentIndex, deviceList.get(currentIndex));
         deviceList.get(currentIndex).m_video.mIsStopVideo = true;
         deviceList.get(currentIndex).m_video = null;
+    }
+
+    public void showControlPanel() {
+        /*if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (bFullScreen) {
+                layoutMap.get(currentIndex).findViewById(R.id.play_video_control_button).setVisibility(View.VISIBLE);
+            } else {
+                layoutMap.get(currentIndex).findViewById(R.id.play_video_control_button).setVisibility(View.GONE);
+            }
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            for (int i = 0; i < MAX_WINDOW; i++) {
+                layoutMap.get(i).findViewById(R.id.play_video_control_button).setVisibility(View.GONE);
+            }
+        }*/
     }
 
     public void autoCyclePlay() {

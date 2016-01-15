@@ -256,6 +256,7 @@ public class PlayerActivity extends BaseActivity {
         findViewById(R.id.player_operation_button).setVisibility(show);
         findViewById(R.id.player_main_button).setVisibility(show);
         findViewById(R.id.player_sliding_drawer).setVisibility(show);
+        multiVideoFragment.showControlPanel();
         if (bFullScreen) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);

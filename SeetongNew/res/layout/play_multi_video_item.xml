@@ -12,6 +12,43 @@
             android:background="@color/black"/>
 
     <LinearLayout
+            android:id="@+id/play_video_control_button"
+            android:orientation="horizontal"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <Button
+                android:id="@+id/play_video_control_record"
+                android:text="@string/player_record"
+                android:textColor="@color/dark_gray"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <Button
+                android:id="@+id/play_video_control_talk"
+                android:text="@string/player_speak"
+                android:textColor="@color/dark_gray"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <Button
+                android:id="@+id/play_video_control_capture"
+                android:text="@string/player_capture"
+                android:textColor="@color/dark_gray"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
