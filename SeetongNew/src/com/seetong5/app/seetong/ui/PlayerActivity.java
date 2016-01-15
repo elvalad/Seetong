@@ -864,8 +864,10 @@ public class PlayerActivity extends BaseActivity {
         if (bAutoCyclePlaying) return;
         if (currentFragmentName.equals("play_video_fragment")) {
             this.playVideoFragment.startChoosenPlay(choosenDevice);
+            this.playerDevice = choosenDevice;
         } else if (currentFragmentName.equals("play_multi_video_fragment")) {
             this.multiVideoFragment.startChoosenPlay(choosenDevice);
+            this.playerDevice = choosenDevice;
         }
     }
 
