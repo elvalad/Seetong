@@ -97,9 +97,9 @@ public class DeviceListAdapter2 extends BaseAdapter {
         if (Config.m_show_alias && Config.m_show_devid) {
             viewHolder.deviceName.setVisibility(Config.m_show_alias ? View.VISIBLE : View.GONE);
             if (playerDevice.isNVR()) {
-                viewHolder.deviceName.setText(" Name:" + playerDevice.m_dev.getDevGroupName() + " ");
+                viewHolder.deviceName.setText(" " + playerDevice.m_dev.getDevGroupName() + " ");
             } else {
-                viewHolder.deviceName.setText(" Name:" + LibImpl.getInstance().getDeviceAlias(playerDevice.m_dev) + " ");
+                viewHolder.deviceName.setText(" " + LibImpl.getInstance().getDeviceAlias(playerDevice.m_dev) + " ");
             }
             viewHolder.deviceId.setVisibility(Config.m_show_devid ? View.VISIBLE : View.GONE);
             viewHolder.deviceId.setText(" Id:" + playerDevice.m_dev.getDevId() + " ");
