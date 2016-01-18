@@ -31,7 +31,8 @@ public class DeviceListFragment extends BaseFragment {
     public static String TAG = DeviceListFragment.class.getName();
     private List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
     private DeviceListAdapter2 adapter;
-
+    private View view;
+    private ListView listView;
     public static DeviceListFragment newInstance() {
         return new DeviceListFragment();
     }
@@ -41,15 +42,24 @@ public class DeviceListFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.device_list, container, false);
+        view = inflater.inflate(R.layout.device_list, container, false);
 
-        ListView listView = (ListView) view.findViewById(R.id.device_list);
+        listView = (ListView) view.findViewById(R.id.device_list);
 
         getData();
         adapter = new DeviceListAdapter2(MainActivity2.m_this, data);
         listView.setAdapter(adapter);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!listView.isStackFromBottom()) {
+            listView.setStackFromBottom(true);
+        }
+        listView.setStackFromBottom(false);
     }
 
     /* 实际需要从服务器获取的设备相关数据 */
