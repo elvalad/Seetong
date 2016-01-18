@@ -15,6 +15,8 @@
             android:id="@+id/play_video_control_button"
             android:orientation="horizontal"
             android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="20dp"
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -22,29 +24,46 @@
         <Button
                 android:id="@+id/play_video_control_record"
                 android:text="@string/player_record"
-                android:textColor="@color/dark_gray"
+                android:background="@drawable/tps_landscape_play_record_off"
+                android:textColor="@color/white"
+                android:gravity="bottom|center"
+                android:paddingBottom="15dp"
                 android:layout_weight="1"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_width="100dp"
+                android:layout_height="100dp"/>
+
+        <ImageView
+                android:layout_width="100dp"
+                android:layout_height="10dp" />
 
         <Button
                 android:id="@+id/play_video_control_talk"
                 android:text="@string/player_speak"
-                android:textColor="@color/dark_gray"
+                android:background="@drawable/tps_landscape_play_microphone_off"
+                android:textColor="@color/white"
+                android:gravity="bottom|center"
+                android:paddingBottom="15dp"
                 android:layout_weight="1"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_width="100dp"
+                android:layout_height="100dp"/>
+
+        <ImageView
+                android:layout_width="100dp"
+                android:layout_height="10dp" />
 
         <Button
                 android:id="@+id/play_video_control_capture"
                 android:text="@string/player_capture"
-                android:textColor="@color/dark_gray"
+                android:background="@drawable/tps_landscape_play_capture_off"
+                android:textColor="@color/white"
+                android:gravity="bottom|center"
+                android:paddingBottom="15dp"
                 android:layout_weight="1"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_width="100dp"
+                android:layout_height="100dp"/>
 
     </LinearLayout>
 
@@ -113,8 +132,10 @@
 
     <TextView
             android:id="@+id/bandwidth"
-            android:layout_alignBottom="@+id/mixRecord"
-            android:layout_alignLeft="@+id/mixRecord"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:paddingTop="20dp"
+            android:paddingRight="10dp"
             android:text="0 kb/s"
             android:textSize="10sp"
             android:visibility="gone"

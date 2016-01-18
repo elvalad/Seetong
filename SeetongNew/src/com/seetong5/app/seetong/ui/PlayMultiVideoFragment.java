@@ -41,6 +41,7 @@ import ipc.android.sdk.impl.FunclibAgent;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -71,6 +72,11 @@ public class PlayMultiVideoFragment extends BaseFragment {
     private PointF curPoint = new PointF();
     private Chronometer[] timer = new Chronometer[4];
     private TextView bandwidth;
+    private Button playerRecordButton;
+    private Button playerSpeakButton;
+    private Button playerCaptureButton;
+    private Timestamp[] startTime = new Timestamp[4];
+    private Timestamp[] endTime = new Timestamp[4];
 
     public PlayMultiVideoFragment() {}
 
@@ -160,9 +166,15 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 if (bShowNetSpeed) {
                     bShowNetSpeed = false;
                     layoutMap.get(currentIndex).findViewById(R.id.bandwidth).setVisibility(View.GONE);
+                    if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        layoutMap.get(currentIndex).findViewById(R.id.play_video_control_button).setVisibility(View.GONE);
+                    }
                 } else {
                     bShowNetSpeed = true;
                     layoutMap.get(currentIndex).findViewById(R.id.bandwidth).setVisibility(View.VISIBLE);
+                    if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        layoutMap.get(currentIndex).findViewById(R.id.play_video_control_button).setVisibility(View.VISIBLE);
+                    }
                 }
             }
             return false;
@@ -564,17 +576,79 @@ public class PlayMultiVideoFragment extends BaseFragment {
     }
 
     public void showControlPanel() {
-        /*if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             if (bFullScreen) {
                 layoutMap.get(currentIndex).findViewById(R.id.play_video_control_button).setVisibility(View.VISIBLE);
+
+                bShowNetSpeed = true;
+                layoutMap.get(currentIndex).findViewById(R.id.bandwidth).setVisibility(View.VISIBLE);
+
+                playerRecordButton = (Button) layoutMap.get(currentIndex).findViewById(R.id.play_video_control_record);
+                playerRecordButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (getChoosenDevice().m_record) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.add(Calendar.SECOND, -10);
+                            endTime[currentIndex] = new Timestamp(calendar.getTimeInMillis());
+                            if (endTime[currentIndex].before(startTime[currentIndex])) {
+                                toast(R.string.player_exit_record);
+                            } else {
+                                stopVideoRecord();
+                                PlayerActivity.m_this.setRecordState(false);
+                            }
+                        } else {
+                            startVideoRecord();
+                            PlayerActivity.m_this.setRecordState(true);
+                            startTime[currentIndex] = new Timestamp(System.currentTimeMillis());
+                        }
+                    }
+                });
+
+                playerSpeakButton = (Button) layoutMap.get(currentIndex).findViewById(R.id.play_video_control_talk);
+                playerSpeakButton.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                            playerSpeakButton.setBackgroundResource(R.drawable.tps_landscape_play_microphone_on);
+                            startSpeak();
+                        } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                            playerSpeakButton.setBackgroundResource(R.drawable.tps_landscape_play_microphone_off);
+                            stopSpeak();
+                        }
+                        return false;
+                    }
+                });
+
+                playerCaptureButton = (Button) layoutMap.get(currentIndex).findViewById(R.id.play_video_control_capture);
+                playerCaptureButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        videoCapture();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(1500);
+                                    MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_SCREENSHOT_LIST, 0, 0, null);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+                    }
+                });
             } else {
                 layoutMap.get(currentIndex).findViewById(R.id.play_video_control_button).setVisibility(View.GONE);
+
+                bShowNetSpeed = false;
+                layoutMap.get(currentIndex).findViewById(R.id.bandwidth).setVisibility(View.GONE);
             }
         } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             for (int i = 0; i < MAX_WINDOW; i++) {
                 layoutMap.get(i).findViewById(R.id.play_video_control_button).setVisibility(View.GONE);
             }
-        }*/
+        }
     }
 
     public void autoCyclePlay() {
