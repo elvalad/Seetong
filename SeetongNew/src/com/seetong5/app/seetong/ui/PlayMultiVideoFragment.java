@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.*;
 import android.media.AudioManager;
@@ -18,7 +17,6 @@ import android.util.FloatMath;
 import android.util.Log;
 import android.view.*;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.widget.*;
@@ -656,7 +654,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     }
 
     public void startSpeak() {
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+        //getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         stopAllVoice();
         stopAllTalk();
 
@@ -697,7 +695,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
     public void stopSpeak() {
         if (null == chosenPlayerDevice) return;
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        //getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         LibImpl.getInstance().getFuncLib().StopTalkAgent(chosenPlayerDevice.m_dev.getDevId());
         if (Config.m_in_call_mode) Global.m_audioManage.setMode(AudioManager.MODE_IN_CALL);
         if (!chosenPlayerDevice.m_talk) return;
@@ -961,6 +959,21 @@ public class PlayMultiVideoFragment extends BaseFragment {
         toast(R.string.fvu_tip_close_voice);
     }
 
+    private Bitmap convertColorIntoBlackAndWhiteImage(Bitmap orginalBitmap) {
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.setSaturation(0);
+
+        ColorMatrixColorFilter colorMatrixFilter = new ColorMatrixColorFilter(colorMatrix);
+        Bitmap blackAndWhiteBitmap = orginalBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        Paint paint = new Paint();
+        paint.setColorFilter(colorMatrixFilter);
+
+        Canvas canvas = new Canvas(blackAndWhiteBitmap);
+        canvas.drawBitmap(blackAndWhiteBitmap, 0, 0, paint);
+
+        return blackAndWhiteBitmap;
+    }
+
     private void startSinglePlay() {
         RelativeLayout layout = layoutMap.get(currentIndex);
         PlayerDevice dev = deviceList.get(currentIndex);
@@ -969,6 +982,15 @@ public class PlayMultiVideoFragment extends BaseFragment {
         dev.m_video.mIsStopVideo = false;
 
         if (!dev.m_play) {
+            ProgressBar liveVideoWaiting = (ProgressBar) layout.findViewById(R.id.liveVideoWaiting);
+            liveVideoWaiting.setVisibility(View.VISIBLE);
+            ImageView liveVideoBackground = (ImageView) layout.findViewById(R.id.liveVideoBackground);
+            Bitmap bitmap = BitmapFactory.decodeFile(Global.getSnapshotDir() + "/" + dev.m_dev.getDevId() + ".jpg");
+            if (bitmap != null) {
+                liveVideoBackground.setVisibility(View.VISIBLE);
+                liveVideoBackground.setImageBitmap(convertColorIntoBlackAndWhiteImage(bitmap));
+            }
+
             int ret = LibImpl.startPlay(currentIndex, dev, dev.m_stream_type, dev.m_frame_type);
             if (ret == 0) {
                 dev.m_online = true;
@@ -1027,6 +1049,15 @@ public class PlayMultiVideoFragment extends BaseFragment {
             devList.get(i).m_video.mIsStopVideo = false;
 
             if (!devList.get(i).m_play) {
+                ProgressBar liveVideoWaiting = (ProgressBar) layout.findViewById(R.id.liveVideoWaiting);
+                liveVideoWaiting.setVisibility(View.VISIBLE);
+                ImageView liveVideoBackground = (ImageView) layout.findViewById(R.id.liveVideoBackground);
+                Bitmap bitmap = BitmapFactory.decodeFile(Global.getSnapshotDir() + "/" + devList.get(i).m_dev.getDevId() + ".jpg");
+                if (bitmap != null) {
+                    liveVideoBackground.setVisibility(View.VISIBLE);
+                    liveVideoBackground.setImageBitmap(convertColorIntoBlackAndWhiteImage(bitmap));
+                }
+
                 int ret = LibImpl.startPlay(i, devList.get(i), devList.get(i).m_stream_type, devList.get(i).m_frame_type);
                 if (ret == 0) {
                     devList.get(i).m_online = true;
@@ -1822,9 +1853,23 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
     }
 
+    private int getIndexByDeviceID(PlayerDevice dev) {
+        for (int i = 0; i < MAX_WINDOW; i++) {
+            if (dev.equals(deviceList.get(i))) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
     private void onRecvFirstFrame(PlayerDevice dev) {
         if (null == dev || !dev.m_play) return;
         setTipText(dev.m_devId, "");
+        int index = getIndexByDeviceID(dev);
+        ImageView liveVideoBackground = (ImageView) layoutMap.get(index).findViewById(R.id.liveVideoBackground);
+        liveVideoBackground.setVisibility(View.GONE);
+        ProgressBar liveVideoWaiting = (ProgressBar) layoutMap.get(index).findViewById(R.id.liveVideoWaiting);
+        liveVideoWaiting.setVisibility(View.GONE);
     }
 
     private void onAddWatchResp(TPS_AddWachtRsp ts) {
