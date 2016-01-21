@@ -776,11 +776,20 @@ public class FrontEndRecord extends BaseActivity implements GestureDetector.OnGe
     protected void onDestroy() {
         super.onDestroy();
         LibImpl.getInstance().removeHandler(m_handler);
-        stopReplay();
         PlayerDevice dev = Global.getDeviceById(m_device_id);
+        if (dev.m_replay) {
+            stopReplay();
+        }
         dev.m_replay = false;
         LibImpl.getInstance().m_stop_play = false;
         m_glRender.destory();
+    }
+
+    @Override
+    public void onBackPressed() {
+        mTipDlg.dismiss();
+        stopReplay();
+        finish();
     }
 
     @Override
@@ -1091,7 +1100,6 @@ public class FrontEndRecord extends BaseActivity implements GestureDetector.OnGe
         if ("".equals(m_play_file_name)) return;
         PlayerDevice dev = LibImpl.getInstance().getPlayerDevice(PLAY_WND_ID);
         if (null == dev) return;
-
         LibImpl.stopReplay(PLAY_WND_ID, dev, m_play_file_name);
 
         dev.m_view_id = -1;
