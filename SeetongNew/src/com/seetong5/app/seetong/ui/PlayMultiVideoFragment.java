@@ -1451,6 +1451,19 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 bandwidth = (TextView) layoutMap.get(currentIndex).findViewById(R.id.bandwidth);
                 bandwidth.setText(netSpeed);
                 return true;
+            case SDK_CONSTANT.TPS_MSG_P2P_OFFLINE:
+            case SDK_CONSTANT.TPS_MSG_P2P_NVR_OFFLINE:
+            case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_OFFLINE:
+                msgObj = (LibImpl.MsgObject) msg.obj;
+                TPS_NotifyInfo tn = (TPS_NotifyInfo) msgObj.recvObj;
+                String devId = new String(tn.getSzDevId()).trim();
+                for (int i = 0; i < MAX_WINDOW; i++) {
+                    if (devId.equals(deviceList.get(i).getNvrId())) {
+                        layoutMap.get(i).findViewById(R.id.liveVideoBackground).setVisibility(View.GONE);
+                        layoutMap.get(i).findViewById(R.id.liveVideoWaiting).setVisibility(View.GONE);
+                    }
+                }
+                return true;
         }
 
         return false;
