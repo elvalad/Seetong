@@ -25,7 +25,6 @@ import com.seetong5.app.seetong.ui.ext.MyTipDialog;
 import ipc.android.sdk.com.NetSDK_CMD_TYPE;
 import ipc.android.sdk.impl.DeviceInfo;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -57,8 +56,6 @@ public class PlayerActivity extends BaseActivity {
     private static boolean bHighDefinition = false;
     private static boolean bActive = true;
     private static boolean bSlidingOpen = false;
-    private Timestamp[] startTime = new Timestamp[4];
-    private Timestamp[] endTime = new Timestamp[4];
     public ProgressDialog mTipDlg;
     public DeviceInfo m_modifyInfo;
     public boolean m_modifyDefaultPassword = false;
@@ -725,11 +722,10 @@ public class PlayerActivity extends BaseActivity {
 
     private void onVideoRecord() {
         boolean bRet = false;
-        int currentIndex = multiVideoFragment.getCurrentIndex();
-        startTime[currentIndex] = new Timestamp(System.currentTimeMillis());
         if (currentFragmentName.equals("play_video_fragment")) {
             bRet = playVideoFragment.startVideoRecord();
         } else if (currentFragmentName.equals("play_multi_video_fragment")) {
+            multiVideoFragment.initRecordStartTime();
             bRet = multiVideoFragment.startVideoRecord();
         }
 
@@ -741,11 +737,8 @@ public class PlayerActivity extends BaseActivity {
     }
 
     private void offVideoRecord() {
-        int currentIndex = multiVideoFragment.getCurrentIndex();
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.SECOND, -10);
-        endTime[currentIndex] = new Timestamp(calendar.getTimeInMillis());
-        if (endTime[currentIndex].before(startTime[currentIndex])) {
+        multiVideoFragment.initRecordEndTime();
+        if (multiVideoFragment.bRecordShort()) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

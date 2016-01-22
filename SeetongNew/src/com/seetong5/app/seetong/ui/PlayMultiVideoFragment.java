@@ -573,6 +573,23 @@ public class PlayMultiVideoFragment extends BaseFragment {
         deviceList.get(currentIndex).m_video = null;
     }
 
+    public void initRecordStartTime() {
+        startTime[currentIndex] = new Timestamp(System.currentTimeMillis());
+    }
+
+    public void initRecordEndTime() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.SECOND, -10);
+        endTime[currentIndex] = new Timestamp(calendar.getTimeInMillis());
+    }
+
+    public boolean bRecordShort() {
+        if (endTime[currentIndex].before(startTime[currentIndex])) {
+            return true;
+        }
+        return false;
+    }
+
     public void showControlPanel() {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             if (bFullScreen) {
@@ -586,9 +603,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                     @Override
                     public void onClick(View view) {
                         if (getChoosenDevice().m_record) {
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.add(Calendar.SECOND, -10);
-                            endTime[currentIndex] = new Timestamp(calendar.getTimeInMillis());
+                            initRecordEndTime();
                             if (endTime[currentIndex].before(startTime[currentIndex])) {
                                 toast(R.string.player_exit_record);
                             } else {
@@ -598,7 +613,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                         } else {
                             startVideoRecord();
                             PlayerActivity.m_this.setRecordState(true);
-                            startTime[currentIndex] = new Timestamp(System.currentTimeMillis());
+                            initRecordStartTime();
                         }
                     }
                 });
