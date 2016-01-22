@@ -1453,7 +1453,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 return true;
             case SDK_CONSTANT.TPS_MSG_P2P_OFFLINE:
             case SDK_CONSTANT.TPS_MSG_P2P_NVR_OFFLINE:
-            case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_OFFLINE:
                 msgObj = (LibImpl.MsgObject) msg.obj;
                 TPS_NotifyInfo tn = (TPS_NotifyInfo) msgObj.recvObj;
                 String devId = new String(tn.getSzDevId()).trim();
@@ -1461,6 +1460,19 @@ public class PlayMultiVideoFragment extends BaseFragment {
                     if (devId.equals(deviceList.get(i).getNvrId())) {
                         layoutMap.get(i).findViewById(R.id.liveVideoBackground).setVisibility(View.GONE);
                         layoutMap.get(i).findViewById(R.id.liveVideoWaiting).setVisibility(View.GONE);
+                        layoutMap.get(i).findViewById(R.id.liveVideoView).setBackgroundColor(Color.BLACK);
+                    }
+                }
+                return true;
+            case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_OFFLINE:
+                msgObj = (LibImpl.MsgObject) msg.obj;
+                tn = (TPS_NotifyInfo) msgObj.recvObj;
+                devId = new String(tn.getSzDevId()).trim();
+                for (int i = 0; i < MAX_WINDOW; i++) {
+                    if (devId.equals(deviceList.get(i).m_devId)) {
+                        layoutMap.get(i).findViewById(R.id.liveVideoBackground).setVisibility(View.GONE);
+                        layoutMap.get(i).findViewById(R.id.liveVideoWaiting).setVisibility(View.GONE);
+                        layoutMap.get(i).findViewById(R.id.liveVideoView).setBackgroundColor(Color.BLACK);
                     }
                 }
                 return true;

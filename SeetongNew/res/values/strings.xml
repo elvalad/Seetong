@@ -838,6 +838,6 @@
     <string name="about_save_qrcode">Long click save the qr code</string>
     <string name="about_save_qrcode_tip">Save the qr code to the album</string>
 
-    <string name="welcome_topsee">Welcome Seetong</string>
+    <string name="welcome_topsee">Welcome to Seetong</string>
     <string name="welcome_copyright">Copyright © 2016 Seetong. All rights reserved.</string>
 </resources>
