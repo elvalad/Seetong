@@ -827,6 +827,7 @@
     <string name="player_auto_play_off">关闭自动循环播放</string>
     <string name="player_exit_record">录像时间太短，请10秒之后再停止</string>
     <string name="player_choose_other_dev">该设备已在播放</string>
+    <string name="player_p2p_forward">网络环境差，不能使用主码流</string>
 
     <string name="about_update_delay">暂时不能更新</string>
     <string name="about_upload_log_success">上传日志文件成功</string>

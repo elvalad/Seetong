@@ -770,6 +770,14 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
     }
 
+    public boolean bP2pForward() {
+        String debugMsg = chosenPlayerDevice.m_tipTinfo2;
+        if (debugMsg.contains("L9") || debugMsg.contains("R9")) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean startHighDefinition() {
         if (null == chosenPlayerDevice) {
             return false;

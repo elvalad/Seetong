@@ -829,6 +829,7 @@
     <string name="player_auto_play_off">Turn off auto Patrol Play</string>
     <string name="player_exit_record">Record time is too short, please stop after 10s</string>
     <string name="player_choose_other_dev">The device is playing</string>
+    <string name="player_p2p_forward">Network environment is poor, can not use the main stream</string>
 
     <string name="about_update_delay">Seetong 5.0 update delay</string>
     <string name="about_upload_log_success">Upload log file success</string>
