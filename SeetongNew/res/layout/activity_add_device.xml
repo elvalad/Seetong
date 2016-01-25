@@ -52,7 +52,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"/>
 
-                <com.seetong5.app.seetong.ui.ext.RegexpEditText
+                <com.seetong.app.seetong.ui.ext.RegexpEditText
                         android:id="@+id/device_add_id"
                         android:layout_marginLeft="60dp"
                         android:background="@null"
@@ -92,7 +92,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"/>
 
-                <com.seetong5.app.seetong.ui.ext.RegexpEditText
+                <com.seetong.app.seetong.ui.ext.RegexpEditText
                         android:id="@+id/device_add_account"
                         android:layout_marginLeft="60dp"
                         android:background="@null"
@@ -134,7 +134,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"/>
 
-                <com.seetong5.app.seetong.ui.ext.RegexpEditText
+                <com.seetong.app.seetong.ui.ext.RegexpEditText
                         android:id="@+id/device_add_password"
                         android:layout_marginLeft="60dp"
                         android:background="@null"

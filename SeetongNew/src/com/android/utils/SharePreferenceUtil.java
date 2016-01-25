@@ -2,7 +2,7 @@ package com.android.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import com.seetong5.app.seetong.comm.Define;
+import com.seetong.app.seetong.comm.Define;
 
 import java.util.List;
 import java.util.Map;

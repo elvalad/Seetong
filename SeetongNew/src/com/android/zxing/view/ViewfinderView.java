@@ -24,7 +24,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import com.android.zxing.camera.CameraManager;
 import com.google.zxing.ResultPoint;
-import com.seetong5.app.seetong.R;
+import com.seetong.app.seetong.R;
 
 import java.util.Collection;
 import java.util.HashSet;

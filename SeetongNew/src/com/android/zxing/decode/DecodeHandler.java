@@ -25,7 +25,7 @@ import com.android.zxing.camera.CameraManager;
 import com.android.zxing.camera.PlanarYUVLuminanceSource;
 import com.google.zxing.*;
 import com.google.zxing.common.HybridBinarizer;
-import com.seetong5.app.seetong.R;
+import com.seetong.app.seetong.R;
 
 import java.util.Hashtable;
 

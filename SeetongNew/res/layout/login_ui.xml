@@ -63,7 +63,7 @@
             android:padding="10dp"
             android:visibility="visible">
 
-            <com.seetong5.app.seetong.ui.aid.ClearEditText
+            <com.seetong.app.seetong.ui.aid.ClearEditText
                 android:id="@+id/etUserName"
                 style="@style/etNodeSetting"
                 android:drawableLeft="@drawable/imgleft_user"
@@ -73,7 +73,7 @@
                 android:includeFontPadding="false"
                 android:maxLength="@integer/user_name_max_length" />
 
-            <com.seetong5.app.seetong.ui.aid.ClearEditText
+            <com.seetong.app.seetong.ui.aid.ClearEditText
                 android:id="@+id/etUserPassword"
                 style="@style/etNodeSetting"
                 android:layout_below="@+id/etUserName"

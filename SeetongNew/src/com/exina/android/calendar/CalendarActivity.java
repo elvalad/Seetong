@@ -24,7 +24,7 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.seetong5.app.seetong.R;
+import com.seetong.app.seetong.R;
 
 public class CalendarActivity extends Activity  implements CalendarView.OnCellTouchListener{
 	public static final String MIME_TYPE = "vnd.android.cursor.dir/vnd.exina.android.calendar.date";

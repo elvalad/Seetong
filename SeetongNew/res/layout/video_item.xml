@@ -20,7 +20,7 @@
             android:layout_centerInParent="true"
             android:background="@drawable/add_camera"/>
 
-    <com.seetong5.app.seetong.ui.aid.MarqueeTextView
+    <com.seetong.app.seetong.ui.aid.MarqueeTextView
             android:id="@+id/tvMsgInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
             android:textSize="12sp"
             android:textColor="#ffffff"
             android:visibility="gone"/>
-    <com.seetong5.app.seetong.ui.aid.MarqueeTextView
+    <com.seetong.app.seetong.ui.aid.MarqueeTextView
             android:id="@+id/tvLiveInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

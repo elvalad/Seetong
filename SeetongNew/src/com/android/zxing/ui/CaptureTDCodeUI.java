@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.view.SurfaceHolder.Callback;
 import com.android.zxing.decode.CaptureActivity;
 import com.google.zxing.Result;
-import com.seetong5.app.seetong.ui.MainActivity2;
+import com.seetong.app.seetong.ui.MainActivity2;
 
 /**
  * @author dswitkin@google.com (Daniel Switkin)

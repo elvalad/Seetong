@@ -28,7 +28,7 @@ import android.util.AttributeSet;
 import android.util.MonthDisplayHelper;
 import android.view.MotionEvent;
 import android.widget.ImageView;
-import com.seetong5.app.seetong.R;
+import com.seetong.app.seetong.R;
 
 public class CalendarView extends ImageView {
     private static int WEEK_TOP_MARGIN = 74;

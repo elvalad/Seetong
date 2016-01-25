@@ -49,7 +49,7 @@
                     android:textColor="#008214"
                     android:textSize="@dimen/tvNodeSettingFontSize" />
 
-                <com.seetong5.app.seetong.ui.aid.ClearEditText
+                <com.seetong.app.seetong.ui.aid.ClearEditText
                     android:id="@+id/etWifiName"
                     style="@style/etNodeSetting"
                     android:layout_centerVertical="true"
@@ -104,7 +104,7 @@
                         android:textColor="#008214"
                         android:textSize="@dimen/tvNodeSettingFontSize" />
 
-                    <com.seetong5.app.seetong.ui.aid.ClearEditText
+                    <com.seetong.app.seetong.ui.aid.ClearEditText
                         android:id="@+id/etSerPort"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -137,7 +137,7 @@
                         android:textColor="#008214"
                         android:textSize="@dimen/tvNodeSettingFontSize" />
 
-                    <com.seetong5.app.seetong.ui.aid.ClearEditText
+                    <com.seetong.app.seetong.ui.aid.ClearEditText
                         android:id="@+id/etWifiPwd"
                         style="@style/etNodeSetting"
                         android:layout_centerVertical="true"
@@ -150,7 +150,7 @@
                         android:text="">
 
                         <requestFocus />
-                    </com.seetong5.app.seetong.ui.aid.ClearEditText>
+                    </com.seetong.app.seetong.ui.aid.ClearEditText>
                 </RelativeLayout>
 
                 <RelativeLayout

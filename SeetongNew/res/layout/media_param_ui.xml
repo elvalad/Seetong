@@ -86,7 +86,7 @@
                     android:layout_marginLeft="@dimen/big_interval"
                     android:layout_weight="1"
                     android:visibility="gone"/>
-                <com.seetong5.app.seetong.ui.ext.IntegerEditText
+                <com.seetong.app.seetong.ui.ext.IntegerEditText
                     android:id="@+id/txt_i_frame_interval"
                     style="@style/media_param_ui_edit_text"
                     android:layout_marginLeft="@dimen/big_interval"
@@ -110,7 +110,7 @@
                     android:layout_marginLeft="@dimen/big_interval"
                     android:layout_weight="1"
                     android:visibility="gone"/>
-                <com.seetong5.app.seetong.ui.ext.IntegerEditText
+                <com.seetong.app.seetong.ui.ext.IntegerEditText
                     android:id="@+id/txt_bit_rate"
                     style="@style/media_param_ui_edit_text"
                     android:layout_marginLeft="@dimen/big_interval"

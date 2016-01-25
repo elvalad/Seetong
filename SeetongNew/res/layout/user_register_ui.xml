@@ -42,7 +42,7 @@
                     android:textColor="#008214"
                     android:textSize="@dimen/tvNodeSettingFontSize" />
 
-                <com.seetong5.app.seetong.ui.aid.ClearEditText
+                <com.seetong.app.seetong.ui.aid.ClearEditText
                     android:id="@+id/etUserName"
                     style="@style/etNodeSetting"
                     android:layout_centerVertical="true"
@@ -74,7 +74,7 @@
                     android:textColor="#008214"
                     android:textSize="@dimen/tvNodeSettingFontSize" />
 
-                <com.seetong5.app.seetong.ui.aid.ClearEditText
+                <com.seetong.app.seetong.ui.aid.ClearEditText
                     android:id="@+id/etUserPwd"
                     style="@style/etNodeSetting"
                     android:layout_centerVertical="true"
@@ -106,7 +106,7 @@
                     android:textColor="#008214"
                     android:textSize="@dimen/tvNodeSettingFontSize" />
 
-                <com.seetong5.app.seetong.ui.aid.ClearEditText
+                <com.seetong.app.seetong.ui.aid.ClearEditText
                     android:id="@+id/etConfigPwd"
                     style="@style/etNodeSetting"
                     android:layout_centerVertical="true"
@@ -138,7 +138,7 @@
                     android:textColor="#008214"
                     android:textSize="@dimen/tvNodeSettingFontSize" />
 
-                <com.seetong5.app.seetong.ui.aid.ClearEditText
+                <com.seetong.app.seetong.ui.aid.ClearEditText
                     android:id="@+id/etEmail"
                     style="@style/etNodeSetting"
                     android:layout_centerVertical="true"
@@ -170,7 +170,7 @@
                     android:textColor="#008214"
                     android:textSize="@dimen/tvNodeSettingFontSize" />
 
-                <com.seetong5.app.seetong.ui.aid.ClearEditText
+                <com.seetong.app.seetong.ui.aid.ClearEditText
                     android:id="@+id/etPhone"
                     style="@style/etNodeSetting"
                     android:layout_centerVertical="true"
@@ -209,7 +209,7 @@
                     android:textColor="#008214"
                     android:textSize="@dimen/tvNodeSettingFontSize" />
 
-                <com.seetong5.app.seetong.ui.aid.ClearEditText
+                <com.seetong.app.seetong.ui.aid.ClearEditText
                     android:id="@+id/etRegCode"
                     style="@style/etNodeSetting"
                     android:gravity="center_vertical"

@@ -55,7 +55,7 @@
                 android:textSize="@dimen/add_device_text_size"
                 android:textColor="@color/add_device_item_label"/>
 
-            <com.seetong5.app.seetong.ui.ext.RegexpEditText
+            <com.seetong.app.seetong.ui.ext.RegexpEditText
                 android:id="@+id/txt_ip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
                 android:textSize="@dimen/add_device_text_size"
                 android:textColor="@color/add_device_item_label"/>
 
-            <com.seetong5.app.seetong.ui.ext.IntegerEditText
+            <com.seetong.app.seetong.ui.ext.IntegerEditText
                 android:id="@+id/txt_ptz_port"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
                     android:textSize="@dimen/add_device_text_size"
                     android:textColor="@color/add_device_item_label"/>
 
-            <com.seetong5.app.seetong.ui.ext.IntegerEditText
+            <com.seetong.app.seetong.ui.ext.IntegerEditText
                     android:id="@+id/txt_video_port"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -154,7 +154,7 @@
                 android:textSize="@dimen/add_device_text_size"
                 android:textColor="@color/add_device_item_label"/>
 
-            <com.seetong5.app.seetong.ui.ext.RegexpEditText
+            <com.seetong.app.seetong.ui.ext.RegexpEditText
                 android:id="@+id/txt_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -185,7 +185,7 @@
                 android:textSize="@dimen/add_device_text_size"
                 android:textColor="@color/add_device_item_label"/>
 
-            <com.seetong5.app.seetong.ui.ext.RegexpEditText
+            <com.seetong.app.seetong.ui.ext.RegexpEditText
                 android:id="@+id/txt_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

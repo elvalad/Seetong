@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.seetong5.app.seetong.ui.ZoomImageView
+<com.seetong.app.seetong.ui.ZoomImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/zoom_image_view"
         android:scaleType="fitXY"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#000000" >
-</com.seetong5.app.seetong.ui.ZoomImageView>
+</com.seetong.app.seetong.ui.ZoomImageView>

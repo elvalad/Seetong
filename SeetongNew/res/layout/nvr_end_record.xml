@@ -44,7 +44,7 @@
                     android:layout_gravity="center"
                     android:background="@drawable/play"/>
         </FrameLayout>
-        <com.seetong5.app.seetong.ui.aid.MarqueeTextView
+        <com.seetong.app.seetong.ui.aid.MarqueeTextView
                 android:id="@+id/tvLiveInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

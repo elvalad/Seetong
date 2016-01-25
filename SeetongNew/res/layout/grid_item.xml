@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
 
-    <com.seetong5.app.seetong.ui.MyImageView
+    <com.seetong.app.seetong.ui.MyImageView
         android:id="@+id/grid_item"
         android:scaleType="fitXY"
         android:layout_width="fill_parent"

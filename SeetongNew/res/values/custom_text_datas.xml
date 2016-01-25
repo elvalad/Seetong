@@ -2,7 +2,7 @@
 <resources>
 
     <!-- MainUI -->
-    <string name="app_name">Seetong5</string>
+    <string name="app_name">Seetong</string>
     <string name="tv_main_ui_title">Seetong</string>
     <!-- helpUI -->
     <string name="tv_help_wizard">Seetong V1.0 User Manual</string>
