@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.seetong.app.seetong"
-          android:versionCode="74"
+          android:versionCode="100"
           android:versionName="5.1.0_20160125_001">
 
     <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="22"/>
@@ -48,7 +48,7 @@
             android:glEsVersion="0x20000"
             android:required="true"/>
     <application
-            android:name="com.seetong.app.seetong.ui.App"
+            android:name=".ui.App"
             android:allowBackup="true"
             android:configChanges="locale"
             android:label="@string/app_name"
@@ -59,7 +59,7 @@
             android:theme="@android:style/Theme.Light.NoTitleBar">
 
         <activity
-                android:name="com.seetong.app.seetong.ui.WelcomeActivity"
+                android:name=".ui.WelcomeActivity"
                 android:windowSoftInputMode="stateHidden|adjustPan"
                 android:launchMode="singleTop"
                 android:screenOrientation="portrait">
@@ -70,76 +70,76 @@
         </activity>
 
         <activity
-                android:name="com.seetong.app.seetong.ui.LoginActivity"
+                android:name=".ui.LoginActivity"
                 android:screenOrientation="portrait"
                 android:windowSoftInputMode="stateHidden|adjustPan">
         </activity>
 
         <activity
-                android:name="com.seetong.app.seetong.ui.MainActivity2"
+                android:name=".ui.MainActivity2"
                 android:screenOrientation="portrait">
         </activity>
 
         <activity
-                android:name="com.seetong.app.seetong.ui.RegisterActivity"
+                android:name=".ui.RegisterActivity"
                 android:screenOrientation="portrait">
         </activity>
 
         <activity
-                android:name="com.seetong.app.seetong.ui.AlarmActivity"
+                android:name=".ui.AlarmActivity"
                 android:screenOrientation="portrait">
         </activity>
 
         <activity
-                android:name="com.seetong.app.seetong.ui.AboutActivity"
+                android:name=".ui.AboutActivity"
                 android:screenOrientation="portrait">
         </activity>
 
         <activity
-                android:name="com.seetong.app.seetong.ui.SettingActivity"
+                android:name=".ui.SettingActivity"
                 android:screenOrientation="portrait">
         </activity>
 
         <activity
-                android:name="com.seetong.app.seetong.ui.PlayerActivity"
+                android:name=".ui.PlayerActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
 
         <activity
-                android:name="com.seetong.app.seetong.ui.AddDeviceActivity"
+                android:name=".ui.AddDeviceActivity"
                 android:screenOrientation="portrait">
         </activity>
 
         <activity
-                android:name="com.seetong.app.seetong.ui.GalleryActivity"
+                android:name=".ui.GalleryActivity"
                 android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
 
         <activity
-                android:name="com.seetong.app.seetong.ui.ForgetPasswordActivity"
+                android:name=".ui.ForgetPasswordActivity"
                 android:screenOrientation="portrait">
         </activity>
 
         <activity
-                android:name="com.seetong.app.seetong.ui.PlayerSettingActivity"
+                android:name=".ui.PlayerSettingActivity"
                 android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name="com.seetong.app.seetong.ui.CrashInfo"
+        <activity android:name=".ui.CrashInfo"
                   android:screenOrientation="portrait">
         </activity>
 
         <activity
-                android:name="com.seetong.app.seetong.ui.LoginUI2"
+                android:name=".ui.LoginUI2"
                 android:screenOrientation="portrait"
                 android:configChanges="orientation|keyboardHidden|screenSize"
                 android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
-                android:name="com.seetong.app.seetong.ui.UserRegisterUI"
+                android:name=".ui.UserRegisterUI"
                 android:configChanges="orientation|keyboardHidden|screenSize"
                 android:windowSoftInputMode="stateHidden"/>
         <activity
-                android:name="com.seetong.app.seetong.ui.UserRegisterUI2"
+                android:name=".ui.UserRegisterUI2"
                 android:configChanges="orientation|keyboardHidden|screenSize"
                 android:windowSoftInputMode="stateHidden"/>
         <activity
@@ -147,101 +147,101 @@
                 android:screenOrientation="portrait"
                 android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
-                android:name="com.seetong.app.seetong.ui.WifiEtcUI"
+                android:name=".ui.WifiEtcUI"
                 android:configChanges="orientation|keyboardHidden|screenSize"
                 android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.AddDeviceUI"
+        <activity android:name=".ui.AddDeviceUI"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
         <activity
-                android:name="com.seetong.app.seetong.ui.ScanQRCode"
+                android:name=".ui.ScanQRCode"
                 android:configChanges="orientation|keyboardHidden"
                 android:screenOrientation="portrait"
                 android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                 android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
-        <activity android:name="com.seetong.app.seetong.ui.DeviceConfigUI"
+        <activity android:name=".ui.DeviceConfigUI"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.MediaParamUI"
+        <activity android:name=".ui.MediaParamUI"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.PlaySettingUI"
+        <activity android:name=".ui.PlaySettingUI"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.AlarmSettingUI"
+        <activity android:name=".ui.AlarmSettingUI"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.MotionDetectUI"
+        <activity android:name=".ui.MotionDetectUI"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.ImageFlipUI"
+        <activity android:name=".ui.ImageFlipUI"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.SettingUI"
+        <activity android:name=".ui.SettingUI"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.Message"
+        <activity android:name=".ui.Message"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.AlarmMessageUI"
+        <activity android:name=".ui.AlarmMessageUI"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.StorageSettingUI"
+        <activity android:name=".ui.StorageSettingUI"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.ChatMessage"
+        <activity android:name=".ui.ChatMessage"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.ChatAddVideo"
+        <activity android:name=".ui.ChatAddVideo"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.NvrRecord"
+        <activity android:name=".ui.NvrRecord"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
 
 
         <activity
-                android:name="com.seetong.app.seetong.ui.AddDevice"
+                android:name=".ui.AddDevice"
                 android:configChanges="orientation|keyboardHidden|screenSize"
                 android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.ImageFile"
+        <activity android:name=".ui.ImageFile"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.ImageFile2"
+        <activity android:name=".ui.ImageFile2"
                   android:screenOrientation="sensor"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.VideoFile"
+        <activity android:name=".ui.VideoFile"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.Settings"
+        <activity android:name=".ui.Settings"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.Help"
+        <activity android:name=".ui.Help"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.About"
+        <activity android:name=".ui.About"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.SoftDescriptionUI"
+        <activity android:name=".ui.SoftDescriptionUI"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.Wizard"
+        <activity android:name=".ui.Wizard"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.FrontEndRecord"
+        <activity android:name=".ui.FrontEndRecord"
                   android:screenOrientation="sensor"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.CloudEndRecord"
+        <activity android:name=".ui.CloudEndRecord"
                   android:screenOrientation="sensor"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.CloudEndDownload"
+        <activity android:name=".ui.CloudEndDownload"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.seetong.app.seetong.ui.TimeZoneUI"
+        <activity android:name=".ui.TimeZoneUI"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden">
             <!--<intent-filter>
@@ -322,7 +322,7 @@
 
         <!--微信分享回调 -->
         <activity
-                android:name="com.seetong.app.seetong.wxapi.WXEntryActivity"
+                android:name=".wxapi.WXEntryActivity"
                 android:theme="@android:style/Theme.Translucent.NoTitleBar"
                 android:configChanges="keyboardHidden|orientation|screenSize"
                 android:exported="true"
