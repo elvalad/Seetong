@@ -3,14 +3,18 @@ package com.seetong.app.seetong.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import android.widget.TextView;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
+import com.seetong.app.seetong.ui.aid.ClearEditText;
 import com.umeng.analytics.MobclickAgent;
 import ipc.android.sdk.com.SDK_CONSTANT;
 
@@ -32,6 +36,10 @@ public class DeviceFragment2 extends BaseFragment {
     private DeviceListFragment deviceListFragment;
     private BaseFragment currentFragment;
     private ProgressDialog mTipDlg;
+    private ImageButton deviceAddButton;
+    private ClearEditText searchText;
+    private TextView deviceText;
+    private ImageButton searchButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,7 +80,7 @@ public class DeviceFragment2 extends BaseFragment {
      * 初始化此 Fragment 中的基本组件.
      */
     private void initWidget(final View view) {
-        ImageButton deviceAddButton = (ImageButton) view.findViewById(R.id.device_add);
+        deviceAddButton = (ImageButton) view.findViewById(R.id.device_add);
         deviceAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,6 +90,52 @@ public class DeviceFragment2 extends BaseFragment {
                 startActivityForResult(intent, Constant.ADD_DEVICE_REQ_ID);
             }
         });
+
+        searchText = (ClearEditText) view.findViewById(R.id.etSearchDevice);
+        deviceText = (TextView) view.findViewById(R.id.device_list_text);
+        searchButton = (ImageButton) view.findViewById(R.id.device_search);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchText.setVisibility(View.VISIBLE);
+                deviceText.setVisibility(View.GONE);
+                searchButton.setVisibility(View.GONE);
+            }
+        });
+
+        searchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                searchTextChanged(s, start, before, count);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private void searchTextChanged(CharSequence s, int start, int before, int count) {
+        if (s != null && s.length() > 0) {
+            if (deviceListFragment != null) {
+                deviceListFragment.showSearchDeviceList(s);
+            }
+        } else {
+            if (deviceListFragment != null) {
+                deviceListFragment.showDeviceList();
+            }
+
+            searchText.setVisibility(View.GONE);
+            deviceText.setVisibility(View.VISIBLE);
+            searchButton.setVisibility(View.VISIBLE);
+            MainActivity2.m_this.hideInputPanel(null);
+        }
     }
 
     @Override

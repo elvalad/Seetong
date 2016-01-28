@@ -9,14 +9,44 @@
             android:layout_width="match_parent"
             android:layout_height="50dp">
 
+        <com.seetong.app.seetong.ui.aid.ClearEditText
+                android:id="@+id/etSearchDevice"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="45dp"
+                android:drawableLeft="@drawable/imgleft_search"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:layout_centerVertical="true"
+                android:hint="@string/et_form_search_device"
+                android:includeFontPadding="false"
+                android:maxLength="20"
+                android:visibility="gone"
+                android:singleLine="true"
+                android:textSize="12sp"/>
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/device_list_text"
                 android:text="@string/device_device_list"
                 android:textSize="20sp"
                 android:textColor="@color/green"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true" />
+
+        <ImageButton
+                android:id="@+id/device_search"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="#00000000"
+                android:scaleType="fitXY"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="50dp"
+                android:src="@drawable/device_list_search"/>
 
         <ImageButton
                 android:layout_width="20dp"

@@ -30,9 +30,12 @@ import java.util.Map;
 public class DeviceListFragment extends BaseFragment {
     public static String TAG = DeviceListFragment.class.getName();
     private List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+    private List<Map<String, Object>> searchData = new ArrayList<>();
     private DeviceListAdapter2 adapter;
+    private DeviceListAdapter2 searchAdapter;
     private View view;
     private ListView listView;
+    private ListView searchListView;
     public static DeviceListFragment newInstance() {
         return new DeviceListFragment();
     }
@@ -77,6 +80,39 @@ public class DeviceListFragment extends BaseFragment {
             map.put("device_num", i);
             data.add(map);
         }
+    }
+
+    private void getSearchData(CharSequence s) {
+        searchData.clear();
+        for (int i = 0; i < Global.getDeviceList().size(); i++) {
+            HashMap<String, Object> map = new HashMap<>();
+            PlayerDevice dev = Global.getSortedDeviceList().get(i);
+            String devID = dev.m_dev.getDevId();
+            String devAlias = LibImpl.getInstance().getDeviceAlias(dev.m_dev);
+            if (devID != null && (devID.contains(s) || devAlias.contains(s))) {//匹配设备ID和别名
+                map.put("device", dev);
+                map.put("device_image", R.drawable.tps_list_nomsg);
+                map.put("device_state", R.string.device_state_off);
+                map.put("device_name", "Device " + i);
+                map.put("device_num", i);
+                searchData.add(map);
+            }
+        }
+    }
+
+    public void showSearchDeviceList(CharSequence s) {
+        searchListView = (ListView) view.findViewById(R.id.device_search_list);
+        getSearchData(s);
+        searchAdapter = new DeviceListAdapter2(MainActivity2.m_this, searchData);
+        searchListView.setAdapter(searchAdapter);
+        searchAdapter.notifyDataSetChanged();
+        searchListView.setVisibility(View.VISIBLE);
+        listView.setVisibility(View.GONE);
+    }
+
+    public void showDeviceList() {
+        searchListView.setVisibility(View.GONE);
+        listView.setVisibility(View.VISIBLE);
     }
 
     public boolean handleMessage(android.os.Message msg) {
