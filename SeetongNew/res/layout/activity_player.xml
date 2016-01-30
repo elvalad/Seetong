@@ -22,6 +22,18 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_centerVertical="true"/>
+
+        <ImageButton
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/player_fullscreen"
+                android:src="@drawable/tps_show_fullscreen_on"
+                android:background="#00000000"
+                android:scaleType="fitXY"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="25dp" />
     </RelativeLayout>
 
     <!--<RelativeLayout

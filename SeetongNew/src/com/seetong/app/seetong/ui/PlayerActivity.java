@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.TrafficStats;
 import android.os.*;
@@ -11,6 +12,7 @@ import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.OrientationEventListener;
 import android.view.View;
 
 import android.view.WindowManager;
@@ -61,7 +63,14 @@ public class PlayerActivity extends BaseActivity {
     public boolean m_modifyDefaultPassword = false;
     public PlayerDevice m_modifyUserPwdDev = null;
 
+    private OrientationEventListener mOrientationListener;
+    private boolean mIsLand = false; // 是否是横屏
+    private boolean mClick = false; // 是否点击
+    private boolean mClickLand = true; // 点击进入横屏
+    private boolean mClickPort = true; // 点击进入竖屏
+
     private ImageButton playerBackButton;
+    private ImageButton playerFullScreenButton;
     private ImageButton playerStopButton;
     private ImageButton playerSwitchWindowButton;
     private ImageButton playerCycleButton;
@@ -110,6 +119,7 @@ public class PlayerActivity extends BaseActivity {
             showPlayVideoFragment();
         }
         startShowNetSpeed();
+        startListener();
     }
 
     @Override
@@ -175,6 +185,11 @@ public class PlayerActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            return;
+        }
+
         MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, null);
         Global.riseToTop(playerDevice);
         PlayerActivity.this.finish();
@@ -218,6 +233,51 @@ public class PlayerActivity extends BaseActivity {
                 playerMainButtonLayout.setVisibility(View.GONE);
             }
         }
+    }
+
+    private final void startListener() {
+        mOrientationListener = new OrientationEventListener(this) {
+            @Override
+            public void onOrientationChanged(int rotation) {
+                // 设置竖屏
+                if (((rotation >= 0) && (rotation <= 30)) || (rotation >= 330)) {
+                    if (mClick) {
+                        if (mIsLand && !mClickLand) {
+                            return;
+                        } else {
+                            mClickPort = true;
+                            mClick = false;
+                            mIsLand = false;
+                        }
+                    } else {
+                        if (mIsLand) {
+                            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                            mIsLand = false;
+                            mClick = false;
+                        }
+                    }
+                }
+                // 设置横屏
+                else if (((rotation >= 230) && (rotation <= 310))) {
+                    if (mClick) {
+                        if (!mIsLand && !mClickPort) {
+                            return;
+                        } else {
+                            mClickLand = true;
+                            mClick = false;
+                            mIsLand = true;
+                        }
+                    } else {
+                        if (!mIsLand) {
+                            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                            mIsLand = true;
+                            mClick = false;
+                        }
+                    }
+                }
+            }
+        };
+        mOrientationListener.enable();
     }
 
     public void onWindowFocusChanged (boolean hasFocus){
@@ -341,6 +401,23 @@ public class PlayerActivity extends BaseActivity {
                         bAutoCyclePlaying = false;
                         handler.removeCallbacks(autoPlayThread);
                     }
+                }
+            }
+        });
+
+        playerFullScreenButton = (ImageButton) findViewById(R.id.player_fullscreen);
+        playerFullScreenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mClick = true;
+                if (!mIsLand) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    mIsLand = true;
+                    mClickLand = false;
+                } else {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    mIsLand = false;
+                    mClickPort = false;
                 }
             }
         });
