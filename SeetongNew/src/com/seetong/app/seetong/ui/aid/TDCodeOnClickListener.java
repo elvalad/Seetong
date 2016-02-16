@@ -2,8 +2,10 @@ package com.seetong.app.seetong.ui.aid;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import com.android.zxing.ui.CaptureTDCodeUI;
 import com.custom.etc.EtcInfo;
+import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.ui.BaseActivity;
 import ipc.android.sdk.impl.DeviceInfo;
 
@@ -39,16 +41,38 @@ public class TDCodeOnClickListener {
 	 * 检测二维码的合法性<br>
 	 * 样品如：p2p://admin:123456@100111.s1.seetong.com<br>
 	 * @param codeText
-	 * @return
+	 * @return boolean
 	 */
 	public boolean isRightCode(String codeText){
 		boolean isOK = false;
 		if(!BaseActivity.isNullStr(codeText)){
-			isOK = codeText.contains(CODE_HEAD_STRING) && codeText.contains("@");
+            if (isNewRightCode(codeText)) {
+                /* 需要调用解码函数使用解码后的数据 */
+                String encCode[] = codeText.split("=");
+                String decCode = LibImpl.getInstance().getFuncLib().GetDecData(encCode[1]);
+                isOK = decCode.contains(CODE_HEAD_STRING) && decCode.contains("@");
+            } else {
+                isOK = codeText.contains(CODE_HEAD_STRING) && codeText.contains("@");
+            }
 		}
 		return isOK;
 	}
-	
+
+    /**
+     * 检测是否是新的二维码
+     * 例如:http://nvr.seetong.com/q.php?s=Kj0000hxlBiCrRpM3q4n6t94daiRoOoPsygFkHomo5u2
+     * 需要将s字符之后的字符串解码
+     * @param codeText
+     * @return boolean
+     * */
+    public boolean isNewRightCode(String codeText) {
+        boolean isOk = false;
+        if (!BaseActivity.isNullStr(codeText)) {
+            isOk = codeText.contains("q.php?s=");
+        }
+        return isOk;
+    }
+
 	/**
 	 * 解析二维码数据
 	 * @param codeText
@@ -56,8 +80,15 @@ public class TDCodeOnClickListener {
 	 */
 	public DeviceInfo getDevInfoByCode(String codeText){
 		DeviceInfo devInfo = null;
-		if(isRightCode(codeText)){
-			String code = codeText.trim().replaceAll(CODE_HEAD_STRING, "");
+        if(isRightCode(codeText)){
+            String code;
+            if (isNewRightCode(codeText)) {
+                String encCode[] = codeText.split("=");
+                String decCode = LibImpl.getInstance().getFuncLib().GetDecData(encCode[1]);
+                code = decCode.trim().replaceAll(CODE_HEAD_STRING, "");
+            } else {
+                code = codeText.trim().replaceAll(CODE_HEAD_STRING, "");
+            }
 			String[] ary = code.split("@");
 			if(ary != null && ary.length == 2){
 				String nameOrpwd = ary[0];
