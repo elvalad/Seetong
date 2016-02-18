@@ -948,6 +948,11 @@ public class PlayerActivity extends BaseActivity {
     }
 
     public int[] getFragmentLocation() {
+        View view = findViewById(R.id.player_fragment_container);
+        viewLocation[0] = view.getLeft();
+        viewLocation[1] = view.getRight();
+        viewLocation[2] = view.getTop();
+        viewLocation[3] = view.getBottom();
         return viewLocation;
     }
 
