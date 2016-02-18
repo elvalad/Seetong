@@ -569,7 +569,7 @@ public class PlayerActivity extends BaseActivity {
                     return;
                 }
 
-                if (multiVideoFragment.bP2pForward()) {
+                if (multiVideoFragment.bCurSubStream() && multiVideoFragment.bP2pForward()) {
                     toast(R.string.player_p2p_forward);
                     return;
                 }

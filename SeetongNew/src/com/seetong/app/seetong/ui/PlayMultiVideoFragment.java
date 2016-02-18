@@ -778,6 +778,14 @@ public class PlayMultiVideoFragment extends BaseFragment {
         return false;
     }
 
+    public boolean bCurSubStream() {
+        if (chosenPlayerDevice.m_stream_type == Define.SUB_STREAM_TYPE) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean startHighDefinition() {
         if (null == chosenPlayerDevice) {
             return false;
