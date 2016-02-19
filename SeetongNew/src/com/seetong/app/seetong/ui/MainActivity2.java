@@ -142,6 +142,7 @@ public class MainActivity2 extends BaseActivity {
         device.setContent(R.id.fragment_device);
         device.setIndicator(deviceTabView);
         tabHost.addTab(device);
+        setCurrentFragment("device");
 
         mediaTabView = getLayoutInflater().inflate(R.layout.tab_widget2, null);
         mediaTabView.findViewById(R.id.id_image_view).setBackgroundResource(R.drawable.tps_tab_media_off);

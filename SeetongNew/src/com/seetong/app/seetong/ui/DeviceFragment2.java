@@ -40,6 +40,7 @@ public class DeviceFragment2 extends BaseFragment {
     private ClearEditText searchText;
     private TextView deviceText;
     private ImageButton searchButton;
+    public boolean bShowSearchText = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +53,22 @@ public class DeviceFragment2 extends BaseFragment {
         initWidget(view);
 
         return view;
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (bShowSearchText) {
+            if (deviceListFragment != null) {
+                deviceListFragment.showDeviceList();
+            }
+            searchText.setText("");
+            searchText.setVisibility(View.GONE);
+            deviceText.setVisibility(View.VISIBLE);
+            searchButton.setVisibility(View.VISIBLE);
+            bShowSearchText = false;
+            return true;
+        }
+        return super.onBackPressed();
     }
 
     public void onResume() {
@@ -100,6 +117,7 @@ public class DeviceFragment2 extends BaseFragment {
                 searchText.setVisibility(View.VISIBLE);
                 deviceText.setVisibility(View.GONE);
                 searchButton.setVisibility(View.GONE);
+                bShowSearchText = true;
             }
         });
 
@@ -135,6 +153,7 @@ public class DeviceFragment2 extends BaseFragment {
             deviceText.setVisibility(View.VISIBLE);
             searchButton.setVisibility(View.VISIBLE);
             MainActivity2.m_this.hideInputPanel(null);
+            bShowSearchText = false;
         }
     }
 
