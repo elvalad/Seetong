@@ -230,6 +230,16 @@ public class DeviceFragment2 extends BaseFragment {
                     deviceListFragment.handleMessage(msg);
                     break;
                 case Define.MSG_UPDATE_DEV_LIST:
+                    if (bShowSearchText) {
+                        if (deviceListFragment != null) {
+                            deviceListFragment.showDeviceList();
+                        }
+                        searchText.setText("");
+                        searchText.setVisibility(View.GONE);
+                        deviceText.setVisibility(View.VISIBLE);
+                        searchButton.setVisibility(View.VISIBLE);
+                        bShowSearchText = false;
+                    }
                     deviceListFragment.handleMessage(msg);
                     break;
                 case SDK_CONSTANT.TPS_MSG_P2P_CONNECT_OK:
