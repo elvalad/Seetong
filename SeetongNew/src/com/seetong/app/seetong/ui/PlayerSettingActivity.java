@@ -191,6 +191,9 @@ public class PlayerSettingActivity extends BaseActivity {
                     } catch (NoSuchFieldException | IllegalAccessException e) {
                         e.printStackTrace();
                     }
+
+                    if (mTipDlg.isShowing()) mTipDlg.dismiss();
+                    toast(R.string.md_error_name_null);
                     return;
                 }
 
@@ -266,6 +269,9 @@ public class PlayerSettingActivity extends BaseActivity {
                     } catch (NoSuchFieldException | IllegalAccessException e) {
                         e.printStackTrace();
                     }
+
+                    if (mTipDlg.isShowing()) mTipDlg.dismiss();
+                    toast(R.string.md_error_name_null);
                     return;
                 }
 
