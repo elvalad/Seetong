@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.seetong.app.seetong.Config;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
+import com.seetong.app.seetong.model.Device;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
 
@@ -93,10 +94,23 @@ public class DeviceListAdapter2 extends BaseAdapter {
             viewHolder.deviceState.setBackgroundResource(R.drawable.tps_list_offline);
         }
 
+        /* 针对NVR设备修改通道别名做特殊处理，将NVR设备的通道别名存在本地数据库
+         * 临时以Ip字段存储设备id作为设备标识，以user字段存储本地设备别名  */
+        List<Device> list = Device.findAll();
+        Device device = new Device();
+        for (int i = 0; i < list.size(); i++) {
+            if (playerDevice.m_devId.equals(list.get(i).getIp())) {
+                device = list.get(i);
+            }
+        }
         if (Config.m_show_alias && Config.m_show_devid) {
             viewHolder.deviceName.setVisibility(Config.m_show_alias ? View.VISIBLE : View.GONE);
             if (playerDevice.isNVR()) {
-                viewHolder.deviceName.setText(" " + playerDevice.m_dev.getDevGroupName() + " ");
+                if (device != null && device.getUser() != null) {
+                    viewHolder.deviceName.setText(" " + device.getUser() + " ");
+                } else {
+                    viewHolder.deviceName.setText(" " + playerDevice.m_dev.getDevGroupName() + " ");
+                }
             } else {
                 viewHolder.deviceName.setText(" " + LibImpl.getInstance().getDeviceAlias(playerDevice.m_dev) + " ");
             }
@@ -105,7 +119,11 @@ public class DeviceListAdapter2 extends BaseAdapter {
         } else {
             viewHolder.deviceName.setVisibility(Config.m_show_alias ? View.VISIBLE : View.GONE);
             if (playerDevice.isNVR()) {
-                viewHolder.deviceName.setText(playerDevice.m_dev.getDevGroupName() + " ");
+                if (device != null && device.getUser() != null) {
+                    viewHolder.deviceName.setText(" " + device.getUser() + " ");
+                } else {
+                    viewHolder.deviceName.setText(playerDevice.m_dev.getDevGroupName() + " ");
+                }
             } else {
                 viewHolder.deviceName.setText(LibImpl.getInstance().getDeviceAlias(playerDevice.m_dev) + " ");
             }

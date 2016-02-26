@@ -14,6 +14,7 @@ import android.widget.*;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
+import com.seetong.app.seetong.model.Device;
 import com.seetong.app.seetong.sdk.impl.ConstantImpl;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
@@ -281,11 +282,19 @@ public class PlayerSettingActivity extends BaseActivity {
                     @Override
                     public void run() {
                         int enterTypes = Global.m_loginType;
-                        int ret = LibImpl.getInstance().saveDeviceAlias(playerDevice.getNvrId(), value, enterTypes);
+                        /*int ret = LibImpl.getInstance().saveDeviceAlias(playerDevice.getNvrId(), value, enterTypes);
                         if (ret != 0) {
                             toast(ConstantImpl.getModifyDevNameErrText(ret));
                             return;
-                        }
+                        }*/
+
+                        Device device = new Device();
+                        device.setIp(playerDevice.m_devId);
+                        device.setPtzPort(0);
+                        device.setVideoPort(0);
+                        device.setUser(value);
+                        device.setPwd("");
+                        device.save();
 
                         if (mTipDlg.isShowing()) mTipDlg.dismiss();
                         Intent it = new Intent(self, PlayerActivity.class);
