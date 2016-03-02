@@ -679,7 +679,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
 
         TPS_AddWachtRsp rsp = chosenPlayerDevice.m_add_watch_rsp;
-        if (null == rsp) {
+        if (null == rsp || !chosenPlayerDevice.m_first_frame) {
             toast(R.string.tv_video_wait_video_stream_tip);
             return;
         }
@@ -729,7 +729,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
     public void videoCapture() {
         TPS_AddWachtRsp rsp = chosenPlayerDevice.m_add_watch_rsp;
-        if (null == rsp) {
+        if (null == rsp || !chosenPlayerDevice.m_first_frame) {
             toast(R.string.tv_video_wait_video_stream_tip);
             return;
         }
@@ -812,7 +812,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
 
         TPS_AddWachtRsp rsp = chosenPlayerDevice.m_add_watch_rsp;
-        if (null == rsp) {
+        if (null == rsp || !chosenPlayerDevice.m_first_frame) {
             toast(R.string.tv_video_wait_video_stream_tip);
             return false;
         }
@@ -930,7 +930,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
 
         TPS_AddWachtRsp rsp = chosenPlayerDevice.m_add_watch_rsp;
-        if (null == rsp) {
+        if (null == rsp || !chosenPlayerDevice.m_first_frame) {
             toast(R.string.tv_video_wait_video_stream_tip);
             return false;
         }
