@@ -777,7 +777,7 @@
     <string name="main_more">More</string>
 
     <string name="device_device_list">Device list</string>
-    <string name="device_no_msg">No message</string>
+    <string name="device_no_msg">Device list is empty</string>
     <string name="device_state_on">Online</string>
     <string name="device_state_off">Offline</string>
     <string name="device_list_name_text">Device name</string>

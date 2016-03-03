@@ -21,7 +21,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/device_no_msg"
                 android:layout_marginTop="20dp"
-                android:textSize="40sp"
+                android:textSize="30sp"
                 android:textColor="@color/gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

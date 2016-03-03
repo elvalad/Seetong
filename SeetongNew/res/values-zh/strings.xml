@@ -775,7 +775,7 @@
     <string name="main_more">更多</string>
 
     <string name="device_device_list">设备列表</string>
-    <string name="device_no_msg">暂无消息</string>
+    <string name="device_no_msg">设备列表为空</string>
     <string name="device_state_on">在线</string>
     <string name="device_state_off">离线</string>
     <string name="device_list_name_text">设备名字</string>
