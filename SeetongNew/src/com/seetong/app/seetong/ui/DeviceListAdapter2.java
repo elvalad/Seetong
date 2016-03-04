@@ -31,6 +31,7 @@ public class DeviceListAdapter2 extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private List<Map<String, Object>> data;
+    private List<Device> list = Device.findAll();
 
     private class ViewHolder {
         public ImageButton deviceChooseButton;
@@ -96,7 +97,6 @@ public class DeviceListAdapter2 extends BaseAdapter {
 
         /* 针对NVR设备修改通道别名做特殊处理，将NVR设备的通道别名存在本地数据库
          * 临时以Ip字段存储设备id作为设备标识，以user字段存储本地设备别名  */
-        List<Device> list = Device.findAll();
         Device device = new Device();
         for (int i = 0; i < list.size(); i++) {
             if (playerDevice.m_devId.equals(list.get(i).getIp())) {
@@ -177,6 +177,7 @@ public class DeviceListAdapter2 extends BaseAdapter {
 
     public void updateDeviceAlias(PlayerDevice dev) {
         if (null == dev) return;
+        list = Device.findAll();
         notifyDataSetChanged();
     }
 
