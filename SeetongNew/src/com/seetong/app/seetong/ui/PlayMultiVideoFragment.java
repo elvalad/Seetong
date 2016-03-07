@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
 import android.util.FloatMath;
 import android.util.Log;
+import android.util.Pair;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -75,6 +76,11 @@ public class PlayMultiVideoFragment extends BaseFragment {
     private Button playerCaptureButton;
     private Timestamp[] startTime = new Timestamp[4];
     private Timestamp[] endTime = new Timestamp[4];
+    private static final String PTZ_CMD_LEFT = "left";
+    private static final String PTZ_CMD_RIGHT = "right";
+    private static final String PTZ_CMD_UP = "up";
+    private static final String PTZ_CMD_DOWN = "down";
+    private static final int PTZ_SPEED = 5;
 
     public PlayMultiVideoFragment() {}
 
@@ -149,6 +155,33 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 /* 如果GestureDetector检测到用户向右滑动，这显示下一个设备的视频 */
                 if ((e1.getX() - e2.getX()) > FLING_MOVEMENT_THRESHOLD) {
                     showNextDeviceListVideo(playerDevice);
+                }
+            } else {
+                if (bFullScreen) {
+                    if (!hasPtz(chosenPlayerDevice)) {
+                        toast(R.string.tv_not_support_ptz_control_tip);
+                        return false;
+                    }
+
+                    if ((e2.getX() - e1.getX()) > FLING_MOVEMENT_THRESHOLD) {
+                        //toast(R.string.tv_ptz_left);
+                        onPtzControl(PTZ_CMD_LEFT);
+                    }
+
+                    if ((e1.getX() - e2.getX()) > FLING_MOVEMENT_THRESHOLD) {
+                        //toast(R.string.tv_ptz_right);
+                        onPtzControl(PTZ_CMD_RIGHT);
+                    }
+
+                    if ((e2.getY() - e1.getY()) > FLING_MOVEMENT_THRESHOLD) {
+                        //toast(R.string.tv_ptz_up);
+                        onPtzControl(PTZ_CMD_UP);
+                    }
+
+                    if ((e1.getY() - e2.getY()) > FLING_MOVEMENT_THRESHOLD) {
+                        //toast(R.string.tv_ptz_down);
+                        onPtzControl(PTZ_CMD_DOWN);
+                    }
                 }
             }
             return false;
@@ -1970,4 +2003,47 @@ public class PlayMultiVideoFragment extends BaseFragment {
         if (!TextUtils.isEmpty(reserver)) _msg += "(" + reserver + ")";
         setVideoInfo(devID, _msg);
     }
+
+    private boolean hasPtz(PlayerDevice dev) {
+        // 设备支持云台且在播放中才显示云台文本提示
+        if (null == dev || null == dev.m_dev || !dev.m_playing) return false;
+        //if (dev.m_dev.getWithPTZ() == 1) return true;
+        return dev.is_ptz_control();
+    }
+
+    private void onPtzControl(String ptzCmd) {
+        Pair<String, String> pair;
+        String ptzXml = null;
+        String ptzMsg = null;
+        switch (ptzCmd) {
+            case PTZ_CMD_LEFT:
+                ptzMsg = T(R.string.tv_ptz_left);
+                ptzXml = new TPS_PtzInfo(SDK_CONSTANT.PTZ_LEFT, PTZ_SPEED, PTZ_SPEED).toXMLString();
+                break;
+            case PTZ_CMD_RIGHT:
+                ptzMsg = T(R.string.tv_ptz_right);
+                ptzXml = new TPS_PtzInfo(SDK_CONSTANT.PTZ_RIGHT, PTZ_SPEED, PTZ_SPEED).toXMLString();
+                break;
+            case PTZ_CMD_UP:
+                ptzMsg = T(R.string.tv_ptz_up);
+                ptzXml = new TPS_PtzInfo(SDK_CONSTANT.PTZ_UP, PTZ_SPEED, PTZ_SPEED).toXMLString();
+                break;
+            case PTZ_CMD_DOWN:
+                ptzMsg = T(R.string.tv_ptz_down);
+                ptzXml = new TPS_PtzInfo(SDK_CONSTANT.PTZ_DOWN, PTZ_SPEED, PTZ_SPEED).toXMLString();
+                break;
+            default:
+                break;
+        }
+
+        pair = new Pair<>(ptzMsg, ptzXml);
+        if (!isNullStr(pair.second)) {
+            LibImpl.getInstance().getFuncLib().PTZActionAgent(chosenPlayerDevice.m_dev.getDevId(), pair.second);
+        }
+
+        if (!isNullStr(pair.first)) {
+            setTipText(chosenPlayerDevice.m_dev.getDevId(), pair.first);
+        }
+    }
+
 }

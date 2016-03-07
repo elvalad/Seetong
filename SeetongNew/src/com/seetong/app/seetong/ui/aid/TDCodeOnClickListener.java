@@ -2,7 +2,6 @@ package com.seetong.app.seetong.ui.aid;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import com.android.zxing.ui.CaptureTDCodeUI;
 import com.custom.etc.EtcInfo;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
