@@ -20,6 +20,7 @@ public class TDCodeOnClickListener {
 	
 	public static final int TD_CODE_REQ_ID = 0x1FFF;
 	private final String CODE_HEAD_STRING = "p2p://";
+    private final String TEXT_SPLIT_STRING = "q\\.php\\?s=";
 	private TDCodeInterface mCodeInterface;
 	
 	public TDCodeOnClickListener(TDCodeInterface td) {
@@ -47,7 +48,7 @@ public class TDCodeOnClickListener {
 		if(!BaseActivity.isNullStr(codeText)){
             if (isNewRightCode(codeText)) {
                 /* 需要调用解码函数使用解码后的数据 */
-                String encCode[] = codeText.split("=");
+                String encCode[] = codeText.split(TEXT_SPLIT_STRING);
                 String decCode = LibImpl.getInstance().getFuncLib().GetDecData(encCode[1]);
                 isOK = decCode.contains(CODE_HEAD_STRING) && decCode.contains("@");
             } else {
@@ -82,7 +83,7 @@ public class TDCodeOnClickListener {
         if(isRightCode(codeText)){
             String code;
             if (isNewRightCode(codeText)) {
-                String encCode[] = codeText.split("=");
+                String encCode[] = codeText.split(TEXT_SPLIT_STRING);
                 String decCode = LibImpl.getInstance().getFuncLib().GetDecData(encCode[1]);
                 code = decCode.trim().replaceAll(CODE_HEAD_STRING, "");
             } else {
