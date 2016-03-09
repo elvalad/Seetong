@@ -653,7 +653,7 @@ public class WifiEtcUI extends BaseActivity implements View.OnClickListener {
                 toast(R.string.tip_wifi_etc_success);
                 //connectAp(ssid, pwd, getSp2WifiType(encrypType));//切回之前网络
                 if (tipDlg.isShowing()) tipDlg.dismiss();
-                Intent intent = new Intent(WifiEtcUI.this, LoginUI2.class);
+                Intent intent = new Intent(WifiEtcUI.this, AddDeviceActivity.class);
                 intent.putExtra(Constant.EXTRA_WIFI_SSID, mCurConnectedSSID);
                 setResult(RESULT_OK, intent);
                 finish();

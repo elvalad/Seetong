@@ -1,9 +1,11 @@
 package com.seetong.app.seetong.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -21,6 +23,8 @@ import com.seetong.app.seetong.ui.ext.MyTipDialog;
 import com.seetong.app.seetong.ui.ext.RegexpEditText;
 import ipc.android.sdk.com.SDK_CONSTANT;
 import ipc.android.sdk.impl.DeviceInfo;
+import net.tsz.afinal.FinalHttp;
+import net.tsz.afinal.http.AjaxCallBack;
 
 /**
  * Created by gmk on 2015/9/21.
@@ -33,12 +37,15 @@ public class AddDeviceActivity extends BaseActivity {
     private RegexpEditText addDevicePassword;
     private Button scanQRCodeButton;
     private Button addDeviceButton;
+    private Button wifiCfgButton;
     private ImageButton addDeviceBackButton;
 
     public static MyHandler mhHandler;
     private ProgressDialog mTipDlg;
     private int mAddState = 0;
     private DeviceInfo mDevInfo = new DeviceInfo();
+
+    public static final int WIFI_ETC_REQ_ID = 0x1010;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,6 +162,14 @@ public class AddDeviceActivity extends BaseActivity {
             }
         });
 
+        wifiCfgButton = (Button) findViewById(R.id.device_wifi_cfg);
+        wifiCfgButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchWifi();
+            }
+        });
+
         addContextAgent();
     }
 
@@ -213,20 +228,25 @@ public class AddDeviceActivity extends BaseActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Global.m_devInfoList.add(mDevInfo);
-                    if (Global.m_loginType == Define.LOGIN_TYPE_DEVICE) {
+                    try {
+                        Thread.sleep(3000);
+                        Global.m_devInfoList.add(mDevInfo);
+                        if (Global.m_loginType == Define.LOGIN_TYPE_DEVICE) {
 
-                    } else if (Global.m_loginType == Define.LOGIN_TYPE_USER) {
-                        mAddState = LibImpl.getInstance().getFuncLib().AddDeviceAgent(mDevInfo.getDevId(), mDevInfo.getUserName(), mDevInfo.getUserPassword());
-                        if (0 != mAddState) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mTipDlg.dismiss();
-                                    MyTipDialog.popDialog(AddDeviceActivity.this, R.string.dlg_tip, ConstantImpl.getAddDevErrText(mAddState, false), R.string.close);
-                                }
-                            });
+                        } else if (Global.m_loginType == Define.LOGIN_TYPE_USER) {
+                            mAddState = LibImpl.getInstance().getFuncLib().AddDeviceAgent(mDevInfo.getDevId(), mDevInfo.getUserName(), mDevInfo.getUserPassword());
+                            if (0 != mAddState) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mTipDlg.dismiss();
+                                        MyTipDialog.popDialog(AddDeviceActivity.this, R.string.dlg_tip, ConstantImpl.getAddDevErrText(mAddState, false), R.string.close);
+                                    }
+                                });
+                            }
                         }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
             }).start();
@@ -280,6 +300,61 @@ public class AddDeviceActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (mTdCodeOnClickListener != null) {
             mTdCodeOnClickListener.tdCodeRecv(requestCode, resultCode, data);
+        }
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case WIFI_ETC_REQ_ID:
+                    String wifiSSID = data.getStringExtra(Constant.EXTRA_WIFI_SSID);
+                    sStr(R.id.device_add_id, wifiSSID);
+                    sStr(R.id.device_add_account, "admin");
+                    sStr(R.id.device_add_password, "123456");
+                    onDeviceAdd();
+                    break;
+            }
+        }
+    }
+
+    public void searchWifi() {
+        int isOK = NetworkUtils.getNetworkState(this);
+        if (isOK == NetworkUtils.WIFI) {
+            final ProgressDialog tipDlg = new ProgressDialog(this, R.string.tip_wifi_connect_internet_check);
+            tipDlg.setCancelable(false);
+
+            FinalHttp fh = new FinalHttp();
+            String url = "http://www.baidu.com";
+            fh.configTimeout(10 * 1000);
+            fh.get(url, new AjaxCallBack<Object>() {
+                @Override
+                public void onSuccess(Object t) {
+                    tipDlg.dismiss();
+                    Log.e("MSG", (t == null) ? "null" : "onSuccess..." + t.toString());
+                    Intent it = new Intent(AddDeviceActivity.this, WifiEtcUI.class);
+                    startActivityForResult(it, WIFI_ETC_REQ_ID);
+                }
+
+                @Override
+                public void onFailure(Throwable t, int errorNo, String strMsg) {
+                    tipDlg.dismiss();
+                    Log.e("MSG", "onFailure...errorNO=" + errorNo + ",strMsg=" + strMsg);
+                    toast(R.string.tip_wifi_connect_internet_error);
+                    super.onFailure(t, errorNo, strMsg);
+                }
+
+                @Override
+                public void onStart() {
+                    Log.e("MSG", "onStart...");
+                    tipDlg.show();
+                }
+
+                @Override
+                public void onLoading(long count, long current) {
+                    Log.e("MSG", "onLoading...count=" + count + ",current=" + current);
+                }
+            });
+        } else if (isOK == NetworkUtils.MOBILE) {
+            toast(T(R.string.dlg_network_check_WIFI_tip));
+        } else {
+            toast(T(R.string.dlg_network_check_WIFI_tip));
         }
     }
 }

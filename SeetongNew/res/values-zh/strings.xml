@@ -794,6 +794,7 @@
     <string name="device_delete_success">设备删除成功</string>
     <string name="device_you_want_to_delete">删除设备</string>
     <string name="device_group">组</string>
+    <string name="device_wifi_cfg">Wifi配置</string>
 
     <string name="more_seetong">Seetong</string>
     <string name="more_alarm">报警消息</string>

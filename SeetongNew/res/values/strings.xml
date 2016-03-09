@@ -796,6 +796,7 @@
     <string name="device_delete_success">Delete device successfully</string>
     <string name="device_you_want_to_delete">Delete device</string>
     <string name="device_group">Group</string>
+    <string name="device_wifi_cfg">Wifi config</string>
 
     <string name="more_seetong">Seetong</string>
     <string name="more_alarm">Alarm Message</string>
