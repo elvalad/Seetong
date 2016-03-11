@@ -640,7 +640,7 @@
     <string name="tps_alarm_tst_tst_mask">遮挡检测</string>
 
     <string name="md_error_id_null">设备ID为空</string>
-    <string name="md_error_name_null">设备别名为空</string>
+    <string name="md_error_name_null">设备别名不能为空</string>
     <string name="md_error_dev_notfind">设备未找到</string>
     <string name="md_error_user_psw">用户名或密码不正确</string>
     <string name="md_error_connect_failed">连接失败</string>
