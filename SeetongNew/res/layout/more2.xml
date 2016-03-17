@@ -208,6 +208,18 @@
             android:layout_width="match_parent"
             android:layout_height="35dp" />
 
+    <Button
+            android:id="@+id/more_test_button"
+            android:text="test"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/tps_register_loginbtn"
+            android:layout_width="match_parent"
+            android:layout_height="35dp" />
+
     <!--
     <ImageView
             android:src="@drawable/tps_more_grayline"

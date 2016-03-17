@@ -350,7 +350,7 @@ public class MainActivity2 extends BaseActivity {
             public void run() {
                 try {
                     parseDevList(xml);
-                    loadData();
+                    //loadData();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

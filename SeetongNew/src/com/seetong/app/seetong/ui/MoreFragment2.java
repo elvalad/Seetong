@@ -100,6 +100,15 @@ public class MoreFragment2 extends BaseFragment {
                 return false;
             }
         });
+
+        final Button testButton = (Button) view.findViewById(R.id.more_test_button);
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MoreFragment2.this.getActivity(), TestActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void loadData() {
@@ -153,7 +162,7 @@ public class MoreFragment2 extends BaseFragment {
                         if (Define.LOGIN_TYPE_USER == Global.m_loginType) {
                             Global.m_spu_login.saveSharedPreferences(Define.IS_SAVE_PWD, false);
                             Global.m_spu_login.saveSharedPreferences(Define.USR_PSW, "");
-                            MainActivity2.m_this.saveData();
+                            //MainActivity2.m_this.saveData();
                         }
 
                         mExitTipDlg = new ProgressDialog(MoreFragment2.this.getActivity(), R.string.dlg_app_logout_tip);
