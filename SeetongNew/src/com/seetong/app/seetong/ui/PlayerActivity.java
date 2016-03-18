@@ -190,7 +190,7 @@ public class PlayerActivity extends BaseActivity {
             return;
         }
 
-        MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, null);
+        //MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, null);
         //Global.riseToTop(playerDevice);
         PlayerActivity.this.finish();
         /* TODO:在单路fragment和多路fragment之间切换时需要注意这里该如何处理 */
@@ -385,7 +385,7 @@ public class PlayerActivity extends BaseActivity {
         playerBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, null);
+                //MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, null);
                 //Global.riseToTop(playerDevice);
                 PlayerActivity.this.finish();
                 /* TODO:在单路fragment和多路fragment之间切换时需要注意这里该如何处理 */

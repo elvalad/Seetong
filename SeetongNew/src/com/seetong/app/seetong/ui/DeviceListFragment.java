@@ -152,7 +152,6 @@ public class DeviceListFragment extends BaseFragment {
                 getData();
                 Log.e(TAG, "intems offset : " + currentOffset + " device size : " + data.size());
                 if (data.size() >= currentOffset) {
-                    currentOffset = 0;
                     asymmetricAdapter.appendItems(getMoreItems(data.size() - currentOffset));
                 } else {
                     currentOffset = 0;
@@ -231,7 +230,7 @@ public class DeviceListFragment extends BaseFragment {
         int colSpan;
         int rowSpan;
         for (int i = 0; i < qty; i++) {
-            PlayerDevice dev = (PlayerDevice)data.get(i).get("device");
+            PlayerDevice dev = (PlayerDevice)data.get(i + currentOffset).get("device");
             if (!dev.isNVR()) {
                 colSpan = 4;
                 rowSpan = 2;
