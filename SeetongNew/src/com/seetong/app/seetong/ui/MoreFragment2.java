@@ -100,15 +100,6 @@ public class MoreFragment2 extends BaseFragment {
                 return false;
             }
         });
-
-        final Button testButton = (Button) view.findViewById(R.id.more_test_button);
-        testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MoreFragment2.this.getActivity(), TestActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     private void loadData() {

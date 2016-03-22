@@ -89,8 +89,8 @@ public class MultiListAdapter extends AsymmetricGridViewAdapter<DeviceListItem> 
         if (Config.m_show_alias && Config.m_show_devid) {
             viewHolder.deviceName.setVisibility(Config.m_show_alias ? View.VISIBLE : View.GONE);
             if (playerDevice.isNVR()) {
-                viewHolder.deviceName.setTextSize(8);
-                viewHolder.deviceId.setTextSize(8);
+                viewHolder.deviceName.setTextSize(10);
+                viewHolder.deviceId.setTextSize(10);
                 if (device != null && device.getUser() != null) {
                     viewHolder.deviceName.setText(" " + device.getUser() + " ");
                 } else {
@@ -106,8 +106,8 @@ public class MultiListAdapter extends AsymmetricGridViewAdapter<DeviceListItem> 
         } else {
             viewHolder.deviceName.setVisibility(Config.m_show_alias ? View.VISIBLE : View.GONE);
             if (playerDevice.isNVR()) {
-                viewHolder.deviceName.setTextSize(8);
-                viewHolder.deviceId.setTextSize(8);
+                viewHolder.deviceName.setTextSize(10);
+                viewHolder.deviceId.setTextSize(10);
                 if (device != null && device.getUser() != null) {
                     viewHolder.deviceName.setText(" " + device.getUser() + " ");
                 } else {

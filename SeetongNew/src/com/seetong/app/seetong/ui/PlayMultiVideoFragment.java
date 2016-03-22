@@ -80,6 +80,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     private static final String PTZ_CMD_RIGHT = "right";
     private static final String PTZ_CMD_UP = "up";
     private static final String PTZ_CMD_DOWN = "down";
+    private static final String PTZ_CMD_STOP = "stop";
     private static final int PTZ_SPEED = 5;
 
     public PlayMultiVideoFragment() {}
@@ -446,6 +447,13 @@ public class PlayMultiVideoFragment extends BaseFragment {
                     mode = 0;
                     if (render.bitmapScale <= 1.0) {
                         render.resetScaleInfo();
+                    }
+
+                    if (hasPtz(chosenPlayerDevice)) {
+                        Log.e(TAG, ">>>>>>>>>>>>>>>>>>>>>>>" + chosenPlayerDevice.m_dev.getDevId());
+                        String ptzXml = new TPS_PtzInfoBase(SDK_CONSTANT.PTZ_STOP).toXMLString();
+                        LibImpl.getInstance().getFuncLib().PTZActionAgent(chosenPlayerDevice.m_dev.getDevId(), ptzXml);
+                        //onPtzControl(PTZ_CMD_STOP);
                     }
                     break;
                 case MotionEvent.ACTION_POINTER_UP:
@@ -2008,13 +2016,14 @@ public class PlayMultiVideoFragment extends BaseFragment {
         // 设备支持云台且在播放中才显示云台文本提示
         if (null == dev || null == dev.m_dev || !dev.m_playing) return false;
         //if (dev.m_dev.getWithPTZ() == 1) return true;
-        return dev.is_ptz_control();
+        return LibImpl.getInstance().getCapacitySet(dev).contains("ptz_control");
     }
 
     private void onPtzControl(String ptzCmd) {
         Pair<String, String> pair;
         String ptzXml = null;
         String ptzMsg = null;
+
         switch (ptzCmd) {
             case PTZ_CMD_LEFT:
                 ptzMsg = T(R.string.tv_ptz_left);
@@ -2031,6 +2040,10 @@ public class PlayMultiVideoFragment extends BaseFragment {
             case PTZ_CMD_DOWN:
                 ptzMsg = T(R.string.tv_ptz_down);
                 ptzXml = new TPS_PtzInfo(SDK_CONSTANT.PTZ_DOWN, PTZ_SPEED, PTZ_SPEED).toXMLString();
+                break;
+            case PTZ_CMD_STOP:
+                ptzMsg = "";
+                ptzXml = new TPS_PtzInfo(SDK_CONSTANT.PTZ_STOP, PTZ_SPEED, PTZ_SPEED, false).toXMLString();
                 break;
             default:
                 break;

@@ -239,9 +239,15 @@ public class Global {
         if (null == m_deviceList) return null;
         for (PlayerDevice dev : m_deviceList) {
             if (null == dev.m_dev) continue;
-            if (dev.m_dev.getDevId().compareToIgnoreCase(id) == 0) {
-                //if (m_deviceList.indexOf(dev) >= 0) return dev;
-                return dev;
+            if (!dev.isNVR()) {
+                if (dev.m_dev.getDevId().compareToIgnoreCase(id) == 0) {
+                    //if (m_deviceList.indexOf(dev) >= 0) return dev;
+                    return dev;
+                }
+            } else {
+                if (dev.m_dev.getDevId().contains(id)) {
+                    return dev;
+                }
             }
         }
 

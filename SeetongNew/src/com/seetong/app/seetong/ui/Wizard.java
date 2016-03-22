@@ -63,7 +63,7 @@ public class Wizard extends BaseActivity {
             public void onPageScrollStateChanged(int i) {
                 if (4 == m_pos) {
                     m_pos = 0;
-                    Intent it = new Intent(Wizard.this, LoginUI2.class);
+                    Intent it = new Intent(Wizard.this, LoginActivity.class);
                     startActivity(it);
                     finish();
                     return;

@@ -86,11 +86,6 @@
         </activity>
 
         <activity
-                android:name=".ui.TestActivity"
-                android:screenOrientation="portrait">
-        </activity>
-
-        <activity
                 android:name=".ui.AlarmActivity"
                 android:screenOrientation="portrait">
         </activity>

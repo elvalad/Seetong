@@ -4,6 +4,8 @@ package com.seetong.app.seetong.ui;
  * Created by Administrator on 2015/9/14.
  */
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
@@ -58,6 +60,21 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         LibImpl.getInstance().init();
         bHidePassword = true;
+
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(this.getPackageName(), 0);
+            int version = Global.m_spu.loadIntSharedPreference(Define.SAVED_VERSION);
+            if (version < info.versionCode) {
+                Global.m_spu.saveSharedPreferences(Define.SAVED_VERSION, info.versionCode);
+                Intent it = new Intent(this, Wizard.class);
+                startActivity(it);
+                finish();
+                return;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
         initWidget();
     }
 

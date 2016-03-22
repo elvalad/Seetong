@@ -13,10 +13,12 @@ import com.android.system.MessageNotification;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
+import com.seetong.app.seetong.comm.Tools;
 import com.seetong.app.seetong.model.DeviceSetting;
 import com.seetong.app.seetong.sdk.impl.ConstantImpl;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
+import com.seetong.app.seetong.ui.ext.GuideTools;
 import com.seetong.app.seetong.ui.ext.MyTipDialog;
 import ipc.android.sdk.com.Device;
 import ipc.android.sdk.com.SDK_CONSTANT;
@@ -416,6 +418,33 @@ public class MainActivity2 extends BaseActivity {
         m_handler.sendMessage(msg);
     }
 
+    private void onParseDevList() {
+        int imgs[];
+        int flags = Tools.getLanguageTypes();
+        switch(flags){
+            case 0:
+                imgs = new int[]{R.drawable.guide_video_1, R.drawable.guide_video_2, R.drawable.guide_video_3};
+                break;
+            case 1:
+                imgs = new int[]{R.drawable.guide_video_1, R.drawable.guide_video_2, R.drawable.guide_video_3};
+                break;
+            case 2:
+                imgs = new int[]{R.drawable.guide_video_1_en, R.drawable.guide_video_2_en, R.drawable.guide_video_3_en};
+                break;
+            default:
+                imgs = new int[]{R.drawable.guide_video_1, R.drawable.guide_video_2, R.drawable.guide_video_3};
+                break;
+        }
+        GuideTools tools = new GuideTools(this);
+        if (!tools.isFirstRun("main_video")) Global.m_guide_finished = true;
+        tools.setGuideImage(R.id.layout_main, imgs, "main_video", new GuideTools.IGuideFinish() {
+            @Override
+            public void onFinish() {
+                Global.m_guide_finished = true;
+            }
+        });
+    }
+
     @Override
     public void handleMessage(android.os.Message msg) {
         switch (msg.what) {
@@ -458,6 +487,9 @@ public class MainActivity2 extends BaseActivity {
             case Define.MSG_ENABLE_ALIAS:
                 if (null == deviceFragment) return;
                 deviceFragment.handleMessage(msg);
+                break;
+            case Define.MSG_PARSE_DEV_LIST:
+                onParseDevList();
                 break;
             default:
                 break;
