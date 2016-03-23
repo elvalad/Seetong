@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
+import com.seetong.app.seetong.model.Device;
+import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
 
 import java.util.List;
@@ -23,6 +25,7 @@ public class PlayerDeviceListAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private List<Map<String, Object>> data;
+    private List<Device> sqlList = Device.findAll();
 
     private class ViewHolder {
         public ImageView deviceItem;
@@ -70,10 +73,45 @@ public class PlayerDeviceListAdapter extends BaseAdapter {
             return view;
         }
 
+        Device device = new Device();
+        for (int j = 0; j < sqlList.size(); j++) {
+            if (playerDevice.m_devId.equals(sqlList.get(j).getIp())) {
+                device = sqlList.get(j);
+            }
+        }
+
         if (playerDevice.m_dev.getOnLine() != 0) {
-            viewHolder.deviceId.setText(" Id:" + playerDevice.m_dev.getDevId() + " " + PlayerActivity.m_this.getResources().getString(R.string.device_state_on));
+            if (!playerDevice.isNVR()) {
+                viewHolder.deviceId.setText(" Id:" + playerDevice.m_dev.getDevId() + "  " +
+                        "Name:" + LibImpl.getInstance().getDeviceAlias(playerDevice.m_dev) + "  " +
+                        PlayerActivity.m_this.getResources().getString(R.string.device_state_on));
+            } else {
+                if (device != null && device.getUser() != null) {
+                    viewHolder.deviceId.setText(" Id:" + playerDevice.m_dev.getDevId() + "  " +
+                            "Name:" + device.getUser() + "  " +
+                            PlayerActivity.m_this.getResources().getString(R.string.device_state_on));
+                } else {
+                    viewHolder.deviceId.setText(" Id:" + playerDevice.m_dev.getDevId() + "  " +
+                            "Name:" + playerDevice.m_dev.getDevGroupName() + "  " +
+                            PlayerActivity.m_this.getResources().getString(R.string.device_state_on));
+                }
+            }
         } else {
-            viewHolder.deviceId.setText(" Id:" + playerDevice.m_dev.getDevId() + " " + PlayerActivity.m_this.getResources().getString(R.string.device_state_off));
+            if (!playerDevice.isNVR()) {
+                viewHolder.deviceId.setText(" Id:" + playerDevice.m_dev.getDevId() + "  " +
+                        "Name:" + LibImpl.getInstance().getDeviceAlias(playerDevice.m_dev) + "  " +
+                        PlayerActivity.m_this.getResources().getString(R.string.device_state_off));
+            } else {
+                if (device != null && device.getUser() != null) {
+                    viewHolder.deviceId.setText(" Id:" + playerDevice.m_dev.getDevId() + "  " +
+                            "Name:" + device.getUser() + "  " +
+                            PlayerActivity.m_this.getResources().getString(R.string.device_state_off));
+                } else {
+                    viewHolder.deviceId.setText(" Id:" + playerDevice.m_dev.getDevId() + "  " +
+                            "Name:" + playerDevice.m_dev.getDevGroupName() + "  " +
+                            PlayerActivity.m_this.getResources().getString(R.string.device_state_off));
+                }
+            }
         }
 
         final String devId = playerDevice.m_dev.getDevId();
