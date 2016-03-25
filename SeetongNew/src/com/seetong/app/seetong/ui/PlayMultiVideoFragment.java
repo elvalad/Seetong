@@ -167,24 +167,35 @@ public class PlayMultiVideoFragment extends BaseFragment {
                     if ((e2.getX() - e1.getX()) > FLING_MOVEMENT_THRESHOLD) {
                         //toast(R.string.tv_ptz_left);
                         onPtzControl(PTZ_CMD_LEFT);
+                        showPtzDirection(PTZ_CMD_RIGHT);
                     }
 
                     if ((e1.getX() - e2.getX()) > FLING_MOVEMENT_THRESHOLD) {
                         //toast(R.string.tv_ptz_right);
                         onPtzControl(PTZ_CMD_RIGHT);
+                        showPtzDirection(PTZ_CMD_LEFT);
                     }
 
                     if ((e2.getY() - e1.getY()) > FLING_MOVEMENT_THRESHOLD) {
-                        //toast(R.string.tv_ptz_up);
+                        //toast(R.string.tv_ptz_down);
                         onPtzControl(PTZ_CMD_UP);
+                        showPtzDirection(PTZ_CMD_DOWN);
                     }
 
                     if ((e1.getY() - e2.getY()) > FLING_MOVEMENT_THRESHOLD) {
-                        //toast(R.string.tv_ptz_down);
+                        //toast(R.string.tv_ptz_up);
                         onPtzControl(PTZ_CMD_DOWN);
+                        showPtzDirection(PTZ_CMD_UP);
                     }
                 }
             }
+
+            if ((e2.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+                if (hasPtz(chosenPlayerDevice)) {
+                    onPtzControl(PTZ_CMD_STOP);
+                }
+            }
+
             return false;
         }
     }
@@ -447,13 +458,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
                     mode = 0;
                     if (render.bitmapScale <= 1.0) {
                         render.resetScaleInfo();
-                    }
-
-                    if (hasPtz(chosenPlayerDevice)) {
-                        Log.e(TAG, ">>>>>>>>>>>>>>>>>>>>>>>" + chosenPlayerDevice.m_dev.getDevId());
-                        String ptzXml = new TPS_PtzInfoBase(SDK_CONSTANT.PTZ_STOP).toXMLString();
-                        LibImpl.getInstance().getFuncLib().PTZActionAgent(chosenPlayerDevice.m_dev.getDevId(), ptzXml);
-                        //onPtzControl(PTZ_CMD_STOP);
                     }
                     break;
                 case MotionEvent.ACTION_POINTER_UP:
@@ -2059,4 +2063,45 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
     }
 
+    private void showPtzDirection(String ptzCmd) {
+        RelativeLayout layout = layoutMap.get(currentIndex);
+        ImageView imageView = null;
+        switch (ptzCmd) {
+            case PTZ_CMD_LEFT:
+                imageView = (ImageView)layout.findViewById(R.id.ptzLeft);
+                imageView.setVisibility(View.VISIBLE);
+                break;
+            case PTZ_CMD_RIGHT:
+                imageView = (ImageView)layout.findViewById(R.id.ptzRight);
+                imageView.setVisibility(View.VISIBLE);
+                break;
+            case PTZ_CMD_UP:
+                imageView = (ImageView)layout.findViewById(R.id.ptzUp);
+                imageView.setVisibility(View.VISIBLE);
+                break;
+            case PTZ_CMD_DOWN:
+                imageView = (ImageView)layout.findViewById(R.id.ptzDown);
+                imageView.setVisibility(View.VISIBLE);
+                break;
+        }
+
+        final ImageView finalImageView = imageView;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+
+                }
+                PlayerActivity.m_this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        assert finalImageView != null;
+                        finalImageView.setVisibility(View.GONE);
+                    }
+                });
+            }
+        }).start();
+    }
 }

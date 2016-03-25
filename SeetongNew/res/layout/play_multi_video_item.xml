@@ -165,4 +165,48 @@
             android:indeterminate="true"
             android:visibility="gone"/>
 
+    <ImageView
+            android:id="@+id/ptzLeft"
+            android:scaleType="fitXY"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="5dp"
+            android:src="@drawable/tps_ptz_left"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="gone"/>
+
+    <ImageView
+            android:id="@+id/ptzRight"
+            android:scaleType="fitXY"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="5dp"
+            android:src="@drawable/tps_ptz_right"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="gone"/>
+
+    <ImageView
+            android:id="@+id/ptzUp"
+            android:scaleType="fitXY"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="5dp"
+            android:src="@drawable/tps_ptz_up"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="gone"/>
+
+    <ImageView
+            android:id="@+id/ptzDown"
+            android:scaleType="fitXY"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="5dp"
+            android:src="@drawable/tps_ptz_down"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="gone"/>
+
 </RelativeLayout>

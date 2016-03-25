@@ -94,6 +94,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
 
     private synchronized int initFuncLib() {
         if (m_fc_inited) return 0;
+        s_func.SetFcLogCallBack();
         int ret = s_func.initExAgent(Global.m_mobile_net_sub_type_2);
         if (0 != ret) ret = s_func.initExAgent(Global.m_mobile_net_sub_type_2);
         if (0 != ret) ret = s_func.initExAgent(Global.m_mobile_net_sub_type_2);
@@ -2723,6 +2724,12 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             //onReplayDevFileResp();
         }
 
+        return 0;
+    }
+
+    @Override
+    public int fcLogCallBack(int i, String s) {
+        Log.d("SDSD", s);
         return 0;
     }
 
