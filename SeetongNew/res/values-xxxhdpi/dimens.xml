@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="week_top_margin">74px</dimen>
+    <dimen name="week_left_margin">40px</dimen>
+    <dimen name="cell_width">58px</dimen>
+    <dimen name="cell_heigh">53px</dimen>
+    <dimen name="cell_margin_top">92px</dimen>
+    <dimen name="cell_margin_left">39px</dimen>
+    <dimen name="cell_text_size">26px</dimen>
+
+    <dimen name="player_record_btn_w">80dp</dimen>
+    <dimen name="player_record_btn_h">96dp</dimen>
+    <dimen name="player_record_btn_padding_bottom">15dp</dimen>
+    <dimen name="player_speak_btn_w">120dp</dimen>
+    <dimen name="player_speak_btn_h">140dp</dimen>
+    <dimen name="player_speak_btn_padding_bottom">20dp</dimen>
+    <dimen name="player_capture_btn_w">80dp</dimen>
+    <dimen name="player_capture_btn_h">96dp</dimen>
+    <dimen name="player_capture_btn_padding_bottom">15dp</dimen>
+    <dimen name="player_main_btn_blank">60dp</dimen>
+</resources>

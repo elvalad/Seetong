@@ -149,7 +149,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="60dp"/>
+            android:layout_height="@dimen/player_main_btn_blank"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -165,11 +165,11 @@
                 android:text="@string/player_record"
                 android:textColor="@color/dark_gray"
                 android:gravity="bottom|center"
-                android:paddingBottom="15dp"
+                android:paddingBottom="@dimen/player_record_btn_padding_bottom"
                 android:background="@drawable/tps_play_record_off"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="@dimen/player_record_btn_w"
+                android:layout_height="@dimen/player_record_btn_h"
                 android:layout_weight="1"/>
 
             <ImageView
@@ -181,11 +181,11 @@
                 android:text="@string/player_speak"
                 android:textColor="@color/dark_gray"
                 android:gravity="bottom|center"
-                android:paddingBottom="20dp"
+                android:paddingBottom="@dimen/player_speak_btn_padding_bottom"
                 android:background="@drawable/tps_play_microphone_off"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="@dimen/player_speak_btn_w"
+                android:layout_height="@dimen/player_speak_btn_h"
                 android:layout_weight="1"/>
 
             <ImageView
@@ -198,10 +198,10 @@
                 android:text="@string/player_capture"
                 android:textColor="@color/dark_gray"
                 android:gravity="bottom|center"
-                android:paddingBottom="15dp"
+                android:paddingBottom="@dimen/player_capture_btn_padding_bottom"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="@dimen/player_capture_btn_w"
+                android:layout_height="@dimen/player_capture_btn_h"
                 android:layout_weight="1"/>
 
             <ImageView
