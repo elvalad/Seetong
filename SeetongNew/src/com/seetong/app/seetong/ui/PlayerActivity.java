@@ -1061,4 +1061,12 @@ public class PlayerActivity extends BaseActivity {
         timer.cancel();
         task.cancel();
     }
+
+    public void startPlayFromNvr() {
+        multiVideoFragment.startPlayList();
+    }
+
+    public void stopPlayFromNvr() {
+        multiVideoFragment.stopPlayList();
+    }
 }
