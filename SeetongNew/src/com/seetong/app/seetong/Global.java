@@ -116,9 +116,14 @@ public class Global {
     }
 
     synchronized public static List<PlayerDevice> getSortedDeviceList() {
-        sortDeviceListByOnline(m_deviceList);
+        List<PlayerDevice> list = new ArrayList<>();
+        for (PlayerDevice d : m_deviceList) {
+            list.add(d);
+        }
+        sortMultiDeviceListByOnline(list);
+        //sortDeviceListByOnline(m_deviceList);
         //sortDeviceListByPlayCount(m_deviceList);
-        return m_deviceList;
+        return list;
     }
 
     synchronized public static List<PlayerDevice> riseToTop(PlayerDevice dev) {
@@ -187,6 +192,20 @@ public class Global {
         }
 
         Collections.sort(list, new DeviceSortByPlayCount());
+    }
+
+    synchronized public static void sortMultiDeviceListByOnline(List<PlayerDevice> list) {
+        List<PlayerDevice> tmp = new ArrayList<>();
+        Iterator<PlayerDevice> it = list.iterator();
+        while (it.hasNext()) {
+            PlayerDevice d = it.next();
+            if (!d.isNVR() && (d.m_dev.getOnLine() == Device.OFFLINE)) {
+                it.remove();
+                tmp.add(d);
+            }
+        }
+
+        list.addAll(tmp);
     }
 
     synchronized public static void sortChatMessageByTime(List<FriendMessageList.Message> list) {
