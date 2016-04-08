@@ -806,10 +806,10 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
         if (null != dev) {
             dev.m_replay = false;
             dev.m_video = null;
-            PlayerActivity.m_this.stopPlayFromNvr();
-            PlayerActivity.m_this.startPlayFromNvr();
         }
         LibImpl.getInstance().m_stop_play = false;
+        PlayerActivity.m_this.stopPlayFromNvr();
+        PlayerActivity.m_this.startPlayFromNvr();
 
         super.onDestroy();
     }

@@ -100,8 +100,8 @@ public class DeviceListFragment extends BaseFragment {
         LibImpl.putDeviceList(Global.getDeviceList());
         for (int i = 0; i < Global.getDeviceList().size(); i++) {
             HashMap<String, Object> map = new HashMap<>();
-            //map.put("device", Global.getSortedDeviceList().get(i));
-            map.put("device", Global.getDeviceList().get(i));
+            map.put("device", Global.getSortedDeviceList().get(i));
+            //map.put("device", Global.getDeviceList().get(i));
             map.put("device_image", R.drawable.tps_list_nomsg);
             map.put("device_state", R.string.device_state_off);
             map.put("device_name", "Device " + i);
@@ -168,14 +168,16 @@ public class DeviceListFragment extends BaseFragment {
                 break;
             case SDK_CONSTANT.TPS_MSG_P2P_OFFLINE:
                 getData();
+                currentOffset = 0;
+                asymmetricAdapter.setItems(getMoreItems(data.size()));
                 multiAdapter.notifyDataSetChanged();
                 break;
             case SDK_CONSTANT.TPS_MSG_P2P_NVR_OFFLINE:
-                getData();
+                //getData();
                 multiAdapter.notifyDataSetChanged();
                 break;
             case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_OFFLINE:
-                getData();
+                //getData();
                 multiAdapter.notifyDataSetChanged();
                 break;
             case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_ONLINE:
