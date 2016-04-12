@@ -952,6 +952,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             Intent it = new Intent(this.getActivity(), NvrRecord.class);
             it.putExtra(Constant.EXTRA_DEVICE_ID, chosenPlayerDevice.m_dev.getDevId());
             this.startActivity(it);
+            PlayerActivity.m_this.setRestartFromNvr(true);
             //this.getActivity().finish();
             return;
         }
@@ -965,6 +966,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         Intent it = new Intent(this.getActivity(), FrontEndRecord.class);
         it.putExtra(Constant.EXTRA_DEVICE_ID, chosenPlayerDevice.m_dev.getDevId());
         this.startActivity(it);
+        PlayerActivity.m_this.setRestartFromNvr(false);
         //this.getActivity().finish();
     }
 
@@ -1214,7 +1216,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         stopAllVideoRecord();
         hideAllRecordIcon();
         stopVideoSound();
-        stopHighDefinition();
+        //stopHighDefinition();
         for (int i = 0; i< MAX_WINDOW; i++) {
             if (i > Global.getDeviceList().size() - 1) break;
             LibImpl.stopPlay(i, this.deviceList.get(i));

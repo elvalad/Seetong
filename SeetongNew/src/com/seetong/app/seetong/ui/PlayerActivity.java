@@ -62,6 +62,7 @@ public class PlayerActivity extends BaseActivity {
     public DeviceInfo m_modifyInfo;
     public boolean m_modifyDefaultPassword = false;
     public PlayerDevice m_modifyUserPwdDev = null;
+    private boolean bRestartFromNvr = false;
 
     private OrientationEventListener mOrientationListener;
     private boolean mIsLand = false; //  «∑Ò «∫·∆¡
@@ -134,7 +135,9 @@ public class PlayerActivity extends BaseActivity {
         if (currentFragmentName.equals("play_video_fragment")) {
             playVideoFragment.startPlay();
         } else if (currentFragmentName.equals("play_multi_video_fragment")) {
-            multiVideoFragment.startPlayList();
+            if (!bRestartFromNvr) {
+                multiVideoFragment.startPlayList();
+            }
         }
     }
 
@@ -597,6 +600,7 @@ public class PlayerActivity extends BaseActivity {
                 Intent intent = new Intent(PlayerActivity.this, PlayerSettingActivity.class);
                 intent.putExtra("device_setting_id", PlayerActivity.this.deviceId);
                 startActivityForResult(intent, Constant.REQ_ID_DEVICE_CONFIG);
+                setRestartFromNvr(false);
             }
         });
         playerSettingButton.setOnTouchListener(new View.OnTouchListener() {
@@ -1068,5 +1072,9 @@ public class PlayerActivity extends BaseActivity {
 
     public void stopPlayFromNvr() {
         multiVideoFragment.stopPlayList();
+    }
+
+    public void setRestartFromNvr(boolean bRestartFromNvr) {
+        this.bRestartFromNvr = bRestartFromNvr;
     }
 }
