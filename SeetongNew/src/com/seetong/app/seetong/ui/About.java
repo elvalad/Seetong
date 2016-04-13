@@ -191,7 +191,7 @@ public class About extends BaseActivity {
 
     private void uploadLogFile() throws IOException{
         final String dirName = LogcatUtil.getInstance(Global.m_ctx).getPathLogcat();
-        final String zipFileName = "android_log.zip";
+        final String zipFileName = Global.m_devInfo.getUserName() + "_android_log.zip";
         final File dir = new File(dirName);
         if (!dir.exists()) {
             toast(R.string.about_no_log);

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.seetong.app.seetong"
           android:versionCode="102"
-          android:versionName="5.1.7_20160411_001">
+          android:versionName="5.1.8_20160413_001">
 
     <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="22"/>
 
