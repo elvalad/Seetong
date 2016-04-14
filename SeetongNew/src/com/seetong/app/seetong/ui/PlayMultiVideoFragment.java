@@ -29,6 +29,7 @@ import com.seetong.app.seetong.Config;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
+import com.seetong.app.seetong.model.Device;
 import com.seetong.app.seetong.sdk.impl.ConstantImpl;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
@@ -82,6 +83,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     private static final String PTZ_CMD_DOWN = "down";
     private static final String PTZ_CMD_STOP = "stop";
     private static final int PTZ_SPEED = 5;
+    private List<Device> sqlList = Device.findAll();
 
     public PlayMultiVideoFragment() {}
 
@@ -1412,6 +1414,24 @@ public class PlayMultiVideoFragment extends BaseFragment {
         setVideoInfo(index, msg);
     }
 
+    private String getNvrAlias(PlayerDevice p) {
+        String _devName = p.getDeviceName();
+        if (p.isNVR()) {
+            Device device = new Device();
+            for (int j = 0; j < sqlList.size(); j++) {
+                if (p.m_devId.equals(sqlList.get(j).getIp())) {
+                    device = sqlList.get(j);
+                }
+            }
+
+            if (device != null && device.getUser() != null) {
+                _devName = device.getUser();
+            }
+        }
+
+        return _devName;
+    }
+
     public void setVideoInfo(final int index, final String msg) {
         RelativeLayout layout = layoutMap.get(index);
         MarqueeTextView v = (MarqueeTextView) layout.findViewById(R.id.tvLiveInfo);
@@ -1421,7 +1441,8 @@ public class PlayMultiVideoFragment extends BaseFragment {
             v.setVisibility(View.GONE);
         } else if (T(R.string.tv_video_play_tip).compareToIgnoreCase(msg) == 0) { //playing
             StringBuilder msgBuf = new StringBuilder();
-            String _devName = deviceList.get(index).getDeviceName();
+            //String _devName = deviceList.get(index).getDeviceName();
+            String _devName = getNvrAlias(deviceList.get(index));
             msgBuf.append("[").append(_devName).append(dev_type).append("]");
             String _msg = msgBuf.toString();
             v.setText(_msg);
@@ -1429,7 +1450,8 @@ public class PlayMultiVideoFragment extends BaseFragment {
             StringBuilder msgBuf = new StringBuilder();
             if (!isNullStr(deviceList.get(index).m_dev.getDevId())) {
                 //¼ÓÔØ±ðÃû
-                String _devName = deviceList.get(index).getDeviceName();
+                //String _devName = deviceList.get(index).getDeviceName();
+                String _devName = getNvrAlias(deviceList.get(index));
                 msgBuf.append("[").append(_devName).append(dev_type).append("]");
                 if (!TextUtils.isEmpty(msg)) msgBuf.append(":").append(msg).append(".");
             } else {
