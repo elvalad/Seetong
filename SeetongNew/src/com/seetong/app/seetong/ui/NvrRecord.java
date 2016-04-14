@@ -1068,22 +1068,31 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
             t = szInfo.charAt(i);
 
             if (null == r) {
-                if (0 == first_time) first_time = c.getTimeInMillis();
+                first_time = c.getTimeInMillis();
                 r = new ArchiveRecord();
                 r.setDevId(m_device_id);
                 r.setStartTime(c.getTimeInMillis());
                 r.setRecType(String.valueOf(type));
-                /*if (type == 0) {
-                    r.setColor(getResources().getColor(R.color.timeline_alarm));
+                if (type == 0) {
+                    r.setColor(getResources().getColor(R.color.timeline_schedule));
                 } else if (type == 1) {
                     r.setColor(getResources().getColor(R.color.timeline_motion));
-                }*/
+                }
             } else {
                 r.setDuration(c.getTimeInMillis() - r.getStartTime());
-                /*r.setColorStartTime(r.getStartTime());
-                r.setColorDuration(r.getDuration());*/
+                r.setColorStartTime(r.getStartTime());
+                r.setColorDuration(r.getDuration());
                 resp.objectAdd(r, false);
-                r = null;
+
+                r = new ArchiveRecord();
+                r.setDevId(m_device_id);
+                r.setStartTime(c.getTimeInMillis());
+                r.setRecType(String.valueOf(type));
+                if (type == 0) {
+                    r.setColor(getResources().getColor(R.color.timeline_schedule));
+                } else if (type == 1) {
+                    r.setColor(getResources().getColor(R.color.timeline_motion));
+                }
             }
         }
 

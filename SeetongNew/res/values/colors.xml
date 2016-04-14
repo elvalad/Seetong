@@ -117,7 +117,7 @@
 
     <color name="timeline_schedule">#FF80FFFF</color>
     <color name="timeline_alarm">#FFFFB000</color>
-    <color name="timeline_motion">#ffcba2ff</color>
+    <color name="timeline_motion">#ff52cc78</color>
     <color name="timeline_indicator">#FFFF0000</color>
     <color name="datetime_dialog_bg">#F7F7F7</color>
 
