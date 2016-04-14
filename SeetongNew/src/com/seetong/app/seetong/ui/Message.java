@@ -230,8 +230,10 @@ public class Message extends BaseActivity {
             msg.m_alarm_id = "local_" + System.currentTimeMillis();
             msg.m_alarm_time = fmt.format(dt);
             msg.m_alarm_time_long = time;
-            switch (v.getnType()) {
+            msg.m_alarm_type_id = String.valueOf(v.getnType());
+            /*switch (v.getnType()) {
                 case ConstantImpl.TPS_ALARM_MOTION:
+                case ConstantImpl.TPS_ALARM_TST_TST_MOTION:
                 case ConstantImpl.TPS_ALARM_MOTION_DETECT:
                     msg.m_alarm_type_id = "1";
                     break;
@@ -240,7 +242,7 @@ public class Message extends BaseActivity {
                     break;
                 default:
                     msg.m_alarm_type_id = "-1";
-            }
+            }*/
 
             m_data.m_lstMessage.put(msg.m_alarm_id, msg);
         }
@@ -368,7 +370,8 @@ public class Message extends BaseActivity {
             MessageList.Message msg = (MessageList.Message) getItem(position);
             if (null == msg) return v;
             viewHolder.labDatetime.setText(msg.m_alarm_time);
-            String desc = ConstantImpl.getCloudAlarmTypeDesc(Integer.parseInt(msg.m_alarm_type_id));
+            //String desc = ConstantImpl.getCloudAlarmTypeDesc(Integer.parseInt(msg.m_alarm_type_id));
+            String desc = ConstantImpl.getAlarmTypeDesc(Integer.parseInt(msg.m_alarm_type_id));
             viewHolder.labDesc.setText(desc);
             String devId = msg.m_dev_id;
             String devName = devId;
