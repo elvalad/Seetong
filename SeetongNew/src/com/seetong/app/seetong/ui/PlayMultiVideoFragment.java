@@ -83,7 +83,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     private static final String PTZ_CMD_DOWN = "down";
     private static final String PTZ_CMD_STOP = "stop";
     private static final int PTZ_SPEED = 5;
-    private List<Device> sqlList = Device.findAll();
+    //private List<Device> sqlList = Device.findAll();
 
     public PlayMultiVideoFragment() {}
 
@@ -1418,9 +1418,9 @@ public class PlayMultiVideoFragment extends BaseFragment {
         String _devName = p.getDeviceName();
         if (p.isNVR()) {
             Device device = new Device();
-            for (int j = 0; j < sqlList.size(); j++) {
-                if (p.m_devId.equals(sqlList.get(j).getIp())) {
-                    device = sqlList.get(j);
+            for (int j = 0; j < Global.m_sqlList.size(); j++) {
+                if (p.m_devId.equals(Global.m_sqlList.get(j).getIp())) {
+                    device = Global.m_sqlList.get(j);
                 }
             }
 

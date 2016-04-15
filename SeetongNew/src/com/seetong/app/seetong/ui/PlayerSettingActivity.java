@@ -295,14 +295,20 @@ public class PlayerSettingActivity extends BaseActivity {
                         device.setUser(value);
                         device.setPwd("");
                         device.save();
+                        Global.m_sqlList = Device.findAll();
 
-                        if (mTipDlg.isShowing()) mTipDlg.dismiss();
-                        Intent it = new Intent(self, PlayerActivity.class);
-                        it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
-                        it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS);
-                        it.putExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME, value);
-                        self.setResult(RESULT_OK, it);
-                        finish();
+                        try {
+                            Thread.sleep(1000);
+                            if (mTipDlg.isShowing()) mTipDlg.dismiss();
+                            Intent it = new Intent(self, PlayerActivity.class);
+                            it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
+                            it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS);
+                            it.putExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME, value);
+                            self.setResult(RESULT_OK, it);
+                            finish();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }).start();
             }

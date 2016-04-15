@@ -55,6 +55,7 @@ public class Global {
     public static DBHelper m_db;
     public static PowerManager.WakeLock m_wakeLock;
     public static AudioManager m_audioManage;
+    public static List<com.seetong.app.seetong.model.Device> m_sqlList = new ArrayList<>();
 
     private static List<PlayerDevice> m_deviceList = new ArrayList<>();
     public static DeviceInfo m_devInfo = new DeviceInfo();
@@ -432,6 +433,7 @@ public class Global {
 
         m_res = ctx.getResources();
         m_db = new DBHelper(m_ctx);
+        m_sqlList = com.seetong.app.seetong.model.Device.findAll();
         /*m_oss = new OSSClient();
         m_oss.setAccessId(OSS_ACCESS_ID);
         m_oss.setAccessKey(OSS_ACCESS_KEY);*/

@@ -24,7 +24,7 @@ import java.util.Map;
  * Created by Administrator on 2016/3/15.
  */
 public class MultiListAdapter extends AsymmetricGridViewAdapter<DeviceListItem> {
-    public static String TAG = DeviceListAdapter2.class.getName();
+    public static String TAG = MultiListAdapter.class.getName();
     private Context context;
     private LayoutInflater inflater;
     private List<Map<String, Object>> data;

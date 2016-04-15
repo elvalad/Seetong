@@ -25,7 +25,7 @@ public class PlayerDeviceListAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private List<Map<String, Object>> data;
-    private List<Device> sqlList = Device.findAll();
+    //private List<Device> sqlList = Device.findAll();
 
     private class ViewHolder {
         public ImageView deviceItem;
@@ -74,9 +74,9 @@ public class PlayerDeviceListAdapter extends BaseAdapter {
         }
 
         Device device = new Device();
-        for (int j = 0; j < sqlList.size(); j++) {
-            if (playerDevice.m_devId.equals(sqlList.get(j).getIp())) {
-                device = sqlList.get(j);
+        for (int j = 0; j < Global.m_sqlList.size(); j++) {
+            if (playerDevice.m_devId.equals(Global.m_sqlList.get(j).getIp())) {
+                device = Global.m_sqlList.get(j);
             }
         }
 
