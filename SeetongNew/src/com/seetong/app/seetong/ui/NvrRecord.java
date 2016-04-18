@@ -1068,30 +1068,44 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
             t = szInfo.charAt(i);
 
             if (null == r) {
-                first_time = c.getTimeInMillis();
-                r = new ArchiveRecord();
-                r.setDevId(m_device_id);
-                r.setStartTime(c.getTimeInMillis());
-                r.setRecType(String.valueOf(type));
-                if (type == 0) {
-                    r.setColor(getResources().getColor(R.color.timeline_schedule));
-                } else if (type == 1) {
-                    r.setColor(getResources().getColor(R.color.timeline_motion));
+                if (szInfo.charAt(i) == 'C') {
+                    first_time = c.getTimeInMillis();
+                    r = new ArchiveRecord();
+                    r.setDevId(m_device_id);
+                    r.setStartTime(c.getTimeInMillis());
+                    r.setRecType(String.valueOf(type));
+                } else {
+                    first_time = c.getTimeInMillis();
+                    r = new ArchiveRecord();
+                    r.setDevId(m_device_id);
+                    r.setStartTime(c.getTimeInMillis());
+                    r.setRecType(String.valueOf(type));
+                    if (type == 0) {
+                        r.setColor(getResources().getColor(R.color.timeline_schedule));
+                    } else if (type == 1) {
+                        r.setColor(getResources().getColor(R.color.timeline_motion));
+                    }
                 }
             } else {
-                r.setDuration(c.getTimeInMillis() - r.getStartTime());
-                r.setColorStartTime(r.getStartTime());
-                r.setColorDuration(r.getDuration());
-                resp.objectAdd(r, false);
+                if (szInfo.charAt(i) == 'C') {
+                    r.setDuration(c.getTimeInMillis() - r.getStartTime());
+                    resp.objectAdd(r, false);
+                    r = null;
+                } else {
+                    r.setDuration(c.getTimeInMillis() - r.getStartTime());
+                    r.setColorStartTime(r.getStartTime());
+                    r.setColorDuration(r.getDuration());
+                    resp.objectAdd(r, false);
 
-                r = new ArchiveRecord();
-                r.setDevId(m_device_id);
-                r.setStartTime(c.getTimeInMillis());
-                r.setRecType(String.valueOf(type));
-                if (type == 0) {
-                    r.setColor(getResources().getColor(R.color.timeline_schedule));
-                } else if (type == 1) {
-                    r.setColor(getResources().getColor(R.color.timeline_motion));
+                    r = new ArchiveRecord();
+                    r.setDevId(m_device_id);
+                    r.setStartTime(c.getTimeInMillis());
+                    r.setRecType(String.valueOf(type));
+                    if (type == 0) {
+                        r.setColor(getResources().getColor(R.color.timeline_schedule));
+                    } else if (type == 1) {
+                        r.setColor(getResources().getColor(R.color.timeline_motion));
+                    }
                 }
             }
         }

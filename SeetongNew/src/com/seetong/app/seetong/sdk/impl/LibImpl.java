@@ -1323,7 +1323,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     dev.m_open_video_stream_result = ret;
                     Log.d(TAG, "onNvrReplayResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",videoParam=" + tvp + ",ret=" + ret);
                     if (ret != 0) {
-                        setTipText(dev.m_devId, R.string.tv_video_req_fail_media_param_incorrect_tip);
+                        //setTipText(dev.m_devId, R.string.tv_video_req_fail_media_param_incorrect_tip);
                         Log.e(TAG, "onNvrReplayResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",videoParam=" + tvp + ",ret=" + ret);
                         s_pca.FreeProtAgent(port);
                         return;
