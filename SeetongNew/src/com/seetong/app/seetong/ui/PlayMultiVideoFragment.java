@@ -59,6 +59,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     private GestureDetector gestureDetector;
     private int currentIndex = 0;
     public static final int FLING_MOVEMENT_THRESHOLD = 100;
+    public static final int PTZ_MOVEMENT_THRESHOLD = 75;
     public static final int MAX_WINDOW = 4;
     public static final int MAX_WINDOW_BY_ROW = 2;
     private static boolean bFullScreen = true;
@@ -166,25 +167,25 @@ public class PlayMultiVideoFragment extends BaseFragment {
                         return false;
                     }
 
-                    if ((e2.getX() - e1.getX()) > FLING_MOVEMENT_THRESHOLD) {
+                    if ((e2.getX() - e1.getX()) > PTZ_MOVEMENT_THRESHOLD) {
                         //toast(R.string.tv_ptz_left);
                         onPtzControl(PTZ_CMD_LEFT);
                         showPtzDirection(PTZ_CMD_RIGHT);
                     }
 
-                    if ((e1.getX() - e2.getX()) > FLING_MOVEMENT_THRESHOLD) {
+                    if ((e1.getX() - e2.getX()) > PTZ_MOVEMENT_THRESHOLD) {
                         //toast(R.string.tv_ptz_right);
                         onPtzControl(PTZ_CMD_RIGHT);
                         showPtzDirection(PTZ_CMD_LEFT);
                     }
 
-                    if ((e2.getY() - e1.getY()) > FLING_MOVEMENT_THRESHOLD) {
+                    if ((e2.getY() - e1.getY()) > PTZ_MOVEMENT_THRESHOLD) {
                         //toast(R.string.tv_ptz_down);
                         onPtzControl(PTZ_CMD_DOWN);
                         showPtzDirection(PTZ_CMD_DOWN);
                     }
 
-                    if ((e1.getY() - e2.getY()) > FLING_MOVEMENT_THRESHOLD) {
+                    if ((e1.getY() - e2.getY()) > PTZ_MOVEMENT_THRESHOLD) {
                         //toast(R.string.tv_ptz_up);
                         onPtzControl(PTZ_CMD_UP);
                         showPtzDirection(PTZ_CMD_UP);

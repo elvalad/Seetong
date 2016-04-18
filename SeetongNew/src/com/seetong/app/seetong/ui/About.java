@@ -35,7 +35,7 @@ import java.util.List;
  * Created by Administrator on 2014-07-28.
  */
 public class About extends BaseActivity {
-
+    private String TAG = About.class.getName();
     private ListView m_listView;
     private ListViewAdapter m_adapter;
     private int m_itemTextRes[] = {/*R.string.tv_soft_description,*/R.string.tv_crash_info  ,R.string.tv_feedback, R.string.tv_version_update};
@@ -216,7 +216,10 @@ public class About extends BaseActivity {
                             }
                         }
 
+                        Thread.sleep(1000);
+
                         int ret = LibImpl.getInstance().getFuncLib().UploadFile(dirName + "/" + zipFileName, zipFileName);
+                        Log.d(TAG, "Upload log file ret is : " + ret);
                         if (ret == 0) {
                             toast(R.string.about_upload_log_success);
                             mTipDlg.dismiss();
@@ -224,7 +227,7 @@ public class About extends BaseActivity {
                             toast(R.string.about_upload_log_fail);
                             mTipDlg.dismiss();
                         }
-                    } catch (net.lingala.zip4j.exception.ZipException e) {
+                    } catch (net.lingala.zip4j.exception.ZipException | InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
