@@ -94,7 +94,8 @@
                 android:background="#00000000"
                 android:scaleType="fitXY"
                 android:layout_width="24dp"
-                android:layout_height="16dp"/>
+                android:layout_height="16dp"
+                android:visibility="gone"/>
     </RelativeLayout>
 
     <ImageView
