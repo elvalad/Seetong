@@ -141,6 +141,9 @@ public class PlayerSettingActivity extends BaseActivity {
             case R.string.restore_factory_settings:
                 onRestoreFactorySettings();
                 break;
+            case R.string.system_update:
+                onSystemUpdate();
+                break;
         }
     }
 
@@ -428,6 +431,21 @@ public class PlayerSettingActivity extends BaseActivity {
         }).start();
     }
 
+    private void onSystemUpdate() {
+        MyTipDialog.popDialog(this, R.string.dlg_system_update_tip, R.string.sure, R.string.cancel,
+                new MyTipDialog.IDialogMethod() {
+                    @Override
+                    public void sure() {
+                        systemUpdate();
+                    }
+                }
+        );
+    }
+
+    private void systemUpdate() {
+        toast(R.string.system_update);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -447,7 +465,7 @@ public class PlayerSettingActivity extends BaseActivity {
     private void getData() {
         int devType = playerDevice.m_dev.getDevType();
         if (100 == devType) { // IPC
-            SettingContent[] settingContents = new SettingContent[10];
+            SettingContent[] settingContents = new SettingContent[11];
             settingContents[0] = new SettingContent(R.string.dev_list_tip_title_input_dev_alias, R.drawable.tps_device_setting_alais);
             data.add(settingContents[0]);
             settingContents[1] = new SettingContent(R.string.dev_list_tip_title_modify_user_pwd, R.drawable.tps_device_setting_password);
@@ -468,14 +486,20 @@ public class PlayerSettingActivity extends BaseActivity {
             data.add(settingContents[8]);
             settingContents[9] = new SettingContent(R.string.restore_factory_settings, R.drawable.tps_device_setting_factory);
             data.add(settingContents[9]);
+            settingContents[10] = new SettingContent(R.string.system_update, R.drawable.tps_device_setting_factory);
+            data.add(settingContents[10]);
         } else if (200 == devType) { // NVR
             SettingContent[] settingContents = new SettingContent[2];
             settingContents[0] = new SettingContent(R.string.dev_list_tip_title_input_dev_alias, R.drawable.tps_device_setting_alais);
             data.add(settingContents[0]);
+            settingContents[1] = new SettingContent(R.string.system_update, R.drawable.tps_device_setting_factory);
+            data.add(settingContents[1]);
         } else if (201 == devType) { // NVR4.0
             SettingContent[] settingContents = new SettingContent[2];
             settingContents[0] = new SettingContent(R.string.dev_list_tip_title_input_dev_alias, R.drawable.tps_device_setting_alais);
             data.add(settingContents[0]);
+            settingContents[1] = new SettingContent(R.string.system_update, R.drawable.tps_device_setting_factory);
+            data.add(settingContents[1]);
         }
     }
 

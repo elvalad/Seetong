@@ -211,7 +211,11 @@ public class About extends BaseActivity {
                         }
 
                         for (File f : files) {
-                            if (!f.getName().equals(zipFileName)) {
+                            /*if (!f.getName().equals(zipFileName)) {
+                                zipFile.addFile(f, parameters);
+                            }*/
+
+                            if (f.getName().substring(f.getName().lastIndexOf(".") + 1).equals("log")) {
                                 zipFile.addFile(f, parameters);
                             }
                         }

@@ -525,12 +525,14 @@
     <string name="motion_detect_enable">Enable motion detect:</string>
     <string name="front_end_record">Front-end record</string>
     <string name="restore_factory_settings">Restore factory Settings</string>
+    <string name="system_update">System update</string>
     <string name="confirm_restore_factory_tip">Sure you want to restore the factory Settings?</string>
     <string name="dlg_restore_factory_tip">Is to restore the factory Settings…</string>
     <string name="dlg_restore_factory_succeed_tip">Successful restore factory Settings</string>
     <string name="dlg_restore_factory_failed_tip">Restore factory settings failure</string>
     <string name="dlg_restore_factory_timeout_tip">Restore factory setting timeout</string>
     <string name="dlg_wait_device_reboot_tip">Please wait for the device to restart</string>
+    <string name="dlg_system_update_tip">Sure you want to update the system?</string>
     <string name="cloud_record">Cloud record</string>
     <string name="cloud_files">Cloud files</string>
     <string name="get_front_end_record_failed">get front-end record failed</string>

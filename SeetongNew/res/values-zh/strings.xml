@@ -525,12 +525,14 @@
     <string name="motion_detect_enable">启用移动侦测：</string>
     <string name="front_end_record">前端录像</string>
     <string name="restore_factory_settings">恢复出厂设置</string>
+    <string name="system_update">系统升级</string>
     <string name="confirm_restore_factory_tip">确定要恢复出厂设置？</string>
     <string name="dlg_restore_factory_tip">正在恢复出厂设置…</string>
     <string name="dlg_restore_factory_succeed_tip">恢复出厂设置成功</string>
     <string name="dlg_restore_factory_failed_tip">恢复出厂设置失败</string>
     <string name="dlg_restore_factory_timeout_tip">恢复出厂设置超时</string>
     <string name="dlg_wait_device_reboot_tip">请等待设备重启完成</string>
+    <string name="dlg_system_update_tip">确定给设备升级?</string>
     <string name="cloud_record">云端录像</string>
     <string name="cloud_files">云端文件</string>
     <string name="get_front_end_record_failed">获取前端录像失败</string>

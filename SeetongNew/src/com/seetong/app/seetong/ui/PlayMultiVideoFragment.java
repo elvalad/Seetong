@@ -169,13 +169,13 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
                     if ((e2.getX() - e1.getX()) > PTZ_MOVEMENT_THRESHOLD) {
                         //toast(R.string.tv_ptz_left);
-                        onPtzControl(PTZ_CMD_LEFT);
+                        onPtzControl(PTZ_CMD_RIGHT);
                         showPtzDirection(PTZ_CMD_RIGHT);
                     }
 
                     if ((e1.getX() - e2.getX()) > PTZ_MOVEMENT_THRESHOLD) {
                         //toast(R.string.tv_ptz_right);
-                        onPtzControl(PTZ_CMD_RIGHT);
+                        onPtzControl(PTZ_CMD_LEFT);
                         showPtzDirection(PTZ_CMD_LEFT);
                     }
 
