@@ -182,6 +182,7 @@ public class PlayerActivity extends BaseActivity {
         Log.i(PlayerActivity.class.getName(), "onDestroy...");
         LibImpl.getInstance().removeHandler(m_handler);
         stopShowNetSpeed();
+        multiVideoFragment = null;
         bSlidingOpen = false;
         super.onDestroy();
     }

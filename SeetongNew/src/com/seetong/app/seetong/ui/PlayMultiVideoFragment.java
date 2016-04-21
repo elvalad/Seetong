@@ -40,6 +40,7 @@ import ipc.android.sdk.impl.DeviceInfo;
 import ipc.android.sdk.impl.FunclibAgent;
 
 import java.io.File;
+import java.lang.ref.SoftReference;
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -84,6 +85,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     private static final String PTZ_CMD_DOWN = "down";
     private static final String PTZ_CMD_STOP = "stop";
     private static final int PTZ_SPEED = 5;
+    private Map<String, SoftReference<Bitmap>> imageCache = new HashMap<>();
     //private List<Device> sqlList = Device.findAll();
 
     public PlayMultiVideoFragment() {}
@@ -168,25 +170,21 @@ public class PlayMultiVideoFragment extends BaseFragment {
                     }
 
                     if ((e2.getX() - e1.getX()) > PTZ_MOVEMENT_THRESHOLD) {
-                        //toast(R.string.tv_ptz_left);
                         onPtzControl(PTZ_CMD_RIGHT);
                         showPtzDirection(PTZ_CMD_RIGHT);
                     }
 
                     if ((e1.getX() - e2.getX()) > PTZ_MOVEMENT_THRESHOLD) {
-                        //toast(R.string.tv_ptz_right);
                         onPtzControl(PTZ_CMD_LEFT);
                         showPtzDirection(PTZ_CMD_LEFT);
                     }
 
                     if ((e2.getY() - e1.getY()) > PTZ_MOVEMENT_THRESHOLD) {
-                        //toast(R.string.tv_ptz_down);
                         onPtzControl(PTZ_CMD_DOWN);
                         showPtzDirection(PTZ_CMD_DOWN);
                     }
 
                     if ((e1.getY() - e2.getY()) > PTZ_MOVEMENT_THRESHOLD) {
-                        //toast(R.string.tv_ptz_up);
                         onPtzControl(PTZ_CMD_UP);
                         showPtzDirection(PTZ_CMD_UP);
                     }
@@ -1116,6 +1114,26 @@ public class PlayMultiVideoFragment extends BaseFragment {
         });
     }
 
+    private void addBitmapToCashe(String path) {
+        // 强引用的Bitmap对象
+        Bitmap bitmap = BitmapFactory.decodeFile(path);
+        // 软引用的Bitmap对象
+        SoftReference<Bitmap> softBitmap = new SoftReference<>(bitmap);
+        // 添加该对象到Map中使其缓存
+        imageCache.put(path, softBitmap);
+    }
+
+    public Bitmap getBitmapByPath(String path) {
+        // 从缓存中取软引用的Bitmap对象
+        SoftReference<Bitmap> softBitmap = imageCache.get(path);
+        // 判断是否存在软引用
+        if (softBitmap == null) {
+            return null;
+        }
+        // 取出Bitmap对象，如果由于内存不足Bitmap被回收，将取得空
+        return softBitmap.get();
+    }
+
     private boolean startPlay(List<PlayerDevice> devList) {
         RelativeLayout layout;
         if (null == devList) {
@@ -1133,7 +1151,9 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 ProgressBar liveVideoWaiting = (ProgressBar) layout.findViewById(R.id.liveVideoWaiting);
                 liveVideoWaiting.setVisibility(View.VISIBLE);
                 ImageView liveVideoBackground = (ImageView) layout.findViewById(R.id.liveVideoBackground);
-                Bitmap bitmap = BitmapFactory.decodeFile(Global.getSnapshotDir() + "/" + devList.get(i).m_dev.getDevId() + ".jpg");
+                addBitmapToCashe(Global.getSnapshotDir() + "/" + devList.get(i).m_dev.getDevId() + ".jpg");
+                Bitmap bitmap = getBitmapByPath(Global.getSnapshotDir() + "/" + devList.get(i).m_dev.getDevId() + ".jpg");
+                //Bitmap bitmap = BitmapFactory.decodeFile(Global.getSnapshotDir() + "/" + devList.get(i).m_dev.getDevId() + ".jpg");
                 if (bitmap != null) {
                     liveVideoBackground.setVisibility(View.VISIBLE);
                     liveVideoBackground.setImageBitmap(convertColorIntoBlackAndWhiteImage(bitmap));
