@@ -27,7 +27,6 @@ import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
 import com.seetong.app.seetong.sdk.impl.ConstantImpl;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
-import com.seetong.app.seetong.sdk.impl.MonitorCore;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
 import com.seetong.app.seetong.ui.aid.ClearEditText;
 import com.seetong.app.seetong.ui.aid.MultiDevListAdapter;
@@ -199,9 +198,9 @@ public class DeviceFragment extends BaseFragment implements View.OnClickListener
         @Override
         public void run() {
             try {
-                MonitorCore.instance().StartSearchDev();
+                //MonitorCore.instance().StartSearchDev();
                 Thread.sleep(30000);
-                MonitorCore.instance().StopSearchDev();
+                //MonitorCore.instance().StopSearchDev();
                 m_pdlg.dismiss();
             } catch (InterruptedException e) {
                 e.printStackTrace();

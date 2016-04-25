@@ -10,7 +10,6 @@ import android.widget.*;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.NetworkUtils;
-import com.seetong.app.seetong.sdk.impl.MonitorCore;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
 
 /**
@@ -40,27 +39,30 @@ public class DeviceListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        return MonitorCore.instance().m_cat_dev_map.size() ;
+        //return MonitorCore.instance().m_cat_dev_map.size() ;
+        return 0;
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        if (MonitorCore.instance().m_cat_dev_map.isEmpty()) return 0;
-        String key = (String) MonitorCore.instance().m_cat_dev_map.keySet().toArray()[groupPosition];
-        int size = MonitorCore.instance().m_cat_dev_map.get(key).size();
-        return size;
+        //if (MonitorCore.instance().m_cat_dev_map.isEmpty()) return 0;
+        //String key = (String) MonitorCore.instance().m_cat_dev_map.keySet().toArray()[groupPosition];
+        //int size = MonitorCore.instance().m_cat_dev_map.get(key).size();
+        //return size;
+        return 0;
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        String key = (String) MonitorCore.instance().m_cat_dev_map.keySet().toArray()[groupPosition];
-        return key;
+        //String key = (String) MonitorCore.instance().m_cat_dev_map.keySet().toArray()[groupPosition];
+        return "";
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        String key = (String) MonitorCore.instance().m_cat_dev_map.keySet().toArray()[groupPosition];
-        return MonitorCore.instance().m_cat_dev_map.get(key).get(childPosition);
+        //String key = (String) MonitorCore.instance().m_cat_dev_map.keySet().toArray()[groupPosition];
+        //return MonitorCore.instance().m_cat_dev_map.get(key).get(childPosition);
+        return "";
     }
 
     @Override

@@ -37,7 +37,6 @@ import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
 import com.seetong.app.seetong.sdk.impl.ConstantImpl;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
-import com.seetong.app.seetong.sdk.impl.MonitorCore;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
 import com.seetong.app.seetong.ui.aid.ClearEditText;
 import com.seetong.app.seetong.ui.aid.MarqueeTextView;
@@ -1050,7 +1049,7 @@ public class VideoFragment extends BaseFragment implements GestureDetector.OnGes
         dev.m_online = true;
         dev.m_playing = false;
 
-        MonitorCore.instance().setPlayerDevice(index, dev);
+        //MonitorCore.instance().setPlayerDevice(index, dev);
         m_index_map.put(dev.m_entry.getIpc_sn(), m_current_index);
         startPlay(index, dev);
 
@@ -1112,12 +1111,12 @@ public class VideoFragment extends BaseFragment implements GestureDetector.OnGes
     }
 
     public void realPlay(int login_id) {
-        Integer index = MonitorCore.instance().getIndexByLoginId(login_id);
+        /*Integer index = MonitorCore.instance().getIndexByLoginId(login_id);
         if (null == index) return;
         int ret = MonitorCore.instance().realPlay(index, login_id);
         if (ret <= 0) {
             toast(R.string.play_device_failed);
-        }
+        }*/
     }
 
     public void stopAndResetPlay(PlayerDevice dev) {
@@ -1311,7 +1310,7 @@ public class VideoFragment extends BaseFragment implements GestureDetector.OnGes
     private final String PTZ_AUTO_STOP = "ptz_auto_stop";
 
     public boolean onStatusEvent(int lUser, int nStateCode, String response) {
-        PlayerDevice dev = MonitorCore.instance().getPlayerDeviceByLoginId(lUser);
+        PlayerDevice dev = null;//= MonitorCore.instance().getPlayerDeviceByLoginId(lUser);
         if (null == dev) return true;
         switch (nStateCode) {
             case NetSatateEvent.EVENT_CONNECTOK:

@@ -82,7 +82,7 @@ public class DeviceListAdapter2 extends BaseAdapter {
         // 获取List集合中的map对象
         Map<String, Object> map = data.get(position);
 
-        final PlayerDevice playerDevice = (PlayerDevice) map.get("device");//MonitorCore.instance().getPlayerDevice(position);
+        final PlayerDevice playerDevice = (PlayerDevice) map.get("device");
         if (null == playerDevice) {
             return view;
         }
