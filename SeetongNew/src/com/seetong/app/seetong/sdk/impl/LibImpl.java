@@ -2099,7 +2099,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                     msgObj.recvObj = xml;
                 } else {
                     Log.e(TAG, "doMsgRspCB:get update fw info fail...");
-                    sendMyToast(R.string.dlg_get_list_fail_tip);
+                    sendMyToast(R.string.dlg_update_fw_info_fail_tip);
                 }
                 sendMessage(nMsgType, 0, 0, msgObj);
                 return 0;
