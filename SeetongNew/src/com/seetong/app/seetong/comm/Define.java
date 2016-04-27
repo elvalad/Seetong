@@ -21,6 +21,7 @@ public class Define {
     public static final int MSG_SHOW_PICTURE_FRAGMENT = 113;
     public static final int MSG_ENABLE_ALIAS = 114;
     public static final int MSG_UPDATE_NET_SPEED = 115;
+    public static final int MSG_GET_DEV_VERSION_INFO = 116;
     public static final int MSG_DEVICE_CONFIG = 60004;
 
 

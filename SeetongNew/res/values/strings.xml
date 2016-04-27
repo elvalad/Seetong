@@ -197,6 +197,7 @@
     <string name="dlg_get_list_success_tip">Get device list successfully.</string>
     <string name="dlg_login_recv_list_fail_tip">Receive list data error</string>
     <string name="dlg_get_list_fail_tip">Device list is null.</string>
+    <string name="dlg_update_fw_info_fail_tip">Update fw info failure</string>
     <string name="dlg_app_exit_tip">Save configuration, please wait a moment to exit program.</string>
     <string name="dlg_app_logout_tip">Save configuration, please wait a moment to logout.</string>
     <string name="dlg_app_exit_sure_tip">Be sure to exit program?</string>
@@ -531,6 +532,8 @@
     <string name="dlg_restore_factory_succeed_tip">Successful restore factory Settings</string>
     <string name="dlg_restore_factory_failed_tip">Restore factory settings failure</string>
     <string name="dlg_restore_factory_timeout_tip">Restore factory setting timeout</string>
+    <string name="dlg_update_fw_info_failed_tip">Update fw info failure</string>
+    <string name="dlg_update_fw_info_success_tip">Update fw info success</string>
     <string name="dlg_wait_device_reboot_tip">Please wait for the device to restart</string>
     <string name="dlg_system_update_tip">Sure you want to update the system?</string>
     <string name="cloud_record">Cloud record</string>

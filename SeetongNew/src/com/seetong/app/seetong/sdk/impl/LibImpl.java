@@ -2092,6 +2092,17 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             case SDK_CONSTANT.TPS_MSG_NOTIFY_DISP_INFO:
                 onNofityDispInfo(nMsgType, pData, nDataLen);
                 return 0;
+            case SDK_CONSTANT.TPS_MSG_RSP_UPDATE_FW_INFO:
+                if (null != pData && pData.length > 0) {
+                    String xml = new String(pData).trim();
+                    Log.d(TAG, "update fw info xml[" + xml + "]");
+                    msgObj.recvObj = xml;
+                } else {
+                    Log.e(TAG, "doMsgRspCB:get update fw info fail...");
+                    sendMyToast(R.string.dlg_get_list_fail_tip);
+                }
+                sendMessage(nMsgType, 0, 0, msgObj);
+                return 0;
             default:
                 break;
         }
@@ -2224,6 +2235,11 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                 break;
             case 1007:
                 sendMessage(nMsgType, flag, 0, null);
+                break;
+            case 1012:
+                Log.e(TAG, "----------------------------->");
+                if ("".equals(xml)) return 0;
+                sendMessage(nMsgType, flag, 0, xml);
                 break;
         }
 

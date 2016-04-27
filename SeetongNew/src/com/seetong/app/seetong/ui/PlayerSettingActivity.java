@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.*;
 import android.text.InputFilter;
+import android.text.TextUtils;
+import android.util.Log;
+import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +23,12 @@ import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
 import com.seetong.app.seetong.ui.aid.ClearEditText;
 import com.seetong.app.seetong.ui.ext.MyTipDialog;
+import ipc.android.sdk.com.TPS_NotifyInfo;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -436,14 +444,51 @@ public class PlayerSettingActivity extends BaseActivity {
                 new MyTipDialog.IDialogMethod() {
                     @Override
                     public void sure() {
-                        systemUpdate();
+                        //systemUpdate();
+                        getDevVersionInfo();
                     }
                 }
         );
     }
 
+    private void getDevVersionInfo() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                PlayerDevice dev = Global.getDeviceById(deviceId);
+                if (null == dev) return;
+                String xml = "<REQUEST_PARAM ChannelId=\"\"/>";
+                LibImpl.getInstance().getFuncLib().P2PDevSystemControl(dev.m_devId, 1012, xml);
+            }
+        }).start();
+    }
+
     private void systemUpdate() {
-        toast(R.string.system_update);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                PlayerDevice dev = Global.getDeviceById(deviceId);
+                if (null == dev) return;
+                String devIdentify = "TS9116Q-4.3.0.2-201604261609";
+                if (TextUtils.isEmpty(devIdentify)) {
+                    Log.d(TAG, "device identify is empty!!!");
+                    return;
+                }
+
+                int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(dev.m_devId, devIdentify);
+                if (0 != ret) {
+                    android.os.Message msg = m_handler.obtainMessage();
+                    msg.what = Define.MSG_SHOW_TOAST;
+                    msg.arg1 = R.string.dlg_update_fw_info_failed_tip;
+                    m_handler.sendMessage(msg);
+                } else {
+                    android.os.Message msg = m_handler.obtainMessage();
+                    msg.what = Define.MSG_SHOW_TOAST;
+                    msg.arg1 = R.string.dlg_update_fw_info_success_tip;
+                    m_handler.sendMessage(msg);
+                }
+            }
+        }).start();
     }
 
     @Override
@@ -542,6 +587,34 @@ public class PlayerSettingActivity extends BaseActivity {
         }
     }
 
+
+    String m_devIdentify = "";
+    private void onGetDevVersionInfo(String xml) {
+        Log.e(TAG, xml);
+        try {
+            XmlPullParser parser = Xml.newPullParser();
+            parser.setInput(new ByteArrayInputStream(xml.getBytes()), "UTF-8");
+            int eventType = parser.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                switch (eventType) {
+                    case XmlPullParser.START_DOCUMENT:
+                        break;
+                    case XmlPullParser.START_TAG:
+                        if (parser.getName().equals("RESPONSE_PARAM")) {
+                            m_devIdentify = parser.getAttributeValue(null, "DeviceIdentify");
+                        }
+                        break;
+                    case XmlPullParser.END_TAG:
+                        break;
+                }
+
+                eventType = parser.next();
+            }
+        } catch (XmlPullParserException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void handleMessage(android.os.Message msg) {
         int flag = msg.arg1;
@@ -554,6 +627,12 @@ public class PlayerSettingActivity extends BaseActivity {
                 break;
             case 1007:
                 onRebootDevice(flag);
+                break;
+            case 1012:
+                Log.e(TAG, "+++++++++++++++++++>>>");
+                String xml = (String) msg.obj;
+                onGetDevVersionInfo(xml);
+                systemUpdate();
                 break;
         }
     }

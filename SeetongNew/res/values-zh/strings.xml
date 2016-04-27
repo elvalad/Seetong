@@ -196,6 +196,7 @@
     <string name="dlg_login_fail_addr_error_tip">登录失败，客户端地址获取错误</string>
     <string name="dlg_get_list_success_tip">设备列表获取成功.</string>
     <string name="dlg_get_list_fail_tip">设备列表为空.</string>
+    <string name="dlg_update_fw_info_fail_tip">固件升级失败</string>
     <string name="dlg_login_recv_list_fail_tip">列表数据接收异常</string>
     <string name="dlg_app_exit_tip">正在保存配置信息，稍候退出程序.</string>
     <string name="dlg_app_logout_tip">正在保存配置信息，稍候退出登录.</string>
@@ -531,6 +532,8 @@
     <string name="dlg_restore_factory_succeed_tip">恢复出厂设置成功</string>
     <string name="dlg_restore_factory_failed_tip">恢复出厂设置失败</string>
     <string name="dlg_restore_factory_timeout_tip">恢复出厂设置超时</string>
+    <string name="dlg_update_fw_info_failed_tip">固件升级失败</string>
+    <string name="dlg_update_fw_info_success_tip">固件升级成功</string>
     <string name="dlg_wait_device_reboot_tip">请等待设备重启完成</string>
     <string name="dlg_system_update_tip">确定给设备升级?</string>
     <string name="cloud_record">云端录像</string>

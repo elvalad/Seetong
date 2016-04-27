@@ -16,6 +16,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.FloatMath;
 import android.util.Log;
 import android.util.Pair;
+import android.util.Xml;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -38,8 +39,12 @@ import com.seetong.app.seetong.ui.aid.MarqueeTextView;
 import ipc.android.sdk.com.*;
 import ipc.android.sdk.impl.DeviceInfo;
 import ipc.android.sdk.impl.FunclibAgent;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
@@ -119,6 +124,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             fullCurrentWindow();
         }
         startPlayList();
+        //PlayerActivity.m_this.sendMessage(Define.MSG_GET_DEV_VERSION_INFO, 0, 0, null);
     }
 
     class MyOnGestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -308,6 +314,8 @@ public class PlayMultiVideoFragment extends BaseFragment {
         } else if (chosenPlayerDevice.m_stream_type == Define.SUB_STREAM_TYPE) {
             PlayerActivity.m_this.setResolutionState(false);
         }
+
+        //PlayerActivity.m_this.sendMessage(Define.MSG_GET_DEV_VERSION_INFO, 0, 0, null);
     }
 
     public void setSinglePlay(boolean bSingle) {
@@ -1597,9 +1605,47 @@ public class PlayMultiVideoFragment extends BaseFragment {
                     }
                 }
                 return true;
+            case SDK_CONSTANT.TPS_MSG_RSP_UPDATE_FW_INFO:
+                msgObj = (LibImpl.MsgObject) msg.obj;
+                String xml = (String) msgObj.recvObj;
+                onUpdateFwInfo(xml);
+                return true;
         }
 
         return false;
+    }
+
+    private void onUpdateFwInfo(String xml) {
+        if (xml == null) return;
+        String file_url = "";
+        String file_md5 = "";
+        try {
+            XmlPullParser parser = Xml.newPullParser();
+            parser.setInput(new ByteArrayInputStream(xml.getBytes()), "UTF-8");
+            int eventType = parser.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                switch (eventType) {
+                    case XmlPullParser.START_DOCUMENT:
+                        break;
+                    case XmlPullParser.START_TAG:
+                        if (parser.getName().equals("param")) {
+                            file_url = parser.getAttributeValue(null, "file_url");
+                            file_md5 = parser.getAttributeValue(null, "file_md5");
+                        }
+                        break;
+                    case XmlPullParser.END_TAG:
+                        break;
+                }
+
+                eventType = parser.next();
+            }
+        } catch (XmlPullParserException | IOException e) {
+            e.printStackTrace();
+        }
+
+        String xml2 = "<REQUEST_PARAM url=\"" + file_url + "\"  md5=\"" + file_md5 + "\" ChannelId=\"\"/>";
+        Log.e(TAG, xml2);
+        LibImpl.getInstance().getFuncLib().P2PDevSystemControl(chosenPlayerDevice.m_devId, 1090, xml2);
     }
 
     private void onGetUserConfig(int flag, String devId, List<NetSDK_UserAccount> obj) {
