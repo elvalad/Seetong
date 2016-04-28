@@ -63,6 +63,7 @@ public class PlayerActivity extends BaseActivity {
     public boolean m_modifyDefaultPassword = false;
     public PlayerDevice m_modifyUserPwdDev = null;
     private boolean bRestartFromNvr = false;
+    private boolean bFirmwareUpdatePrompt = false;
 
     private OrientationEventListener mOrientationListener;
     private boolean mIsLand = false; //  «∑Ò «∫·∆¡
@@ -601,6 +602,7 @@ public class PlayerActivity extends BaseActivity {
 
                 Intent intent = new Intent(PlayerActivity.this, PlayerSettingActivity.class);
                 intent.putExtra("device_setting_id", PlayerActivity.this.deviceId);
+                intent.putExtra("device_setting_firmware_prompt", PlayerActivity.this.bFirmwareUpdatePrompt);
                 startActivityForResult(intent, Constant.REQ_ID_DEVICE_CONFIG);
                 setRestartFromNvr(false);
             }
@@ -1084,8 +1086,10 @@ public class PlayerActivity extends BaseActivity {
         updatePromptView = (ImageView) findViewById(R.id.system_update_prompt);
         if (bPrompt) {
             updatePromptView.setVisibility(View.VISIBLE);
+            bFirmwareUpdatePrompt = true;
         } else {
             updatePromptView.setVisibility(View.GONE);
+            bFirmwareUpdatePrompt = false;
         }
     }
 }

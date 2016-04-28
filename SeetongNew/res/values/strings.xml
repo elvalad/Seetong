@@ -526,7 +526,7 @@
     <string name="motion_detect_enable">Enable motion detect:</string>
     <string name="front_end_record">Front-end record</string>
     <string name="restore_factory_settings">Restore factory Settings</string>
-    <string name="system_update">System update</string>
+    <string name="system_update">Firmware update</string>
     <string name="confirm_restore_factory_tip">Sure you want to restore the factory Settings?</string>
     <string name="dlg_restore_factory_tip">Is to restore the factory Settings…</string>
     <string name="dlg_restore_factory_succeed_tip">Successful restore factory Settings</string>

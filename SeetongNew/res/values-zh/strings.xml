@@ -526,7 +526,7 @@
     <string name="motion_detect_enable">启用移动侦测：</string>
     <string name="front_end_record">前端录像</string>
     <string name="restore_factory_settings">恢复出厂设置</string>
-    <string name="system_update">系统升级</string>
+    <string name="system_update">固件升级</string>
     <string name="confirm_restore_factory_tip">确定要恢复出厂设置？</string>
     <string name="dlg_restore_factory_tip">正在恢复出厂设置…</string>
     <string name="dlg_restore_factory_succeed_tip">恢复出厂设置成功</string>

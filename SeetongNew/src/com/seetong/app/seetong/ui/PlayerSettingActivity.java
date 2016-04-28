@@ -23,7 +23,6 @@ import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
 import com.seetong.app.seetong.ui.aid.ClearEditText;
 import com.seetong.app.seetong.ui.ext.MyTipDialog;
-import ipc.android.sdk.com.TPS_NotifyInfo;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -39,6 +38,7 @@ import java.util.List;
 public class PlayerSettingActivity extends BaseActivity {
     public static String TAG = PlayerSettingActivity.class.getName();
     private String deviceId = null;
+    private boolean bFirmwarePrompt = false;
     private PlayerDevice playerDevice;
     private Adapter adapter;
     private List<SettingContent> data = new ArrayList<>();
@@ -62,6 +62,7 @@ public class PlayerSettingActivity extends BaseActivity {
         private class ViewHolder {
             public TextView deviceSettingOption;
             public ImageView deviceSettingImage;
+            public ImageView deviceSettingPrompt;
         }
 
         public Adapter(Context context, List<SettingContent> data) {
@@ -93,6 +94,7 @@ public class PlayerSettingActivity extends BaseActivity {
                 view = m_inflater.inflate(R.layout.player_setting_item, parent, false);
                 viewHolder.deviceSettingOption = (TextView) view.findViewById(R.id.device_setting_option);
                 viewHolder.deviceSettingImage = (ImageView) view.findViewById(R.id.device_setting_image);
+                viewHolder.deviceSettingPrompt = (ImageView) view.findViewById(R.id.device_setting_firmware_update);
                 view.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) view.getTag();
@@ -106,6 +108,12 @@ public class PlayerSettingActivity extends BaseActivity {
                     onItemClick(m_data.get(position).settingOptionR);
                 }
             });
+
+            if (bFirmwarePrompt && (m_data.get(position).settingOptionR == R.string.system_update)) {
+                viewHolder.deviceSettingPrompt.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.deviceSettingPrompt.setVisibility(View.GONE);
+            }
 
             return view;
         }
@@ -469,6 +477,7 @@ public class PlayerSettingActivity extends BaseActivity {
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_player_setting);
         deviceId = getIntent().getStringExtra("device_setting_id");
+        bFirmwarePrompt = getIntent().getBooleanExtra("device_setting_firmware_prompt", false);
         playerDevice = Global.getDeviceById(deviceId);
         initWidget();
     }
@@ -611,6 +620,7 @@ public class PlayerSettingActivity extends BaseActivity {
                     msg.what = Define.MSG_SHOW_TOAST;
                     msg.arg1 = R.string.dlg_update_fw_info_success_tip;
                     m_handler.sendMessage(msg);
+                    bFirmwarePrompt = false;
                 }
             }
         }).start();
@@ -622,6 +632,7 @@ public class PlayerSettingActivity extends BaseActivity {
         switch (msg.what) {
             case Define.MSG_SHOW_TOAST:
                 toast(msg.arg1);
+                adapter.notifyDataSetChanged();
                 break;
             case 1002:
                 onRestoreFactory(flag);

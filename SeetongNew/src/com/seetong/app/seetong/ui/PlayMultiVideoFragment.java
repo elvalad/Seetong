@@ -1655,7 +1655,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             }
 
             /* TODO:≤‚ ‘ π”√µƒIdentify */
-            //devIdentify = "TS9116Q-4.3.0.2-201604261609";
+            devIdentify = "TS9116Q-4.3.0.2-201604261609";
             if (!"".equals(devIdentify)) {
                 PlayerActivity.m_this.systemUpdatePrompt(true);
             }

@@ -23,6 +23,16 @@
             android:textSize="15sp" />
 
     <ImageView
+            android:id="@+id/device_setting_firmware_update"
+            android:src="@drawable/alarm_prompt_1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/device_setting_option"
+            android:layout_marginLeft="10dp"
+            android:visibility="gone"/>
+
+    <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
