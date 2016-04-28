@@ -1621,6 +1621,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     }
 
     private void getDevVersionInfo() {
+        PlayerActivity.m_this.systemUpdatePrompt(false);
         new Thread(new Runnable() {
             @Override
             public void run() {
