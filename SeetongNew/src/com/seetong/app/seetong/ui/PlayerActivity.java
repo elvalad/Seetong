@@ -79,6 +79,7 @@ public class PlayerActivity extends BaseActivity {
     private ImageButton playerSoundButton;
     private Button playerResolutionButton;
     private ImageButton playerSettingButton;
+    private ImageView updatePromptView;
     private Button playerRecordButton;
     private Button playerSpeakButton;
     private Button playerCaptureButton;
@@ -1077,5 +1078,14 @@ public class PlayerActivity extends BaseActivity {
 
     public void setRestartFromNvr(boolean bRestartFromNvr) {
         this.bRestartFromNvr = bRestartFromNvr;
+    }
+
+    public void systemUpdatePrompt(boolean bPrompt) {
+        updatePromptView = (ImageView) findViewById(R.id.system_update_prompt);
+        if (bPrompt) {
+            updatePromptView.setVisibility(View.VISIBLE);
+        } else {
+            updatePromptView.setVisibility(View.GONE);
+        }
     }
 }

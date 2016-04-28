@@ -463,34 +463,6 @@ public class PlayerSettingActivity extends BaseActivity {
         }).start();
     }
 
-    private void systemUpdate() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                PlayerDevice dev = Global.getDeviceById(deviceId);
-                if (null == dev) return;
-                String devIdentify = "TS9116Q-4.3.0.2-201604261609";
-                if (TextUtils.isEmpty(devIdentify)) {
-                    Log.d(TAG, "device identify is empty!!!");
-                    return;
-                }
-
-                int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(dev.m_devId, devIdentify);
-                if (0 != ret) {
-                    android.os.Message msg = m_handler.obtainMessage();
-                    msg.what = Define.MSG_SHOW_TOAST;
-                    msg.arg1 = R.string.dlg_update_fw_info_failed_tip;
-                    m_handler.sendMessage(msg);
-                } else {
-                    android.os.Message msg = m_handler.obtainMessage();
-                    msg.what = Define.MSG_SHOW_TOAST;
-                    msg.arg1 = R.string.dlg_update_fw_info_success_tip;
-                    m_handler.sendMessage(msg);
-                }
-            }
-        }).start();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -613,6 +585,35 @@ public class PlayerSettingActivity extends BaseActivity {
         } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void systemUpdate() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                PlayerDevice dev = Global.getDeviceById(deviceId);
+                if (null == dev) return;
+                /* TODO: Identify为测试使用的，后续使用从设备获取得到的m_devIdentify */
+                String devIdentify = "TS9116Q-4.3.0.2-201604261609";
+                if (TextUtils.isEmpty(devIdentify)) {
+                    Log.d(TAG, "device identify is empty!!!");
+                    return;
+                }
+
+                int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(dev.m_devId, devIdentify);
+                if (0 != ret) {
+                    android.os.Message msg = m_handler.obtainMessage();
+                    msg.what = Define.MSG_SHOW_TOAST;
+                    msg.arg1 = R.string.dlg_update_fw_info_failed_tip;
+                    m_handler.sendMessage(msg);
+                } else {
+                    android.os.Message msg = m_handler.obtainMessage();
+                    msg.what = Define.MSG_SHOW_TOAST;
+                    msg.arg1 = R.string.dlg_update_fw_info_success_tip;
+                    m_handler.sendMessage(msg);
+                }
+            }
+        }).start();
     }
 
     @Override

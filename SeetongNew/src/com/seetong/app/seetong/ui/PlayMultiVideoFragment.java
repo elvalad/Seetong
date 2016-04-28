@@ -124,7 +124,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             fullCurrentWindow();
         }
         startPlayList();
-        //PlayerActivity.m_this.sendMessage(Define.MSG_GET_DEV_VERSION_INFO, 0, 0, null);
+        getDevVersionInfo();
     }
 
     class MyOnGestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -315,7 +315,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             PlayerActivity.m_this.setResolutionState(false);
         }
 
-        //PlayerActivity.m_this.sendMessage(Define.MSG_GET_DEV_VERSION_INFO, 0, 0, null);
+        getDevVersionInfo();
     }
 
     public void setSinglePlay(boolean bSingle) {
@@ -1610,9 +1610,58 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 String xml = (String) msgObj.recvObj;
                 onUpdateFwInfo(xml);
                 return true;
+            case 1012:
+                Log.e(TAG, "++++++++++++++++++++++++>>>");
+                xml = (String) msg.obj;
+                onGetDevVersionInfo(xml);
+                return true;
         }
 
         return false;
+    }
+
+    private void getDevVersionInfo() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String xml = "<REQUEST_PARAM ChannelId=\"\"/>";
+                LibImpl.getInstance().getFuncLib().P2PDevSystemControl(chosenPlayerDevice.m_devId, 1012, xml);
+            }
+        }).start();
+    }
+
+
+    private void onGetDevVersionInfo(String xml) {
+        String devIdentify = "";
+        Log.e(TAG, xml);
+        try {
+            XmlPullParser parser = Xml.newPullParser();
+            parser.setInput(new ByteArrayInputStream(xml.getBytes()), "UTF-8");
+            int eventType = parser.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                switch (eventType) {
+                    case XmlPullParser.START_DOCUMENT:
+                        break;
+                    case XmlPullParser.START_TAG:
+                        if (parser.getName().equals("RESPONSE_PARAM")) {
+                            devIdentify = parser.getAttributeValue(null, "DeviceIdentify");
+                        }
+                        break;
+                    case XmlPullParser.END_TAG:
+                        break;
+                }
+
+                eventType = parser.next();
+            }
+
+            /* TODO:≤‚ ‘ π”√µƒIdentify */
+            //devIdentify = "TS9116Q-4.3.0.2-201604261609";
+            if (!"".equals(devIdentify)) {
+                PlayerActivity.m_this.systemUpdatePrompt(true);
+            }
+        } catch (XmlPullParserException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void onUpdateFwInfo(String xml) {
@@ -1646,6 +1695,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         String xml2 = "<REQUEST_PARAM url=\"" + file_url + "\"  md5=\"" + file_md5 + "\" ChannelId=\"\"/>";
         Log.e(TAG, xml2);
         LibImpl.getInstance().getFuncLib().P2PDevSystemControl(chosenPlayerDevice.m_devId, 1090, xml2);
+        PlayerActivity.m_this.systemUpdatePrompt(false);
     }
 
     private void onGetUserConfig(int flag, String devId, List<NetSDK_UserAccount> obj) {
