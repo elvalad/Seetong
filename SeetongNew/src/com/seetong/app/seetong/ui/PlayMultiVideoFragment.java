@@ -1627,6 +1627,10 @@ public class PlayMultiVideoFragment extends BaseFragment {
             @Override
             public void run() {
                 String xml = "<REQUEST_PARAM ChannelId=\"\"/>";
+                if (chosenPlayerDevice.isNVR()) {
+                    int channelId = Integer.parseInt(chosenPlayerDevice.m_devId.substring(chosenPlayerDevice.m_devId.lastIndexOf("-") + 1)) - 1;
+                    xml = "<REQUEST_PARAM ChannelId=\"" + channelId + "\"/>";
+                }
                 LibImpl.getInstance().getFuncLib().P2PDevSystemControl(chosenPlayerDevice.m_devId, 1012, xml);
             }
         }).start();
@@ -1668,7 +1672,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
     private void onUpdateFwInfo(String xml) {
         if (xml == null) return;
-        Log.e(TAG, "++++++++++++++++++++++++++++++++++++++++++++>>>");
+        Log.e(TAG, "++++++++++++++++++++++++++++++++++++++++++++>>>" + xml);
         String file_url = "";
         String file_md5 = "";
         try {
@@ -1696,6 +1700,10 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
 
         String xml2 = "<REQUEST_PARAM url=\"" + file_url + "\"  md5=\"" + file_md5 + "\" ChannelId=\"\"/>";
+        if (chosenPlayerDevice.isNVR()) {
+            int channelId = Integer.parseInt(chosenPlayerDevice.m_devId.substring(chosenPlayerDevice.m_devId.lastIndexOf("-") + 1)) - 1;
+            xml2 = "<REQUEST_PARAM url=\"" + file_url + "\"  md5=\"" + file_md5 + "\" ChannelId=\"" + channelId + "\"/>";
+        }
         Log.e(TAG, xml2);
         int ret = LibImpl.getInstance().getFuncLib().P2PDevSystemControl(chosenPlayerDevice.m_devId, 1090, xml2);
         if (0 == ret) {

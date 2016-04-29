@@ -469,6 +469,10 @@ public class PlayerSettingActivity extends BaseActivity {
                 PlayerDevice dev = Global.getDeviceById(deviceId);
                 if (null == dev) return;
                 String xml = "<REQUEST_PARAM ChannelId=\"\"/>";
+                if (dev.isNVR()) {
+                    int channelId = Integer.parseInt(dev.m_devId.substring(dev.m_devId.lastIndexOf("-") + 1)) - 1;
+                    xml = "<REQUEST_PARAM ChannelId=\"" + channelId + "\"/>";
+                }
                 LibImpl.getInstance().getFuncLib().P2PDevSystemControl(dev.m_devId, 1012, xml);
             }
         }).start();
