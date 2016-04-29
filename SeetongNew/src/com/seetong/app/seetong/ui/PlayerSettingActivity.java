@@ -452,8 +452,11 @@ public class PlayerSettingActivity extends BaseActivity {
                 new MyTipDialog.IDialogMethod() {
                     @Override
                     public void sure() {
-                        //systemUpdate();
-                        getDevVersionInfo();
+                        if (bFirmwarePrompt) {
+                            getDevVersionInfo();
+                        } else {
+                            toast(R.string.firmware_can_not_update);
+                        }
                     }
                 }
         );
@@ -603,13 +606,13 @@ public class PlayerSettingActivity extends BaseActivity {
                 PlayerDevice dev = Global.getDeviceById(deviceId);
                 if (null == dev) return;
                 /* TODO: Identify为测试使用的，后续使用从设备获取得到的m_devIdentify */
-                String devIdentify = "TS9116Q-4.3.0.2-201604261609";
-                if (TextUtils.isEmpty(devIdentify)) {
+                //String devIdentify = "TS9116Q-4.3.0.2-201604261609";
+                if (TextUtils.isEmpty(m_devIdentify)) {
                     Log.d(TAG, "device identify is empty!!!");
                     return;
                 }
 
-                int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(dev.m_devId, devIdentify);
+                int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(dev.m_devId, m_devIdentify);
                 if (0 != ret) {
                     android.os.Message msg = m_handler.obtainMessage();
                     msg.what = Define.MSG_SHOW_TOAST;
@@ -641,9 +644,9 @@ public class PlayerSettingActivity extends BaseActivity {
                 onRebootDevice(flag);
                 break;
             case 1012:
-                Log.e(TAG, "+++++++++++++++++++>>>");
                 String xml = (String) msg.obj;
                 onGetDevVersionInfo(xml);
+                Global.m_firmware_update = true;
                 systemUpdate();
                 break;
         }

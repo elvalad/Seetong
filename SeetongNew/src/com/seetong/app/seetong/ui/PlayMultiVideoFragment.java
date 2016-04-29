@@ -1608,10 +1608,11 @@ public class PlayMultiVideoFragment extends BaseFragment {
             case SDK_CONSTANT.TPS_MSG_RSP_UPDATE_FW_INFO:
                 msgObj = (LibImpl.MsgObject) msg.obj;
                 String xml = (String) msgObj.recvObj;
-                onUpdateFwInfo(xml);
+                if (!TextUtils.isEmpty(xml)) PlayerActivity.m_this.systemUpdatePrompt(true);
+                Log.e(TAG, "--------------------------------->xxxxxxxxxxxxxxxxmmmmmmmmmmml" + xml);
+                if (Global.m_firmware_update) onUpdateFwInfo(xml);
                 return true;
             case 1012:
-                Log.e(TAG, "++++++++++++++++++++++++>>>");
                 xml = (String) msg.obj;
                 onGetDevVersionInfo(xml);
                 return true;
@@ -1634,7 +1635,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
     private void onGetDevVersionInfo(String xml) {
         String devIdentify = "";
-        Log.e(TAG, xml);
         try {
             XmlPullParser parser = Xml.newPullParser();
             parser.setInput(new ByteArrayInputStream(xml.getBytes()), "UTF-8");
@@ -1656,9 +1656,10 @@ public class PlayMultiVideoFragment extends BaseFragment {
             }
 
             /* TODO:²âÊÔÊ¹ÓÃµÄIdentify */
-            devIdentify = "TS9116Q-4.3.0.2-201604261609";
-            if (!"".equals(devIdentify)) {
-                PlayerActivity.m_this.systemUpdatePrompt(true);
+            //devIdentify = "TS9116Q-4.3.0.2-201604261609";
+            if (!TextUtils.isEmpty(devIdentify)) {
+                LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(chosenPlayerDevice.m_devId, devIdentify);
+                Global.m_firmware_update = false;
             }
         } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
@@ -1667,6 +1668,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
     private void onUpdateFwInfo(String xml) {
         if (xml == null) return;
+        Log.e(TAG, "++++++++++++++++++++++++++++++++++++++++++++>>>");
         String file_url = "";
         String file_md5 = "";
         try {
@@ -1695,8 +1697,12 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
         String xml2 = "<REQUEST_PARAM url=\"" + file_url + "\"  md5=\"" + file_md5 + "\" ChannelId=\"\"/>";
         Log.e(TAG, xml2);
-        LibImpl.getInstance().getFuncLib().P2PDevSystemControl(chosenPlayerDevice.m_devId, 1090, xml2);
-        PlayerActivity.m_this.systemUpdatePrompt(false);
+        int ret = LibImpl.getInstance().getFuncLib().P2PDevSystemControl(chosenPlayerDevice.m_devId, 1090, xml2);
+        if (0 == ret) {
+            PlayerActivity.m_this.systemUpdatePrompt(false);
+        } else {
+            toast(R.string.dlg_update_fw_info_fail_tip);
+        }
     }
 
     private void onGetUserConfig(int flag, String devId, List<NetSDK_UserAccount> obj) {
