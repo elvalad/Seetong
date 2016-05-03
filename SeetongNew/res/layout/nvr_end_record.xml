@@ -163,8 +163,11 @@
 
         <Button
             android:id="@+id/nvr_record"
+            android:text="@string/player_record"
+            android:textColor="@color/dark_gray"
             android:background="@drawable/tps_play_record_off"
-            android:gravity="center"
+            android:gravity="bottom|center"
+            android:paddingBottom="12dp"
             android:layout_width="80dp"
             android:layout_height="80dp"/>
 
@@ -175,8 +178,11 @@
 
         <Button
             android:id="@+id/nvr_capture"
+            android:text="@string/player_capture"
+            android:textColor="@color/dark_gray"
             android:background="@drawable/tps_play_capture_off"
-            android:gravity="center"
+            android:gravity="bottom|center"
+            android:paddingBottom="12dp"
             android:layout_width="80dp"
             android:layout_height="80dp"/>
 
