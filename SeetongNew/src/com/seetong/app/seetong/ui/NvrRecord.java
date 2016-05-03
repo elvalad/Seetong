@@ -204,6 +204,9 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
         findViewById(R.id.btn_h_sound_max).setOnClickListener(this);
         findViewById(R.id.btn_calendar).setOnClickListener(this);
 
+        findViewById(R.id.nvr_record).setOnClickListener(this);
+        findViewById(R.id.nvr_capture).setOnClickListener(this);
+
         setButtonStatus();
         //setVideoInfo("[" + m_device_id + "]");
 
@@ -580,8 +583,49 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
             case R.id.btn_calendar:
                 onBtnCalendar();
                 break;
+            case R.id.nvr_record:
+                onBtnNvrRecord();
+                break;
+            case R.id.nvr_capture:
+                onBtnNvrCapture();
+                break;
             default: break;
         }
+    }
+
+    private void onBtnNvrRecord() {
+        PlayerDevice dev = Global.getDeviceById(m_device_id);
+        assert dev != null;
+        toast("record " + dev.getDeviceName());
+    }
+
+    private void onBtnNvrCapture() {
+        PlayerDevice dev = Global.getDeviceById(m_device_id);
+        if (null == dev) return;
+        TPS_AddWachtRsp rsp = dev.m_add_watch_rsp;
+        if (null == rsp || !dev.m_first_frame) {
+            toast(R.string.tv_video_wait_video_stream_tip);
+            return;
+        }
+
+        String strDate = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
+        String fileName = Global.getImageDir() + "/" + dev.m_dev.getDevId() + "_" + strDate + ".jpg";
+        boolean bShotOk = dev.m_video.startShot(fileName);
+        if (bShotOk) {
+            toast(R.string.snapshot_succeed);
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1500);
+                    MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_SCREENSHOT_LIST, 0, 0, null);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     private void onBtnZoomOut() {
