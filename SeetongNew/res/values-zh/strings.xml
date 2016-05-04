@@ -835,6 +835,10 @@
     <string name="player_exit_record">录像时间太短，请10秒之后再停止</string>
     <string name="player_choose_other_dev">该设备已在播放</string>
     <string name="player_p2p_forward">网络环境差，不能使用主码流</string>
+    <string name="player_fw_update_progress">更新固件</string>
+    <string name="player_fw_update_start">开始下载固件</string>
+    <string name="player_fw_updating">固件正在下载中…</string>
+    <string name="player_fw_update_finish">下载完成，固件升级中…</string>
 
     <string name="about_update_delay">暂时不能更新</string>
     <string name="about_upload_log_success">上传日志文件成功</string>

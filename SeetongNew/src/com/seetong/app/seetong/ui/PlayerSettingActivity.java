@@ -43,6 +43,7 @@ public class PlayerSettingActivity extends BaseActivity {
     private Adapter adapter;
     private List<SettingContent> data = new ArrayList<>();
     private ProgressDialog mTipDlg;
+    private android.app.ProgressDialog updateProgress;
 
     class SettingContent {
         Integer settingOptionR;
@@ -456,6 +457,7 @@ public class PlayerSettingActivity extends BaseActivity {
                             getDevVersionInfo();
                         } else {
                             toast(R.string.firmware_can_not_update);
+                            //onGetUpdateProgress();
                         }
                     }
                 }
@@ -539,6 +541,14 @@ public class PlayerSettingActivity extends BaseActivity {
     private void initWidget() {
         mTipDlg = new ProgressDialog(this, R.string.dlg_login_server_tip);
         mTipDlg.setCancelable(false);
+
+        updateProgress = new android.app.ProgressDialog(this);
+        updateProgress.setProgressStyle(android.app.ProgressDialog.STYLE_HORIZONTAL);
+        updateProgress.setTitle(R.string.player_fw_update_progress);
+        updateProgress.setMessage(getResources().getString(R.string.player_fw_update_start));
+        updateProgress.setProgress(0);
+        updateProgress.setIndeterminate(false);
+        updateProgress.setCancelable(true);
 
         TextView textView = (TextView) findViewById(R.id.device_setting_id);
         textView.setText(deviceId);
@@ -624,13 +634,21 @@ public class PlayerSettingActivity extends BaseActivity {
                     m_handler.sendMessage(msg);
                 } else {
                     android.os.Message msg = m_handler.obtainMessage();
-                    msg.what = Define.MSG_SHOW_TOAST;
-                    msg.arg1 = R.string.dlg_update_fw_info_success_tip;
+                    msg.what = Define.MSG_SHOW_FW_UPDATE_PROGRESS;
                     m_handler.sendMessage(msg);
+                    //msg.what = Define.MSG_SHOW_TOAST;
+                    //msg.arg1 = R.string.dlg_update_fw_info_success_tip;
+                    //m_handler.sendMessage(msg);
                     bFirmwarePrompt = false;
                 }
             }
         }).start();
+    }
+
+    private void onGetUpdateProgress() {
+        updateProgress.show();
+        ProgressBarAsyncTask asyncTask = new ProgressBarAsyncTask(updateProgress);
+        asyncTask.execute(1000);
     }
 
     @Override
@@ -639,6 +657,10 @@ public class PlayerSettingActivity extends BaseActivity {
         switch (msg.what) {
             case Define.MSG_SHOW_TOAST:
                 toast(msg.arg1);
+                adapter.notifyDataSetChanged();
+                break;
+            case Define.MSG_SHOW_FW_UPDATE_PROGRESS:
+                onGetUpdateProgress();
                 adapter.notifyDataSetChanged();
                 break;
             case 1002:
@@ -653,6 +675,47 @@ public class PlayerSettingActivity extends BaseActivity {
                 Global.m_firmware_update = true;
                 systemUpdate();
                 break;
+        }
+    }
+
+    class ProgressBarAsyncTask extends AsyncTask {
+        private android.app.ProgressDialog progressDialog;
+
+        public ProgressBarAsyncTask(android.app.ProgressDialog progressDialog) {
+            this.progressDialog = progressDialog;
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            int i;
+            for (i = 1; i <= 100; i++) {
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                publishProgress(i);
+            }
+            return i + params[0].toString() + "";
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            progressDialog.setMessage(getResources().getString(R.string.player_fw_update_finish));
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.setMessage(getResources().getString(R.string.player_fw_updating));
+        }
+
+        @Override
+        protected void onProgressUpdate(Object[] values) {
+            super.onProgressUpdate(values);
+            int value = (int) values[0];
+            progressDialog.setProgress(value);
         }
     }
 }
