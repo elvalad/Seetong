@@ -2239,6 +2239,10 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                 if ("".equals(xml)) return 0;
                 sendMessage(nMsgType, flag, 0, xml);
                 break;
+            case 1092:
+                if ("".equals(xml)) return 0;
+                sendMessage(nMsgType, flag, 0, xml);
+                break;
         }
 
         return 0;

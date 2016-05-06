@@ -44,6 +44,8 @@ public class PlayerSettingActivity extends BaseActivity {
     private List<SettingContent> data = new ArrayList<>();
     private ProgressDialog mTipDlg;
     private android.app.ProgressDialog updateProgress;
+    private int fwUpdateProgress = 0;
+    private int fwUpdateState = 0;
 
     class SettingContent {
         Integer settingOptionR;
@@ -457,7 +459,6 @@ public class PlayerSettingActivity extends BaseActivity {
                             getDevVersionInfo();
                         } else {
                             toast(R.string.firmware_can_not_update);
-                            //onGetUpdateProgress();
                         }
                     }
                 }
@@ -649,6 +650,46 @@ public class PlayerSettingActivity extends BaseActivity {
         updateProgress.show();
         ProgressBarAsyncTask asyncTask = new ProgressBarAsyncTask(updateProgress);
         asyncTask.execute(1000);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                PlayerDevice dev = Global.getDeviceById(deviceId);
+                if (null == dev) return;
+                String xml = "<REQUEST_PARAM ChannelId=\"\"/>";
+                if (dev.isNVR()) {
+                    int channelId = Integer.parseInt(dev.m_devId.substring(dev.m_devId.lastIndexOf("-") + 1)) - 1;
+                    xml = "<REQUEST_PARAM ChannelId=\"" + channelId + "\"/>";
+                }
+                LibImpl.getInstance().getFuncLib().P2PDevSystemControl(dev.m_devId, 1092, xml);
+            }
+        }).start();
+    }
+
+    private void onGetUpdateState(String xml) {
+        try {
+            XmlPullParser parser = Xml.newPullParser();
+            parser.setInput(new ByteArrayInputStream(xml.getBytes()), "UTF-8");
+            int eventType = parser.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                switch (eventType) {
+                    case XmlPullParser.START_DOCUMENT:
+                        break;
+                    case XmlPullParser.START_TAG:
+                        Log.e(TAG, "---------------->" + xml + "=======================>" + parser.getName());
+                        if (parser.getName().equals("RESPONSE_PARAM")) {
+                            fwUpdateProgress = Integer.parseInt(parser.getAttributeValue(null, "Progress"));
+                            fwUpdateState = Integer.parseInt(parser.getAttributeValue(null, "State"));
+                        }
+                        break;
+                    case XmlPullParser.END_TAG:
+                        break;
+                }
+
+                eventType = parser.next();
+            }
+        } catch (XmlPullParserException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -657,7 +698,6 @@ public class PlayerSettingActivity extends BaseActivity {
         switch (msg.what) {
             case Define.MSG_SHOW_TOAST:
                 toast(msg.arg1);
-                adapter.notifyDataSetChanged();
                 break;
             case Define.MSG_SHOW_FW_UPDATE_PROGRESS:
                 onGetUpdateProgress();
@@ -675,6 +715,10 @@ public class PlayerSettingActivity extends BaseActivity {
                 Global.m_firmware_update = true;
                 systemUpdate();
                 break;
+            case 1092:
+                xml = (String) msg.obj;
+                onGetUpdateState(xml);
+                break;
         }
     }
 
@@ -687,28 +731,59 @@ public class PlayerSettingActivity extends BaseActivity {
 
         @Override
         protected Object doInBackground(Object[] params) {
-            int i;
-            for (i = 1; i <= 100; i++) {
+            while (true) {
                 try {
                     Thread.sleep(100);
+                    PlayerDevice dev = Global.getDeviceById(deviceId);
+                    if (null == dev) return null;
+                    String xml = "<REQUEST_PARAM ChannelId=\"\"/>";
+                    if (dev.isNVR()) {
+                        int channelId = Integer.parseInt(dev.m_devId.substring(dev.m_devId.lastIndexOf("-") + 1)) - 1;
+                        xml = "<REQUEST_PARAM ChannelId=\"" + channelId + "\"/>";
+                    }
+                    LibImpl.getInstance().getFuncLib().P2PDevSystemControl(dev.m_devId, 1092, xml);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                publishProgress(fwUpdateProgress);
+
+                if (((fwUpdateProgress == 100) && (fwUpdateState == 3)) || (fwUpdateState == 4)) break;
+            }
+
+            return fwUpdateProgress + params[0].toString() + "";
+
+            /*int i;
+            for (i = 1; i <= 100; i++) {
+                try {
+                    Thread.sleep(500);
+                    PlayerDevice dev = Global.getDeviceById(deviceId);
+                    if (null == dev) return null;
+                    String xml = "<REQUEST_PARAM ChannelId=\"\"/>";
+                    if (dev.isNVR()) {
+                        int channelId = Integer.parseInt(dev.m_devId.substring(dev.m_devId.lastIndexOf("-") + 1)) - 1;
+                        xml = "<REQUEST_PARAM ChannelId=\"" + channelId + "\"/>";
+                    }
+                    LibImpl.getInstance().getFuncLib().P2PDevSystemControl(dev.m_devId, 1092, xml);
+                    Log.e(TAG, "progress : " + fwUpdateProgress + " state : " + fwUpdateState);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 publishProgress(i);
             }
-            return i + params[0].toString() + "";
+            return i + params[0].toString() + "";*/
         }
 
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
-            progressDialog.setMessage(getResources().getString(R.string.player_fw_update_finish));
+            //progressDialog.setMessage(getResources().getString(R.string.player_fw_update_finish));
+            //progressDialog.dismiss();
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog.setMessage(getResources().getString(R.string.player_fw_updating));
+            progressDialog.setMessage(getResources().getString(R.string.player_fw_update_state_0));
         }
 
         @Override
@@ -716,6 +791,33 @@ public class PlayerSettingActivity extends BaseActivity {
             super.onProgressUpdate(values);
             int value = (int) values[0];
             progressDialog.setProgress(value);
+            switch (fwUpdateState) {
+                case 0:
+                    progressDialog.setMessage(getResources().getString(R.string.player_fw_update_state_0));
+                    break;
+                case 1:
+                    progressDialog.setMessage(getResources().getString(R.string.player_fw_update_state_1));
+                    break;
+                case 2:
+                    progressDialog.setMessage(getResources().getString(R.string.player_fw_update_state_2));
+                    break;
+                case 3:
+                    progressDialog.setMessage(getResources().getString(R.string.player_fw_update_state_3));
+                    android.os.Message msg = m_handler.obtainMessage();
+                    msg.what = Define.MSG_SHOW_TOAST;
+                    msg.arg1 = R.string.player_fw_update_state_3;
+                    m_handler.sendMessage(msg);
+                    progressDialog.dismiss();
+                    break;
+                case 4:
+                    progressDialog.setMessage(getResources().getString(R.string.player_fw_update_state_4));
+                    msg = m_handler.obtainMessage();
+                    msg.what = Define.MSG_SHOW_TOAST;
+                    msg.arg1 = R.string.player_fw_update_state_4;
+                    m_handler.sendMessage(msg);
+                    progressDialog.dismiss();
+                    break;
+            }
         }
     }
 }
