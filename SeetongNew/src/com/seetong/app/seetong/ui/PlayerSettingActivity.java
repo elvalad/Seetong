@@ -549,7 +549,7 @@ public class PlayerSettingActivity extends BaseActivity {
         updateProgress.setMessage(getResources().getString(R.string.player_fw_update_start));
         updateProgress.setProgress(0);
         updateProgress.setIndeterminate(false);
-        updateProgress.setCancelable(true);
+        updateProgress.setCancelable(false);
 
         TextView textView = (TextView) findViewById(R.id.device_setting_id);
         textView.setText(deviceId);
