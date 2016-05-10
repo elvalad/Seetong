@@ -79,6 +79,9 @@ public class PlayerDevice {
     public int m_device_play_count;
     public int m_device_exit_index;
 
+    public String nvrIdentify = "";
+    public String ipcIdentify = "";
+
     {
         m_port_id = -1;
         m_view_id = -1;

@@ -1608,7 +1608,10 @@ public class PlayMultiVideoFragment extends BaseFragment {
             case SDK_CONSTANT.TPS_MSG_RSP_UPDATE_FW_INFO:
                 msgObj = (LibImpl.MsgObject) msg.obj;
                 String xml = (String) msgObj.recvObj;
-                if (!TextUtils.isEmpty(xml)) PlayerActivity.m_this.systemUpdatePrompt(true);
+                if (!TextUtils.isEmpty(xml)) {
+                    onGetReqIdentify(xml);
+                    PlayerActivity.m_this.systemUpdatePrompt(true);
+                }
                 Log.e(TAG, "--------------------------------->xxxxxxxxxxxxxxxxmmmmmmmmmmml" + xml);
                 if (Global.m_firmware_update) onUpdateFwInfo(xml);
                 return true;
@@ -1627,11 +1630,12 @@ public class PlayMultiVideoFragment extends BaseFragment {
             @Override
             public void run() {
                 String xml = "<REQUEST_PARAM ChannelId=\"\"/>";
+                LibImpl.getInstance().getFuncLib().P2PDevSystemControl(chosenPlayerDevice.m_devId, 1012, xml);
                 if (chosenPlayerDevice.isNVR()) {
                     int channelId = Integer.parseInt(chosenPlayerDevice.m_devId.substring(chosenPlayerDevice.m_devId.lastIndexOf("-") + 1)) - 1;
                     xml = "<REQUEST_PARAM ChannelId=\"" + channelId + "\"/>";
+                    LibImpl.getInstance().getFuncLib().P2PDevSystemControl(chosenPlayerDevice.m_devId, 1012, xml);
                 }
-                LibImpl.getInstance().getFuncLib().P2PDevSystemControl(chosenPlayerDevice.m_devId, 1012, xml);
             }
         }).start();
     }
@@ -1639,6 +1643,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
     private void onGetDevVersionInfo(String xml) {
         String devIdentify = "";
+        String channelId = "";
         try {
             XmlPullParser parser = Xml.newPullParser();
             parser.setInput(new ByteArrayInputStream(xml.getBytes()), "UTF-8");
@@ -1650,6 +1655,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                     case XmlPullParser.START_TAG:
                         if (parser.getName().equals("RESPONSE_PARAM")) {
                             devIdentify = parser.getAttributeValue(null, "DeviceIdentify");
+                            channelId = parser.getAttributeValue(null, "ChannelId");
                         }
                         break;
                     case XmlPullParser.END_TAG:
@@ -1661,13 +1667,57 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
             /* TODO:≤‚ ‘ π”√µƒIdentify */
             //devIdentify = "TS9116Q-4.3.0.2-201604261609";
-            Log.e(TAG, "[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[ identify : " + devIdentify);
+            Log.e(TAG, "[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[ identify : " + devIdentify + " channel Id :" + channelId);
             if (!TextUtils.isEmpty(devIdentify)) {
+                if (chosenPlayerDevice.isNVR() && TextUtils.isEmpty(channelId)) {
+                    Log.e(TAG, "111111111111111111111111111");
+                    chosenPlayerDevice.nvrIdentify = devIdentify;
+                } else {
+                    Log.e(TAG, "2222222222222222222222222222");
+                    chosenPlayerDevice.ipcIdentify = devIdentify;
+                }
                 LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(chosenPlayerDevice.m_devId, devIdentify);
                 Global.m_firmware_update = false;
             }
         } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void onGetReqIdentify(String xml) {
+        if (xml == null) return;
+        String reqIdentify = "";
+        try {
+            XmlPullParser parser = Xml.newPullParser();
+            parser.setInput(new ByteArrayInputStream(xml.getBytes()), "UTF-8");
+            int eventType = parser.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                switch (eventType) {
+                    case XmlPullParser.START_DOCUMENT:
+                        break;
+                    case XmlPullParser.START_TAG:
+                        if (parser.getName().equals("param")) {
+                            reqIdentify = parser.getAttributeValue(null, "req_identify");
+                        }
+                        break;
+                    case XmlPullParser.END_TAG:
+                        break;
+                }
+
+                eventType = parser.next();
+            }
+        } catch (XmlPullParserException | IOException e) {
+            e.printStackTrace();
+        }
+
+        if (chosenPlayerDevice.isNVR()) {
+            if (reqIdentify.equals(chosenPlayerDevice.nvrIdentify)) {
+                Global.m_nvr_firmware_update = true;
+            } else if (reqIdentify.equals(chosenPlayerDevice.ipcIdentify)) {
+                Global.m_nvr_firmware_update = false;
+            }
+        } else {
+            Global.m_nvr_firmware_update = false;
         }
     }
 

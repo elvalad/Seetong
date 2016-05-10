@@ -63,6 +63,7 @@ public class Global {
     public static int m_loginType = Define.LOGIN_TYPE_NONE;
     public static boolean m_guide_finished = false;
     public static boolean m_firmware_update = false;
+    public static boolean m_nvr_firmware_update = false;
 
     public static FriendList m_friends = new FriendList();
     public static FriendMessageList m_messges = new FriendMessageList();

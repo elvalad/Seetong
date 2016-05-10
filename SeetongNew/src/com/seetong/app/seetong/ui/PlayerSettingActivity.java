@@ -112,10 +112,20 @@ public class PlayerSettingActivity extends BaseActivity {
                 }
             });
 
-            if (bFirmwarePrompt && (m_data.get(position).settingOptionR == R.string.system_update)) {
-                viewHolder.deviceSettingPrompt.setVisibility(View.VISIBLE);
+            if (playerDevice.isNVR()) {
+                if (bFirmwarePrompt && Global.m_nvr_firmware_update && (m_data.get(position).settingOptionR == R.string.nvr_firmware_update)) {
+                    viewHolder.deviceSettingPrompt.setVisibility(View.VISIBLE);
+                } else if (bFirmwarePrompt && !Global.m_nvr_firmware_update && (m_data.get(position).settingOptionR == R.string.system_update)) {
+                    viewHolder.deviceSettingPrompt.setVisibility(View.VISIBLE);
+                } else {
+                    viewHolder.deviceSettingPrompt.setVisibility(View.GONE);
+                }
             } else {
-                viewHolder.deviceSettingPrompt.setVisibility(View.GONE);
+                if (bFirmwarePrompt && (m_data.get(position).settingOptionR == R.string.system_update)) {
+                    viewHolder.deviceSettingPrompt.setVisibility(View.VISIBLE);
+                } else {
+                    viewHolder.deviceSettingPrompt.setVisibility(View.GONE);
+                }
             }
 
             return view;
@@ -162,6 +172,9 @@ public class PlayerSettingActivity extends BaseActivity {
                 break;
             case R.string.system_update:
                 onSystemUpdate();
+                break;
+            case R.string.nvr_firmware_update:
+                onNvrFirmwareUpdate();
                 break;
         }
     }
@@ -455,8 +468,23 @@ public class PlayerSettingActivity extends BaseActivity {
                 new MyTipDialog.IDialogMethod() {
                     @Override
                     public void sure() {
-                        if (bFirmwarePrompt) {
+                        if (bFirmwarePrompt && !Global.m_nvr_firmware_update) {
                             getDevVersionInfo();
+                        } else {
+                            toast(R.string.firmware_can_not_update);
+                        }
+                    }
+                }
+        );
+    }
+
+    private void onNvrFirmwareUpdate() {
+        MyTipDialog.popDialog(this, R.string.dlg_system_update_tip, R.string.sure, R.string.cancel,
+                new MyTipDialog.IDialogMethod() {
+                    @Override
+                    public void sure() {
+                        if (bFirmwarePrompt && Global.m_nvr_firmware_update) {
+                            getNvrDevInfo();
                         } else {
                             toast(R.string.firmware_can_not_update);
                         }
@@ -476,6 +504,18 @@ public class PlayerSettingActivity extends BaseActivity {
                     int channelId = Integer.parseInt(dev.m_devId.substring(dev.m_devId.lastIndexOf("-") + 1)) - 1;
                     xml = "<REQUEST_PARAM ChannelId=\"" + channelId + "\"/>";
                 }
+                LibImpl.getInstance().getFuncLib().P2PDevSystemControl(dev.m_devId, 1012, xml);
+            }
+        }).start();
+    }
+
+    private void getNvrDevInfo() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                PlayerDevice dev = Global.getDeviceById(deviceId);
+                if (null == dev) return;
+                String xml = "<REQUEST_PARAM ChannelId=\"\"/>";
                 LibImpl.getInstance().getFuncLib().P2PDevSystemControl(dev.m_devId, 1012, xml);
             }
         }).start();
@@ -525,17 +565,21 @@ public class PlayerSettingActivity extends BaseActivity {
             settingContents[10] = new SettingContent(R.string.system_update, R.drawable.tps_device_setting_factory);
             data.add(settingContents[10]);
         } else if (200 == devType) { // NVR
-            SettingContent[] settingContents = new SettingContent[2];
+            SettingContent[] settingContents = new SettingContent[3];
             settingContents[0] = new SettingContent(R.string.dev_list_tip_title_input_dev_alias, R.drawable.tps_device_setting_alais);
             data.add(settingContents[0]);
             settingContents[1] = new SettingContent(R.string.system_update, R.drawable.tps_device_setting_factory);
             data.add(settingContents[1]);
+            settingContents[2] = new SettingContent(R.string.nvr_firmware_update, R.drawable.tps_device_setting_factory);
+            data.add(settingContents[2]);
         } else if (201 == devType) { // NVR4.0
-            SettingContent[] settingContents = new SettingContent[2];
+            SettingContent[] settingContents = new SettingContent[3];
             settingContents[0] = new SettingContent(R.string.dev_list_tip_title_input_dev_alias, R.drawable.tps_device_setting_alais);
             data.add(settingContents[0]);
             settingContents[1] = new SettingContent(R.string.system_update, R.drawable.tps_device_setting_factory);
             data.add(settingContents[1]);
+            settingContents[2] = new SettingContent(R.string.nvr_firmware_update, R.drawable.tps_device_setting_factory);
+            data.add(settingContents[2]);
         }
     }
 
@@ -656,7 +700,7 @@ public class PlayerSettingActivity extends BaseActivity {
                 PlayerDevice dev = Global.getDeviceById(deviceId);
                 if (null == dev) return;
                 String xml = "<REQUEST_PARAM ChannelId=\"\"/>";
-                if (dev.isNVR()) {
+                if (dev.isNVR() && !Global.m_nvr_firmware_update) {
                     int channelId = Integer.parseInt(dev.m_devId.substring(dev.m_devId.lastIndexOf("-") + 1)) - 1;
                     xml = "<REQUEST_PARAM ChannelId=\"" + channelId + "\"/>";
                 }
@@ -737,7 +781,7 @@ public class PlayerSettingActivity extends BaseActivity {
                     PlayerDevice dev = Global.getDeviceById(deviceId);
                     if (null == dev) return null;
                     String xml = "<REQUEST_PARAM ChannelId=\"\"/>";
-                    if (dev.isNVR()) {
+                    if (dev.isNVR() && !Global.m_nvr_firmware_update) {
                         int channelId = Integer.parseInt(dev.m_devId.substring(dev.m_devId.lastIndexOf("-") + 1)) - 1;
                         xml = "<REQUEST_PARAM ChannelId=\"" + channelId + "\"/>";
                     }
