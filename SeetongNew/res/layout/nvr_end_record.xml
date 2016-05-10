@@ -44,6 +44,33 @@
                     android:layout_gravity="center"
                     android:background="@drawable/play"/>
         </FrameLayout>
+
+        <LinearLayout
+                android:id="@+id/mixRecord"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    android:id="@+id/imgRecord"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/record_prompt_1"
+                    android:visibility="invisible"/>
+
+            <Chronometer
+                    android:id="@+id/recordChronometer"
+                    android:layout_gravity="center_vertical"
+                    android:format="%s"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"/>
+        </LinearLayout>
+
         <com.seetong.app.seetong.ui.aid.MarqueeTextView
                 android:id="@+id/tvLiveInfo"
                 android:layout_width="wrap_content"

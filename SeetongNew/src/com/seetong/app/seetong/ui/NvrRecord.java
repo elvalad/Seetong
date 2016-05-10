@@ -13,6 +13,7 @@ import android.media.AudioManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Message;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.FloatMath;
 import android.util.Log;
@@ -56,6 +57,9 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
     int m_current_index = -1;
     OpenglesView m_glView;
     OpenglesRender m_glRender;
+
+    private ImageView recordView;
+    private Chronometer timer;
 
     private View m_time_line_layout;
     private TimeLine m_time_line;
@@ -206,6 +210,9 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
 
         findViewById(R.id.nvr_record).setOnClickListener(this);
         findViewById(R.id.nvr_capture).setOnClickListener(this);
+
+        recordView = (ImageView) findViewById(R.id.imgRecord);
+        timer = (Chronometer) findViewById(R.id.recordChronometer);
 
         setButtonStatus();
         //setVideoInfo("[" + m_device_id + "]");
@@ -584,7 +591,13 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
                 onBtnCalendar();
                 break;
             case R.id.nvr_record:
-                onBtnNvrRecord();
+                PlayerDevice dev = Global.getDeviceById(m_device_id);
+                if (null == dev) return;
+                if (dev.m_record) {
+                    offBtnNvrRecord();
+                } else {
+                    onBtnNvrRecord();
+                }
                 break;
             case R.id.nvr_capture:
                 onBtnNvrCapture();
@@ -593,10 +606,64 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
         }
     }
 
+    private void showRecordIcon(String devId, boolean bShow) {
+        PlayerDevice dev = Global.getDeviceById(devId);
+        if (null == dev || !dev.m_playing) return;
+        recordView.setVisibility(bShow ? View.VISIBLE : View.INVISIBLE);
+        timer.setVisibility(bShow ? View.VISIBLE : View.INVISIBLE);
+        if (bShow) {
+            timer.setBase(SystemClock.elapsedRealtime());
+            timer.start();
+        } else {
+            timer.stop();
+        }
+    }
+
     private void onBtnNvrRecord() {
         PlayerDevice dev = Global.getDeviceById(m_device_id);
-        assert dev != null;
-        toast("record " + dev.getDeviceName());
+        if (null == dev || !dev.m_playing) {
+            toast(R.string.before_open_video_preview);
+            return;
+        }
+
+        TPS_AddWachtRsp rsp = dev.m_add_watch_rsp;
+        if (null == rsp || !dev.m_first_frame) {
+            toast(R.string.tv_video_wait_video_stream_tip);
+            return;
+        }
+
+        dev.m_record = true;
+        showRecordIcon(dev.m_devId, true);
+
+        toast("on record " + dev.getDeviceName());
+    }
+
+    private void offBtnNvrRecord() {
+        PlayerDevice dev = Global.getDeviceById(m_device_id);
+        if (null == dev || !dev.m_playing) {
+            toast(R.string.before_open_video_preview);
+            return;
+        }
+
+        TPS_AddWachtRsp rsp = dev.m_add_watch_rsp;
+        if (null == rsp || !dev.m_first_frame) {
+            toast(R.string.tv_video_wait_video_stream_tip);
+            return;
+        }
+
+        dev.m_record = false;
+        showRecordIcon(dev.m_devId, false);
+
+        toast("off record " + dev.getDeviceName());
+    }
+
+    private void stopVideoRecord() {
+        PlayerDevice dev = Global.getDeviceById(m_device_id);
+        if (null == dev || !dev.m_playing) return;
+        TPS_AddWachtRsp rsp = dev.m_add_watch_rsp;
+        if (null == rsp) return;
+        dev.m_record = false;
+        showRecordIcon(dev.m_devId, false);
     }
 
     private void onBtnNvrCapture() {
@@ -844,6 +911,7 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
     @Override
     protected void onDestroy() {
         LibImpl.getInstance().removeHandler(m_handler);
+        stopVideoRecord();
         stopReplay();
         m_glRender.destory();
         PlayerDevice dev = Global.getDeviceById(m_device_id);
