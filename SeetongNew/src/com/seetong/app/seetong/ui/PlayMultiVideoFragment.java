@@ -1661,6 +1661,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
             /* TODO:≤‚ ‘ π”√µƒIdentify */
             //devIdentify = "TS9116Q-4.3.0.2-201604261609";
+            Log.e(TAG, "[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[ identify : " + devIdentify);
             if (!TextUtils.isEmpty(devIdentify)) {
                 LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(chosenPlayerDevice.m_devId, devIdentify);
                 Global.m_firmware_update = false;

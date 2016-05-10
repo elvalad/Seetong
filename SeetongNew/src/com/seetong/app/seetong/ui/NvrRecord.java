@@ -632,10 +632,10 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
             return;
         }
 
+        // TODO:增加开始录像功能
+        toast("on record " + dev.getDeviceName());
         dev.m_record = true;
         showRecordIcon(dev.m_devId, true);
-
-        toast("on record " + dev.getDeviceName());
     }
 
     private void offBtnNvrRecord() {
@@ -651,10 +651,10 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
             return;
         }
 
+        // TODO: 增加关闭录像功能
+        toast("off record " + dev.getDeviceName());
         dev.m_record = false;
         showRecordIcon(dev.m_devId, false);
-
-        toast("off record " + dev.getDeviceName());
     }
 
     private void stopVideoRecord() {
@@ -662,6 +662,7 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
         if (null == dev || !dev.m_playing) return;
         TPS_AddWachtRsp rsp = dev.m_add_watch_rsp;
         if (null == rsp) return;
+        // TODO: 增加关闭录像功能
         dev.m_record = false;
         showRecordIcon(dev.m_devId, false);
     }
