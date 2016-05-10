@@ -795,33 +795,11 @@ public class PlayerSettingActivity extends BaseActivity {
             }
 
             return fwUpdateProgress + params[0].toString() + "";
-
-            /*int i;
-            for (i = 1; i <= 100; i++) {
-                try {
-                    Thread.sleep(500);
-                    PlayerDevice dev = Global.getDeviceById(deviceId);
-                    if (null == dev) return null;
-                    String xml = "<REQUEST_PARAM ChannelId=\"\"/>";
-                    if (dev.isNVR()) {
-                        int channelId = Integer.parseInt(dev.m_devId.substring(dev.m_devId.lastIndexOf("-") + 1)) - 1;
-                        xml = "<REQUEST_PARAM ChannelId=\"" + channelId + "\"/>";
-                    }
-                    LibImpl.getInstance().getFuncLib().P2PDevSystemControl(dev.m_devId, 1092, xml);
-                    Log.e(TAG, "progress : " + fwUpdateProgress + " state : " + fwUpdateState);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                publishProgress(i);
-            }
-            return i + params[0].toString() + "";*/
         }
 
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
-            //progressDialog.setMessage(getResources().getString(R.string.player_fw_update_finish));
-            //progressDialog.dismiss();
         }
 
         @Override
