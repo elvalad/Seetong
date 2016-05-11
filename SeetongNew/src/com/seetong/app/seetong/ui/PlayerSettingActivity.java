@@ -46,6 +46,7 @@ public class PlayerSettingActivity extends BaseActivity {
     private android.app.ProgressDialog updateProgress;
     private int fwUpdateProgress = 0;
     private int fwUpdateState = 0;
+    private boolean bStopQueryUpdateState = true;
 
     class SettingContent {
         Integer settingOptionR;
@@ -594,6 +595,14 @@ public class PlayerSettingActivity extends BaseActivity {
         updateProgress.setProgress(0);
         updateProgress.setIndeterminate(false);
         updateProgress.setCancelable(false);
+        updateProgress.setButton(DialogInterface.BUTTON_NEGATIVE, getResources().getString(R.string.sure),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        bStopQueryUpdateState = true;
+                        updateProgress.dismiss();
+                    }
+                });
 
         TextView textView = (TextView) findViewById(R.id.device_setting_id);
         textView.setText(deviceId);
@@ -692,6 +701,7 @@ public class PlayerSettingActivity extends BaseActivity {
 
     private void onGetUpdateProgress() {
         updateProgress.show();
+        bStopQueryUpdateState = false;
         ProgressBarAsyncTask asyncTask = new ProgressBarAsyncTask(updateProgress);
         asyncTask.execute(1000);
         new Thread(new Runnable() {
@@ -791,7 +801,7 @@ public class PlayerSettingActivity extends BaseActivity {
                 }
                 publishProgress(fwUpdateProgress);
 
-                if (((fwUpdateProgress == 100) && (fwUpdateState == 3)) || (fwUpdateState == 4)) break;
+                if (((fwUpdateProgress == 100) && (fwUpdateState == 3)) || (fwUpdateState == 4) || bStopQueryUpdateState) break;
             }
 
             return fwUpdateProgress + params[0].toString() + "";

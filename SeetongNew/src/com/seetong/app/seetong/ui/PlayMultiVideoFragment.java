@@ -1751,7 +1751,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
 
         String xml2 = "<REQUEST_PARAM url=\"" + file_url + "\"  md5=\"" + file_md5 + "\" ChannelId=\"\"/>";
-        if (chosenPlayerDevice.isNVR()) {
+        if (chosenPlayerDevice.isNVR() && !Global.m_nvr_firmware_update) {
             int channelId = Integer.parseInt(chosenPlayerDevice.m_devId.substring(chosenPlayerDevice.m_devId.lastIndexOf("-") + 1)) - 1;
             xml2 = "<REQUEST_PARAM url=\"" + file_url + "\"  md5=\"" + file_md5 + "\" ChannelId=\"" + channelId + "\"/>";
         }
