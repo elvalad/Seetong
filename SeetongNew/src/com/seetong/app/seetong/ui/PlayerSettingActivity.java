@@ -116,13 +116,13 @@ public class PlayerSettingActivity extends BaseActivity {
             if (playerDevice.isNVR()) {
                 if (bFirmwarePrompt && Global.m_nvr_firmware_update && (m_data.get(position).settingOptionR == R.string.nvr_firmware_update)) {
                     viewHolder.deviceSettingPrompt.setVisibility(View.VISIBLE);
-                } else if (bFirmwarePrompt && !Global.m_nvr_firmware_update && (m_data.get(position).settingOptionR == R.string.system_update)) {
+                } else if (bFirmwarePrompt && !Global.m_nvr_firmware_update && (m_data.get(position).settingOptionR == R.string.ipc_firmware_update)) {
                     viewHolder.deviceSettingPrompt.setVisibility(View.VISIBLE);
                 } else {
                     viewHolder.deviceSettingPrompt.setVisibility(View.GONE);
                 }
             } else {
-                if (bFirmwarePrompt && (m_data.get(position).settingOptionR == R.string.system_update)) {
+                if (bFirmwarePrompt && (m_data.get(position).settingOptionR == R.string.ipc_firmware_update)) {
                     viewHolder.deviceSettingPrompt.setVisibility(View.VISIBLE);
                 } else {
                     viewHolder.deviceSettingPrompt.setVisibility(View.GONE);
@@ -171,7 +171,7 @@ public class PlayerSettingActivity extends BaseActivity {
             case R.string.restore_factory_settings:
                 onRestoreFactorySettings();
                 break;
-            case R.string.system_update:
+            case R.string.ipc_firmware_update:
                 onSystemUpdate();
                 break;
             case R.string.nvr_firmware_update:
@@ -563,13 +563,13 @@ public class PlayerSettingActivity extends BaseActivity {
             data.add(settingContents[8]);
             settingContents[9] = new SettingContent(R.string.restore_factory_settings, R.drawable.tps_device_setting_factory);
             data.add(settingContents[9]);
-            settingContents[10] = new SettingContent(R.string.system_update, R.drawable.tps_device_setting_factory);
+            settingContents[10] = new SettingContent(R.string.ipc_firmware_update, R.drawable.tps_device_setting_factory);
             data.add(settingContents[10]);
         } else if (200 == devType) { // NVR
             SettingContent[] settingContents = new SettingContent[3];
             settingContents[0] = new SettingContent(R.string.dev_list_tip_title_input_dev_alias, R.drawable.tps_device_setting_alais);
             data.add(settingContents[0]);
-            settingContents[1] = new SettingContent(R.string.system_update, R.drawable.tps_device_setting_factory);
+            settingContents[1] = new SettingContent(R.string.ipc_firmware_update, R.drawable.tps_device_setting_factory);
             data.add(settingContents[1]);
             settingContents[2] = new SettingContent(R.string.nvr_firmware_update, R.drawable.tps_device_setting_factory);
             data.add(settingContents[2]);
@@ -577,7 +577,7 @@ public class PlayerSettingActivity extends BaseActivity {
             SettingContent[] settingContents = new SettingContent[3];
             settingContents[0] = new SettingContent(R.string.dev_list_tip_title_input_dev_alias, R.drawable.tps_device_setting_alais);
             data.add(settingContents[0]);
-            settingContents[1] = new SettingContent(R.string.system_update, R.drawable.tps_device_setting_factory);
+            settingContents[1] = new SettingContent(R.string.ipc_firmware_update, R.drawable.tps_device_setting_factory);
             data.add(settingContents[1]);
             settingContents[2] = new SettingContent(R.string.nvr_firmware_update, R.drawable.tps_device_setting_factory);
             data.add(settingContents[2]);

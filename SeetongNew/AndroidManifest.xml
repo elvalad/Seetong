@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.seetong.app.seetong"
-          android:versionCode="102"
-          android:versionName="5.2.0_20160421_001">
+          android:versionCode="103"
+          android:versionName="5.2.1_20160512_001">
 
     <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="22"/>
 
