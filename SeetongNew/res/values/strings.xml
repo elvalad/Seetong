@@ -537,7 +537,7 @@
     <string name="dlg_update_fw_info_success_tip">Update fw info success</string>
     <string name="dlg_wait_device_reboot_tip">Please wait for the device to restart</string>
     <string name="dlg_system_update_tip">Sure you want to update the system?</string>
-    <string name="firmware_can_not_update">Firmware can not update</string>
+    <string name="firmware_can_not_update">The current version is the latest</string>
     <string name="cloud_record">Cloud record</string>
     <string name="cloud_files">Cloud files</string>
     <string name="get_front_end_record_failed">get front-end record failed</string>

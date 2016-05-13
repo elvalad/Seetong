@@ -537,7 +537,7 @@
     <string name="dlg_update_fw_info_success_tip">固件升级成功</string>
     <string name="dlg_wait_device_reboot_tip">请等待设备重启完成</string>
     <string name="dlg_system_update_tip">确定给设备升级?</string>
-    <string name="firmware_can_not_update">没有新的固件</string>
+    <string name="firmware_can_not_update">当前是最新固件</string>
     <string name="cloud_record">云端录像</string>
     <string name="cloud_files">云端文件</string>
     <string name="get_front_end_record_failed">获取前端录像失败</string>

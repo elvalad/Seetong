@@ -465,6 +465,11 @@ public class PlayerSettingActivity extends BaseActivity {
     }
 
     private void onSystemUpdate() {
+        if (!bFirmwarePrompt) {
+            toast(R.string.firmware_can_not_update);
+            return;
+        }
+
         MyTipDialog.popDialog(this, R.string.dlg_system_update_tip, R.string.sure, R.string.cancel,
                 new MyTipDialog.IDialogMethod() {
                     @Override
@@ -480,6 +485,11 @@ public class PlayerSettingActivity extends BaseActivity {
     }
 
     private void onNvrFirmwareUpdate() {
+        if (!bFirmwarePrompt) {
+            toast(R.string.firmware_can_not_update);
+            return;
+        }
+
         MyTipDialog.popDialog(this, R.string.dlg_system_update_tip, R.string.sure, R.string.cancel,
                 new MyTipDialog.IDialogMethod() {
                     @Override
