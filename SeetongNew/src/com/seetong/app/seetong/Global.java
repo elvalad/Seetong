@@ -64,6 +64,7 @@ public class Global {
     public static boolean m_guide_finished = false;
     public static boolean m_firmware_update = false;
     public static boolean m_nvr_firmware_update = false;
+    public static boolean m_firmware_version_detect = false;
 
     public static FriendList m_friends = new FriendList();
     public static FriendMessageList m_messges = new FriendMessageList();

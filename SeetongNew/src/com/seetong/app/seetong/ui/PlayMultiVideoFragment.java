@@ -1617,7 +1617,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 return true;
             case 1012:
                 xml = (String) msg.obj;
-                onGetDevVersionInfo(xml);
+                if (Global.m_firmware_version_detect) onGetDevVersionInfo(xml);
                 return true;
         }
 
@@ -1625,6 +1625,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     }
 
     private void getDevVersionInfo() {
+        Global.m_firmware_version_detect = true;
         PlayerActivity.m_this.systemUpdatePrompt(false);
         new Thread(new Runnable() {
             @Override

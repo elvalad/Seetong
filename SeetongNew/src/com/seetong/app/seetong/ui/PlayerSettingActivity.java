@@ -505,6 +505,7 @@ public class PlayerSettingActivity extends BaseActivity {
     }
 
     private void getDevVersionInfo() {
+        Global.m_firmware_version_detect = false;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -521,6 +522,7 @@ public class PlayerSettingActivity extends BaseActivity {
     }
 
     private void getNvrDevInfo() {
+        Global.m_firmware_version_detect = false;
         new Thread(new Runnable() {
             @Override
             public void run() {
