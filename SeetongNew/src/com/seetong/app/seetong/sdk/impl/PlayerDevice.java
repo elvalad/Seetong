@@ -81,6 +81,8 @@ public class PlayerDevice {
 
     public String nvrIdentify = "";
     public String ipcIdentify = "";
+    public boolean bNvrUpdate = false;
+    public boolean bIpcUpdate = false;
 
     {
         m_port_id = -1;

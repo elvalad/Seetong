@@ -1714,11 +1714,31 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
         if (chosenPlayerDevice.isNVR()) {
             if (reqIdentify.equals(chosenPlayerDevice.nvrIdentify)) {
+                if (Global.m_firmware_version_detect) {
+                    // 只有在播放页面检测新版本时才设置此变量，防止实际发送升级命令时
+                    // 此标志位被刷新，影响PlayerSettingActivity的界面更新
+                    chosenPlayerDevice.bNvrUpdate = true;
+                }
+                // 此变量在播放页面检测新版本和实际发送升级命令时都需要实时刷新
+                // 用于区分发送升级命令和查询进度命令是针对单个通道还是整个NVR
                 Global.m_nvr_firmware_update = true;
             } else if (reqIdentify.equals(chosenPlayerDevice.ipcIdentify)) {
+                if (Global.m_firmware_version_detect) {
+                    chosenPlayerDevice.bIpcUpdate = true;
+                }
+                Global.m_nvr_firmware_update = false;
+            } else {
+                if (Global.m_firmware_version_detect) {
+                    chosenPlayerDevice.bIpcUpdate = false;
+                    chosenPlayerDevice.bNvrUpdate = false;
+                }
                 Global.m_nvr_firmware_update = false;
             }
         } else {
+            if (Global.m_firmware_version_detect) {
+                chosenPlayerDevice.bIpcUpdate = true;
+                chosenPlayerDevice.bNvrUpdate = false;
+            }
             Global.m_nvr_firmware_update = false;
         }
     }

@@ -114,10 +114,15 @@ public class PlayerSettingActivity extends BaseActivity {
             });
 
             if (playerDevice.isNVR()) {
-                if (bFirmwarePrompt && Global.m_nvr_firmware_update && (m_data.get(position).settingOptionR == R.string.nvr_firmware_update)) {
+                Log.e(TAG, "++++++++++++" + bFirmwarePrompt + ">>>>>>>>>>>>>>>" + playerDevice.bIpcUpdate + ")))))))))))))" + playerDevice.bNvrUpdate);
+                if ((m_data.get(position).settingOptionR == R.string.nvr_firmware_update) && bFirmwarePrompt && playerDevice.bNvrUpdate) {
                     viewHolder.deviceSettingPrompt.setVisibility(View.VISIBLE);
-                } else if (bFirmwarePrompt && !Global.m_nvr_firmware_update && (m_data.get(position).settingOptionR == R.string.ipc_firmware_update)) {
+                } else if ((m_data.get(position).settingOptionR == R.string.nvr_firmware_update) && bFirmwarePrompt && !playerDevice.bNvrUpdate) {
+                    viewHolder.deviceSettingPrompt.setVisibility(View.GONE);
+                } else if ((m_data.get(position).settingOptionR == R.string.ipc_firmware_update) && bFirmwarePrompt && playerDevice.bIpcUpdate) {
                     viewHolder.deviceSettingPrompt.setVisibility(View.VISIBLE);
+                } else if ((m_data.get(position).settingOptionR == R.string.ipc_firmware_update) && bFirmwarePrompt && !playerDevice.bIpcUpdate) {
+                    viewHolder.deviceSettingPrompt.setVisibility(View.GONE);
                 } else {
                     viewHolder.deviceSettingPrompt.setVisibility(View.GONE);
                 }
@@ -474,8 +479,9 @@ public class PlayerSettingActivity extends BaseActivity {
                 new MyTipDialog.IDialogMethod() {
                     @Override
                     public void sure() {
-                        if (bFirmwarePrompt && !Global.m_nvr_firmware_update) {
+                        if (bFirmwarePrompt && playerDevice.bIpcUpdate) {
                             getDevVersionInfo();
+                            playerDevice.bIpcUpdate = false;
                         } else {
                             toast(R.string.firmware_can_not_update);
                         }
@@ -494,8 +500,9 @@ public class PlayerSettingActivity extends BaseActivity {
                 new MyTipDialog.IDialogMethod() {
                     @Override
                     public void sure() {
-                        if (bFirmwarePrompt && Global.m_nvr_firmware_update) {
+                        if (bFirmwarePrompt && playerDevice.bNvrUpdate) {
                             getNvrDevInfo();
+                            playerDevice.bNvrUpdate = false;
                         } else {
                             toast(R.string.firmware_can_not_update);
                         }
@@ -705,7 +712,8 @@ public class PlayerSettingActivity extends BaseActivity {
                     //msg.what = Define.MSG_SHOW_TOAST;
                     //msg.arg1 = R.string.dlg_update_fw_info_success_tip;
                     //m_handler.sendMessage(msg);
-                    bFirmwarePrompt = false;
+                    if (!playerDevice.bIpcUpdate && !playerDevice.bNvrUpdate)
+                        bFirmwarePrompt = false;
                 }
             }
         }).start();
@@ -764,6 +772,7 @@ public class PlayerSettingActivity extends BaseActivity {
         switch (msg.what) {
             case Define.MSG_SHOW_TOAST:
                 toast(msg.arg1);
+                adapter.notifyDataSetChanged();
                 break;
             case Define.MSG_SHOW_FW_UPDATE_PROGRESS:
                 onGetUpdateProgress();
