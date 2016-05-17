@@ -84,6 +84,7 @@ public class MultiListAdapter extends AsymmetricGridViewAdapter<DeviceListItem> 
         for (int i = 0; i < sqlList.size(); i++) {
             if (playerDevice.m_devId.equals(sqlList.get(i).getIp())) {
                 device = sqlList.get(i);
+                break;
             }
         }
         if (Config.m_show_alias && Config.m_show_devid) {
@@ -126,7 +127,7 @@ public class MultiListAdapter extends AsymmetricGridViewAdapter<DeviceListItem> 
         String fileName = Global.getSnapshotDir() + "/" + devId + ".jpg";
         Bitmap bmp = null;
         BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 2;
+        options.inSampleSize = 4;
         try {
             bmp = BitmapFactory.decodeFile(fileName, options);
             if (null == bmp) {

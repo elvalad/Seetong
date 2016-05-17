@@ -101,6 +101,7 @@ public class DeviceListAdapter2 extends BaseAdapter {
         for (int i = 0; i < sqlList.size(); i++) {
             if (playerDevice.m_devId.equals(sqlList.get(i).getIp())) {
                 device = sqlList.get(i);
+                break;
             }
         }
         if (Config.m_show_alias && Config.m_show_devid) {

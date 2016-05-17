@@ -843,7 +843,7 @@
     <string name="player_fw_update_state_0">准备升级</string>
     <string name="player_fw_update_state_1">固件下载中…</string>
     <string name="player_fw_update_state_2">升级中…</string>
-    <string name="player_fw_update_state_3">升级成功</string>
+    <string name="player_fw_update_state_3">等待设备重启，请勿断电</string>
     <string name="player_fw_update_state_4">升级失败</string>
 
     <string name="about_update_delay">暂时不能更新</string>
