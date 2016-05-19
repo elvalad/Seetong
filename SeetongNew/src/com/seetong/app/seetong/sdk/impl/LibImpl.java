@@ -1241,6 +1241,8 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         sendMessage(nMsgType, result, 0, data);
     }
 
+    private long lRecordHandler;
+    private byte[] avParam = new byte[1360];
     private void onNvrReplayResp(int nMsgType, byte[] pData, int nDataLen) {
         int size = TPS_ReplayDevFileRsp.SIZE;
         if (pData == null || nDataLen != size) return;
@@ -1261,6 +1263,8 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         PlayerDevice dev = Global.getDeviceById(devId);
         if (null == dev) return;
 
+        byte[] videoParam = new byte[536];
+        byte[] audioParam = new byte[276];
         if (data.getnActionType() == REPLAY_NVR_ACTION.NVR_ACTION_PLAY) {
             if (dev.m_replay_port_id >= 0) {
                 s_pca.StopAgent(dev.m_replay_port_id);
@@ -1308,7 +1312,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             buf.get(config);
             vp.setConfig(config);
             vp.setConfig_len(len);
-            byte[] videoParam = vp.objectToByteBuffer(ByteOrder.nativeOrder()).array();
+            videoParam = vp.objectToByteBuffer(ByteOrder.nativeOrder()).array();
 
             //0:视频 1:音频
             //最大缓冲帧数
@@ -1345,18 +1349,18 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                 ap.setChannels(tap.getChannels());
                 ap.setBitrate(tap.getBitrate());
                 ap.setFramerate(tap.getFramerate());
-                byte[] audioParm = ap.objectToByteBuffer(ByteOrder.nativeOrder()).array();
+                audioParam = ap.objectToByteBuffer(ByteOrder.nativeOrder()).array();
 
                 //0:视频 1:音频
                 //最大缓冲帧数
-                s_pca.OpenStreamAgent(port, audioParm, audioParm.length, 1, 20);
+                s_pca.OpenStreamAgent(port, audioParam, audioParam.length, 1, 20);
                 dev.m_open_audio_stream_result = ret;
                 Log.d(TAG, "onNvrReplayResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",audioParm=" + tap + ",ret=" + ret);
                 if (ret != 0) {
                     Log.e(TAG, "onNvrReplayResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",audioParm=" + tap + ",ret=" + ret);
                     try {
                         Thread.sleep(100);
-                        ret = s_pca.OpenStreamAgent(port, audioParm, audioParm.length, 1, 20);
+                        ret = s_pca.OpenStreamAgent(port, audioParam, audioParam.length, 1, 20);
                         dev.m_open_audio_stream_result = ret;
                         Log.d(TAG, "onNvrReplayResp-->OpenStreamAgent, devId=" + devId + ",port=" + port + ",audioParm=" + tap + ",ret=" + ret);
                         if (ret != 0) {
@@ -1403,7 +1407,27 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             mPortOrIDMap.put(port + "", devId);
         }
 
+        NetSDK_STREAM_AV_PARAM tavp = new NetSDK_STREAM_AV_PARAM();
+        tavp.setProtocolName("");
+        tavp.setbHaveVideo(data.getbHaveVideo());
+        tavp.setbHaveAudio(data.getbHaveAudio());
+        tavp.setVideoParam(data.getVideoParam());
+        tavp.setAudioParam(data.getAudioParam());
+        tavp.setSzUrlInfo("");
+        avParam = tavp.objectToByteBuffer(ByteOrder.nativeOrder()).array();
         sendMessage(nMsgType, result, 0, data);
+    }
+
+    public void startNvrRecord(String devId) {
+        String filePath = Global.getVideoDir() + "/" + devId;
+        File dir = new File(filePath);
+        if (!(dir.exists())) dir.mkdirs();
+        lRecordHandler = s_func.LocStartRecordStream(avParam, filePath, 3600, 86400);
+    }
+
+    public void stopNvrRecord() {
+        s_func.LocStopRecordStream(lRecordHandler);
+        lRecordHandler = 0;
     }
 
     private void onOssReplayParam(int nMsgType, byte[] pData, int nDataLen) {
@@ -2689,6 +2713,14 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             Log.w(TAG, "MediaRecvCallBack:FrameBufferSize > 3, FrameBufferSize=" + _glRender.getFrameBufferSize());
             _glRender.updateView(null);
             return 0;
+        }
+
+        Log.d(TAG, "lRecordHandler=" + lRecordHandler);
+        if (lRecordHandler != 0) {
+            ret = s_func.LocInputRecordStream(lRecordHandler, pFrameData, 1 - nMediaType, isKey, timestamp);
+            if (ret != 0) {
+                Log.d(TAG, "LocInputRecordStream ret=" + ret);
+            }
         }
 
         int port = dev.m_play ? dev.m_port_id : dev.m_replay_port_id;

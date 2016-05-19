@@ -749,7 +749,6 @@ public class PlayerSettingActivity extends BaseActivity {
                     case XmlPullParser.START_DOCUMENT:
                         break;
                     case XmlPullParser.START_TAG:
-                        Log.e(TAG, "---------------->" + xml + "=======================>" + parser.getName());
                         if (parser.getName().equals("RESPONSE_PARAM")) {
                             fwUpdateProgress = Integer.parseInt(parser.getAttributeValue(null, "Progress"));
                             fwUpdateState = Integer.parseInt(parser.getAttributeValue(null, "State"));
@@ -792,6 +791,7 @@ public class PlayerSettingActivity extends BaseActivity {
                 break;
             case 1092:
                 xml = (String) msg.obj;
+                Log.e(TAG, "flag=============================>" + flag);
                 onGetUpdateState(xml);
                 break;
         }
