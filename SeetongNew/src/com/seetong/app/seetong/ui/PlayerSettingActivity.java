@@ -791,7 +791,6 @@ public class PlayerSettingActivity extends BaseActivity {
                 break;
             case 1092:
                 xml = (String) msg.obj;
-                Log.e(TAG, "flag=============================>" + flag);
                 onGetUpdateState(xml);
                 break;
         }

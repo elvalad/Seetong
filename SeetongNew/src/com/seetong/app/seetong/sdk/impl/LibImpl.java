@@ -2715,7 +2715,6 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             return 0;
         }
 
-        Log.d(TAG, "lRecordHandler=" + lRecordHandler);
         if (lRecordHandler != 0) {
             ret = s_func.LocInputRecordStream(lRecordHandler, pFrameData, 1 - nMediaType, isKey, timestamp);
             if (ret != 0) {
