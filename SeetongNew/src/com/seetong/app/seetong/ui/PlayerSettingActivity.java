@@ -114,7 +114,6 @@ public class PlayerSettingActivity extends BaseActivity {
             });
 
             if (playerDevice.isNVR()) {
-                Log.e(TAG, "++++++++++++" + bFirmwarePrompt + ">>>>>>>>>>>>>>>" + playerDevice.bIpcUpdate + ")))))))))))))" + playerDevice.bNvrUpdate);
                 if ((m_data.get(position).settingOptionR == R.string.nvr_firmware_update) && bFirmwarePrompt && playerDevice.bNvrUpdate) {
                     viewHolder.deviceSettingPrompt.setVisibility(View.VISIBLE);
                 } else if ((m_data.get(position).settingOptionR == R.string.nvr_firmware_update) && bFirmwarePrompt && !playerDevice.bNvrUpdate) {
@@ -789,6 +788,9 @@ public class PlayerSettingActivity extends BaseActivity {
                 Global.m_firmware_update = true;
                 systemUpdate();
                 break;
+            case 1090:
+                if (flag == -16777216) fwUpdateState = 5;
+                break;
             case 1092:
                 xml = (String) msg.obj;
                 onGetUpdateState(xml);
@@ -821,7 +823,7 @@ public class PlayerSettingActivity extends BaseActivity {
                 }
                 publishProgress(fwUpdateProgress);
 
-                if (((fwUpdateProgress == 100) && (fwUpdateState == 3)) || (fwUpdateState == 4) || bStopQueryUpdateState) break;
+                if (((fwUpdateProgress == 100) && (fwUpdateState == 3)) || (fwUpdateState == 4) || (fwUpdateState == 5) || bStopQueryUpdateState) break;
             }
 
             return fwUpdateProgress + params[0].toString() + "";
@@ -866,6 +868,14 @@ public class PlayerSettingActivity extends BaseActivity {
                     msg = m_handler.obtainMessage();
                     msg.what = Define.MSG_SHOW_TOAST;
                     msg.arg1 = R.string.player_fw_update_state_4;
+                    m_handler.sendMessage(msg);
+                    progressDialog.dismiss();
+                    break;
+                case 5:
+                    progressDialog.setMessage(getResources().getString(R.string.player_fw_update_state_5));
+                    msg = m_handler.obtainMessage();
+                    msg.what = Define.MSG_SHOW_TOAST;
+                    msg.arg1 = R.string.player_fw_update_state_5;
                     m_handler.sendMessage(msg);
                     progressDialog.dismiss();
                     break;

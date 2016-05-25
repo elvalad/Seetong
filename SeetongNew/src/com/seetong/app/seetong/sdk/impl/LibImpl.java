@@ -2178,7 +2178,9 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
     public int cmdRspCB(int nMsgType, String devId, String xml) {
         if (m_exit) return 0;
         int flag = nMsgType & 0xff000000;
-        Log.i(TAG, "[cmdRspCB:nMsgType=" + nMsgType + ",devId=" + devId + ",flag=" + flag + ",xml=" + xml + "]");
+        int nType = nMsgType & 0xffffff;
+        Log.i(TAG, "[cmdRspCB:nMsgType=" + nMsgType + ",devId=" + devId + ",flag=" + flag + ",xml=" + xml + ",nType" + nType + "]");
+        nMsgType = nType;
         MsgObject msgObject = new MsgObject();
         switch (nMsgType) {
             case NetSDK_CMD_TYPE.CMD_GET_SYSTEM_TIME_CONFIG:
@@ -2260,6 +2262,10 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                 sendMessage(nMsgType, flag, 0, null);
                 break;
             case 1012:
+                if ("".equals(xml)) return 0;
+                sendMessage(nMsgType, flag, 0, xml);
+                break;
+            case 1090:
                 if ("".equals(xml)) return 0;
                 sendMessage(nMsgType, flag, 0, xml);
                 break;

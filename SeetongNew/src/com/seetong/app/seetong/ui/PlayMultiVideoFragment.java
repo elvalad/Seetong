@@ -1610,7 +1610,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
             case SDK_CONSTANT.TPS_MSG_RSP_UPDATE_FW_INFO:
                 msgObj = (LibImpl.MsgObject) msg.obj;
                 String xml = (String) msgObj.recvObj;
-                Log.e(TAG, "--------------------------------->xxxxxxxxxxxxxxxxmmmmmmmmmmml" + xml);
                 if (!TextUtils.isEmpty(xml)) {
                     onGetReqIdentify(xml);
                     PlayerActivity.m_this.systemUpdatePrompt(true);
@@ -1671,13 +1670,10 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
             /* TODO:≤‚ ‘ π”√µƒIdentify */
             //devIdentify = "TS9116Q-4.3.0.2-201604261609";
-            Log.e(TAG, "[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[ identify : " + devIdentify + " channel Id :" + channelId + " devId :" + chosenPlayerDevice.m_devId);
             if (!TextUtils.isEmpty(devIdentify)) {
                 if (chosenPlayerDevice.isNVR() && TextUtils.isEmpty(channelId)) {
-                    Log.e(TAG, "111111111111111111111111111");
                     chosenPlayerDevice.nvrIdentify = devIdentify;
                 } else {
-                    Log.e(TAG, "2222222222222222222222222222");
                     chosenPlayerDevice.ipcIdentify = devIdentify;
                 }
                 LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(chosenPlayerDevice.m_devId, devIdentify);
