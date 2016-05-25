@@ -162,11 +162,13 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 /* 如果GestureDetector检测到用户向左滑动，则显示上一个设备的视频 */
                 if ((e2.getX() - e1.getX()) > FLING_MOVEMENT_THRESHOLD) {
                     showPreviousDeviceListVideo(playerDevice);
+                    getDevVersionInfo();
                 }
 
                 /* 如果GestureDetector检测到用户向右滑动，这显示下一个设备的视频 */
                 if ((e1.getX() - e2.getX()) > FLING_MOVEMENT_THRESHOLD) {
                     showNextDeviceListVideo(playerDevice);
+                    getDevVersionInfo();
                 }
             } else {
                 if (bFullScreen) {
