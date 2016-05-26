@@ -750,7 +750,11 @@ public class PlayerSettingActivity extends BaseActivity {
                     case XmlPullParser.START_TAG:
                         if (parser.getName().equals("RESPONSE_PARAM")) {
                             fwUpdateProgress = Integer.parseInt(parser.getAttributeValue(null, "Progress"));
-                            fwUpdateState = Integer.parseInt(parser.getAttributeValue(null, "State"));
+                            // fwUpdateState状态为5说明此时设备出现异常，查询进度获取到的更新状态已经是无效的，
+                            // 需要忽略，此时直接退出进度查询，提示用户下载固件失败即可
+                            if (fwUpdateState != 5) {
+                                fwUpdateState = Integer.parseInt(parser.getAttributeValue(null, "State"));
+                            }
                         }
                         break;
                     case XmlPullParser.END_TAG:
@@ -789,6 +793,7 @@ public class PlayerSettingActivity extends BaseActivity {
                 systemUpdate();
                 break;
             case 1090:
+                // 此flag值表示NVR设备端出现异常，发送更新命令失败
                 if (flag == -16777216) fwUpdateState = 5;
                 break;
             case 1092:
