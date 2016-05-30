@@ -718,6 +718,7 @@ public class PlayerSettingActivity extends BaseActivity {
         }).start();
     }
 
+    @SuppressWarnings("unchecked")
     private void onGetUpdateProgress() {
         updateProgress.show();
         bStopQueryUpdateState = false;
@@ -811,6 +812,7 @@ public class PlayerSettingActivity extends BaseActivity {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         protected Object doInBackground(Object[] params) {
             while (true) {
                 try {
