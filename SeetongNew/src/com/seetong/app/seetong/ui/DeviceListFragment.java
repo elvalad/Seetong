@@ -14,6 +14,7 @@ import com.example.AsymmetricGridView.library.widget.AsymmetricGridView;
 import com.example.AsymmetricGridView.library.widget.AsymmetricGridViewAdapter;
 import com.example.AsymmetricGridView.model.DemoItem;
 import com.example.AsymmetricGridView.widget.DefaultListAdapter;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
@@ -45,7 +46,7 @@ public class DeviceListFragment extends BaseFragment {
     private ListView listView;
     private ListView searchListView;
 
-    private AsymmetricGridView multiListView;
+    private PullToRefreshAsymmetricGridView multiListView;
     private MultiListAdapter multiAdapter;
     private int currentOffset = 0;
     private AsymmetricGridViewAdapter<DeviceListItem> asymmetricAdapter;
@@ -70,7 +71,7 @@ public class DeviceListFragment extends BaseFragment {
         return view;*/
 
         view = inflater.inflate(R.layout.multi_device_list, container, false);
-        multiListView = (AsymmetricGridView) view.findViewById(R.id.multiListView);
+        multiListView = (PullToRefreshAsymmetricGridView) view.findViewById(R.id.multiListView);
         getData();
         multiAdapter = new MultiListAdapter(this.getActivity(), multiListView, getMoreItems(data.size()) , data);
         if (multiAdapter instanceof WrapperListAdapter) {
@@ -79,9 +80,20 @@ public class DeviceListFragment extends BaseFragment {
             asymmetricAdapter = multiAdapter;
         }
 
-        multiListView.setRequestedColumnCount(4);
-        multiListView.setRequestedHorizontalSpacing(Utils.dpToPx(this.getActivity(), 3));
+        multiListView.getGridView().setRequestedColumnCount(4);
+        multiListView.getGridView().setRequestedHorizontalSpacing(Utils.dpToPx(this.getActivity(), 3));
         multiListView.setAdapter(multiAdapter);
+        multiListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<AsymmetricGridView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<AsymmetricGridView> refreshView) {
+                new GetDataTask().execute();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<AsymmetricGridView> refreshView) {
+
+            }
+        });
         return view;
     }
 
@@ -100,8 +112,8 @@ public class DeviceListFragment extends BaseFragment {
         LibImpl.putDeviceList(Global.getDeviceList());
         for (int i = 0; i < Global.getDeviceList().size(); i++) {
             HashMap<String, Object> map = new HashMap<>();
-            map.put("device", Global.getSortedDeviceList().get(i));
-            //map.put("device", Global.getDeviceList().get(i));
+            //map.put("device", Global.getSortedDeviceList().get(i));
+            map.put("device", Global.getDeviceList().get(i));
             map.put("device_image", R.drawable.tps_list_nomsg);
             map.put("device_state", R.string.device_state_off);
             map.put("device_name", "Device " + i);
@@ -167,9 +179,9 @@ public class DeviceListFragment extends BaseFragment {
                 multiAdapter.notifyDataSetChanged();
                 break;
             case SDK_CONSTANT.TPS_MSG_P2P_OFFLINE:
-                getData();
-                currentOffset = 0;
-                asymmetricAdapter.setItems(getMoreItems(data.size()));
+                //getData();
+                //currentOffset = 0;
+                //asymmetricAdapter.setItems(getMoreItems(data.size()));
                 multiAdapter.notifyDataSetChanged();
                 break;
             case SDK_CONSTANT.TPS_MSG_P2P_NVR_OFFLINE:
@@ -247,6 +259,29 @@ public class DeviceListFragment extends BaseFragment {
         currentOffset += qty;
 
         return items;
+    }
+
+    private class GetDataTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                Thread.sleep(2000);
+                // 重新连接设备之后，更新设备状态
+                int ret = LibImpl.getInstance().getFuncLib().ResumeDevCom();
+                if (0 != ret) {
+                    Log.d(TAG, "device list pull down refresh ResumeDevCom fail!");
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            multiListView.onRefreshComplete();
+        }
     }
 }
 

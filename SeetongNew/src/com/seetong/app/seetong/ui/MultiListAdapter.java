@@ -38,8 +38,8 @@ public class MultiListAdapter extends AsymmetricGridViewAdapter<DeviceListItem> 
         public TextView deviceId;
     }
 
-    public MultiListAdapter(final Context context, final AsymmetricGridView listView, final List<DeviceListItem> items, List<Map<String, Object>> data) {
-        super(context, listView, items);
+    public MultiListAdapter(final Context context, final PullToRefreshAsymmetricGridView listView, final List<DeviceListItem> items, List<Map<String, Object>> data) {
+        super(context, listView.getGridView(), items);
         this.context = context;
         this.data = data;
         inflater = LayoutInflater.from(this.context);
