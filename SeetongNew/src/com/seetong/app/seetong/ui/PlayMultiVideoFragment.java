@@ -1642,7 +1642,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }).start();
     }
 
-
     private void onGetDevVersionInfo(String xml) {
         if (xml == null) return;
         String devIdentify = "";

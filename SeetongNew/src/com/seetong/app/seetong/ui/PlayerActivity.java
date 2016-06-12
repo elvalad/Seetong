@@ -1025,11 +1025,27 @@ public class PlayerActivity extends BaseActivity {
     }
 
     private void getData() {
-        data.clear();
+        /*data.clear();
         LibImpl.putDeviceList(Global.getDeviceList());
         for (int i = 0; i < Global.getDeviceList().size(); i++) {
             HashMap<String, Object> map = new HashMap<>();
             map.put("device", Global.getSelfDeviceList().get(i));
+            data.add(map);
+        }*/
+
+        data.clear();
+        LibImpl.putDeviceList(Global.getDeviceList());
+        List<PlayerDevice> list;
+        if (playerDevice.isNVR()) {
+            list = Global.getNvrDeviceList(playerDevice.getNvrId());
+        } else {
+            list = Global.getIpcDeviceList();
+        }
+
+        if (null == list) list = Global.getDeviceList();
+        for (PlayerDevice dev : list) {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("device", dev);
             data.add(map);
         }
     }

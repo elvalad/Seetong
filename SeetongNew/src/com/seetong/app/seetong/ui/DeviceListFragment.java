@@ -49,7 +49,7 @@ public class DeviceListFragment extends BaseFragment {
     private PullToRefreshAsymmetricGridView multiListView;
     private MultiListAdapter multiAdapter;
     private int currentOffset = 0;
-    private AsymmetricGridViewAdapter<DeviceListItem> asymmetricAdapter;
+    private AsymmetricGridViewAdapter asymmetricAdapter;
 
     public static DeviceListFragment newInstance() {
         return new DeviceListFragment();
@@ -162,7 +162,7 @@ public class DeviceListFragment extends BaseFragment {
         switch (msg.what) {
             case Define.MSG_UPDATE_DEV_LIST:
                 getData();
-                Log.e(TAG, "intems offset : " + currentOffset + " device size : " + data.size());
+                Log.e(TAG, "items offset : " + currentOffset + " device size : " + data.size());
                 if (data.size() >= currentOffset) {
                     asymmetricAdapter.appendItems(getMoreItems(data.size() - currentOffset));
                 } else {

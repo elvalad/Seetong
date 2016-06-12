@@ -109,6 +109,24 @@ public class Global {
         return m_deviceList;
     }
 
+    synchronized public static List<PlayerDevice> getIpcDeviceList() {
+        List<PlayerDevice> lst = new ArrayList<>();
+        if (null == m_deviceList) return null;
+        for (PlayerDevice dev : m_deviceList) {
+            if (!dev.isNVR()) lst.add(dev);
+        }
+        return lst;
+    }
+
+    synchronized public static List<PlayerDevice> getNvrDeviceList(String id) {
+        List<PlayerDevice> lst = new ArrayList<>();
+        if (null == m_deviceList) return null;
+        for (PlayerDevice dev : m_deviceList) {
+            if (dev.m_devId.contains(id)) lst.add(dev);
+        }
+        return lst;
+    }
+
     synchronized public static List<PlayerDevice> getSelfDeviceList() {
         List<PlayerDevice> lst = new ArrayList<>();
         for (PlayerDevice dev : m_deviceList) {
