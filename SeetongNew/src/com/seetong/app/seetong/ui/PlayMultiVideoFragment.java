@@ -127,6 +127,15 @@ public class PlayMultiVideoFragment extends BaseFragment {
         getDevVersionInfo();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        layoutMap = null;
+        rowLayoutMap = null;
+        renderMap = null;
+        imageCache = null;
+    }
+
     class MyOnGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
@@ -1124,7 +1133,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         });
     }
 
-    private void addBitmapToCashe(String path) {
+    private void addBitmapToCache(String path) {
         // 强引用的Bitmap对象
         Bitmap bitmap = BitmapFactory.decodeFile(path);
         // 软引用的Bitmap对象
@@ -1158,16 +1167,16 @@ public class PlayMultiVideoFragment extends BaseFragment {
             devList.get(i).m_video.mIsStopVideo = false;
 
             if (!devList.get(i).m_play) {
-                ProgressBar liveVideoWaiting = (ProgressBar) layout.findViewById(R.id.liveVideoWaiting);
+                /*ProgressBar liveVideoWaiting = (ProgressBar) layout.findViewById(R.id.liveVideoWaiting);
                 liveVideoWaiting.setVisibility(View.VISIBLE);
                 ImageView liveVideoBackground = (ImageView) layout.findViewById(R.id.liveVideoBackground);
-                addBitmapToCashe(Global.getSnapshotDir() + "/" + devList.get(i).m_dev.getDevId() + ".jpg");
+                addBitmapToCache(Global.getSnapshotDir() + "/" + devList.get(i).m_dev.getDevId() + ".jpg");
                 Bitmap bitmap = getBitmapByPath(Global.getSnapshotDir() + "/" + devList.get(i).m_dev.getDevId() + ".jpg");
                 //Bitmap bitmap = BitmapFactory.decodeFile(Global.getSnapshotDir() + "/" + devList.get(i).m_dev.getDevId() + ".jpg");
                 if (bitmap != null) {
                     liveVideoBackground.setVisibility(View.VISIBLE);
                     liveVideoBackground.setImageBitmap(convertColorIntoBlackAndWhiteImage(bitmap));
-                }
+                }*/
 
                 int ret = LibImpl.startPlay(i, devList.get(i), devList.get(i).m_stream_type, devList.get(i).m_frame_type);
                 if (ret == 0) {
@@ -2195,6 +2204,10 @@ public class PlayMultiVideoFragment extends BaseFragment {
         int index = getIndexByDeviceID(dev);
         ImageView liveVideoBackground = (ImageView) layoutMap.get(index).findViewById(R.id.liveVideoBackground);
         liveVideoBackground.setVisibility(View.GONE);
+        Bitmap bitmap = getBitmapByPath(Global.getSnapshotDir() + "/" + dev.m_dev.getDevId() + ".jpg");
+        if (bitmap != null && !bitmap.isRecycled()) {
+            bitmap.recycle();
+        }
         ProgressBar liveVideoWaiting = (ProgressBar) layoutMap.get(index).findViewById(R.id.liveVideoWaiting);
         liveVideoWaiting.setVisibility(View.GONE);
     }

@@ -26,8 +26,13 @@ import com.seetong.app.seetong.sdk.impl.ConstantImpl;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.ui.ext.MyTipDialog;
 import com.seetong.app.seetong.ui.ext.RegexpEditText;
+import com.seetong.app.seetong.ui.utils.LogcatUtil;
 import ipc.android.sdk.com.SDK_CONSTANT;
 import ipc.android.sdk.impl.DeviceInfo;
+import net.lingala.zip4j.model.ZipParameters;
+import net.lingala.zip4j.util.Zip4jConstants;
+
+import java.io.File;
 
 /**
  * LoginActivity 是首次进入 Seetong 后的第一个页面，用于让用户注册登录 Seetong.
@@ -322,6 +327,7 @@ public class LoginActivity extends BaseActivity {
             case SDK_CONSTANT.TPS_MSG_NOTIFY_LOGIN_OK:
                 if (mTipDlg.isTimeout()) return;
                 saveData();
+                uploadDebugInfo();
                 break;
             case SDK_CONSTANT.TPS_MSG_NOTIFY_LOGIN_FAILED: {
                 mTipDlg.dismiss();
@@ -415,6 +421,46 @@ public class LoginActivity extends BaseActivity {
         }
 
         finish();
+    }
+
+    private void uploadDebugInfo() {
+        if ("seetong_debug".equals(mDevInfo.getUserName())) {
+            final String dirName = LogcatUtil.getInstance(Global.m_ctx).getPathLogcat();
+            final String zipFileName = mDevInfo.getUserName() + "_android_log.zip";
+            final File dir = new File(dirName);
+            if (!dir.exists()) {
+                Log.d(TAG, "There is no log dir!");
+            } else {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            net.lingala.zip4j.core.ZipFile zipFile = new net.lingala.zip4j.core.ZipFile(dirName + "/" + zipFileName);
+                            ZipParameters parameters = new ZipParameters();
+                            parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
+                            parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
+
+                            File[] files = dir.listFiles();
+                            if (files.length == 0) {
+                                Log.d(TAG, "There is no log files!");
+                            }
+
+                            for (File f : files) {
+                                if (f.getName().substring(f.getName().lastIndexOf(".") + 1).equals("log")) {
+                                    zipFile.addFile(f, parameters);
+                                }
+                            }
+
+                            Thread.sleep(1000);
+                            int ret = LibImpl.getInstance().getFuncLib().UploadFile(dirName + "/" + zipFileName, zipFileName);
+                            Log.d(TAG, "Upload log file ret is : " + ret);
+                        } catch (net.lingala.zip4j.exception.ZipException | InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
+        }
     }
 }
 
