@@ -1082,12 +1082,12 @@ public class PlayMultiVideoFragment extends BaseFragment {
         if (!dev.m_play) {
             ProgressBar liveVideoWaiting = (ProgressBar) layout.findViewById(R.id.liveVideoWaiting);
             liveVideoWaiting.setVisibility(View.VISIBLE);
-            ImageView liveVideoBackground = (ImageView) layout.findViewById(R.id.liveVideoBackground);
+            /*ImageView liveVideoBackground = (ImageView) layout.findViewById(R.id.liveVideoBackground);
             Bitmap bitmap = BitmapFactory.decodeFile(Global.getSnapshotDir() + "/" + dev.m_dev.getDevId() + ".jpg");
             if (bitmap != null) {
                 liveVideoBackground.setVisibility(View.VISIBLE);
                 liveVideoBackground.setImageBitmap(convertColorIntoBlackAndWhiteImage(bitmap));
-            }
+            }*/
 
             int ret = LibImpl.startPlay(currentIndex, dev, dev.m_stream_type, dev.m_frame_type);
             if (ret == 0) {
@@ -1167,9 +1167,9 @@ public class PlayMultiVideoFragment extends BaseFragment {
             devList.get(i).m_video.mIsStopVideo = false;
 
             if (!devList.get(i).m_play) {
-                /*ProgressBar liveVideoWaiting = (ProgressBar) layout.findViewById(R.id.liveVideoWaiting);
+                ProgressBar liveVideoWaiting = (ProgressBar) layout.findViewById(R.id.liveVideoWaiting);
                 liveVideoWaiting.setVisibility(View.VISIBLE);
-                ImageView liveVideoBackground = (ImageView) layout.findViewById(R.id.liveVideoBackground);
+                /*ImageView liveVideoBackground = (ImageView) layout.findViewById(R.id.liveVideoBackground);
                 addBitmapToCache(Global.getSnapshotDir() + "/" + devList.get(i).m_dev.getDevId() + ".jpg");
                 Bitmap bitmap = getBitmapByPath(Global.getSnapshotDir() + "/" + devList.get(i).m_dev.getDevId() + ".jpg");
                 //Bitmap bitmap = BitmapFactory.decodeFile(Global.getSnapshotDir() + "/" + devList.get(i).m_dev.getDevId() + ".jpg");
@@ -1751,7 +1751,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
     private void onUpdateFwInfo(String xml) {
         if (xml == null) return;
-        Log.e(TAG, "++++++++++++++++++++++++++++++++++++++++++++>>>" + xml);
         String file_url = "";
         String file_md5 = "";
         try {
