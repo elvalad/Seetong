@@ -33,7 +33,7 @@ import java.util.List;
 public class DeviceFragment2 extends BaseFragment {
     private View view;
     private DeviceNoMsgFragment deviceNoMsgFragment;
-    private DeviceListFragment deviceListFragment;
+    private DeviceListFragment2 deviceListFragment;
     private BaseFragment currentFragment;
     private ProgressDialog mTipDlg;
     private ImageButton deviceAddButton;
@@ -48,7 +48,7 @@ public class DeviceFragment2 extends BaseFragment {
         MainActivity2.m_this.setDeviceFragment(this);
         view = inflater.inflate(R.layout.device2, container);
         deviceNoMsgFragment = DeviceNoMsgFragment.newInstance();
-        deviceListFragment = DeviceListFragment.newInstance();
+        deviceListFragment = DeviceListFragment2.newInstance();
         currentFragment = deviceListFragment;
         initWidget(view);
 
@@ -224,7 +224,7 @@ public class DeviceFragment2 extends BaseFragment {
 
     public void handleMessage(android.os.Message msg) {
         //Log.e("msg", ":::::::::::::::::::::>" + (currentFragment instanceof DeviceListFragment) + " " +msg.what);
-        if (currentFragment instanceof DeviceListFragment) {
+        if (currentFragment instanceof DeviceListFragment2) {
             switch (msg.what) {
                 case Define.MSG_UPDATE_DEV_ALIAS:
                     deviceListFragment.handleMessage(msg);

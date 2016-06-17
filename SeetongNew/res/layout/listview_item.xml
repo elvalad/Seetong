@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical" android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/device_grid_border">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:paddingLeft="3dp"
+            android:layout_height="30dp">
+
+        <TextView
+                android:id="@+id/listview_item_textview"
+                android:textSize="15sp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <ImageView
+            android:background="@color/device_grid_div_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+    <com.seetong.app.seetong.ui.NoScrollGridView
+            android:id="@+id/listview_item_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="1dp"
+            android:horizontalSpacing="1dp"
+            android:numColumns="2"/>
+
+</LinearLayout>
