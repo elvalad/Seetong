@@ -284,12 +284,12 @@ public class PlayerSettingActivity extends BaseActivity {
 
         Resources mResources = self.getResources();
         final ClearEditText etAddGroup = new ClearEditText(self);
-        etAddGroup.setHint(R.string.dev_list_hint_input_dev_alias);
+        etAddGroup.setHint(R.string.dev_list_hint_input_nvr_chn_alias);
         etAddGroup.setPadding(10, 10, 10, 10);
         etAddGroup.setSingleLine(true);
         etAddGroup.setText(_devName);
         etAddGroup.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Define.DEVICE_NAEM_LENGTH)});
-        new AlertDialog.Builder(self).setTitle(R.string.dev_list_tip_title_input_dev_alias)
+        new AlertDialog.Builder(self).setTitle(R.string.dev_list_hint_input_nvr_chn_alias)
                 .setView(etAddGroup)
                 .setNegativeButton(mResources.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
@@ -307,7 +307,7 @@ public class PlayerSettingActivity extends BaseActivity {
                 }).setPositiveButton(mResources.getString(R.string.sure), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                showTipDlg(R.string.dev_list_tip_title_input_dev_alias, 15000, R.string.dlg_dev_alias_timeout_tip);
+                showTipDlg(R.string.dev_list_tip_title_input_nvr_chn_alias, 15000, R.string.dlg_dev_alias_timeout_tip);
                 final String value = etAddGroup.getText().toString();
                 if ("".equals(value)) {
                     try {
