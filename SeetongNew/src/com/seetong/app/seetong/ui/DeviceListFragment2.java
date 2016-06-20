@@ -19,6 +19,7 @@ import ipc.android.sdk.com.SDK_CONSTANT;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2016/6/16.
@@ -31,6 +32,10 @@ public class DeviceListFragment2 extends BaseFragment {
     private ListViewAdapter mListViewAdapter;
     private ArrayList<ArrayList<HashMap<String,Object>>> mArrayList = new ArrayList<>();
 
+    private ListView searchListView;
+    private List<Map<String, Object>> searchData = new ArrayList<>();
+    private DeviceListAdapter2 searchAdapter;
+
     public static DeviceListFragment2 newInstance() {
         return new DeviceListFragment2();
     }
@@ -40,6 +45,11 @@ public class DeviceListFragment2 extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.device_list, container, false);
+        searchListView = (ListView) view.findViewById(R.id.device_search_list);
+        getSearchData("");
+        searchAdapter = new DeviceListAdapter2(MainActivity2.m_this, searchData);
+        searchListView.setAdapter(searchAdapter);
+
         mListView = (PullToRefreshListView) view.findViewById(R.id.device_list);
         getData();
         mListViewAdapter = new ListViewAdapter(mArrayList, this.getActivity());
@@ -81,12 +91,36 @@ public class DeviceListFragment2 extends BaseFragment {
         }
     }
 
+    private void getSearchData(CharSequence s) {
+        searchData.clear();
+        for (int i = 0; i < Global.getDeviceList().size(); i++) {
+            HashMap<String, Object> map = new HashMap<>();
+            PlayerDevice dev = Global.getDeviceList().get(i);
+            String devID = dev.m_dev.getDevId();
+            String devAlias = LibImpl.getInstance().getDeviceAlias(dev.m_dev);
+            if (devID != null && (devID.contains(s) || devAlias.contains(s))) {//匹配设备ID和别名
+                map.put("device", dev);
+                map.put("device_image", R.drawable.tps_list_nomsg);
+                map.put("device_state", R.string.device_state_off);
+                map.put("device_name", "Device " + i);
+                map.put("device_num", i);
+                searchData.add(map);
+            }
+        }
+    }
+
     public void showDeviceList() {
+        if (searchListView != null) {
+            searchListView.setVisibility(View.GONE);
+        }
         mListView.setVisibility(View.VISIBLE);
     }
 
     public void showSearchDeviceList(CharSequence s) {
-
+        getSearchData(s);
+        searchAdapter.notifyDataSetChanged();
+        searchListView.setVisibility(View.VISIBLE);
+        mListView.setVisibility(View.GONE);
     }
 
     public boolean handleMessage(android.os.Message msg) {

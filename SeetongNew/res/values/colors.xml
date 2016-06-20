@@ -125,5 +125,5 @@
     <color name="password_strength_1">#FFA726</color>
     <color name="password_strength_2">#FF0000</color>
     
-    <color name="device_grid_div_line">#ffbcbcbc</color>
+    <color name="device_grid_div_line">#fff0efed</color>
 </resources>

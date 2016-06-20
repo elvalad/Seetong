@@ -3,11 +3,13 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:padding="5dp"
+              android:background="#fff0efed"
               android:orientation="vertical">
+
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/device_list"
-        android:divider="@color/white"
-        android:dividerHeight="5dp"
+        android:divider="@color/device_grid_div_line"
+        android:dividerHeight="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

@@ -13,6 +13,7 @@
         <TextView
                 android:id="@+id/listview_item_textview"
                 android:textSize="15sp"
+                android:textColor="@color/gray"
                 android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
