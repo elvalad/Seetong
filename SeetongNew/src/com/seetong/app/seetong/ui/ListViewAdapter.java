@@ -64,10 +64,11 @@ public class ListViewAdapter extends BaseAdapter {
             ArrayList<HashMap<String, Object>> arrayListForEveryGridView = this.mList.get(position);
             GridViewAdapter gridViewAdapter = new GridViewAdapter(mContext, arrayListForEveryGridView);
             PlayerDevice dev = (PlayerDevice) arrayListForEveryGridView.get(0).get("device");
-            holder.textView.setText(LibImpl.getInstance().getDeviceAlias(dev.m_dev));
             if (dev.isNVR()) {
+                holder.textView.setText(dev.m_dev.getDevGroupName());
                 holder.gridView.setNumColumns(2);
             } else {
+                holder.textView.setText(LibImpl.getInstance().getDeviceAlias(dev.m_dev));
                 holder.gridView.setNumColumns(1);
             }
             holder.gridView.setAdapter(gridViewAdapter);

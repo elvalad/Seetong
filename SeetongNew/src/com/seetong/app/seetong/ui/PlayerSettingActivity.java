@@ -142,6 +142,9 @@ public class PlayerSettingActivity extends BaseActivity {
             case R.string.dev_list_tip_title_input_dev_alias:
                 onModifyDeviceAlias();
                 break;
+            case R.string.dev_list_tip_title_input_nvr_chn_alias:
+                onModifyNvrChnAlias();
+                break;
             case R.string.dev_list_tip_title_modify_user_pwd:
                 onModifyUserPwd();
                 break;
@@ -185,6 +188,10 @@ public class PlayerSettingActivity extends BaseActivity {
     }
 
     private void onModifyDeviceAlias() {
+        onModifyIpcAlias();
+    }
+
+    private void onModifyNvrChnAlias() {
         int devType = playerDevice.m_dev.getDevType();
         if (100 == devType) { // IPC
             onModifyIpcAlias();
@@ -252,7 +259,7 @@ public class PlayerSettingActivity extends BaseActivity {
                     @Override
                     public void run() {
                         int enterTypes = Global.m_loginType;
-                        int ret = LibImpl.getInstance().saveDeviceAlias(playerDevice.m_dev.getDevId(), value, enterTypes);
+                        int ret = LibImpl.getInstance().saveDeviceAlias(playerDevice.getNvrId(), value, enterTypes);
                         if (ret != 0) {
                             toast(ConstantImpl.getModifyDevNameErrText(ret));
                             return;
@@ -584,21 +591,25 @@ public class PlayerSettingActivity extends BaseActivity {
             settingContents[10] = new SettingContent(R.string.ipc_firmware_update, R.drawable.tps_device_setting_factory);
             data.add(settingContents[10]);
         } else if (200 == devType) { // NVR
-            SettingContent[] settingContents = new SettingContent[3];
+            SettingContent[] settingContents = new SettingContent[4];
             settingContents[0] = new SettingContent(R.string.dev_list_tip_title_input_dev_alias, R.drawable.tps_device_setting_alais);
             data.add(settingContents[0]);
-            settingContents[1] = new SettingContent(R.string.ipc_firmware_update, R.drawable.tps_device_setting_factory);
+            settingContents[1] = new SettingContent(R.string.dev_list_tip_title_input_nvr_chn_alias, R.drawable.tps_device_setting_alais);
             data.add(settingContents[1]);
-            settingContents[2] = new SettingContent(R.string.nvr_firmware_update, R.drawable.tps_device_setting_factory);
+            settingContents[2] = new SettingContent(R.string.ipc_firmware_update, R.drawable.tps_device_setting_factory);
             data.add(settingContents[2]);
+            settingContents[3] = new SettingContent(R.string.nvr_firmware_update, R.drawable.tps_device_setting_factory);
+            data.add(settingContents[3]);
         } else if (201 == devType) { // NVR4.0
-            SettingContent[] settingContents = new SettingContent[3];
+            SettingContent[] settingContents = new SettingContent[4];
             settingContents[0] = new SettingContent(R.string.dev_list_tip_title_input_dev_alias, R.drawable.tps_device_setting_alais);
             data.add(settingContents[0]);
-            settingContents[1] = new SettingContent(R.string.ipc_firmware_update, R.drawable.tps_device_setting_factory);
+            settingContents[1] = new SettingContent(R.string.dev_list_tip_title_input_nvr_chn_alias, R.drawable.tps_device_setting_alais);
             data.add(settingContents[1]);
-            settingContents[2] = new SettingContent(R.string.nvr_firmware_update, R.drawable.tps_device_setting_factory);
+            settingContents[2] = new SettingContent(R.string.ipc_firmware_update, R.drawable.tps_device_setting_factory);
             data.add(settingContents[2]);
+            settingContents[3] = new SettingContent(R.string.nvr_firmware_update, R.drawable.tps_device_setting_factory);
+            data.add(settingContents[3]);
         }
     }
 

@@ -99,7 +99,7 @@ public class GridViewAdapter extends BaseAdapter{
                 if (device != null && device.getUser() != null) {
                     holder.deviceName.setText(" " + device.getUser() + " ");
                 } else {
-                    holder.deviceName.setText(" " + dev.m_dev.getDevGroupName() + " ");
+                    holder.deviceName.setText(" " + dev.getNvrId() + " ");
                 }
             } else {
                 holder.deviceName.setTextSize(12);
@@ -116,7 +116,7 @@ public class GridViewAdapter extends BaseAdapter{
                 if (device != null && device.getUser() != null) {
                     holder.deviceName.setText(" " + device.getUser() + " ");
                 } else {
-                    holder.deviceName.setText(dev.m_dev.getDevGroupName() + " ");
+                    holder.deviceName.setText(" " + dev.getNvrId() + " ");
                 }
             } else {
                 holder.deviceName.setTextSize(12);
