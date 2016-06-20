@@ -11,10 +11,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.seetong.app.seetong.Config;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
@@ -166,7 +163,7 @@ public class GridViewAdapter extends BaseAdapter{
     }
 
     private class ViewHolder {
-        ImageButton deviceChosenButton;
+        public ImageButton deviceChosenButton;
         public TextView deviceState;
         public TextView deviceName;
         public TextView deviceId;

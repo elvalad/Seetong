@@ -4,13 +4,14 @@
               android:layout_height="match_parent"
               android:padding="5dp"
               android:orientation="vertical">
-    <ListView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/device_list"
+        android:divider="@color/white"
         android:dividerHeight="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </ListView>
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
     <ListView
             android:id="@+id/device_search_list"

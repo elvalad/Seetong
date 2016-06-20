@@ -1,16 +1,20 @@
 package com.seetong.app.seetong.ui;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
+import ipc.android.sdk.com.SDK_CONSTANT;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +27,7 @@ public class DeviceListFragment2 extends BaseFragment {
 
     public static String TAG = DeviceListFragment2.class.getName();
     private View view;
-    private ListView mListView;
+    private PullToRefreshListView mListView;
     private ListViewAdapter mListViewAdapter;
     private ArrayList<ArrayList<HashMap<String,Object>>> mArrayList = new ArrayList<>();
 
@@ -36,10 +40,23 @@ public class DeviceListFragment2 extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.device_list, container, false);
-        mListView = (ListView) view.findViewById(R.id.device_list);
+        mListView = (PullToRefreshListView) view.findViewById(R.id.device_list);
         getData();
         mListViewAdapter = new ListViewAdapter(mArrayList, this.getActivity());
         mListView.setAdapter(mListViewAdapter);
+
+        mListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                new GetDataTask().execute();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+            }
+        });
+
         return view;
     }
 
@@ -88,8 +105,46 @@ public class DeviceListFragment2 extends BaseFragment {
                 getData();
                 mListViewAdapter.updateDevList();
                 break;
+            case SDK_CONSTANT.TPS_MSG_P2P_CONNECT_OK:
+                mListViewAdapter.notifyDataSetChanged();
+                break;
+            case SDK_CONSTANT.TPS_MSG_P2P_OFFLINE:
+                mListViewAdapter.notifyDataSetChanged();
+                break;
+            case SDK_CONSTANT.TPS_MSG_P2P_NVR_OFFLINE:
+                mListViewAdapter.notifyDataSetChanged();
+                break;
+            case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_OFFLINE:
+                mListViewAdapter.notifyDataSetChanged();
+                break;
+            case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_ONLINE:
+                mListViewAdapter.notifyDataSetChanged();
+                break;
         }
 
         return false;
+    }
+
+    private class GetDataTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                Thread.sleep(2000);
+                // 重新连接设备之后，更新设备状态
+                int ret = LibImpl.getInstance().getFuncLib().ResumeDevCom();
+                if (0 != ret) {
+                    Log.d(TAG, "device list pull down refresh ResumeDevCom fail!");
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            mListView.onRefreshComplete();
+        }
     }
 }

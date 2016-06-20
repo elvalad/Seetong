@@ -14,7 +14,7 @@
                 android:id="@+id/listview_item_textview"
                 android:textSize="15sp"
                 android:layout_gravity="center_vertical"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
     </LinearLayout>
@@ -29,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:stretchMode="columnWidth"
+            android:listSelector="@null"
             android:verticalSpacing="1dp"
             android:horizontalSpacing="1dp"
             android:numColumns="2"/>
