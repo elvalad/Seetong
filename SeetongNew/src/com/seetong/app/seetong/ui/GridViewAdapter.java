@@ -153,7 +153,7 @@ public class GridViewAdapter extends BaseAdapter{
             holder.deviceChosenButton.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Toast.makeText(mContext, "click" + (position + 1), Toast.LENGTH_SHORT).show();
+                    MainActivity2.m_this.deleteDevice(devId);
                     return true;
                 }
             });

@@ -80,8 +80,4 @@ public class ListViewAdapter extends BaseAdapter {
         TextView textView;
         GridView gridView;
     }
-
-    public void updateDevList() {
-        notifyDataSetChanged();
-    }
 }

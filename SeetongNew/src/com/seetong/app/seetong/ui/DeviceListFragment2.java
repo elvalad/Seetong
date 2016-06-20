@@ -79,16 +79,6 @@ public class DeviceListFragment2 extends BaseFragment {
             }
             mArrayList.add(arrayListForEveryGridView);
         }
-
-        /*for (int i = 0; i < 10; i++) {
-            arrayListForEveryGridView=new ArrayList<>();
-            for (int j = 0; j < 5; j++) {
-                hashMap=new HashMap<>();
-                hashMap.put("content", "i="+i+" ,j="+j);
-                arrayListForEveryGridView.add(hashMap);
-            }
-            mArrayList.add(arrayListForEveryGridView);
-        }*/
     }
 
     public void showDeviceList() {
@@ -103,7 +93,7 @@ public class DeviceListFragment2 extends BaseFragment {
         switch (msg.what) {
             case Define.MSG_UPDATE_DEV_LIST:
                 getData();
-                mListViewAdapter.updateDevList();
+                mListViewAdapter.notifyDataSetChanged();
                 break;
             case SDK_CONSTANT.TPS_MSG_P2P_CONNECT_OK:
                 mListViewAdapter.notifyDataSetChanged();
@@ -118,6 +108,12 @@ public class DeviceListFragment2 extends BaseFragment {
                 mListViewAdapter.notifyDataSetChanged();
                 break;
             case SDK_CONSTANT.TPS_MSG_P2P_NVR_CH_ONLINE:
+                mListViewAdapter.notifyDataSetChanged();
+                break;
+            case Define.MSG_UPDATE_DEV_ALIAS:
+                mListViewAdapter.notifyDataSetChanged();
+                break;
+            case Define.MSG_ENABLE_ALIAS:
                 mListViewAdapter.notifyDataSetChanged();
                 break;
         }
