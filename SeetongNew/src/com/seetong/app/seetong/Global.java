@@ -141,6 +141,23 @@ public class Global {
         return lst;
     }
 
+    synchronized public static String getFirstOnlineDev(PlayerDevice dev) {
+        String devId = "";
+        if (dev == null) return devId;
+        devId = dev.m_dev.getDevId();
+        if (dev.isNVR()) {
+            List<PlayerDevice> list = Global.getNvrDeviceList(dev.getNvrId());
+            if (list == null) return devId;
+            for (PlayerDevice onlineDev : list) {
+                if (onlineDev.m_dev.getOnLine() == Device.ONLINE) {
+                    devId = onlineDev.m_dev.getDevId();
+                    break;
+                }
+            }
+        }
+        return devId;
+    }
+
     synchronized public static List<PlayerDevice> getSelfDeviceList() {
         List<PlayerDevice> lst = new ArrayList<>();
         for (PlayerDevice dev : m_deviceList) {

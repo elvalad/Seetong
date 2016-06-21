@@ -4,15 +4,20 @@ import android.util.Log;
 import android.widget.GridView;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
+import ipc.android.sdk.com.Device;
 
 public class ListViewAdapter extends BaseAdapter {
     private ArrayList<ArrayList<HashMap<String, Object>>> mList;
@@ -54,6 +59,7 @@ public class ListViewAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = LayoutInflater.from(this.mContext).inflate(R.layout.listview_item, parent, false);
             holder.textView = (TextView) convertView.findViewById(R.id.listview_item_textview);
+            holder.playButton = (ImageButton) convertView.findViewById(R.id.listview_item_play_button);
             holder.gridView = (GridView) convertView.findViewById(R.id.listview_item_gridview);
             convertView.setTag(holder);
         } else {
@@ -64,6 +70,7 @@ public class ListViewAdapter extends BaseAdapter {
             ArrayList<HashMap<String, Object>> arrayListForEveryGridView = this.mList.get(position);
             GridViewAdapter gridViewAdapter = new GridViewAdapter(mContext, arrayListForEveryGridView);
             PlayerDevice dev = (PlayerDevice) arrayListForEveryGridView.get(0).get("device");
+            final String devId = Global.getFirstOnlineDev(dev);
             if (dev.isNVR()) {
                 holder.textView.setText(dev.m_dev.getDevGroupName());
                 holder.gridView.setNumColumns(2);
@@ -72,6 +79,12 @@ public class ListViewAdapter extends BaseAdapter {
                 holder.gridView.setNumColumns(1);
             }
             holder.gridView.setAdapter(gridViewAdapter);
+            holder.playButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainActivity2.m_this.playVideo(devId);
+                }
+            });
         }
 
         return convertView;
@@ -79,6 +92,7 @@ public class ListViewAdapter extends BaseAdapter {
 
     private class ViewHolder {
         TextView textView;
+        ImageButton playButton;
         GridView gridView;
     }
 }

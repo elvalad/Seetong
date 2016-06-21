@@ -4,21 +4,31 @@
               android:layout_height="match_parent"
               android:background="@drawable/device_grid_border">
 
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+    <RelativeLayout
             android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:layout_width="match_parent"
             android:layout_height="30dp">
 
         <TextView
                 android:id="@+id/listview_item_textview"
                 android:textSize="15sp"
-                android:textColor="@color/gray"
+                android:textColor="@color/device_list_header_text"
                 android:layout_gravity="center_vertical"
-                android:layout_width="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-    </LinearLayout>
+        <ImageButton
+                android:id="@+id/listview_item_play_button"
+                android:src="@drawable/tps_device_list_play"
+                android:background="#00000000"
+                android:layout_gravity="center_vertical"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
 
     <ImageView
             android:background="@color/device_grid_div_line"
