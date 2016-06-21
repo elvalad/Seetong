@@ -4,7 +4,6 @@ import android.util.Log;
 import android.widget.GridView;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
-import ipc.android.sdk.com.Device;
 
 public class ListViewAdapter extends BaseAdapter {
     private ArrayList<ArrayList<HashMap<String, Object>>> mList;
