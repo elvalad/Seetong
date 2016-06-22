@@ -588,6 +588,12 @@ public class PlayMultiVideoFragment extends BaseFragment {
                     }
                 }
             }
+
+            for (int i = 0; i < currentList.size(); i++) {
+                if (device.equals(currentList.get(i)) && (i != 0)) {
+                    Collections.swap(currentList, 0, i);
+                }
+            }
         } else {
             for (int i = 0; i < list.size(); i++) {
                 if (device.equals(list.get(i))) {
