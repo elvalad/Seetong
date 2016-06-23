@@ -861,4 +861,6 @@
 
     <string name="welcome_topsee">Welcome to Seetong</string>
     <string name="welcome_copyright">Copyright © 2016 Seetong. All rights reserved.</string>
+
+    <string name="device_info">Camera info</string>
 </resources>

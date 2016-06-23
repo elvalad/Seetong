@@ -859,4 +859,6 @@
 
     <string name="welcome_topsee">智 能 感 知 互 联 , 人 人 安 心 快 乐</string>
     <string name="welcome_copyright">Copyright © 2016 Seetong. All rights reserved.</string>
+
+    <string name="device_info">摄像机信息</string>
 </resources>
