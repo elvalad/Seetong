@@ -502,7 +502,8 @@
     <string name="tip_wifi_connect_internet_error">Please connect to the Internet with normal network configuration</string>
     <string name="dev_list_tip_rename_camera">Long press packet to modify the camera alias</string>
     <string name="dev_list_hint_input_dev_alias">Input camera alias</string>
-    <string name="dev_list_tip_title_input_dev_alias">Modify the camera alias</string>
+    <string name="dev_list_tip_title_input_dev_alias">Modify the IPC alias</string>
+    <string name="dev_list_tip_title_input_nvr_alias">Modify the NVR alias</string>
     <string name="dev_list_hint_input_nvr_chn_alias">Input NVR channel alias</string>
     <string name="dev_list_tip_title_input_nvr_chn_alias">Modify the NVR channel alias</string>
     <string name="dlg_dev_alias_timeout_tip">Modify the camera alias timeout</string>

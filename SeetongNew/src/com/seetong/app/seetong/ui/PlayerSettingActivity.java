@@ -142,6 +142,9 @@ public class PlayerSettingActivity extends BaseActivity {
             case R.string.dev_list_tip_title_input_dev_alias:
                 onModifyDeviceAlias();
                 break;
+            case R.string.dev_list_tip_title_input_nvr_alias:
+                onModifyDeviceAlias();
+                break;
             case R.string.dev_list_tip_title_input_nvr_chn_alias:
                 onModifyNvrChnAlias();
                 break;
@@ -188,7 +191,12 @@ public class PlayerSettingActivity extends BaseActivity {
     }
 
     private void onModifyDeviceAlias() {
-        onModifyIpcAlias();
+        int devType = playerDevice.m_dev.getDevType();
+        if (100 == devType) {
+            onModifyIpcAlias();
+        } else if (200 == devType || 201 == devType) {
+            onModifyNvrDeviceAlias();
+        }
     }
 
     private void onModifyNvrChnAlias() {
@@ -230,6 +238,82 @@ public class PlayerSettingActivity extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 showTipDlg(R.string.dev_list_tip_title_input_dev_alias, 15000, R.string.dlg_dev_alias_timeout_tip);
+                final String value = etAddGroup.getText().toString();
+                if ("".equals(value)) {
+                    try {
+                        Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                        field.setAccessible(true);
+                        field.set(dialog, false);
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (mTipDlg.isShowing()) mTipDlg.dismiss();
+                    toast(R.string.md_error_name_null);
+                    return;
+                }
+
+                try {
+                    Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                    field.setAccessible(true);
+                    field.set(dialog, true);
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+
+                dialog.dismiss();
+                self.hideInputPanel(etAddGroup);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int enterTypes = Global.m_loginType;
+                        int ret = LibImpl.getInstance().saveDeviceAlias(playerDevice.getNvrId(), value, enterTypes);
+                        if (ret != 0) {
+                            toast(ConstantImpl.getModifyDevNameErrText(ret));
+                            return;
+                        }
+
+                        if (mTipDlg.isShowing()) mTipDlg.dismiss();
+                        Intent it = new Intent(self, PlayerActivity.class);
+                        it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
+                        it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS);
+                        it.putExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME, value);
+                        self.setResult(RESULT_OK, it);
+                        finish();
+                    }
+                }).start();
+            }
+        }).create().show();
+    }
+
+    private void onModifyNvrDeviceAlias() {
+        final PlayerSettingActivity self = this;
+        String _devName = playerDevice.m_dev.getDevGroupName();
+        final ClearEditText etAddGroup = new ClearEditText(this);
+        etAddGroup.setHint(R.string.dev_list_hint_input_dev_alias);
+        etAddGroup.setPadding(10, 10, 10, 10);
+        etAddGroup.setSingleLine(true);
+        etAddGroup.setText(_devName);
+        etAddGroup.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Define.DEVICE_NAEM_LENGTH)});
+        new AlertDialog.Builder(this).setTitle(R.string.dev_list_tip_title_input_nvr_alias)
+                .setView(etAddGroup)
+                .setNegativeButton(this.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                            field.setAccessible(true);
+                            field.set(dialog, true);
+                        } catch (NoSuchFieldException | IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                        self.hideInputPanel(etAddGroup);
+                        dialog.dismiss();
+                    }
+                }).setPositiveButton(this.getString(R.string.sure), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                showTipDlg(R.string.dev_list_tip_title_input_nvr_alias, 15000, R.string.dlg_dev_alias_timeout_tip);
                 final String value = etAddGroup.getText().toString();
                 if ("".equals(value)) {
                     try {
@@ -592,7 +676,7 @@ public class PlayerSettingActivity extends BaseActivity {
             data.add(settingContents[10]);
         } else if (200 == devType) { // NVR
             SettingContent[] settingContents = new SettingContent[4];
-            settingContents[0] = new SettingContent(R.string.dev_list_tip_title_input_dev_alias, R.drawable.tps_device_setting_alais);
+            settingContents[0] = new SettingContent(R.string.dev_list_tip_title_input_nvr_alias, R.drawable.tps_device_setting_alais);
             data.add(settingContents[0]);
             settingContents[1] = new SettingContent(R.string.dev_list_tip_title_input_nvr_chn_alias, R.drawable.tps_device_setting_alais);
             data.add(settingContents[1]);
@@ -602,7 +686,7 @@ public class PlayerSettingActivity extends BaseActivity {
             data.add(settingContents[3]);
         } else if (201 == devType) { // NVR4.0
             SettingContent[] settingContents = new SettingContent[4];
-            settingContents[0] = new SettingContent(R.string.dev_list_tip_title_input_dev_alias, R.drawable.tps_device_setting_alais);
+            settingContents[0] = new SettingContent(R.string.dev_list_tip_title_input_nvr_alias, R.drawable.tps_device_setting_alais);
             data.add(settingContents[0]);
             settingContents[1] = new SettingContent(R.string.dev_list_tip_title_input_nvr_chn_alias, R.drawable.tps_device_setting_alais);
             data.add(settingContents[1]);
