@@ -162,12 +162,12 @@ public class DeviceListFragment2 extends BaseFragment {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                Thread.sleep(2000);
                 // 重新连接设备之后，更新设备状态
                 int ret = LibImpl.getInstance().getFuncLib().ResumeDevCom();
                 if (0 != ret) {
                     Log.d(TAG, "device list pull down refresh ResumeDevCom fail!");
                 }
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
