@@ -10,6 +10,7 @@ public class Constant {
     public static final int DEVICE_CONFIG_ITEM_MODIFY_MEDIA_PARAM = 3;
     public static final int DEVICE_CONFIG_ITEM_IMAGE_FLIP = 4;
     public static final int DEVICE_CONFIG_ITEM_MOTION_DETECT = 5;
+    public static final int DEVICE_CONFIG_ITEM_MODIFY_NVR_CHN_ALIAS = 6;
     public static String EXTRA_DEVICE_ID = "extra_device_id";
     public static String EXTRA_DEVICE_TYPE = "extra_device_type";
     public static String EXTRA_DEVICE_CONFIG_TYPE = "extra_device_config_type";

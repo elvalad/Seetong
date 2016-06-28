@@ -351,6 +351,9 @@ public class PlayerActivity extends BaseActivity {
                 }
                 MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_DEV_ALIAS, 0, 0, dev);
                 break;
+            case Constant.DEVICE_CONFIG_ITEM_MODIFY_NVR_CHN_ALIAS:
+                MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_DEV_ALIAS, 0, 0, dev);
+                break;
             case Constant.DEVICE_CONFIG_ITEM_MODIFY_USER_PWD:
                 modifyUserPwd(dev);
                 break;

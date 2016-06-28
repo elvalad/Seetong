@@ -433,7 +433,7 @@ public class PlayerSettingActivity extends BaseActivity {
                             if (mTipDlg.isShowing()) mTipDlg.dismiss();
                             Intent it = new Intent(self, PlayerActivity.class);
                             it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
-                            it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS);
+                            it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_NVR_CHN_ALIAS);
                             it.putExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME, value);
                             self.setResult(RESULT_OK, it);
                             finish();
