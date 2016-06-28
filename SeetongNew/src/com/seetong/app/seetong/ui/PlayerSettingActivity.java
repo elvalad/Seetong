@@ -873,6 +873,7 @@ public class PlayerSettingActivity extends BaseActivity {
                 adapter.notifyDataSetChanged();
                 break;
             case Define.MSG_SHOW_FW_UPDATE_PROGRESS:
+                if (this.isFinishing()) return;
                 onGetUpdateProgress();
                 adapter.notifyDataSetChanged();
                 break;
