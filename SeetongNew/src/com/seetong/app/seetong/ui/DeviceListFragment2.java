@@ -113,7 +113,10 @@ public class DeviceListFragment2 extends BaseFragment {
         if (searchListView != null) {
             searchListView.setVisibility(View.GONE);
         }
-        mListView.setVisibility(View.VISIBLE);
+
+        if (mListView != null) {
+            mListView.setVisibility(View.VISIBLE);
+        }
     }
 
     public void showSearchDeviceList(CharSequence s) {
