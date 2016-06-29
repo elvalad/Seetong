@@ -290,10 +290,10 @@ public class PlayerSettingActivity extends BaseActivity {
         final PlayerSettingActivity self = this;
         String _devName = playerDevice.m_dev.getDevGroupName();
         final ClearEditText etAddGroup = new ClearEditText(this);
-        etAddGroup.setHint(R.string.dev_list_hint_input_dev_alias);
+        etAddGroup.setHint(R.string.dev_list_tip_title_input_nvr_alias);
         etAddGroup.setPadding(10, 10, 10, 10);
         etAddGroup.setSingleLine(true);
-        etAddGroup.setText(_devName);
+        etAddGroup.setText("");
         etAddGroup.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Define.DEVICE_NAEM_LENGTH)});
         new AlertDialog.Builder(this).setTitle(R.string.dev_list_tip_title_input_nvr_alias)
                 .setView(etAddGroup)
@@ -343,7 +343,13 @@ public class PlayerSettingActivity extends BaseActivity {
                     @Override
                     public void run() {
                         int enterTypes = Global.m_loginType;
-                        int ret = LibImpl.getInstance().saveDeviceAlias(playerDevice.getNvrId(), value, enterTypes);
+                        PlayerDevice nvrDevice = playerDevice;
+                        List<PlayerDevice> list = Global.getNvrDeviceList(playerDevice.getNvrId());
+                        if (list != null) {
+                            nvrDevice = list.get(0);
+                        }
+
+                        int ret = LibImpl.getInstance().saveDeviceAlias(nvrDevice.getNvrId(), value, enterTypes);
                         if (ret != 0) {
                             toast(ConstantImpl.getModifyDevNameErrText(ret));
                             return;
@@ -351,7 +357,7 @@ public class PlayerSettingActivity extends BaseActivity {
 
                         if (mTipDlg.isShowing()) mTipDlg.dismiss();
                         Intent it = new Intent(self, PlayerActivity.class);
-                        it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
+                        it.putExtra(Constant.EXTRA_DEVICE_ID, nvrDevice.m_devId);
                         it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_ALIAS);
                         it.putExtra(Constant.EXTRA_MODIFY_DEVICE_ALIAS_NAME, value);
                         self.setResult(RESULT_OK, it);
@@ -371,7 +377,7 @@ public class PlayerSettingActivity extends BaseActivity {
         etAddGroup.setHint(R.string.dev_list_hint_input_nvr_chn_alias);
         etAddGroup.setPadding(10, 10, 10, 10);
         etAddGroup.setSingleLine(true);
-        etAddGroup.setText(_devName);
+        etAddGroup.setText("");
         etAddGroup.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Define.DEVICE_NAEM_LENGTH)});
         new AlertDialog.Builder(self).setTitle(R.string.dev_list_hint_input_nvr_chn_alias)
                 .setView(etAddGroup)
