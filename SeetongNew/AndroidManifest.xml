@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.seetong.app.seetong"
           android:versionCode="104"
-          android:versionName="5.2.7_20160628_001">
+          android:versionName="5.2.7_20160629_001">
 
     <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="22"/>
 
@@ -43,6 +43,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.READ_CALENDAR"/>
     <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
 
     <uses-feature
             android:glEsVersion="0x20000"
@@ -272,6 +274,12 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.LOCALE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="com.seetong.service.SMSBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
             </intent-filter>
         </receiver>
 

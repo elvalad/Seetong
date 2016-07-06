@@ -1,10 +1,12 @@
 package com.seetong.app.seetong.ui;
 
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -17,11 +19,14 @@ import com.seetong.app.seetong.sdk.impl.ConstantImpl;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.ui.ext.CountDownButtonHelper;
 import com.seetong.app.seetong.ui.utils.DataCheckUtil;
+import com.seetong.service.SMSBroadcastReceiver;
 import ipc.android.sdk.com.SDK_CONSTANT;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Administrator on 2015/9/29.
@@ -59,6 +64,8 @@ public class ForgetPasswordActivity extends BaseActivity {
     private EditText forgetPwdEditText;
     private TextView passwordStrength;
     private static final int MSG_GET_VERIFY_CODE_FASE = 0;
+    private SMSBroadcastReceiver smsBroadcastReceiver;
+    private static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,6 +190,33 @@ public class ForgetPasswordActivity extends BaseActivity {
                 }
             }
         });
+
+        smsBroadcastReceiver = new SMSBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter(ACTION);
+        intentFilter.setPriority(Integer.MAX_VALUE);
+        final EditText verifyCodeText = (EditText) findViewById(R.id.forget_verify_code);
+        this.registerReceiver(smsBroadcastReceiver, intentFilter);
+        smsBroadcastReceiver.setOnReceivedMessageListener(new SMSBroadcastReceiver.MessageListener() {
+            @Override
+            public void onReceived(String message) {
+                verifyCodeText.setText(getValidCode(message));
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.unregisterReceiver(smsBroadcastReceiver);
+    }
+
+    private String getValidCode(String message) {
+        Pattern pattern = Pattern.compile("\\d{6}");
+        Matcher matcher = pattern.matcher(message);
+        if (matcher.find()) {
+            return matcher.group();
+        }
+        return "";
     }
 
     private void onGetVerifyCode() {
