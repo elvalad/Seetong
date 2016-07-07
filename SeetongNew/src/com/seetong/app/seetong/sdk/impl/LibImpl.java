@@ -2866,6 +2866,11 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         return 0;
     }
 
+    @Override
+    public int logCallBack(int i, String s) {
+        return 0;
+    }
+
     private void snapshotPlay(String devId, int nPort, byte[] pDecData, int nSize, int nWidth, int nHeight, int nTimestamp, int nType, int nFrameRate, int nIsVideo, byte[] pUser) {
         Log.d(TAG, "generateSnapshot snapshotPlay, devId=" + devId);
         if (nSize <= FRAME_INFO.SIZE) return;
