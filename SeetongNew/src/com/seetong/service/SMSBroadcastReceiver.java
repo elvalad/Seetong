@@ -33,12 +33,11 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
                 Date timeDate = new Date(date);
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String time = simpleDateFormat.format(timeDate);
-                mMessageListener.onReceived(content);
                 //过滤不需要读取的短信的发送号码
-                /*if ("10690580418078".equals(sender)) {
+                if ("10690580418078".equals(sender)) {
                     mMessageListener.onReceived(content);
                     abortBroadcast();
-                }*/
+                }
             }
         }
     }
