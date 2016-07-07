@@ -78,6 +78,7 @@
     <string name="tv_soft_description">Description</string>
     <string name="tv_crash_info">Upload log</string>
     <string name="tv_version_update">Version update</string>
+    <string name="tv_contact">Contact us</string>
     <string name="tv_feedback">Feedback</string>
     <string name="check_new_version_please_wait">The new version is detected , please wait</string>
     <string name="no_new_version">Currently have the latest version.</string>
@@ -864,4 +865,9 @@
     <string name="welcome_copyright">Copyright © 2016 Seetong. All rights reserved.</string>
 
     <string name="device_info">Camera info</string>
+
+    <string name="feedback_contact_info">Contact info</string>
+    <string name="feedback_contact_hint">Please leave your contact information</string>
+    <string name="feedback_content_info">Contact info</string>
+    <string name="feedback_content_hint">Please describe your feedback information (up to 256 characters)</string>
 </resources>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:focusable="true"
+              android:focusableInTouchMode="true"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <RelativeLayout
+            android:id="@+id/feedback_tabbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/tps_register_tabbar"
+            android:layout_gravity="center_horizontal">
+
+        <ImageButton
+                android:id="@+id/feedback_back"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:scaleType="fitXY"
+                android:background="#00000000"
+                android:src="@drawable/tps_register_back"
+                android:layout_marginLeft="25dp"
+                android:layout_centerVertical="true" />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_feedback"
+                android:textSize="20sp"
+                android:textColor="@color/green"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+        <ImageButton
+                android:id="@+id/feedback_submit"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:scaleType="fitXY"
+                android:background="#00000000"
+                android:src="@drawable/tps_feedback_submit"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="25dp"
+                android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+    <TextView
+            android:text="@string/feedback_contact_info"
+            android:textSize="15sp"
+            android:textColor="#ff858585"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <EditText
+            android:id="@+id/feedback_contact"
+            android:hint="@string/feedback_contact_hint"
+            android:textSize="15sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="text"/>
+
+    <TextView
+            android:text="@string/feedback_content_info"
+            android:textSize="15sp"
+            android:textColor="#ff858585"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <EditText
+            android:id="@+id/feedback_content"
+            android:hint="@string/feedback_content_hint"
+            android:textSize="15sp"
+            android:singleLine="false"
+            android:scrollHorizontally="false"
+            android:gravity="top"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:inputType="textMultiLine"/>
+
+</LinearLayout>

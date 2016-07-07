@@ -38,7 +38,7 @@ public class About extends BaseActivity {
     private String TAG = About.class.getName();
     private ListView m_listView;
     private ListViewAdapter m_adapter;
-    private int m_itemTextRes[] = {/*R.string.tv_soft_description,*/R.string.tv_crash_info  ,R.string.tv_feedback, R.string.tv_version_update};
+    private int m_itemTextRes[] = {/*R.string.tv_soft_description,*/R.string.tv_crash_info  ,R.string.tv_contact, R.string.tv_version_update, R.string.tv_feedback};
     private final Class<?>[] m_itemActivity = new Class<?>[] { CrashInfo.class ,SoftDescriptionUI.class };
     private TextView m_version;
     private ProgressDialog mTipDlg;
@@ -175,7 +175,7 @@ public class About extends BaseActivity {
                 //mTipDlg.show();
                 //checkUpdate();
                 toast(R.string.about_update_delay);
-            } else {
+            } else if (pos == 0) {
                 mTipDlg.setTitle(T(R.string.about_upload_log_now));
                 mTipDlg.show();
                 try {
@@ -185,6 +185,9 @@ public class About extends BaseActivity {
                 }
                 //Intent it = new Intent(m_ctx, m_itemActivity[pos]);
                 //m_ctx.startActivity(it);
+            } else if (pos == 3) {
+                Intent intent = new Intent(this.m_ctx, FeedbackActivity.class);
+                startActivity(intent);
             }
         }
     }

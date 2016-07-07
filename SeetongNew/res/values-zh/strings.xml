@@ -78,6 +78,7 @@
     <string name="tv_soft_description">软件说明</string>
     <string name="tv_crash_info">上传日志</string>
     <string name="tv_version_update">版本更新</string>
+    <string name="tv_contact">联系我们</string>
     <string name="tv_feedback">意见反馈</string>
     <string name="check_new_version_please_wait">检测新版本，请稍候</string>
     <string name="no_new_version">当前已经是最新版本。</string>
@@ -862,4 +863,9 @@
     <string name="welcome_copyright">Copyright © 2016 Seetong. All rights reserved.</string>
 
     <string name="device_info">摄像机信息</string>
+    
+    <string name="feedback_contact_info">联系方式</string>
+    <string name="feedback_contact_hint">请留下您的联系方式</string>
+    <string name="feedback_content_info">反馈信息</string>
+    <string name="feedback_content_hint">请描述您的反馈信息(最多256个字符)</string>
 </resources>
