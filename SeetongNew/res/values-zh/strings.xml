@@ -850,6 +850,7 @@
     <string name="player_fw_update_state_3">等待设备重启，请勿断电</string>
     <string name="player_fw_update_state_4">升级失败</string>
     <string name="player_fw_update_state_5">下载失败</string>
+    <string name="player_fw_get_update_fail">获取版本信息失败</string>
 
     <string name="about_update_delay">暂时不能更新</string>
     <string name="about_upload_log_success">上传日志文件成功</string>

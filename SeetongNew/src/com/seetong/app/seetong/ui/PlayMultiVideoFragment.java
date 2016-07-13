@@ -1683,7 +1683,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             }
 
             /* TODO:≤‚ ‘ π”√µƒIdentify */
-            //devIdentify = "TS9116Q-4.3.0.2-201604261609";
+            //devIdentify = "TH38C13-2.5.3.20-2016062016";
             if (!TextUtils.isEmpty(devIdentify)) {
                 if (chosenPlayerDevice.isNVR() && TextUtils.isEmpty(channelId)) {
                     chosenPlayerDevice.nvrIdentify = devIdentify;

@@ -23,6 +23,7 @@ import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
 import com.seetong.app.seetong.ui.aid.ClearEditText;
 import com.seetong.app.seetong.ui.ext.MyTipDialog;
+import ipc.android.sdk.com.SDK_CONSTANT;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -47,6 +48,7 @@ public class PlayerSettingActivity extends BaseActivity {
     private int fwUpdateProgress = 0;
     private int fwUpdateState = 0;
     private boolean bStopQueryUpdateState = true;
+    private boolean bShowIpcDialog = true;
 
     class SettingContent {
         Integer settingOptionR;
@@ -565,13 +567,8 @@ public class PlayerSettingActivity extends BaseActivity {
         }).start();
     }
 
-    private void onSystemUpdate() {
-        if (!bFirmwarePrompt) {
-            toast(R.string.firmware_can_not_update);
-            return;
-        }
-
-        MyTipDialog.popDialog(this, R.string.dlg_system_update_tip, R.string.sure, R.string.cancel,
+    private void showIpcTipDialog() {
+        MyTipDialog.popDialog(this, R.string.dlg_system_update_tip, deviceIdentify + "\n\n" + deviceComment, R.string.sure, R.string.cancel,
                 new MyTipDialog.IDialogMethod() {
                     @Override
                     public void sure() {
@@ -586,8 +583,73 @@ public class PlayerSettingActivity extends BaseActivity {
         );
     }
 
+    private void onSystemUpdate() {
+        if (!bFirmwarePrompt) {
+            toast(R.string.firmware_can_not_update);
+            return;
+        }
+
+        String devIdentify = playerDevice.ipcIdentify;//"TH38C13-2.5.3.20-2016062016";
+        int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(deviceId, devIdentify);
+        Log.e(TAG, "ret : " + ret + " ipc identify :" + devIdentify + " dev id : " + deviceId);
+        if (ret == 0) {
+            bShowIpcDialog = true;
+        } else {
+            toast(R.string.player_fw_get_update_fail);
+        }
+
+        /*if (!bFirmwarePrompt) {
+            toast(R.string.firmware_can_not_update);
+            return;
+        }
+
+        MyTipDialog.popDialog(this, R.string.dlg_system_update_tip, deviceIdentify + "\n" + deviceComment  ,R.string.sure, R.string.cancel,
+                new MyTipDialog.IDialogMethod() {
+                    @Override
+                    public void sure() {
+                        if (bFirmwarePrompt && playerDevice.bIpcUpdate) {
+                            getDevVersionInfo();
+                            playerDevice.bIpcUpdate = false;
+                        } else {
+                            toast(R.string.firmware_can_not_update);
+                        }
+                    }
+                }
+        );*/
+    }
+
+    private void showNvrTipDialog() {
+        MyTipDialog.popDialog(this, R.string.dlg_system_update_tip, deviceIdentify + "\n\n" + deviceComment, R.string.sure, R.string.cancel,
+                new MyTipDialog.IDialogMethod() {
+                    @Override
+                    public void sure() {
+                        if (bFirmwarePrompt && playerDevice.bNvrUpdate) {
+                            getNvrDevInfo();
+                            playerDevice.bNvrUpdate = false;
+                        } else {
+                            toast(R.string.firmware_can_not_update);
+                        }
+                    }
+                }
+        );
+    }
+
     private void onNvrFirmwareUpdate() {
         if (!bFirmwarePrompt) {
+            toast(R.string.firmware_can_not_update);
+            return;
+        }
+
+        String devIdentify = playerDevice.nvrIdentify;//"TH38C13-2.5.3.20-2016062016";
+        int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(deviceId, devIdentify);
+        Log.e(TAG, "ret : " + ret + " nvr identify :" + devIdentify + " dev id : " + deviceId);
+        if (ret == 0) {
+            bShowIpcDialog = false;
+        } else {
+            toast(R.string.player_fw_get_update_fail);
+        }
+
+        /*if (!bFirmwarePrompt) {
             toast(R.string.firmware_can_not_update);
             return;
         }
@@ -604,7 +666,7 @@ public class PlayerSettingActivity extends BaseActivity {
                         }
                     }
                 }
-        );
+        );*/
     }
 
     private void getDevVersionInfo() {
@@ -793,7 +855,7 @@ public class PlayerSettingActivity extends BaseActivity {
                 PlayerDevice dev = Global.getDeviceById(deviceId);
                 if (null == dev) return;
                 /* TODO: Identify为测试使用的，后续使用从设备获取得到的m_devIdentify */
-                //String devIdentify = "TS9116Q-4.3.0.2-201604261609";
+                //m_devIdentify = "TH38C13-2.5.3.20-2016062016";
                 if (TextUtils.isEmpty(m_devIdentify)) {
                     Log.d(TAG, "device identify is empty!!!");
                     return;
@@ -870,6 +932,36 @@ public class PlayerSettingActivity extends BaseActivity {
         }
     }
 
+    String deviceIdentify = "";
+    String deviceComment = "";
+    private void onGetUpdateComment(String xml) {
+        if (xml == null) return;
+        Log.e(TAG, xml);
+        try {
+            XmlPullParser parser = Xml.newPullParser();
+            parser.setInput(new ByteArrayInputStream(xml.getBytes()), "UTF-8");
+            int eventType = parser.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                switch (eventType) {
+                    case XmlPullParser.START_DOCUMENT:
+                        break;
+                    case XmlPullParser.START_TAG:
+                        if (parser.getName().equals("param")) {
+                            deviceIdentify = parser.getAttributeValue(null, "device_identify");
+                            deviceComment = parser.getAttributeValue(null, "comment");
+                        }
+                        break;
+                    case XmlPullParser.END_TAG:
+                        break;
+                }
+
+                eventType = parser.next();
+            }
+        } catch (XmlPullParserException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void handleMessage(android.os.Message msg) {
         int flag = msg.arg1;
@@ -902,6 +994,16 @@ public class PlayerSettingActivity extends BaseActivity {
             case 1092:
                 xml = (String) msg.obj;
                 onGetUpdateState(xml);
+                break;
+            case SDK_CONSTANT.TPS_MSG_RSP_UPDATE_FW_INFO:
+                LibImpl.MsgObject msgObj = (LibImpl.MsgObject) msg.obj;
+                xml = (String) msgObj.recvObj;
+                onGetUpdateComment(xml);
+                if (bShowIpcDialog && playerDevice.bIpcUpdate) {
+                    showIpcTipDialog();
+                } else if (!bShowIpcDialog && playerDevice.bNvrUpdate) {
+                    showNvrTipDialog();
+                }
                 break;
         }
     }

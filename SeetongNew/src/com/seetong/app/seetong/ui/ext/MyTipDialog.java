@@ -85,7 +85,13 @@ public class MyTipDialog {
 	public static void popDialog(Context context, String title, String msg, String okBtnText, String cancelBtnText, final IDialogMethod md){
 		getMyDialog(context, title, msg, okBtnText, cancelBtnText, md).show();
 	}
-	
+
+    public static void popDialog(Context context, int titleID, String msg, int okBtnResID, int cancelBtnResID, final IDialogMethod md) {
+        popDialog(context, context.getResources().getString(titleID), msg,
+                context.getResources().getString(okBtnResID), context
+                        .getResources().getString(cancelBtnResID), md);
+    }
+
 	public static void popDialog(Context context, Object titleID, Object msgID, Object cancelBtnResID){
 		String title = getMyResString(context, titleID);
 		String msg = getMyResString(context, msgID);
