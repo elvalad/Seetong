@@ -591,7 +591,7 @@ public class PlayerSettingActivity extends BaseActivity {
 
         String devIdentify = playerDevice.ipcIdentify;//"TH38C13-2.5.3.20-2016062016";
         int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(deviceId, devIdentify);
-        Log.e(TAG, "ret : " + ret + " ipc identify :" + devIdentify + " dev id : " + deviceId);
+        //Log.e(TAG, "ret : " + ret + " ipc identify :" + devIdentify + " dev id : " + deviceId);
         if (ret == 0) {
             bShowIpcDialog = true;
         } else {
@@ -642,7 +642,7 @@ public class PlayerSettingActivity extends BaseActivity {
 
         String devIdentify = playerDevice.nvrIdentify;//"TH38C13-2.5.3.20-2016062016";
         int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(deviceId, devIdentify);
-        Log.e(TAG, "ret : " + ret + " nvr identify :" + devIdentify + " dev id : " + deviceId);
+        //Log.e(TAG, "ret : " + ret + " nvr identify :" + devIdentify + " dev id : " + deviceId);
         if (ret == 0) {
             bShowIpcDialog = false;
         } else {
@@ -936,7 +936,7 @@ public class PlayerSettingActivity extends BaseActivity {
     String deviceComment = "";
     private void onGetUpdateComment(String xml) {
         if (xml == null) return;
-        Log.e(TAG, xml);
+        //Log.e(TAG, xml);
         try {
             XmlPullParser parser = Xml.newPullParser();
             parser.setInput(new ByteArrayInputStream(xml.getBytes()), "UTF-8");
