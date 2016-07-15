@@ -224,13 +224,7 @@
         <activity android:name=".ui.Settings"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".ui.Help"
-                  android:configChanges="orientation|keyboardHidden|screenSize"
-                  android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".ui.About"
-                  android:configChanges="orientation|keyboardHidden|screenSize"
-                  android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".ui.SoftDescriptionUI"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".ui.Wizard"

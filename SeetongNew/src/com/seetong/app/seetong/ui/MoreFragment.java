@@ -21,7 +21,7 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
     private ListViewAdapter m_adapter;
     private int m_itemTextRes[] = {/*R.string.tv_local_album_title, R.string.tv_local_video_title, */R.string.alarm_message_title, R.string.tv_setting_title, /*R.string.tv_help_title, */R.string.tv_about_title};
     private int m_itemImgRes[] = {/*R.drawable.main_category_image, R.drawable.main_category_video, */R.drawable.main_category_message, R.drawable.main_category_setup, /*R.drawable.main_category_help, */R.drawable.main_category_about};
-    private final Class<?>[] m_itemActivity = new Class<?>[]{/*ImageFile2.class, VideoFile.class, */Message.class, SettingUI.class, /*Help.class, */About.class};
+    private final Class<?>[] m_itemActivity = new Class<?>[]{/*ImageFile2.class, VideoFile.class, */Message.class, SettingUI.class, About.class};
 
     ProgressDialog mExitTipDlg;
 

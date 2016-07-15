@@ -866,7 +866,7 @@
     <string name="device_info">摄像机信息</string>
     
     <string name="feedback_contact_info">联系方式</string>
-    <string name="feedback_contact_hint">请留下您的联系方式</string>
+    <string name="feedback_contact_hint">请留下您的联系方式(可选)</string>
     <string name="feedback_content_info">反馈信息</string>
     <string name="feedback_content_hint">请描述您的反馈信息(最多256个字符)</string>
     <string name="feedback_contact_null">联系方式不能为空</string>

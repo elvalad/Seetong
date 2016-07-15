@@ -38,8 +38,8 @@ public class About extends BaseActivity {
     private String TAG = About.class.getName();
     private ListView m_listView;
     private ListViewAdapter m_adapter;
-    private int m_itemTextRes[] = {/*R.string.tv_soft_description,*/R.string.tv_crash_info  ,R.string.tv_contact, R.string.tv_version_update, R.string.tv_feedback};
-    private final Class<?>[] m_itemActivity = new Class<?>[] { CrashInfo.class ,SoftDescriptionUI.class };
+    private int m_itemTextRes[] = {R.string.tv_crash_info, R.string.tv_contact, R.string.tv_version_update, R.string.tv_feedback};
+    private final Class<?>[] m_itemActivity = new Class<?>[] { CrashInfo.class};
     private TextView m_version;
     private ProgressDialog mTipDlg;
     private ImageView aboutQrcode;

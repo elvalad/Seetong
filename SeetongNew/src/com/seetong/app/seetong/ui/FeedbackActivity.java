@@ -48,11 +48,6 @@ public class FeedbackActivity extends BaseActivity {
         feedbackContact = gStr(R.id.feedback_contact);
         feedbackContent = gStr(R.id.feedback_content);
 
-        if (isNullStr(feedbackContact)) {
-            toast(R.string.feedback_contact_null);
-            return false;
-        }
-
         if (isNullStr(feedbackContent)) {
             toast(R.string.feedback_content_null);
             return false;
