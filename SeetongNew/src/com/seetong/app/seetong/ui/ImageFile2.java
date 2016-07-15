@@ -258,7 +258,6 @@ public class ImageFile2 extends BaseActivity implements View.OnClickListener {
     private void onBtnShare(View v) {
         File file = m_lstFile.get(m_currentIndex);
         if (null == file) return;
-        shareImage(file.getPath(), "");
     }
 
     private void onBtnTitleRight(View v) {

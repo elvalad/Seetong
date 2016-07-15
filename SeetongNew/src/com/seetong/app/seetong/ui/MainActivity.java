@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
-import cn.sharesdk.framework.ShareSDK;
 import com.android.system.MessageNotification;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
@@ -201,7 +200,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
             public void run() {
                 long bTime = System.currentTimeMillis();
                 exit();
-                ShareSDK.stopSDK(m_this);
                 Global.onAppTerminate();
                 long aTime = System.currentTimeMillis();
                 Log.i("MSG", "destory is time" + (aTime - bTime) + "ms");

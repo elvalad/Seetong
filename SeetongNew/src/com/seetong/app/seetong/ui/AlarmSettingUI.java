@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-import com.baidu.android.pushservice.PushManager;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.model.DeviceSetting;
@@ -115,11 +114,9 @@ public class AlarmSettingUI extends BaseActivity implements View.OnClickListener
 
         if (enable_push_msg) {
             Global.m_pushTags.add(m_device_id);
-            PushManager.setTags(this, Global.m_pushTags);
         } else {
             List<String> lst = new ArrayList<>();
             lst.add(m_device_id);
-            PushManager.delTags(this, lst);
         }
 
         finish();

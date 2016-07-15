@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.baidu.android.pushservice.PushManager;
 import com.seetong.app.seetong.Config;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
@@ -168,7 +167,6 @@ public class MoreFragment2 extends BaseFragment {
                                     public void run() {
                                         mExitTipDlg.dismiss();
                                         MainActivity2.m_this.finish();
-                                        PushManager.stopWork(Global.m_ctx);
                                         Intent it = new Intent(MoreFragment2.this.getActivity(), LoginActivity.class);
                                         MoreFragment2.this.startActivity(it);
                                     }

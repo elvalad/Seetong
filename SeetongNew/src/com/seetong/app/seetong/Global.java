@@ -11,9 +11,7 @@ import android.media.AudioManager;
 import android.os.*;
 import android.text.TextUtils;
 import android.util.Log;
-import cn.sharesdk.framework.ShareSDK;
 import com.android.utils.SharePreferenceUtil;
-import com.baidu.android.pushservice.PushManager;
 import com.seetong.app.seetong.comm.Define;
 import com.seetong.app.seetong.model.*;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
@@ -546,7 +544,6 @@ public class Global {
     }
 
     public static void initMain() {
-        ShareSDK.initSDK(m_ctx);
         getNetType();
         initUmServer();
     }
@@ -715,7 +712,6 @@ public class Global {
             if (setting.is_enable_push_msg()) {
                 List<String> lst = new ArrayList<>();
                 lst.add(devId);
-                PushManager.setTags(m_ctx, lst);
                 Log.d(TAG, "initPushTags,login type=" + m_loginType + ",set tags=" + lst);
             }
         } else {
@@ -726,7 +722,6 @@ public class Global {
     }
 
     public static void clearPushTags() {
-        PushManager.delTags(m_ctx, m_pushTags);
     }
 
     private static void setPushTags() {
@@ -738,7 +733,6 @@ public class Global {
             lst.add(dev.m_devId);
         }
 
-        PushManager.setTags(m_ctx, lst);
         Log.d(TAG, "initPushTags,login type=" + m_loginType + ",set tags=" + lst);
     }
 

@@ -12,7 +12,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import cn.sharesdk.onekeyshare.OnekeyShare;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.model.ShareRecord;
@@ -37,7 +36,6 @@ public class BaseActivity extends FragmentActivity {
     public Resources mResources;
 
     private static ProgressDialog m_tip_dlg;
-    private static OneKeyShareCallback m_okcb;
     private static YoukuUploader m_youku;
     protected MyHandler m_handler;
 
@@ -132,7 +130,6 @@ public class BaseActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         m_handler = new MyHandler(this);
         mResources = getResources();
-        m_okcb = new OneKeyShareCallback(new OneKeyShareHandler(this));
         m_tip_dlg = new ProgressDialog(this);
         m_youku = YoukuUploader.getInstance(Global.YOUKU_CLIENT_ID, Global.YOUKU_CLIENT_SECRET, this);
         Global.mPushAgent.onAppStart();
@@ -156,87 +153,10 @@ public class BaseActivity extends FragmentActivity {
         super.onDestroy();
     }
 
-    public void shareText(String text) {
-        OnekeyShare oks = new OnekeyShare();
-        //关闭sso授权
-        oks.disableSSOWhenAuthorize();
-        oks.setDialogMode();
-
-        // 分享时Notification的图标和文字
-        //oks.setNotification(R.drawable.ico_launcher, getString(R.string.app_name));
-        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-        oks.setTitle(getString(R.string.share));
-        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-        //m_oks.setTitleUrl("http://sharesdk.cn");
-
-        // url仅在微信（包括好友和朋友圈）中使用
-        //m_oks.setUrl("http://sharesdk.cn");
-        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-        //m_oks.setComment("我是测试评论文本");
-        // site是分享此内容的网站名称，仅在QQ空间使用
-        oks.setSite(getString(R.string.app_name));
-        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        //m_oks.setSiteUrl("http://sharesdk.cn");
-
-        //m_oks.setCallback(m_okcb);
-        //m_oks.setShareContentCustomizeCallback(m_okcb);
-
-        // text是分享文本，所有平台都需要这个字段
-        if ("".equals(text)) text = "shared by seetong";
-        oks.setText(text);
-        oks.show(this);
-
-        m_tip_dlg.setTitle(T(R.string.dlg_send_share_content_tip));
-        m_tip_dlg.setCancelable(false);
-    }
-
-    public void shareUrl(String url, String text) {
-        OnekeyShare oks = new OnekeyShare();
-        oks.disableSSOWhenAuthorize();
-        oks.setDialogMode();
-        //oks.setNotification(R.drawable.ico_launcher, getString(R.string.app_name));
-        oks.setTitle(getString(R.string.share));
-        oks.setSite(getString(R.string.app_name));
-        oks.setUrl(url);
-        // 朋友圈发内容必须要有一张图片，但设置了图片发给微信好友的视频链接又变成了图片
-        //oks.setImageUrl("http://www.qqstore.net/images/ico_launcher.png");
-        oks.setShareContentCustomizeCallback(m_okcb);
-        // text是分享文本，所有平台都需要这个字段
-        if ("".equals(text)) text = "shared by seetong";
-        text = url + "\r\n" + text;
-        oks.setText(text);
-        oks.show(this);
-
-        m_tip_dlg.setTitle(T(R.string.dlg_send_share_content_tip));
-        m_tip_dlg.setCancelable(false);
-    }
-
-    public void shareImage(String fileName, String text) {
-        OnekeyShare oks = new OnekeyShare();
-        oks.disableSSOWhenAuthorize();
-        oks.setDialogMode();
-        //oks.setNotification(R.drawable.ico_launcher, getString(R.string.app_name));
-        oks.setTitle(getString(R.string.share));
-        oks.setTitleUrl("http://www.seetong.com");
-        oks.setSite(getString(R.string.app_name));
-        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        oks.setImagePath(fileName);
-        oks.setShareContentCustomizeCallback(m_okcb);
-        oks.setShareFromQQAuthSupport(false);
-        // text是分享文本，所有平台都需要这个字段
-        if ("".equals(text)) text = "shared by seetong";
-        oks.setText(text);
-        oks.show(this);
-
-        m_tip_dlg.setTitle(T(R.string.dlg_send_share_content_tip));
-        m_tip_dlg.setCancelable(false);
-    }
-
     public void uploadToYouku(final String fileName) {
         String md5 = new MD5().fromFile(fileName);
         ShareRecord record = new ShareRecord().findByMd5(md5);
         if (null != record) {
-            shareUrl(record.getShareUrl(), "");
             return;
         }
 
@@ -281,7 +201,6 @@ public class BaseActivity extends FragmentActivity {
                             record.setFileName(fileName);
                             record.setShareUrl(video_url);
                             record.insert();
-                            shareUrl(video_url, "");
                         } catch (JSONException e) {
                             e.printStackTrace();
                             toast(T(R.string.dlg_upload_file_fail_tip));

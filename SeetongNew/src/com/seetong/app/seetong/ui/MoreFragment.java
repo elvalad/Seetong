@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.baidu.android.pushservice.PushManager;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
@@ -75,7 +74,6 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
                                     public void run() {
                                         mExitTipDlg.dismiss();
                                         MainActivity.m_this.finish();
-                                        PushManager.stopWork(Global.m_ctx);
                                         Intent it = new Intent(MoreFragment.this.getActivity(), LoginUI2.class);
                                         MoreFragment.this.startActivity(it);
                                     }

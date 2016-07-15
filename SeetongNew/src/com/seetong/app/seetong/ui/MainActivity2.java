@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import cn.sharesdk.framework.ShareSDK;
 import com.android.system.MessageNotification;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
@@ -547,7 +546,6 @@ public class MainActivity2 extends BaseActivity {
             public void run() {
                 long bTime = System.currentTimeMillis();
                 exit();
-                ShareSDK.stopSDK(m_this);
                 Global.onAppTerminate();
                 long aTime = System.currentTimeMillis();
                 Log.i("MSG", "destory is time" + (aTime - bTime) + "ms");

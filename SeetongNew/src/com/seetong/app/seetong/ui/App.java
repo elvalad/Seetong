@@ -1,9 +1,9 @@
 package com.seetong.app.seetong.ui;
 
-import com.baidu.frontia.FrontiaApplication;
+import android.app.Application;
 import com.seetong.app.seetong.Global;
 
-public class App extends FrontiaApplication {
+public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
