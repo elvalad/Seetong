@@ -64,6 +64,8 @@ public class Global {
     public static boolean m_nvr_firmware_update = false;
     public static boolean m_firmware_version_detect = false;
 
+    private static String newsListXML = "";
+
     public static FriendList m_friends = new FriendList();
     public static FriendMessageList m_messges = new FriendMessageList();
 
@@ -279,6 +281,14 @@ public class Global {
         }
 
         Collections.sort(list, new MessageSortByTime());
+    }
+
+    synchronized public static String getNewsListXML() {
+        return newsListXML;
+    }
+
+    synchronized public static void setNewsListXML(String xml) {
+        newsListXML = xml;
     }
 
     public static void sortChatMessageByMsgId(List<FriendMessageList.Message> list) {

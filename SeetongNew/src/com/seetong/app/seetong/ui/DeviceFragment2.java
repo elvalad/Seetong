@@ -41,6 +41,7 @@ public class DeviceFragment2 extends BaseFragment {
     private TextView deviceText;
     private ImageButton searchButton;
     public boolean bShowSearchText = false;
+    private ImageButton newsButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -135,6 +136,15 @@ public class DeviceFragment2 extends BaseFragment {
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        newsButton = (ImageButton) view.findViewById(R.id.device_news);
+        newsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DeviceFragment2.this.getActivity(), NewsActivity.class);
+                startActivity(intent);
             }
         });
     }

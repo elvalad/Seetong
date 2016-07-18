@@ -870,11 +870,13 @@
     <string name="feedback_contact_info">Contact info</string>
     <string name="feedback_contact_hint">Please leave your contact information</string>
     <string name="feedback_content_info">Contact info</string>
-    <string name="feedback_content_hint">Please describe your feedback information (up to 256 characters)</string>
+    <string name="feedback_content_hint">Please describe your feedback information (up to 128 characters)</string>
     <string name="feedback_contact_null">Contact info can not be empty</string>
     <string name="feedback_content_null">Feedback info can not be empty</string>
     <string name="feedback_content_too_long">Feedback info is too long</string>
     <string name="feedback_is_submit">Submitting feedback…</string>
     <string name="feedback_success">Submitted successfully</string>
     <string name="feedback_failure">Submitted unsuccessfully</string>
+
+    <string name="news">Seetong news</string>
 </resources>

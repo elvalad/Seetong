@@ -1690,7 +1690,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 } else {
                     chosenPlayerDevice.ipcIdentify = devIdentify;
                 }
-                LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(chosenPlayerDevice.m_devId, devIdentify);
+                LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(chosenPlayerDevice.m_devId, devIdentify, "");
                 Global.m_firmware_update = false;
             }
         } catch (XmlPullParserException | IOException e) {

@@ -53,7 +53,7 @@ public class FeedbackActivity extends BaseActivity {
             return false;
         }
 
-        if (feedbackContent.length() > 256) {
+        if (feedbackContent.length() > 128) {
             toast(R.string.feedback_content_too_long);
             return false;
         }

@@ -26,6 +26,17 @@
                 android:singleLine="true"
                 android:textSize="12sp"/>
 
+        <ImageButton
+                android:id="@+id/device_news"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/tps_list_news"
+                android:background="#00000000"
+                android:scaleType="fitXY"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="15dp"/>
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

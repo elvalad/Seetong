@@ -314,6 +314,9 @@ public class LoginActivity extends BaseActivity {
                             }
                         });
                     }
+
+                    /* 登录时获取新闻列表存入Global的xml中 */
+                    LibImpl.getInstance().getFuncLib().GetServiceMessage();
                 }
             }).start();
         }

@@ -2126,6 +2126,17 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                 }
                 sendMessage(nMsgType, 0, 0, msgObj);
                 return 0;
+            case SDK_CONSTANT.TPS_MSG_RSP_GET_SERVICE_MSG_LIST:
+                if (null != pData && pData.length > 0) {
+                    String xml = new String(pData).trim();
+                    Log.d(TAG, "get service msg xml[" + xml + "]");
+                    msgObj.recvObj = xml;
+                    Global.setNewsListXML(xml);
+                } else {
+                    Log.e(TAG, "doMsgRspCB:get service msg xml fail...");
+                }
+                sendMessage(nMsgType, 0, 0, msgObj);
+                return 0;
             default:
                 break;
         }

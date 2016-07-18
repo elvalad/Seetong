@@ -590,7 +590,7 @@ public class PlayerSettingActivity extends BaseActivity {
         }
 
         String devIdentify = playerDevice.ipcIdentify;//"TH38C13-2.5.3.20-2016062016";
-        int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(deviceId, devIdentify);
+        int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(deviceId, devIdentify, "");
         //Log.e(TAG, "ret : " + ret + " ipc identify :" + devIdentify + " dev id : " + deviceId);
         if (ret == 0) {
             bShowIpcDialog = true;
@@ -641,7 +641,7 @@ public class PlayerSettingActivity extends BaseActivity {
         }
 
         String devIdentify = playerDevice.nvrIdentify;//"TH38C13-2.5.3.20-2016062016";
-        int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(deviceId, devIdentify);
+        int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(deviceId, devIdentify, "");
         //Log.e(TAG, "ret : " + ret + " nvr identify :" + devIdentify + " dev id : " + deviceId);
         if (ret == 0) {
             bShowIpcDialog = false;
@@ -861,7 +861,7 @@ public class PlayerSettingActivity extends BaseActivity {
                     return;
                 }
 
-                int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(dev.m_devId, m_devIdentify);
+                int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(dev.m_devId, m_devIdentify, "");
                 if (0 != ret) {
                     android.os.Message msg = m_handler.obtainMessage();
                     msg.what = Define.MSG_SHOW_TOAST;
