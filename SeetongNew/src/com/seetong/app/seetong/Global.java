@@ -12,6 +12,8 @@ import android.os.*;
 import android.text.TextUtils;
 import android.util.Log;
 import com.android.utils.SharePreferenceUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.seetong.app.seetong.comm.Define;
 import com.seetong.app.seetong.model.*;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
@@ -541,6 +543,9 @@ public class Global {
         Intent intent = new Intent(ctx, MainService.class);
         ctx.startService(intent);
         //ctx.bindService(new Intent(ctx, MainService.class), m_conn, Context.BIND_AUTO_CREATE);
+
+        ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(m_ctx);
+        ImageLoader.getInstance().init(configuration);
     }
 
     public static void onAppTerminate() {

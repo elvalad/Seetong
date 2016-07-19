@@ -37,6 +37,15 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="15dp"/>
 
+        <ImageView
+                android:id="@+id/news_prompt"
+                android:src="@drawable/news_prompt"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="7dp"
+                android:visibility="gone"
+                android:layout_width="15dp"
+                android:layout_height="15dp"/>
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

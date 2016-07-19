@@ -139,6 +139,10 @@
                   android:screenOrientation="portrait">
         </activity>
 
+        <activity android:name=".ui.NewsWebActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+
         <activity
                 android:name=".ui.LoginUI2"
                 android:screenOrientation="portrait"

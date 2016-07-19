@@ -17,6 +17,8 @@ public class News {
 
     public String newsImgUrl = "";
 
+    public String newsTip = "";
+
     public String newsGoUrl = "";
 
     public String getNewsId() {
@@ -65,6 +67,14 @@ public class News {
 
     public void setNewsImgUrl(String newsImgUrl) {
         this.newsImgUrl = newsImgUrl;
+    }
+
+    public String getNewsTip() {
+        return newsTip;
+    }
+
+    public void setNewsTip(String newsTip) {
+        this.newsTip = newsTip;
     }
 
     public String getNewsGoUrl() {

@@ -90,6 +90,7 @@ public class Define {
     public static final String SAVE_EXIT_WINDOW = "save_exit_window";
     public static final String IS_FIRST_LOGIN = "is_first_login";
     public static final String CFG_LOGCAT_FILE_NAME = "logcat_file_name";
+    public static final String MAX_NEWS_ID = "max_news_id";
 
     /** xml文件名 */
     public static final String LOGIN_USER_CONFIG_FILE = "lu_config";

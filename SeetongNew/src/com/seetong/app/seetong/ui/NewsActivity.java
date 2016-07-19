@@ -1,5 +1,6 @@
 package com.seetong.app.seetong.ui;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Xml;
@@ -7,8 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
+import com.seetong.app.seetong.comm.Define;
 import com.seetong.app.seetong.model.News;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
 import ipc.android.sdk.com.SDK_CONSTANT;
@@ -18,6 +25,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -47,6 +55,7 @@ public class NewsActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Global.m_spu.saveSharedPreferences(Define.MAX_NEWS_ID, getMaxNewsId());
         LibImpl.getInstance().removeHandler(m_handler);
     }
 
@@ -68,23 +77,15 @@ public class NewsActivity extends BaseActivity {
         });
 
         listView = (ListView) findViewById(R.id.news_list);
+        listView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), true, true));
         getData();
         adapter = new NewsListAdapter(NewsActivity.this, newsData);
         listView.setAdapter(adapter);
-
-        Button testButton = (Button) findViewById(R.id.news_test);
-        testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LibImpl.getInstance().getFuncLib().GetServiceMessage();
-            }
-        });
     }
 
     private void getData() {
         String xml = Global.getNewsListXML();
         newsData.clear();
-        Log.e(TAG, "--------------------------------\n" + xml);
         parseNewsXML(xml);
     }
 
@@ -114,6 +115,8 @@ public class NewsActivity extends BaseActivity {
                                 news.setNewsCount(parser.nextText());
                             } else if (parser.getName().equals("Img")) {
                                 news.setNewsImgUrl(parser.nextText());
+                            } else if (parser.getName().equals("Tip")) {
+                                news.setNewsTip(parser.nextText());
                             } else if (parser.getName().equals("gourl")) {
                                 news.setNewsGoUrl(parser.nextText());
                             }
@@ -132,6 +135,14 @@ public class NewsActivity extends BaseActivity {
         } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private int getMaxNewsId() {
+        List<Integer> newsIdList = new ArrayList<>();
+        for (News aNewsData : newsData) {
+            newsIdList.add(Integer.parseInt(aNewsData.getNewsId()));
+        }
+        return Collections.max(newsIdList);
     }
 
     @Override

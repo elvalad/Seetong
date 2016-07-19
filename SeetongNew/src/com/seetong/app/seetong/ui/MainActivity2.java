@@ -490,6 +490,10 @@ public class MainActivity2 extends BaseActivity {
             case Define.MSG_PARSE_DEV_LIST:
                 onParseDevList();
                 break;
+            case SDK_CONSTANT.TPS_MSG_RSP_GET_SERVICE_MSG_LIST:
+                if (null == deviceFragment) return;
+                deviceFragment.handleMessage(msg);
+                break;
             default:
                 break;
         }

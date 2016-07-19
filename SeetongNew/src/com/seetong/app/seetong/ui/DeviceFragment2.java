@@ -5,28 +5,41 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import android.widget.ImageView;
 import android.widget.TextView;
+import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
+import com.seetong.app.seetong.model.News;
+import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
 import com.seetong.app.seetong.ui.aid.ClearEditText;
 import com.umeng.analytics.MobclickAgent;
 import ipc.android.sdk.com.SDK_CONSTANT;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 
+import java.awt.font.TextAttribute;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
- * DeviceFragment ÊÇÓÃÓÚÏÔÊ¾Éè±¸ÁĞ±íÏà¹ØµÄ Fragment£¬ËüÔÚ MainActivity ÖĞ±»Ìí¼Óµ½ TabHost ÖĞ.
- * Seetong µÇÂ¼ºó»á½øÈë MainActivity£¬»áÄ¬ÈÏÏÔÊ¾ DeviceFragment.
- * DeviceFragment ÖĞÓÖ°üº¬Á½¸ö²»Í¬µÄ Fragment£¬Ò»¸öÊÇ DeviceListFragment£¬ÁíÒ»¸öÊÇ DeviceNoMsgFragment£¬
- * SeetongÍ¨¹ıÒ»¸öÏß³Ì´Ó·şÎñÆ÷»ñÈ¡ĞÅÏ¢¼à²âµ±Ç°ÕËºÅÏÂÊÇ·ñÓĞÉè±¸£¬Èç¹ûÓĞÔòÏÔÊ¾ DeviceListFragment£¬·ñÔòÏÔÊ¾
- * DeviceNoMsgFragment.×¢ÒâÔÚÔö¼ÓÉè±¸Ê±ºÍMainActivity2Ö®¼äµÄ½»»¥£¬Ê¹ÓÃ»Øµ÷º¯ÊıÊµÏÖ.
- * ×¢Òâ Fragment Ç¶Ì×Ê¹ÓÃÊ±ÒªÊ¹ÓÃ android.support.v4 ¼æÈİ°ü.
+ * DeviceFragment æ˜¯ç”¨äºæ˜¾ç¤ºè®¾å¤‡åˆ—è¡¨ç›¸å…³çš„ Fragmentï¼Œå®ƒåœ¨ MainActivity ä¸­è¢«æ·»åŠ åˆ° TabHost ä¸­.
+ * Seetong ç™»å½•åä¼šè¿›å…¥ MainActivityï¼Œä¼šé»˜è®¤æ˜¾ç¤º DeviceFragment.
+ * DeviceFragment ä¸­åˆåŒ…å«ä¸¤ä¸ªä¸åŒçš„ Fragmentï¼Œä¸€ä¸ªæ˜¯ DeviceListFragmentï¼Œå¦ä¸€ä¸ªæ˜¯ DeviceNoMsgFragmentï¼Œ
+ * Seetongé€šè¿‡ä¸€ä¸ªçº¿ç¨‹ä»æœåŠ¡å™¨è·å–ä¿¡æ¯ç›‘æµ‹å½“å‰è´¦å·ä¸‹æ˜¯å¦æœ‰è®¾å¤‡ï¼Œå¦‚æœæœ‰åˆ™æ˜¾ç¤º DeviceListFragmentï¼Œå¦åˆ™æ˜¾ç¤º
+ * DeviceNoMsgFragment.æ³¨æ„åœ¨å¢åŠ è®¾å¤‡æ—¶å’ŒMainActivity2ä¹‹é—´çš„äº¤äº’ï¼Œä½¿ç”¨å›è°ƒå‡½æ•°å®ç°.
+ * æ³¨æ„ Fragment åµŒå¥—ä½¿ç”¨æ—¶è¦ä½¿ç”¨ android.support.v4 å…¼å®¹åŒ….
  *
  * Created by gmk on 2015/9/11.
  */
@@ -42,6 +55,8 @@ public class DeviceFragment2 extends BaseFragment {
     private ImageButton searchButton;
     public boolean bShowSearchText = false;
     private ImageButton newsButton;
+    private ImageView newsPrompt;
+    private List<Integer> newsId = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,8 +100,9 @@ public class DeviceFragment2 extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        LibImpl.getInstance().getFuncLib().GetServiceMessage();
         if (savedInstanceState == null) {
-            /* ´Ëº¯ÊıÓÃÓÚ Fragment Ç¶Ì×£¬´ËÊ±Ä¬ÈÏÏÔÊ¾ DeviceListFragment */
+            /* æ­¤å‡½æ•°ç”¨äº Fragment åµŒå¥—ï¼Œæ­¤æ—¶é»˜è®¤æ˜¾ç¤º DeviceListFragment */
             getChildFragmentManager()
                     .beginTransaction()
                     .replace(R.id.device_fragment_container, deviceListFragment)
@@ -95,14 +111,14 @@ public class DeviceFragment2 extends BaseFragment {
     }
 
     /**
-     * ³õÊ¼»¯´Ë Fragment ÖĞµÄ»ù±¾×é¼ş.
+     * åˆå§‹åŒ–æ­¤ Fragment ä¸­çš„åŸºæœ¬ç»„ä»¶.
      */
     private void initWidget(final View view) {
         deviceAddButton = (ImageButton) view.findViewById(R.id.device_add);
         deviceAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /* Æô¶¯Ôö¼ÓÉè±¸Ò³Ãæ */
+                /* å¯åŠ¨å¢åŠ è®¾å¤‡é¡µé¢ */
                 Intent intent = new Intent(DeviceFragment2.this.getActivity(), AddDeviceActivity.class);
                 intent.putExtra(Constant.ENTER_TYPES, 1);
                 startActivityForResult(intent, Constant.ADD_DEVICE_REQ_ID);
@@ -139,14 +155,43 @@ public class DeviceFragment2 extends BaseFragment {
             }
         });
 
+        newsPrompt = (ImageView) view.findViewById(R.id.news_prompt);
         newsButton = (ImageButton) view.findViewById(R.id.device_news);
         newsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DeviceFragment2.this.getActivity(), NewsActivity.class);
                 startActivity(intent);
+                newsPrompt.setVisibility(View.GONE);
             }
         });
+    }
+
+    private void parseNewsXML(String xml) {
+        try {
+            XmlPullParser parser = Xml.newPullParser();
+            int id = 0;
+            parser.setInput(new ByteArrayInputStream(xml.getBytes()), "UTF-8");
+            int eventType = parser.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                switch (eventType) {
+                    case XmlPullParser.START_DOCUMENT:
+                        break;
+                    case XmlPullParser.START_TAG:
+                        if (parser.getName().equals("ID")) {
+                            id = Integer.parseInt(parser.nextText());
+                        }
+                        break;
+                    case XmlPullParser.END_TAG:
+                        newsId.add(id);
+                        break;
+                }
+
+                eventType = parser.next();
+            }
+        } catch (XmlPullParserException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void searchTextChanged(CharSequence s, int start, int before, int count) {
@@ -173,7 +218,7 @@ public class DeviceFragment2 extends BaseFragment {
         if (resultCode != Activity.RESULT_OK) return;
         switch (requestCode) {
             case Constant.ADD_DEVICE_REQ_ID:
-                /* TODO: ÊÕµ½´Ë·µ»ØÏûÏ¢ºóĞèÒª¶¯Ì¬¸üĞÂÉè±¸ÁĞ±í */
+                /* TODO: æ”¶åˆ°æ­¤è¿”å›æ¶ˆæ¯åéœ€è¦åŠ¨æ€æ›´æ–°è®¾å¤‡åˆ—è¡¨ */
                 mTipDlg = new ProgressDialog(MainActivity2.m_this, R.string.device_add_now);
                 mTipDlg.setCancelable(false);
                 final String devId = data.getStringExtra(Constant.DEVICE_INFO_KEY);
@@ -269,6 +314,13 @@ public class DeviceFragment2 extends BaseFragment {
                     break;
                 case Define.MSG_ENABLE_ALIAS:
                     deviceListFragment.handleMessage(msg);
+                    break;
+                case SDK_CONSTANT.TPS_MSG_RSP_GET_SERVICE_MSG_LIST:
+                    int maxNewsId = Global.m_spu.loadIntSharedPreference(Define.MAX_NEWS_ID);
+                    parseNewsXML(Global.getNewsListXML());
+                    if (Collections.max(newsId) > maxNewsId) {
+                        newsPrompt.setVisibility(View.VISIBLE);
+                    }
                     break;
                 default:
                     break;
