@@ -23,9 +23,6 @@ public class ImageScanner {
         this.mContext = context;
     }
 
-    /**
-     * 利用ContentProvider扫描手机中的图片，此方法在运行在子线程中
-     */
     public void scanImages(final ScanCompleteCallBack callback) {
         final Handler mHandler = new Handler() {
 
@@ -41,7 +38,6 @@ public class ImageScanner {
             @Override
             public void run() {
                 getData();
-                //利用Handler通知调用线程
                 android.os.Message msg = mHandler.obtainMessage();
                 msg.obj = mediaGridItemList;
                 mHandler.sendMessage(msg);
@@ -56,7 +52,6 @@ public class ImageScanner {
     }
 
     private void getData() {
-        /* 扫描截图目录，从截图目录中获取相关的图片信息 */
         mediaGridItemList.clear();
         String imageDir = Global.getImageDir() + "/";
         File[] files = new File(imageDir).listFiles();

@@ -20,12 +20,6 @@ import com.seetong.app.seetong.sdk.impl.PlayerDevice;
 import java.util.List;
 import java.util.Map;
 
-/**
- * DeviceListAdapter 是自定义的设备列表的 Adapter，主要用于适配 ListView. 它需要从 DeviceListFragment
- * 获取相关的数据，然后再 getView 方法中使用这些信息来修改相关的设备列表布局和响应相关的操作.
- *
- * Created by gmk on 2015/9/13.
- */
 public class DeviceListAdapter2 extends BaseAdapter {
     public static String TAG = DeviceListAdapter2.class.getName();
     private Context context;
@@ -73,13 +67,11 @@ public class DeviceListAdapter2 extends BaseAdapter {
             viewHolder.deviceState = (TextView) view.findViewById(R.id.device_state);
             viewHolder.deviceName = (TextView) view.findViewById(R.id.device_name);
             viewHolder.deviceId = (TextView) view.findViewById(R.id.device_id);
-            /* 注意这里在 inflate 之后要个view设置相关的 Tag，否则下一次获取到的 viewHolder是无效的 */
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        // 获取List集合中的map对象
         Map<String, Object> map = data.get(position);
 
         final PlayerDevice playerDevice = (PlayerDevice) map.get("device");
@@ -95,8 +87,6 @@ public class DeviceListAdapter2 extends BaseAdapter {
             viewHolder.deviceState.setBackgroundResource(R.drawable.tps_list_offline);
         }
 
-        /* 针对NVR设备修改通道别名做特殊处理，将NVR设备的通道别名存在本地数据库
-         * 临时以Ip字段存储设备id作为设备标识，以user字段存储本地设备别名  */
         Device device = new Device();
         for (int i = 0; i < sqlList.size(); i++) {
             if (playerDevice.m_devId.equals(sqlList.get(i).getIp())) {
@@ -151,13 +141,6 @@ public class DeviceListAdapter2 extends BaseAdapter {
             viewHolder.deviceChooseButton.setImageBitmap(bmp);
         }
 
-        // 根据播放列表的相关操作处理各个子控件，包括设置每个设备的背景图片,各个Button的响应以及state的变化
-        // http://blog.csdn.net/leoleohan/article/details/46553317
-        // 这些所需数据均通过DeiceListFragment的getData函数具体获取，获取方式如下:
-        // 1.背景图片需要从服务器端获取每个设备的视频图片；
-        // 2.checkButton需要响应启动视频播放事件；
-        // 3.replayButton需要响应视频回放事件；
-        // 4.state设备状态需要从服务器端获取；
         viewHolder.deviceChooseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

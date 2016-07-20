@@ -31,10 +31,6 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * RegisterActivity主要用于通过App从服务器端注册用户，注册目前只支持邮箱注册和手机注册；
- * Created by gmk on 2015/9/11.
- */
 public class RegisterActivity extends BaseActivity {
 
     public static class RegisterInfo implements Serializable {
@@ -206,7 +202,6 @@ public class RegisterActivity extends BaseActivity {
 
     private void onRegister() {
         if (getFormatData()) {
-            /* 如果在按menu或back按钮的时候，以及打开了软键盘，则将软键盘隐藏 */
             hideInputPanel(null);
             mTipDlg.setTitle(R.string.please_wait_communication);
             mTipDlg.show();
@@ -262,7 +257,7 @@ public class RegisterActivity extends BaseActivity {
             _msg = (String) msg;
         }
         if (_msg != null) {
-            _msg = _msg.replaceAll(":", "").replaceAll("：", "").replaceAll("　", "");
+            _msg = _msg.replaceAll(":", "").replaceAll(":", "").replaceAll(" ", "");
         } else {
             _msg = "";
         }
@@ -291,7 +286,6 @@ public class RegisterActivity extends BaseActivity {
             return false;
         }
 
-        /* 检查用户输入数据合法性 */
         if (!DataCheckUtil.isRightEmail(gStr(R.id.register_user)) &&
                 !DataCheckUtil.isRightPhone(gStr(R.id.register_user))) {
             toast(R.string.register_invalid_user_name);
@@ -312,7 +306,6 @@ public class RegisterActivity extends BaseActivity {
             mRegInfo.userPwd = gStr(R.id.register_password);
             mRegInfo.verifyCode = gStr(R.id.register_verify_code);
 
-            /* 检查校验码是否过期 */
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.MINUTE, -10);
             endTime = new Timestamp(calendar.getTimeInMillis());
@@ -339,7 +332,6 @@ public class RegisterActivity extends BaseActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                     /* TODO:后续需要区分中文和英文的反馈信息 */
                     int bRet = LibImpl.getInstance().getFuncLib().GetRegNumber(gStr(R.id.register_user), "zh-cn");
                     if (bRet != 0) {
                         sendMessage(MSG_GET_VERIFY_CODE_FASE, 0, 0, null);

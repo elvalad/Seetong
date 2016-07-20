@@ -22,7 +22,7 @@ public class StickyGridAdapter extends BaseAdapter implements
     private List<MediaGridItem> list;
     private LayoutInflater mInflater;
     private GridView mGridView;
-    private Point mPoint = new Point(0, 0);//用来封装ImageView的宽和高的对象
+    private Point mPoint = new Point(0, 0);
     private boolean choosenMode = false;
     private boolean videoMode = false;
 
@@ -57,7 +57,6 @@ public class StickyGridAdapter extends BaseAdapter implements
             mViewHolder.mImageView = (MyImageView) convertView.findViewById(R.id.grid_item);
             convertView.setTag(mViewHolder);
 
-            //用来监听ImageView的宽和高
             mViewHolder.mImageView.setOnMeasureListener(new MyImageView.OnMeasureListener() {
 
                 @Override
@@ -94,8 +93,6 @@ public class StickyGridAdapter extends BaseAdapter implements
         }
 
         mViewHolder.imageButton = (ImageButton) convertView.findViewById(R.id.choosen_item);
-        /* 由于imageButton在GridView的Item中，这里需要将其Focusable设置为false，
-         否在点击GridView的Item会失去焦点，点击无效 */
         mViewHolder.imageButton.setFocusable(false);
         if (choosenMode) {
             mViewHolder.imageButton.setVisibility(View.VISIBLE);

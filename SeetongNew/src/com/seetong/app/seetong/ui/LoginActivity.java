@@ -35,13 +35,6 @@ import net.lingala.zip4j.util.Zip4jConstants;
 
 import java.io.File;
 
-/**
- * LoginActivity ���״ν��� Seetong ��ĵ�һ��ҳ�棬�������û�ע���¼ Seetong.
- * ��ҳ�����������ص� Button�����֮�����벻�ݵ� Activity.
- * ��Ҫ�ͷ������˽������ڵ�¼�û���Ϣ�ļ�飬��ҳ�µ��û��������������Ϣ.
- *
- * Created by gmk on 2015/9/11.
- */
 public class LoginActivity extends BaseActivity {
     public static String TAG = LoginActivity.class.getName();
     public static final String DEFAULT_DEV_NAME = EtcInfo.DEFAULT_DEV_NAME;
@@ -101,7 +94,6 @@ public class LoginActivity extends BaseActivity {
         LibImpl.getInstance().removeHandler(m_handler);
     }
 
-    // TODO:��Ҫ�ͷ�������������û��˺������飬�û�ע��Ȳ���
     private void initWidget() {
         mTipDlg = new ProgressDialog(this, R.string.dlg_login_server_tip);
         mTipDlg.setCancelable(false);
@@ -135,7 +127,6 @@ public class LoginActivity extends BaseActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /* ����ʱʹ��Ĭ�ϵ��˺ŵ�¼ */
                 Global.m_loginType = Define.LOGIN_TYPE_USER;
                 //Global.m_loginType = Define.LOGIN_TYPE_DEMO;
                 onBtnLogin();
@@ -258,7 +249,6 @@ public class LoginActivity extends BaseActivity {
         if (NetworkUtils.getNetworkState(this) == NetworkUtils.NONE) {
             toast(T(R.string.dlg_network_check_tip));
         } else {
-            // ����ڰ�menu��back��ť��ʱ���Լ���������̣������������
             hideInputPanel(null);
             mTipDlg.setCallback(new ProgressDialog.ICallback() {
                 @Override
@@ -316,7 +306,6 @@ public class LoginActivity extends BaseActivity {
                         });
                     }
 
-                    /* ��¼ʱ��ȡ�����б����Global��xml�� */
                     int flags = Tools.getLanguageTypes();
                     if (flags == 0 || flags == 1) {
                         LibImpl.getInstance().getFuncLib().GetServiceMessage(0);
@@ -383,7 +372,7 @@ public class LoginActivity extends BaseActivity {
 
     public void saveData() {
         boolean isSaveData = Global.m_spu_login.loadBooleanSharedPreference(Define.IS_SAVE_DATA);
-        if (!isSaveData) {//��ʼ��Ĭ������
+        if (!isSaveData) {
             Global.m_spu_login.saveSharedPreferences(Define.IS_SAVE_DATA, true);
             Global.m_spu_login.saveSharedPreferences(Define.USR_NAME, "");
             Global.m_spu_login.saveSharedPreferences(Define.USR_PSW, "");

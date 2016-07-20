@@ -15,7 +15,7 @@ import com.seetong.app.seetong.R;
  */
 public class GalleryActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     public static GalleryActivity m_this = null;
-    public int position = 0;	// 当前显示图片的位置
+    public int position = 0;
     private ViewPager viewPager;
     private GestureDetector gestureDetector;
 

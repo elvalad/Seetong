@@ -29,12 +29,6 @@ import ipc.android.sdk.impl.DeviceInfo;
 
 import java.util.*;
 
-/**
- * PlayerActivity 是播放设备录像的 Activity，它在 DeviceFragment 包含设备信息时，点击会进入.
- * 它自身包括播放一个视频的窗口和四个视频的窗口.
- *
- * Created by gmk on 2015/9/13.
- */
 public class PlayerActivity extends BaseActivity {
     private String TAG = PlayerActivity.class.getName();
     public static PlayerActivity m_this = null;
@@ -66,10 +60,10 @@ public class PlayerActivity extends BaseActivity {
     private boolean bFirmwareUpdatePrompt = false;
 
     private OrientationEventListener mOrientationListener;
-    private boolean mIsLand = false; // 是否是横屏
-    private boolean mClick = false; // 是否点击
-    private boolean mClickLand = true; // 点击进入横屏
-    private boolean mClickPort = true; // 点击进入竖屏
+    private boolean mIsLand = false;
+    private boolean mClick = false;
+    private boolean mClickLand = true;
+    private boolean mClickPort = true;
 
     private ImageButton playerBackButton;
     private ImageButton playerFullScreenButton;
@@ -199,15 +193,12 @@ public class PlayerActivity extends BaseActivity {
         //MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, null);
         //Global.riseToTop(playerDevice);
         PlayerActivity.this.finish();
-        /* TODO:在单路fragment和多路fragment之间切换时需要注意这里该如何处理 */
         if (currentFragmentName.equals("play_video_fragment")) {
-            /* 退出单画面播放页面时要关闭自动循环播放 */
             if (autoPlayThread != null) {
                 bAutoCyclePlaying = false;
                 handler.removeCallbacks(autoPlayThread);
             }
         } else if (currentFragmentName.equals("play_multi_video_fragment")){
-            /* 退出多画面播放时要关闭自动循环播放*/
             if (autoPlayThread != null) {
                 bAutoCyclePlaying = false;
                 handler.removeCallbacks(autoPlayThread);
@@ -245,7 +236,6 @@ public class PlayerActivity extends BaseActivity {
         mOrientationListener = new OrientationEventListener(this) {
             @Override
             public void onOrientationChanged(int rotation) {
-                // 设置竖屏
                 if (((rotation >= 0) && (rotation <= 30)) || (rotation >= 330)) {
                     if (mClick) {
                         if (mIsLand && !mClickLand) {
@@ -263,7 +253,7 @@ public class PlayerActivity extends BaseActivity {
                         }
                     }
                 }
-                // 设置横屏
+
                 else if (((rotation >= 230) && (rotation <= 310))) {
                     if (mClick) {
                         if (!mIsLand && !mClickPort) {
@@ -297,7 +287,6 @@ public class PlayerActivity extends BaseActivity {
         }
     }
 
-    /*判断应用是否在前台*/
     public static boolean isForeground(Context context)
     {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -397,15 +386,12 @@ public class PlayerActivity extends BaseActivity {
                 //MainActivity2.m_this.sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, null);
                 //Global.riseToTop(playerDevice);
                 PlayerActivity.this.finish();
-                /* TODO:在单路fragment和多路fragment之间切换时需要注意这里该如何处理 */
                 if (currentFragmentName.equals("play_video_fragment")) {
-                    /* 退出单画面播放页面时要关闭自动循环播放 */
                     if (autoPlayThread != null) {
                         bAutoCyclePlaying = false;
                         handler.removeCallbacks(autoPlayThread);
                     }
                 } else if (currentFragmentName.equals("play_multi_video_fragment")){
-                    /* 退出多画面播放时要关闭自动循环播放*/
                     if (autoPlayThread != null) {
                         bAutoCyclePlaying = false;
                         handler.removeCallbacks(autoPlayThread);
@@ -495,13 +481,11 @@ public class PlayerActivity extends BaseActivity {
             public void onClick(View view) {
                 if (currentFragmentName.equals("play_video_fragment")) {
                     if (bAutoCyclePlaying) {
-                        /* 调用handler的removeCallbacks方法，删除队列中的线程，停止自动循环播放线程 */
                         toast(R.string.player_auto_play_off);
                         playerCycleButton.setImageResource(R.drawable.tps_play_cycle_off);
                         handler.removeCallbacks(autoPlayThread);
                         bAutoCyclePlaying = false;
                     } else {
-                        /* 调用handler的post方法，将执行线程放入到队列中 */
                         toast(R.string.player_auto_play_on);
                         playerCycleButton.setImageResource(R.drawable.tps_play_cycle_on);
                         handler.post(autoPlayThread);
@@ -555,9 +539,8 @@ public class PlayerActivity extends BaseActivity {
             public void onClick(View view) {
                 if (bAutoCyclePlaying) {
                     return;
-                }
+                }				
 
-                /* 停止声音 */
                 if (bVideoSoundOn) {
                     playerSoundButton.setImageResource(R.drawable.tps_play_sound_off);
                     bVideoSoundOn = false;
@@ -583,7 +566,6 @@ public class PlayerActivity extends BaseActivity {
                     return;
                 }
 
-                /* 选择高清播放 */
                 if (bHighDefinition) {
                     bHighDefinition = false;
                     offHighDefinition();
@@ -598,7 +580,6 @@ public class PlayerActivity extends BaseActivity {
         playerSettingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /* 播放设置 */
                 if (bAutoCyclePlaying) {
                     return;
                 }
@@ -630,7 +611,6 @@ public class PlayerActivity extends BaseActivity {
         playerRecordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /* TODO:设备录像 */
                 if (bAutoCyclePlaying) {
                     return;
                 }
@@ -676,17 +656,11 @@ public class PlayerActivity extends BaseActivity {
         playerCaptureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /* 设备截图 */
                 if (bAutoCyclePlaying) {
                     return;
                 }
                 onVideoCapture();
 
-                /* 这里创建一个新的线程并且休眠1000ms之后给MainActivity2发送Message的原因是
-                *  如果发送截图命令之后马上发送message告知PictureFragment更新截图列表，会导致最
-                *  新的一张截图还没有生成，此时扫描截图目录还获取不到最近的一张截图，最新一张
-                *  截图不能立即更新。
-                * */
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -749,15 +723,12 @@ public class PlayerActivity extends BaseActivity {
         @Override
         public void run() {
             try {
-                /* 这里线程休眠1000ms，防止自动循环播放线程开启时CPU占用率一直很高 */
                 Thread.sleep(1000);
                 if (currentFragmentName.equals("play_video_fragment")) {
                     playVideoFragment.autoCyclePlay();
-                    /* 设置自动循环播放时间 */
                     handler.postDelayed(autoPlayThread, (Config.m_polling_time + 5) * 1000);
                 } else if (currentFragmentName.equals("play_multi_video_fragment")) {
                     multiVideoFragment.autoCyclePlay();
-                    /* 设置自动循环播放时间 */
                     handler.postDelayed(autoPlayThread, (Config.m_polling_time + 5) * 1000);
                 }
             } catch (InterruptedException e) {
@@ -901,7 +872,6 @@ public class PlayerActivity extends BaseActivity {
     }
 
     public void setCurrentFragment(String fragmentName) {
-        /* 如果此时是循环播放状态则不允许双击切换单画面和多画面 */
         if (bAutoCyclePlaying) return;
         switch(fragmentName) {
             case "play_video_fragment":
@@ -1056,7 +1026,7 @@ public class PlayerActivity extends BaseActivity {
     private void showNetSpeed() {
         long nowTotalRxBytes = getTotalRxBytes();
         long nowTimeStamp = System.currentTimeMillis();
-        long speed = ((nowTotalRxBytes - lastTotalRxBytes) * 1000 / (nowTimeStamp - lastTimeStamp));//毫秒转换
+        long speed = ((nowTotalRxBytes - lastTotalRxBytes) * 1000 / (nowTimeStamp - lastTimeStamp));
 
         lastTimeStamp = nowTimeStamp;
         lastTotalRxBytes = nowTotalRxBytes;

@@ -88,21 +88,6 @@
         </activity>
 
         <activity
-                android:name=".ui.AlarmActivity"
-                android:screenOrientation="portrait">
-        </activity>
-
-        <activity
-                android:name=".ui.AboutActivity"
-                android:screenOrientation="portrait">
-        </activity>
-
-        <activity
-                android:name=".ui.SettingActivity"
-                android:screenOrientation="portrait">
-        </activity>
-
-        <activity
                 android:name=".ui.PlayerActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>

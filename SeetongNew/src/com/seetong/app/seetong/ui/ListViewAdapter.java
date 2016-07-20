@@ -1,6 +1,5 @@
 package com.seetong.app.seetong.ui;
 
-import android.util.Log;
 import android.widget.GridView;
 import java.util.ArrayList;
 import java.util.HashMap;

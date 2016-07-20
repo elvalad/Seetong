@@ -26,7 +26,6 @@ public class MyImageView extends ImageView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        //将图片测量的大小回调到onMeasureSize()方法中
         if(onMeasureListener != null){
             onMeasureListener.onMeasureSize(getMeasuredWidth(), getMeasuredHeight());
         }

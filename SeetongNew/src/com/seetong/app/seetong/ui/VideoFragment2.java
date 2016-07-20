@@ -15,11 +15,6 @@ import com.seetong.app.seetong.R;
 import java.io.File;
 import java.util.*;
 
-/**
- * VideoFragment 是用于显示录像列表的 Fragment， 它和 PictureFragment一样都嵌套在 MediaFragment 中.
- *
- * Created by gmk on 2015/9/13.
- */
 public class VideoFragment2 extends BaseFragment {
     private VideoScanner mScanner;
     private GridView mGridView;

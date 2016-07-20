@@ -98,7 +98,7 @@ public class DeviceListFragment2 extends BaseFragment {
             PlayerDevice dev = Global.getDeviceList().get(i);
             String devID = dev.m_dev.getDevId();
             String devAlias = LibImpl.getInstance().getDeviceAlias(dev.m_dev);
-            if (devID != null && (devID.contains(s) || devAlias.contains(s))) {//匹配设备ID和别名
+            if (devID != null && (devID.contains(s) || devAlias.contains(s))) {
                 map.put("device", dev);
                 map.put("device_image", R.drawable.tps_list_nomsg);
                 map.put("device_state", R.string.device_state_off);
@@ -163,7 +163,6 @@ public class DeviceListFragment2 extends BaseFragment {
         protected Void doInBackground(Void... params) {
             try {
                 Thread.sleep(1000);
-                // 重新连接设备之后，更新设备状态
                 int ret = LibImpl.getInstance().getFuncLib().ResumeDevCom();
                 if (0 != ret) {
                     Log.d(TAG, "device list pull down refresh ResumeDevCom fail!");

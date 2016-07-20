@@ -12,11 +12,6 @@ import com.seetong.app.seetong.R;
 import java.io.File;
 import java.util.*;
 
-/**
- * PictureFragment 是用于显示图片的 Fragment，它嵌套与 MediaFragment 中.
- *
- * Created by gmk on 2015/9/13.
- */
 public class PictureFragment extends BaseFragment {
 
     private GridView mGridView;

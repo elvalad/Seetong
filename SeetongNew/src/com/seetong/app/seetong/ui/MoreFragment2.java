@@ -16,12 +16,6 @@ import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
 import com.seetong.app.seetong.ui.ext.MyTipDialog;
 
-/**
- * MoreFragment 是更多页面的 Fragment，它也是包含于 MainActivity 的 Tabhost 中，它自身包含一些基本的
- * 组件来完成相关的操作，通过点击相关 Button，会进入到其他 Activity.
- *
- * Created by gmk on 2015/9/11.
- */
 public class MoreFragment2 extends BaseFragment {
 
     ProgressDialog mExitTipDlg;

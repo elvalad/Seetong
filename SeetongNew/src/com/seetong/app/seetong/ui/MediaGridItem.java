@@ -4,13 +4,11 @@ package com.seetong.app.seetong.ui;
  * Created by Administrator on 2015/9/24.
  */
 public class MediaGridItem {
-    /* 媒体文件路径 */
+
     private String path;
 
-    /* 媒体文件时间 */
     private String time;
 
-    /* 每个Item对应的HeaderId  */
     private int section;
 
     private boolean isChoosed;

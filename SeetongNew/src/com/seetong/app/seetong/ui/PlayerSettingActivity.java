@@ -862,7 +862,6 @@ public class PlayerSettingActivity extends BaseActivity {
             public void run() {
                 PlayerDevice dev = Global.getDeviceById(deviceId);
                 if (null == dev) return;
-                /* TODO: IdentifyΪ����ʹ�õģ�����ʹ�ô��豸��ȡ�õ���m_devIdentify */
                 //m_devIdentify = "TH38C13-2.5.3.20-2016062016";
                 if (TextUtils.isEmpty(m_devIdentify)) {
                     Log.d(TAG, "device identify is empty!!!");
@@ -926,8 +925,6 @@ public class PlayerSettingActivity extends BaseActivity {
                     case XmlPullParser.START_TAG:
                         if (parser.getName().equals("RESPONSE_PARAM")) {
                             fwUpdateProgress = Integer.parseInt(parser.getAttributeValue(null, "Progress"));
-                            // fwUpdateState״̬Ϊ5˵����ʱ�豸�����쳣����ѯ���Ȼ�ȡ���ĸ���״̬�Ѿ�����Ч�ģ�
-                            // ��Ҫ���ԣ���ʱֱ���˳����Ȳ�ѯ����ʾ�û����ع̼�ʧ�ܼ���
                             if (fwUpdateState != 5) {
                                 fwUpdateState = Integer.parseInt(parser.getAttributeValue(null, "State"));
                             }
@@ -1000,7 +997,6 @@ public class PlayerSettingActivity extends BaseActivity {
                 systemUpdate();
                 break;
             case 1090:
-                // ��flagֵ��ʾNVR�豸�˳����쳣�����͸�������ʧ��
                 if (flag == -16777216) fwUpdateState = 5;
                 break;
             case 1092:

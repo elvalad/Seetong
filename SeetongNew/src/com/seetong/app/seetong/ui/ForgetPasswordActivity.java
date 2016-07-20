@@ -320,7 +320,6 @@ public class ForgetPasswordActivity extends BaseActivity {
             forgetInfo.userPwd = gStr(R.id.forget_password);
             forgetInfo.verifyCode = gStr(R.id.forget_verify_code);
 
-            /* 检查校验码是否过期 */
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.MINUTE, -10);
             endTime = new Timestamp(calendar.getTimeInMillis());
