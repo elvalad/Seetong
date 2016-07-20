@@ -1,5 +1,6 @@
 package com.seetong.app.seetong.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ public class NewsWebActivity extends BaseActivity {
         initWidget();
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void initWidget() {
         progressBar = (ProgressBar) findViewById(R.id.progress_web);
 
@@ -38,6 +40,8 @@ public class NewsWebActivity extends BaseActivity {
         WebSettings webSettings = webView.getSettings();
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
