@@ -1690,7 +1690,12 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 } else {
                     chosenPlayerDevice.ipcIdentify = devIdentify;
                 }
-                LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(chosenPlayerDevice.m_devId, devIdentify, "");
+
+                String firmwareUpdateCap = "";
+                if (chosenPlayerDevice.is_fw_update_v1_support()) {
+                    firmwareUpdateCap = "fw_update_v1";
+                }
+                LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(chosenPlayerDevice.m_devId, devIdentify, firmwareUpdateCap);
                 Global.m_firmware_update = false;
             }
         } catch (XmlPullParserException | IOException e) {
@@ -1783,6 +1788,8 @@ public class PlayMultiVideoFragment extends BaseFragment {
             e.printStackTrace();
         }
 
+        //配合服务器版本升级增加跳转功能，需要在上层修改file_url
+        file_url = file_url.replace("&identify", "&amp;identify");
         String xml2 = "<REQUEST_PARAM url=\"" + file_url + "\"  md5=\"" + file_md5 + "\" ChannelId=\"\"/>";
         if (chosenPlayerDevice.isNVR() && !Global.m_nvr_firmware_update) {
             int channelId = Integer.parseInt(chosenPlayerDevice.m_devId.substring(chosenPlayerDevice.m_devId.lastIndexOf("-") + 1)) - 1;

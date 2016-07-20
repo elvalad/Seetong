@@ -255,4 +255,8 @@ public class PlayerDevice {
     public boolean is_P2P_ONE_LINK() {
         return m_capacity_set.contains("P2P_ONE_LINK");
     }
+
+    public boolean is_fw_update_v1_support() {
+        return m_capacity_set.contains("fw_update_v1");
+    }
 }

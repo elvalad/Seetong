@@ -590,7 +590,11 @@ public class PlayerSettingActivity extends BaseActivity {
         }
 
         String devIdentify = playerDevice.ipcIdentify;//"TH38C13-2.5.3.20-2016062016";
-        int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(deviceId, devIdentify, "");
+        String firmwareUpdateCap = "";
+        if (playerDevice.is_fw_update_v1_support()) {
+            firmwareUpdateCap = "fw_update_v1";
+        }
+        int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(deviceId, devIdentify, firmwareUpdateCap);
         //Log.e(TAG, "ret : " + ret + " ipc identify :" + devIdentify + " dev id : " + deviceId);
         if (ret == 0) {
             bShowIpcDialog = true;
@@ -641,7 +645,11 @@ public class PlayerSettingActivity extends BaseActivity {
         }
 
         String devIdentify = playerDevice.nvrIdentify;//"TH38C13-2.5.3.20-2016062016";
-        int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(deviceId, devIdentify, "");
+        String firmwareUpdateCap = "";
+        if (playerDevice.is_fw_update_v1_support()) {
+            firmwareUpdateCap = "fw_update_v1";
+        }
+        int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(deviceId, devIdentify, firmwareUpdateCap);
         //Log.e(TAG, "ret : " + ret + " nvr identify :" + devIdentify + " dev id : " + deviceId);
         if (ret == 0) {
             bShowIpcDialog = false;
@@ -854,14 +862,18 @@ public class PlayerSettingActivity extends BaseActivity {
             public void run() {
                 PlayerDevice dev = Global.getDeviceById(deviceId);
                 if (null == dev) return;
-                /* TODO: IdentifyÎª²âÊÔÊ¹ÓÃµÄ£¬ºóÐøÊ¹ÓÃ´ÓÉè±¸»ñÈ¡µÃµ½µÄm_devIdentify */
+                /* TODO: IdentifyÎªï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ÃµÄ£ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½Ã´ï¿½ï¿½è±¸ï¿½ï¿½È¡ï¿½Ãµï¿½ï¿½ï¿½m_devIdentify */
                 //m_devIdentify = "TH38C13-2.5.3.20-2016062016";
                 if (TextUtils.isEmpty(m_devIdentify)) {
                     Log.d(TAG, "device identify is empty!!!");
                     return;
                 }
 
-                int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(dev.m_devId, m_devIdentify, "");
+                String firmwareUpdateCap = "";
+                if (playerDevice.is_fw_update_v1_support()) {
+                    firmwareUpdateCap = "fw_update_v1";
+                }
+                int ret = LibImpl.getInstance().getFuncLib().GetUpdateFWInfo(dev.m_devId, m_devIdentify, firmwareUpdateCap);
                 if (0 != ret) {
                     android.os.Message msg = m_handler.obtainMessage();
                     msg.what = Define.MSG_SHOW_TOAST;
@@ -914,8 +926,8 @@ public class PlayerSettingActivity extends BaseActivity {
                     case XmlPullParser.START_TAG:
                         if (parser.getName().equals("RESPONSE_PARAM")) {
                             fwUpdateProgress = Integer.parseInt(parser.getAttributeValue(null, "Progress"));
-                            // fwUpdateState×´Ì¬Îª5ËµÃ÷´ËÊ±Éè±¸³öÏÖÒì³££¬²éÑ¯½ø¶È»ñÈ¡µ½µÄ¸üÐÂ×´Ì¬ÒÑ¾­ÊÇÎÞÐ§µÄ£¬
-                            // ÐèÒªºöÂÔ£¬´ËÊ±Ö±½ÓÍË³ö½ø¶È²éÑ¯£¬ÌáÊ¾ÓÃ»§ÏÂÔØ¹Ì¼þÊ§°Ü¼´¿É
+                            // fwUpdateState×´Ì¬Îª5Ëµï¿½ï¿½ï¿½ï¿½Ê±ï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½È»ï¿½È¡ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½×´Ì¬ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½Ä£ï¿½
+                            // ï¿½ï¿½Òªï¿½ï¿½ï¿½Ô£ï¿½ï¿½ï¿½Ê±Ö±ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½È²ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ø¹Ì¼ï¿½Ê§ï¿½Ü¼ï¿½ï¿½ï¿½
                             if (fwUpdateState != 5) {
                                 fwUpdateState = Integer.parseInt(parser.getAttributeValue(null, "State"));
                             }
@@ -988,7 +1000,7 @@ public class PlayerSettingActivity extends BaseActivity {
                 systemUpdate();
                 break;
             case 1090:
-                // ´ËflagÖµ±íÊ¾NVRÉè±¸¶Ë³öÏÖÒì³££¬·¢ËÍ¸üÐÂÃüÁîÊ§°Ü
+                // ï¿½ï¿½flagÖµï¿½ï¿½Ê¾NVRï¿½è±¸ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
                 if (flag == -16777216) fwUpdateState = 5;
                 break;
             case 1092:
