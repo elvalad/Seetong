@@ -16,6 +16,7 @@ import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
+import com.seetong.app.seetong.comm.Tools;
 import com.seetong.app.seetong.model.News;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
 import ipc.android.sdk.com.SDK_CONSTANT;
@@ -62,7 +63,13 @@ public class NewsActivity extends BaseActivity {
     private void initWidget() {
         if (Global.getNewsListXML().equals("")) {
             LibImpl.getInstance().addHandler(m_handler);
-            int ret = LibImpl.getInstance().getFuncLib().GetServiceMessage();
+            int flags = Tools.getLanguageTypes();
+            int ret;
+            if (flags == 0 || flags == 1) {
+                ret = LibImpl.getInstance().getFuncLib().GetServiceMessage(0);
+            } else {
+                ret = LibImpl.getInstance().getFuncLib().GetServiceMessage(1);
+            }
             if (0 != ret) {
                 Log.d(TAG, "Get service message err : " + ret);
             }

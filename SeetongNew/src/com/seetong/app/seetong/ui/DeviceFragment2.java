@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
+import com.seetong.app.seetong.comm.Tools;
 import com.seetong.app.seetong.model.News;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
@@ -100,7 +101,12 @@ public class DeviceFragment2 extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        LibImpl.getInstance().getFuncLib().GetServiceMessage();
+        int flags = Tools.getLanguageTypes();
+        if (flags == 0 || flags == 1) {
+            LibImpl.getInstance().getFuncLib().GetServiceMessage(0);
+        } else {
+            LibImpl.getInstance().getFuncLib().GetServiceMessage(1);
+        }
         if (savedInstanceState == null) {
             /* 此函数用于 Fragment 嵌套，此时默认显示 DeviceListFragment */
             getChildFragmentManager()

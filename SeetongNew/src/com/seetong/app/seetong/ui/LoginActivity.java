@@ -22,6 +22,7 @@ import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
 import com.seetong.app.seetong.comm.NetworkUtils;
+import com.seetong.app.seetong.comm.Tools;
 import com.seetong.app.seetong.sdk.impl.ConstantImpl;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.ui.ext.MyTipDialog;
@@ -35,9 +36,9 @@ import net.lingala.zip4j.util.Zip4jConstants;
 import java.io.File;
 
 /**
- * LoginActivity ÊÇÊ×´Î½øÈë Seetong ºóµÄµÚÒ»¸öÒ³Ãæ£¬ÓÃÓÚÈÃÓÃ»§×¢²áµÇÂ¼ Seetong.
- * ´ËÒ³Ãæ°üº¬¼¸¸öÏà¹ØµÄ Button£¬µã»÷Ö®ºó»á½øÈë²»ÈÝµÄ Activity.
- * ÐèÒªºÍ·þÎñÆ÷¶Ë½»»¥ÓÃÓÚµÇÂ¼ÓÃ»§ÐÅÏ¢µÄ¼ì²é£¬Ö÷Ò³ÐÂµÄÓÃ»§£¬Íü¼ÇÃÜÂëµÈÐÅÏ¢.
+ * LoginActivity ï¿½ï¿½ï¿½×´Î½ï¿½ï¿½ï¿½ Seetong ï¿½ï¿½Äµï¿½Ò»ï¿½ï¿½Ò³ï¿½æ£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½×¢ï¿½ï¿½ï¿½Â¼ Seetong.
+ * ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ Buttonï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½ï¿½ï¿½ë²»ï¿½Ýµï¿½ Activity.
+ * ï¿½ï¿½Òªï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½Â¼ï¿½Ã»ï¿½ï¿½ï¿½Ï¢ï¿½Ä¼ï¿½é£¬ï¿½ï¿½Ò³ï¿½Âµï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢.
  *
  * Created by gmk on 2015/9/11.
  */
@@ -100,7 +101,7 @@ public class LoginActivity extends BaseActivity {
         LibImpl.getInstance().removeHandler(m_handler);
     }
 
-    // TODO:ÐèÒªºÍ·þÎñÆ÷½»»¥Íê³ÉÓÃ»§ÕËºÅÃÜÂë¼ì²é£¬ÓÃ»§×¢²áµÈ²Ù×÷
+    // TODO:ï¿½ï¿½Òªï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ëºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é£¬ï¿½Ã»ï¿½×¢ï¿½ï¿½È²ï¿½ï¿½ï¿½
     private void initWidget() {
         mTipDlg = new ProgressDialog(this, R.string.dlg_login_server_tip);
         mTipDlg.setCancelable(false);
@@ -134,7 +135,7 @@ public class LoginActivity extends BaseActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /* µ÷ÊÔÊ±Ê¹ÓÃÄ¬ÈÏµÄÕËºÅµÇÂ¼ */
+                /* ï¿½ï¿½ï¿½ï¿½Ê±Ê¹ï¿½ï¿½Ä¬ï¿½Ïµï¿½ï¿½ËºÅµï¿½Â¼ */
                 Global.m_loginType = Define.LOGIN_TYPE_USER;
                 //Global.m_loginType = Define.LOGIN_TYPE_DEMO;
                 onBtnLogin();
@@ -257,7 +258,7 @@ public class LoginActivity extends BaseActivity {
         if (NetworkUtils.getNetworkState(this) == NetworkUtils.NONE) {
             toast(T(R.string.dlg_network_check_tip));
         } else {
-            // Èç¹ûÔÚ°´menu»òback°´Å¥µÄÊ±ºò£¬ÒÔ¼°´ò¿ªÁËÈí¼üÅÌ£¬Ôò½«Èí¼üÅÌÒþ²Ø
+            // ï¿½ï¿½ï¿½ï¿½Ú°ï¿½menuï¿½ï¿½backï¿½ï¿½Å¥ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             hideInputPanel(null);
             mTipDlg.setCallback(new ProgressDialog.ICallback() {
                 @Override
@@ -315,8 +316,13 @@ public class LoginActivity extends BaseActivity {
                         });
                     }
 
-                    /* µÇÂ¼Ê±»ñÈ¡ÐÂÎÅÁÐ±í´æÈëGlobalµÄxmlÖÐ */
-                    LibImpl.getInstance().getFuncLib().GetServiceMessage();
+                    /* ï¿½ï¿½Â¼Ê±ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½Globalï¿½ï¿½xmlï¿½ï¿½ */
+                    int flags = Tools.getLanguageTypes();
+                    if (flags == 0 || flags == 1) {
+                        LibImpl.getInstance().getFuncLib().GetServiceMessage(0);
+                    } else {
+                        LibImpl.getInstance().getFuncLib().GetServiceMessage(1);
+                    }
                 }
             }).start();
         }
@@ -377,7 +383,7 @@ public class LoginActivity extends BaseActivity {
 
     public void saveData() {
         boolean isSaveData = Global.m_spu_login.loadBooleanSharedPreference(Define.IS_SAVE_DATA);
-        if (!isSaveData) {//³õÊ¼»¯Ä¬ÈÏÊý¾Ý
+        if (!isSaveData) {//ï¿½ï¿½Ê¼ï¿½ï¿½Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             Global.m_spu_login.saveSharedPreferences(Define.IS_SAVE_DATA, true);
             Global.m_spu_login.saveSharedPreferences(Define.USR_NAME, "");
             Global.m_spu_login.saveSharedPreferences(Define.USR_PSW, "");
