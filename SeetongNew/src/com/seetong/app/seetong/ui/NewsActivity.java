@@ -144,7 +144,11 @@ public class NewsActivity extends BaseActivity {
         for (News aNewsData : newsData) {
             newsIdList.add(Integer.parseInt(aNewsData.getNewsId()));
         }
-        return Collections.max(newsIdList);
+        if (newsIdList.size() != 0) {
+            return Collections.max(newsIdList);
+        } else {
+            return 0;
+        }
     }
 
     @Override
