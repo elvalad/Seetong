@@ -4,7 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <com.seetong.app.seetong.ui.PullToRefreshAsymmetricGridView
+    <com.seetong.app.seetong.ui.PullToRefreshAsymGridView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/multiListView"
             android:layout_width="match_parent"

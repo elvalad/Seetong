@@ -5,29 +5,28 @@ import android.util.AttributeSet;
 import android.view.View;
 import com.example.AsymmetricGridView.library.widget.AsymmetricGridView;
 import com.handmark.pulltorefresh.library.PullToRefreshAdapterViewBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.internal.EmptyViewMethodAccessor;
 
 /**
  * Created by Administrator on 2016/6/8.
  */
-public class PullToRefreshAsymmetricGridView extends PullToRefreshAdapterViewBase<AsymmetricGridView> {
+public class PullToRefreshAsymGridView extends PullToRefreshAdapterViewBase<AsymmetricGridView> {
 
     private AsymmetricGridView gridView;
 
-    public PullToRefreshAsymmetricGridView(Context context) {
+    public PullToRefreshAsymGridView(Context context) {
         super(context);
     }
 
-    public PullToRefreshAsymmetricGridView(Context context, AttributeSet attrs) {
+    public PullToRefreshAsymGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public PullToRefreshAsymmetricGridView(Context context, Mode mode) {
+    public PullToRefreshAsymGridView(Context context, Mode mode) {
         super(context, mode);
     }
 
-    public PullToRefreshAsymmetricGridView(Context context, Mode mode, AnimationStyle style) {
+    public PullToRefreshAsymGridView(Context context, Mode mode, AnimationStyle style) {
         super(context, mode, style);
     }
 
@@ -56,7 +55,7 @@ public class PullToRefreshAsymmetricGridView extends PullToRefreshAdapterViewBas
 
         @Override
         public void setEmptyView(View emptyView) {
-            PullToRefreshAsymmetricGridView.this.setEmptyView(emptyView);
+            PullToRefreshAsymGridView.this.setEmptyView(emptyView);
         }
 
         @Override

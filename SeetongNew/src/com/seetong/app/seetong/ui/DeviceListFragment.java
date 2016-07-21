@@ -5,15 +5,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import android.widget.WrapperListAdapter;
 import com.example.AsymmetricGridView.library.Utils;
 import com.example.AsymmetricGridView.library.widget.AsymmetricGridView;
 import com.example.AsymmetricGridView.library.widget.AsymmetricGridViewAdapter;
-import com.example.AsymmetricGridView.model.DemoItem;
-import com.example.AsymmetricGridView.widget.DefaultListAdapter;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
@@ -46,7 +43,7 @@ public class DeviceListFragment extends BaseFragment {
     private ListView listView;
     private ListView searchListView;
 
-    private PullToRefreshAsymmetricGridView multiListView;
+    private PullToRefreshAsymGridView multiListView;
     private MultiListAdapter multiAdapter;
     private int currentOffset = 0;
     private AsymmetricGridViewAdapter asymmetricAdapter;
@@ -71,7 +68,7 @@ public class DeviceListFragment extends BaseFragment {
         return view;*/
 
         view = inflater.inflate(R.layout.multi_device_list, container, false);
-        multiListView = (PullToRefreshAsymmetricGridView) view.findViewById(R.id.multiListView);
+        multiListView = (PullToRefreshAsymGridView) view.findViewById(R.id.multiListView);
         getData();
         multiAdapter = new MultiListAdapter(this.getActivity(), multiListView, getMoreItems(data.size()) , data);
         if (multiAdapter instanceof WrapperListAdapter) {

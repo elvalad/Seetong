@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import com.example.AsymmetricGridView.library.widget.AsymmetricGridView;
 import com.example.AsymmetricGridView.library.widget.AsymmetricGridViewAdapter;
 import com.seetong.app.seetong.Config;
 import com.seetong.app.seetong.Global;
@@ -38,7 +37,7 @@ public class MultiListAdapter extends AsymmetricGridViewAdapter<DeviceListItem> 
         public TextView deviceId;
     }
 
-    public MultiListAdapter(final Context context, final PullToRefreshAsymmetricGridView listView, final List<DeviceListItem> items, List<Map<String, Object>> data) {
+    public MultiListAdapter(final Context context, final PullToRefreshAsymGridView listView, final List<DeviceListItem> items, List<Map<String, Object>> data) {
         super(context, listView.getGridView(), items);
         this.context = context;
         this.data = data;
