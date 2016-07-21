@@ -79,7 +79,7 @@ public class WelcomeActivity extends BaseActivity {
         Global.m_loginType = Define.LOGIN_TYPE_USER;
         userName = Global.m_spu_login.loadStringSharedPreference(Define.USR_NAME);
         userPwd = Global.m_spu_login.loadStringSharedPreference(Define.USR_PSW);
-        if ((null != userName) && (null != userPwd) && (!"".equals(userName)) && (!"".equals(userPwd))) {
+        if ((null != userName) && (null != userPwd) && (!"".equals(userName)) && (!"".equals(userPwd)) && (!"seetong_debug".equals(userName))) {
             onDefaultLogin();
         } else {
             Message msg = Message.obtain();
