@@ -45,8 +45,10 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.ref.SoftReference;
 import java.lang.reflect.Field;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -168,13 +170,13 @@ public class PlayMultiVideoFragment extends BaseFragment {
             }
 
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                /* Èç¹ûGestureDetector¼ì²âµ½ÓÃ»§Ïò×ó»¬¶¯£¬ÔòÏÔÊ¾ÉÏÒ»¸öÉè±¸µÄÊÓÆµ */
+                /* å¦‚æœGestureDetectoræ£€æµ‹åˆ°ç”¨æˆ·å‘å·¦æ»‘åŠ¨ï¼Œåˆ™æ˜¾ç¤ºä¸Šä¸€ä¸ªè®¾å¤‡çš„è§†é¢‘ */
                 if ((e2.getX() - e1.getX()) > FLING_MOVEMENT_THRESHOLD) {
                     showPreviousDeviceListVideo(playerDevice);
                     getDevVersionInfo();
                 }
 
-                /* Èç¹ûGestureDetector¼ì²âµ½ÓÃ»§ÏòÓÒ»¬¶¯£¬ÕâÏÔÊ¾ÏÂÒ»¸öÉè±¸µÄÊÓÆµ */
+                /* å¦‚æœGestureDetectoræ£€æµ‹åˆ°ç”¨æˆ·å‘å³æ»‘åŠ¨ï¼Œè¿™æ˜¾ç¤ºä¸‹ä¸€ä¸ªè®¾å¤‡çš„è§†é¢‘ */
                 if ((e1.getX() - e2.getX()) > FLING_MOVEMENT_THRESHOLD) {
                     showNextDeviceListVideo(playerDevice);
                     getDevVersionInfo();
@@ -272,7 +274,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     }
 
     private void setCurrentWindow(MotionEvent e) {
-        /* ĞèÒª»ñÈ¡¾«È·µÄÃ¿¸öÍ¼ĞÎ»æÖÆ´°¿ÚµÄ¿í¸ß£¬ÔÚÕâÀï»ñÈ¡µÄÔ­ÒòÊÇÎªÁËÈ·±£ºáÆÁºÍÊúÆÁÊ±¶¼ÄÜ»ñµÃÕıÈ·µÄlocation */
+        /* éœ€è¦è·å–ç²¾ç¡®çš„æ¯ä¸ªå›¾å½¢ç»˜åˆ¶çª—å£çš„å®½é«˜ï¼Œåœ¨è¿™é‡Œè·å–çš„åŸå› æ˜¯ä¸ºäº†ç¡®ä¿æ¨ªå±å’Œç«–å±æ—¶éƒ½èƒ½è·å¾—æ­£ç¡®çš„location */
         location = PlayerActivity.m_this.getFragmentLocation();
         float x = e.getRawX();
         float y = e.getRawY();
@@ -312,7 +314,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         stopAllVoice();
         stopAllTalk();
 
-        /* ¶à»­ÃæÑ¡Ôñ²»Í¬µÄ´°¿ÚÊ±£¬PlayerActivityµÄÉè±¸IdÒ²ÒªËæ×Å±ä»» */
+        /* å¤šç”»é¢é€‰æ‹©ä¸åŒçš„çª—å£æ—¶ï¼ŒPlayerActivityçš„è®¾å¤‡Idä¹Ÿè¦éšç€å˜æ¢ */
         PlayerActivity.m_this.setCurrentDeviceId(this.chosenPlayerDevice.m_devId);
         if (chosenPlayerDevice.m_record) {
             PlayerActivity.m_this.setRecordState(true);
@@ -417,7 +419,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                             render.mStartX += dtX;
                             render.mStartY -= dtY;
 
-                            //ÏòÓÒÍÏ¶¯
+                            //å‘å³æ‹–åŠ¨
                             if (dtX > 0) {
                                 if (render.mScaleBitmapW < render.mViewWidth) {
                                     if (render.mViewWidth - (render.mTargetX + render.mStartX + render.mScaleBitmapW) < 10)
@@ -438,7 +440,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                                 }
                             }
 
-                            //ÏòÏÂÍÏ¶¯
+                            //å‘ä¸‹æ‹–åŠ¨
                             if (dtY > 0) {
                                 if (render.mScaleBitmapH < render.mViewHeight) {
                                     if (render.mTargetY - Math.abs(render.mStartY) < 10)
@@ -497,13 +499,13 @@ public class PlayMultiVideoFragment extends BaseFragment {
             return gestureDetector.onTouchEvent(event);
         }
 
-        public float spacing(MotionEvent event) {//Á½µãµÄ¾àÀë
+        public float spacing(MotionEvent event) {//ä¸¤ç‚¹çš„è·ç¦»
             float x = event.getX(0) - event.getX(1);
             float y = event.getY(0) - event.getY(1);
             return FloatMath.sqrt(x * x + y * y);
         }
 
-        public void midPoint(PointF point, MotionEvent event) {//ÖĞµã×ø±ê
+        public void midPoint(PointF point, MotionEvent event) {//ä¸­ç‚¹åæ ‡
             float x = event.getX(0) + event.getX(1);
             float y = event.getY(0) + event.getY(1);
             point.set(x / 2, y / 2);
@@ -973,7 +975,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         if (null == chosenPlayerDevice) return;
         chosenPlayerDevice.m_capacity_set = LibImpl.getInstance().getCapacitySet(chosenPlayerDevice);
         if(chosenPlayerDevice.isNVR() && chosenPlayerDevice.is_p2p_replay()) {
-            /* ¿ªÆô»Ø·ÅÇ°ÏÈ¹Ø±ÕÕıÔÚ²¥·ÅµÄÉè±¸ */
+            /* å¼€å¯å›æ”¾å‰å…ˆå…³é—­æ­£åœ¨æ’­æ”¾çš„è®¾å¤‡ */
             stopCurrentPlayList();
             Intent it = new Intent(this.getActivity(), NvrRecord.class);
             it.putExtra(Constant.EXTRA_DEVICE_ID, chosenPlayerDevice.m_dev.getDevId());
@@ -1140,22 +1142,22 @@ public class PlayMultiVideoFragment extends BaseFragment {
     }
 
     private void addBitmapToCache(String path) {
-        // Ç¿ÒıÓÃµÄBitmap¶ÔÏó
+        // å¼ºå¼•ç”¨çš„Bitmapå¯¹è±¡
         Bitmap bitmap = BitmapFactory.decodeFile(path);
-        // ÈíÒıÓÃµÄBitmap¶ÔÏó
+        // è½¯å¼•ç”¨çš„Bitmapå¯¹è±¡
         SoftReference<Bitmap> softBitmap = new SoftReference<>(bitmap);
-        // Ìí¼Ó¸Ã¶ÔÏóµ½MapÖĞÊ¹Æä»º´æ
+        // æ·»åŠ è¯¥å¯¹è±¡åˆ°Mapä¸­ä½¿å…¶ç¼“å­˜
         imageCache.put(path, softBitmap);
     }
 
     public Bitmap getBitmapByPath(String path) {
-        // ´Ó»º´æÖĞÈ¡ÈíÒıÓÃµÄBitmap¶ÔÏó
+        // ä»ç¼“å­˜ä¸­å–è½¯å¼•ç”¨çš„Bitmapå¯¹è±¡
         SoftReference<Bitmap> softBitmap = imageCache.get(path);
-        // ÅĞ¶ÏÊÇ·ñ´æÔÚÈíÒıÓÃ
+        // åˆ¤æ–­æ˜¯å¦å­˜åœ¨è½¯å¼•ç”¨
         if (softBitmap == null) {
             return null;
         }
-        // È¡³öBitmap¶ÔÏó£¬Èç¹ûÓÉÓÚÄÚ´æ²»×ãBitmap±»»ØÊÕ£¬½«È¡µÃ¿Õ
+        // å–å‡ºBitmapå¯¹è±¡ï¼Œå¦‚æœç”±äºå†…å­˜ä¸è¶³Bitmapè¢«å›æ”¶ï¼Œå°†å–å¾—ç©º
         return softBitmap.get();
     }
 
@@ -1343,16 +1345,16 @@ public class PlayMultiVideoFragment extends BaseFragment {
             return;
         }
 
-        /* »Ö¸´PlayerActivityµÄbutton×´Ì¬ */
+        /* æ¢å¤PlayerActivityçš„buttonçŠ¶æ€ */
         PlayerActivity.m_this.resetWidget();
 
-        /* Í£Ö¹ËùÓĞÕıÔÚÂ¼ÖÆµÄÊÓÆµ */
+        /* åœæ­¢æ‰€æœ‰æ­£åœ¨å½•åˆ¶çš„è§†é¢‘ */
         stopAllVideoRecord();
         hideAllRecordIcon();
         stopVideoSound();
         stopHighDefinition();
 
-        /* Í£Ö¹µ±Ç°ÕıÔÚ²¥·ÅµÄÉè±¸ÁĞ±í */
+        /* åœæ­¢å½“å‰æ­£åœ¨æ’­æ”¾çš„è®¾å¤‡åˆ—è¡¨ */
         RelativeLayout layout;
         for (int i = 0; i < MAX_WINDOW; i++) {
             LibImpl.stopPlay(i, this.deviceList.get(i));
@@ -1383,7 +1385,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
         this.deviceList = getDeviceList(this.playerDevice);
         chosenPlayerDevice = this.deviceList.get(currentIndex);
-        /* ÇĞ»»Ö®ºóÉèÖÃPlayerActivityµ±Ç°²¥·ÅµÄÉè±¸ID */
+        /* åˆ‡æ¢ä¹‹åè®¾ç½®PlayerActivityå½“å‰æ’­æ”¾çš„è®¾å¤‡ID */
         PlayerActivity.m_this.setCurrentDeviceId(this.chosenPlayerDevice.m_devId);
         //animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_prev_video);
         Boolean bRet = startPlay(this.deviceList);
@@ -1400,16 +1402,16 @@ public class PlayMultiVideoFragment extends BaseFragment {
             return;
         }
 
-        /* »Ö¸´PlayerActivityµÄbutton×´Ì¬ */
+        /* æ¢å¤PlayerActivityçš„buttonçŠ¶æ€ */
         PlayerActivity.m_this.resetWidget();
 
-        /* Í£Ö¹ËùÓĞÕıÔÚÂ¼ÖÆµÄÊÓÆµ */
+        /* åœæ­¢æ‰€æœ‰æ­£åœ¨å½•åˆ¶çš„è§†é¢‘ */
         stopAllVideoRecord();
         hideAllRecordIcon();
         stopVideoSound();
         stopHighDefinition();
 
-        /* Í£Ö¹µ±Ç°ÕıÔÚ²¥·ÅµÄÉè±¸ÁĞ±í */
+        /* åœæ­¢å½“å‰æ­£åœ¨æ’­æ”¾çš„è®¾å¤‡åˆ—è¡¨ */
         RelativeLayout layout;
         for (int i = 0; i < MAX_WINDOW; i++) {
             LibImpl.stopPlay(i, this.deviceList.get(i));
@@ -1440,7 +1442,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
         this.deviceList = getDeviceList(this.playerDevice);
         chosenPlayerDevice = this.deviceList.get(currentIndex);
-        /* ÇĞ»»Ö®ºóÉèÖÃPlayerActivityµ±Ç°²¥·ÅµÄÉè±¸ID */
+        /* åˆ‡æ¢ä¹‹åè®¾ç½®PlayerActivityå½“å‰æ’­æ”¾çš„è®¾å¤‡ID */
         PlayerActivity.m_this.setCurrentDeviceId(this.chosenPlayerDevice.m_devId);
         //animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_switch_next_video);
         Boolean bRet = startPlay(this.deviceList);
@@ -1495,7 +1497,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         } else {
             StringBuilder msgBuf = new StringBuilder();
             if (!isNullStr(deviceList.get(index).m_dev.getDevId())) {
-                //¼ÓÔØ±ğÃû
+                //åŠ è½½åˆ«å
                 //String _devName = deviceList.get(index).getDeviceName();
                 String _devName = getNvrAlias(deviceList.get(index));
                 msgBuf.append("[").append(_devName).append(dev_type).append("]");
@@ -1682,7 +1684,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                 eventType = parser.next();
             }
 
-            /* TODO:²âÊÔÊ¹ÓÃµÄIdentify */
+            /* TODO:æµ‹è¯•ä½¿ç”¨çš„Identify */
             //devIdentify = "TH38C13-2.5.3.20-2016062016";
             if (!TextUtils.isEmpty(devIdentify)) {
                 if (chosenPlayerDevice.isNVR() && TextUtils.isEmpty(channelId)) {
@@ -1732,12 +1734,12 @@ public class PlayMultiVideoFragment extends BaseFragment {
         if (chosenPlayerDevice.isNVR()) {
             if (reqIdentify.equals(chosenPlayerDevice.nvrIdentify)) {
                 if (Global.m_firmware_version_detect) {
-                    // Ö»ÓĞÔÚ²¥·ÅÒ³Ãæ¼ì²âĞÂ°æ±¾Ê±²ÅÉèÖÃ´Ë±äÁ¿£¬·ÀÖ¹Êµ¼Ê·¢ËÍÉı¼¶ÃüÁîÊ±
-                    // ´Ë±êÖ¾Î»±»Ë¢ĞÂ£¬Ó°ÏìPlayerSettingActivityµÄ½çÃæ¸üĞÂ
+                    // åªæœ‰åœ¨æ’­æ”¾é¡µé¢æ£€æµ‹æ–°ç‰ˆæœ¬æ—¶æ‰è®¾ç½®æ­¤å˜é‡ï¼Œé˜²æ­¢å®é™…å‘é€å‡çº§å‘½ä»¤æ—¶
+                    // æ­¤æ ‡å¿—ä½è¢«åˆ·æ–°ï¼Œå½±å“PlayerSettingActivityçš„ç•Œé¢æ›´æ–°
                     chosenPlayerDevice.bNvrUpdate = true;
                 }
-                // ´Ë±äÁ¿ÔÚ²¥·ÅÒ³Ãæ¼ì²âĞÂ°æ±¾ºÍÊµ¼Ê·¢ËÍÉı¼¶ÃüÁîÊ±¶¼ĞèÒªÊµÊ±Ë¢ĞÂ
-                // ÓÃÓÚÇø·Ö·¢ËÍÉı¼¶ÃüÁîºÍ²éÑ¯½ø¶ÈÃüÁîÊÇÕë¶Ôµ¥¸öÍ¨µÀ»¹ÊÇÕû¸öNVR
+                // æ­¤å˜é‡åœ¨æ’­æ”¾é¡µé¢æ£€æµ‹æ–°ç‰ˆæœ¬å’Œå®é™…å‘é€å‡çº§å‘½ä»¤æ—¶éƒ½éœ€è¦å®æ—¶åˆ·æ–°
+                // ç”¨äºåŒºåˆ†å‘é€å‡çº§å‘½ä»¤å’ŒæŸ¥è¯¢è¿›åº¦å‘½ä»¤æ˜¯é’ˆå¯¹å•ä¸ªé€šé“è¿˜æ˜¯æ•´ä¸ªNVR
                 Global.m_nvr_firmware_update = true;
             } else if (reqIdentify.equals(chosenPlayerDevice.ipcIdentify)) {
                 if (Global.m_firmware_version_detect) {
@@ -1788,8 +1790,13 @@ public class PlayMultiVideoFragment extends BaseFragment {
             e.printStackTrace();
         }
 
-        //ÅäºÏ·şÎñÆ÷°æ±¾Éı¼¶Ôö¼ÓÌø×ª¹¦ÄÜ£¬ĞèÒªÔÚÉÏ²ãĞŞ¸Äfile_url
-        file_url = file_url.replace("&identify", "&amp;identify");
+        //é…åˆæœåŠ¡å™¨ç‰ˆæœ¬å‡çº§å¢åŠ è·³è½¬åŠŸèƒ½ï¼Œéœ€è¦åœ¨ä¸Šå±‚ä¿®æ”¹file_urlè¿›è¡Œç¼–ç 
+        try {
+            file_url = URLEncoder.encode(file_url, "utf-8");
+            Log.e(TAG, file_url);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         String xml2 = "<REQUEST_PARAM url=\"" + file_url + "\"  md5=\"" + file_md5 + "\" ChannelId=\"\"/>";
         if (chosenPlayerDevice.isNVR() && !Global.m_nvr_firmware_update) {
             int channelId = Integer.parseInt(chosenPlayerDevice.m_devId.substring(chosenPlayerDevice.m_devId.lastIndexOf("-") + 1)) - 1;
@@ -1813,7 +1820,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             return;
         }
 
-        // ÒÑ¾­ÉèÖÃĞÂµÄÓÃ»§ĞÅÏ¢£¬ÔÙ´Î»ñÈ¡²¢ÑéÖ¤
+        // å·²ç»è®¾ç½®æ–°çš„ç”¨æˆ·ä¿¡æ¯ï¼Œå†æ¬¡è·å–å¹¶éªŒè¯
         if (null != PlayerActivity.m_this.m_modifyInfo) {
             PlayerActivity.m_this.m_modifyDefaultPassword = false;
             boolean found = false;
@@ -1837,10 +1844,10 @@ public class PlayMultiVideoFragment extends BaseFragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    // ÑéÖ¤ÉèÖÃ³É¹¦£¬µ÷ÓÃ¸üĞÂº¯ÊıÍ¨ÖªÔÆÆ½Ì¨Í¬²½ĞŞ¸Ä
+                    // éªŒè¯è®¾ç½®æˆåŠŸï¼Œè°ƒç”¨æ›´æ–°å‡½æ•°é€šçŸ¥äº‘å¹³å°åŒæ­¥ä¿®æ”¹
                     int ret = FunclibAgent.getInstance().ModifyDevPassword(playerDevice.m_dev.getDevId(), info.getUserName(), info.getUserPassword());
 
-                    // »ñÈ¡ÊÓÆµ²ÎÊı£¬È¡ÏûĞŞ¸ÄÄ¬ÈÏÃÜÂë×ÖÄ»
+                    // è·å–è§†é¢‘å‚æ•°ï¼Œå–æ¶ˆä¿®æ”¹é»˜è®¤å¯†ç å­—å¹•
                     LibImpl.m_change_default_pwd_dev = playerDevice;
                     FunclibAgent.getInstance().GetP2PDevConfig(playerDevice.m_devId, 501);
 
@@ -1959,7 +1966,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                         }
 
                         boolean found = false;
-                        // ÕÒµ½ÒªĞŞ¸ÄµÄÓÃ»§
+                        // æ‰¾åˆ°è¦ä¿®æ”¹çš„ç”¨æˆ·
                         NetSDK_UserAccount foundUser = null;
                         for (NetSDK_UserAccount u : lstUser) {
                             if (!u.getUserName().equals(userName) || !u.getPassword().equals(password)) continue;
@@ -1969,7 +1976,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                         }
 
                         if (!found) {
-                            // Î´ÕÒµ½£¬ÌáÊ¾ÖØĞÂÊäÈë
+                            // æœªæ‰¾åˆ°ï¼Œæç¤ºé‡æ–°è¾“å…¥
                             try {
                                 Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
                                 field.setAccessible(true);
@@ -1982,7 +1989,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                             return;
                         }
 
-                        // ÊÇ·ñĞèÒªĞŞ¸ÄÃÜÂë
+                        // æ˜¯å¦éœ€è¦ä¿®æ”¹å¯†ç 
                         if ("".equals(newPwd) || "".equals(newPwd2)) {
                             try {
                                 Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
@@ -2060,7 +2067,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                // ÉèÖÃÉè±¸ÓÃ»§ĞÅÏ¢
+                                // è®¾ç½®è®¾å¤‡ç”¨æˆ·ä¿¡æ¯
                                 FunclibAgent.getInstance().SetP2PDevConfig(playerDevice.m_dev.getDevId(), NetSDK_CMD_TYPE.CMD_SET_SYSTEM_USER_CONFIG, xml);
                             }
                         }).start();
@@ -2081,7 +2088,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                // ÒÑ¾­ÉèÖÃĞÂµÄÓÃ»§ĞÅÏ¢£¬ÔÙ´Î·¢ËÍ»ñÈ¡ÇëÇó²¢ÑéÖ¤
+                // å·²ç»è®¾ç½®æ–°çš„ç”¨æˆ·ä¿¡æ¯ï¼Œå†æ¬¡å‘é€è·å–è¯·æ±‚å¹¶éªŒè¯
                 FunclibAgent.getInstance().GetP2PDevConfig(dev.m_dev.getDevId(), NetSDK_CMD_TYPE.CMD_GET_SYSTEM_USER_CONFIG);
             }
         }).start();
@@ -2227,7 +2234,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     private void onAddWatchResp(TPS_AddWachtRsp ts) {
         final String devId = new String(ts.getSzDevId()).trim();
         int result = ts.getnResult();
-        if (result == 0) {//ÊÓÆµÇëÇó³É¹¦
+        if (result == 0) {//è§†é¢‘è¯·æ±‚æˆåŠŸ
             PlayerDevice dev = LibImpl.findDeviceByID(devId);
             if (dev.m_online && !dev.m_play) {
                 setTipText(devId, R.string.tv_video_req_succeed_tip);
@@ -2268,7 +2275,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
     }
 
     private boolean hasPtz(PlayerDevice dev) {
-        // Éè±¸Ö§³ÖÔÆÌ¨ÇÒÔÚ²¥·ÅÖĞ²ÅÏÔÊ¾ÔÆÌ¨ÎÄ±¾ÌáÊ¾
+        // è®¾å¤‡æ”¯æŒäº‘å°ä¸”åœ¨æ’­æ”¾ä¸­æ‰æ˜¾ç¤ºäº‘å°æ–‡æœ¬æç¤º
         if (null == dev || null == dev.m_dev || !dev.m_playing) return false;
         //if (dev.m_dev.getWithPTZ() == 1) return true;
         return LibImpl.getInstance().getCapacitySet(dev).contains("ptz_control");
