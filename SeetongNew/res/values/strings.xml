@@ -879,4 +879,6 @@
     <string name="feedback_failure">Submitted unsuccessfully</string>
 
     <string name="news">Seetong news</string>
+
+    <string name="network_traffic_warning">Mobile traffic warning</string>
 </resources>

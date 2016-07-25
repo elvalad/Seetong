@@ -877,4 +877,6 @@
     <string name="feedback_failure">提交失败</string>
 
     <string name="news">Seetong资讯</string>
+
+    <string name="network_traffic_warning">正在使用移动网络</string>
 </resources>

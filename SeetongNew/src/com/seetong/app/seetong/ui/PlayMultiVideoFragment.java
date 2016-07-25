@@ -25,6 +25,7 @@ import android.widget.*;
 import com.android.audio.AudioPlayer;
 import com.android.opengles.OpenglesRender;
 import com.android.opengles.OpenglesView;
+import com.android.utils.NetworkUtils;
 import com.custom.etc.EtcInfo;
 import com.seetong.app.seetong.Config;
 import com.seetong.app.seetong.Global;
@@ -2229,6 +2230,11 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
         ProgressBar liveVideoWaiting = (ProgressBar) layoutMap.get(index).findViewById(R.id.liveVideoWaiting);
         liveVideoWaiting.setVisibility(View.GONE);
+
+        if (NetworkUtils.getNetworkState(this.getActivity()) == NetworkUtils.MOBILE) {
+            if (dev.m_devId.equals(chosenPlayerDevice.m_devId))
+                toast(R.string.network_traffic_warning);
+        }
     }
 
     private void onAddWatchResp(TPS_AddWachtRsp ts) {
