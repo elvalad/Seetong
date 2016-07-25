@@ -101,12 +101,18 @@ public class DeviceFragment2 extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        int flags = Tools.getLanguageTypes();
-        if (flags == 0 || flags == 1) {
-            LibImpl.getInstance().getFuncLib().GetServiceMessage(0);
-        } else {
-            LibImpl.getInstance().getFuncLib().GetServiceMessage(1);
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int flags = Tools.getLanguageTypes();
+                if (flags == 0 || flags == 1) {
+                    LibImpl.getInstance().getFuncLib().GetServiceMessage(0);
+                } else {
+                    LibImpl.getInstance().getFuncLib().GetServiceMessage(1);
+                }
+            }
+        }).start();
+
         if (savedInstanceState == null) {
             /* 此函数用于 Fragment 嵌套，此时默认显示 DeviceListFragment */
             getChildFragmentManager()
