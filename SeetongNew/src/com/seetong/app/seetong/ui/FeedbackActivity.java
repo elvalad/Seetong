@@ -1,7 +1,6 @@
 package com.seetong.app.seetong.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import com.seetong.app.seetong.R;

@@ -25,11 +25,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * DeviceListFragment ÊÇÏÔÊ¾Éè±¸ÁĞ±íµÄ Fragment£¬ ËüÇ¶Ì×Ê¹ÓÃÔÚ DeviceFragment ÖĞ¡£
- * ËüÖ»ÓĞÔÚ¼ì²âµ½µ±Ç°ÓÃ»§ÓĞÉè±¸ĞÅÏ¢Ê±²Å»áÏÔÊ¾.
- * ËüµÄÖ÷Òª×÷ÓÃÊÇÍ¨¹ı ListView ÉèÖÃ×Ô¶¨ÒåµÄ DeviceListAdapter ÏÔÊ¾Éè±¸ÁĞ±í£¬Ã¿¸ö Item
- * µã»÷Ö®ºó»á½øÈëµ½Ïà¹ØÉè±¸µÄ²¥·ÅÒ³Ãæ¡£
- * ÕâÀïĞèÒª¸ù¾İ·şÎñÆ÷¶ËµÄĞÅÏ¢½«Ã¿¸öÉè±¸µÄĞÅÏ¢ÌîÈëµ½¶ÔÓ¦µÄ Map ÖĞ.
+ * DeviceListFragment æ˜¯æ˜¾ç¤ºè®¾å¤‡åˆ—è¡¨çš„ Fragmentï¼Œ å®ƒåµŒå¥—ä½¿ç”¨åœ¨ DeviceFragment ä¸­ã€‚
+ * å®ƒåªæœ‰åœ¨æ£€æµ‹åˆ°å½“å‰ç”¨æˆ·æœ‰è®¾å¤‡ä¿¡æ¯æ—¶æ‰ä¼šæ˜¾ç¤º.
+ * å®ƒçš„ä¸»è¦ä½œç”¨æ˜¯é€šè¿‡ ListView è®¾ç½®è‡ªå®šä¹‰çš„ DeviceListAdapter æ˜¾ç¤ºè®¾å¤‡åˆ—è¡¨ï¼Œæ¯ä¸ª Item
+ * ç‚¹å‡»ä¹‹åä¼šè¿›å…¥åˆ°ç›¸å…³è®¾å¤‡çš„æ’­æ”¾é¡µé¢ã€‚
+ * è¿™é‡Œéœ€è¦æ ¹æ®æœåŠ¡å™¨ç«¯çš„ä¿¡æ¯å°†æ¯ä¸ªè®¾å¤‡çš„ä¿¡æ¯å¡«å…¥åˆ°å¯¹åº”çš„ Map ä¸­.
  *
  * Created by gmk on 2015/9/13.
  */
@@ -103,7 +103,7 @@ public class DeviceListFragment extends BaseFragment {
         listView.setStackFromBottom(false);*/
     }
 
-    /* Êµ¼ÊĞèÒª´Ó·şÎñÆ÷»ñÈ¡µÄÉè±¸Ïà¹ØÊı¾İ */
+    /* å®é™…éœ€è¦ä»æœåŠ¡å™¨è·å–çš„è®¾å¤‡ç›¸å…³æ•°æ® */
     private void getData() {
         data.clear();
         LibImpl.putDeviceList(Global.getDeviceList());
@@ -127,7 +127,7 @@ public class DeviceListFragment extends BaseFragment {
             PlayerDevice dev = Global.getDeviceList().get(i);
             String devID = dev.m_dev.getDevId();
             String devAlias = LibImpl.getInstance().getDeviceAlias(dev.m_dev);
-            if (devID != null && (devID.contains(s) || devAlias.contains(s))) {//Æ¥ÅäÉè±¸IDºÍ±ğÃû
+            if (devID != null && (devID.contains(s) || devAlias.contains(s))) {//åŒ¹é…è®¾å¤‡IDå’Œåˆ«å
                 map.put("device", dev);
                 map.put("device_image", R.drawable.tps_list_nomsg);
                 map.put("device_state", R.string.device_state_off);
@@ -263,7 +263,7 @@ public class DeviceListFragment extends BaseFragment {
         protected Void doInBackground(Void... params) {
             try {
                 Thread.sleep(2000);
-                // ÖØĞÂÁ¬½ÓÉè±¸Ö®ºó£¬¸üĞÂÉè±¸×´Ì¬
+                // é‡æ–°è¿æ¥è®¾å¤‡ä¹‹åï¼Œæ›´æ–°è®¾å¤‡çŠ¶æ€
                 int ret = LibImpl.getInstance().getFuncLib().ResumeDevCom();
                 if (0 != ret) {
                     Log.d(TAG, "device list pull down refresh ResumeDevCom fail!");

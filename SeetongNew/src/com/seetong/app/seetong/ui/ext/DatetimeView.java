@@ -282,7 +282,7 @@ public class DatetimeView extends Dialog {
             } else if (firstVisibleItem <= 2) {
                 selection = m_years.size() + 2;
                 view.setSelection(selection);
-            } else if (firstVisibleItem + visibleItemCount > m_year_adapter.getCount() - 2) {//µ½µ×²¿Ìí¼ÓÊı¾İ
+            } else if (firstVisibleItem + visibleItemCount > m_year_adapter.getCount() - 2) {//åˆ°åº•éƒ¨æ·»åŠ æ•°æ®
                 selection = firstVisibleItem - m_years.size();
                 view.setSelection(selection);
             }
@@ -423,7 +423,7 @@ public class DatetimeView extends Dialog {
                 view.setSelection(m_months.size());
             } else if (firstVisibleItem <= 2) {
                 view.setSelection(m_months.size() + 2);
-            } else if (firstVisibleItem + visibleItemCount > m_month_adapter.getCount() - 2) {//µ½µ×²¿Ìí¼ÓÊı¾İ
+            } else if (firstVisibleItem + visibleItemCount > m_month_adapter.getCount() - 2) {//åˆ°åº•éƒ¨æ·»åŠ æ•°æ®
                 view.setSelection(firstVisibleItem - m_months.size());
             }
         }
@@ -559,7 +559,7 @@ public class DatetimeView extends Dialog {
                 view.setSelection(m_days.size());
             } else if (firstVisibleItem <= 2) {
                 view.setSelection(m_days.size() + 2);
-            } else if (firstVisibleItem + visibleItemCount > m_day_adapter.getCount() - 2) {//µ½µ×²¿Ìí¼ÓÊı¾İ
+            } else if (firstVisibleItem + visibleItemCount > m_day_adapter.getCount() - 2) {//åˆ°åº•éƒ¨æ·»åŠ æ•°æ®
                 view.setSelection(firstVisibleItem - m_days.size());
             }
         }
@@ -693,7 +693,7 @@ public class DatetimeView extends Dialog {
                 view.setSelection(m_hours.size());
             } else if (firstVisibleItem <= 2) {
                 view.setSelection(m_hours.size() + 2);
-            } else if (firstVisibleItem + visibleItemCount > m_hour_adapter.getCount() - 2) {//µ½µ×²¿Ìí¼ÓÊı¾İ
+            } else if (firstVisibleItem + visibleItemCount > m_hour_adapter.getCount() - 2) {//åˆ°åº•éƒ¨æ·»åŠ æ•°æ®
                 view.setSelection(firstVisibleItem - m_hours.size());
             }
         }
@@ -827,7 +827,7 @@ public class DatetimeView extends Dialog {
                 view.setSelection(m_minutes.size());
             } else if (firstVisibleItem <= 2) {
                 view.setSelection(m_minutes.size() + 2);
-            } else if (firstVisibleItem + visibleItemCount > m_minute_adapter.getCount() - 2) {//µ½µ×²¿Ìí¼ÓÊı¾İ
+            } else if (firstVisibleItem + visibleItemCount > m_minute_adapter.getCount() - 2) {//åˆ°åº•éƒ¨æ·»åŠ æ•°æ®
                 view.setSelection(firstVisibleItem - m_minutes.size());
             }
         }
@@ -954,7 +954,7 @@ public class DatetimeView extends Dialog {
                 view.setSelection(m_seconds.size());
             } else if (firstVisibleItem <= 2) {
                 view.setSelection(m_seconds.size() + 2);
-            } else if (firstVisibleItem + visibleItemCount > m_second_adapter.getCount() - 2) {//µ½µ×²¿Ìí¼ÓÊı¾İ
+            } else if (firstVisibleItem + visibleItemCount > m_second_adapter.getCount() - 2) {//åˆ°åº•éƒ¨æ·»åŠ æ•°æ®
                 view.setSelection(firstVisibleItem - m_seconds.size());
             }
         }

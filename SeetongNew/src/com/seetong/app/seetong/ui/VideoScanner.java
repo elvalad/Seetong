@@ -21,7 +21,7 @@ public class VideoScanner {
     }
 
     /**
-     * ÀûÓÃContentProviderÉ¨ÃèÊÖ»úÖĞµÄÍ¼Æ¬£¬´Ë·½·¨ÔÚÔËĞĞÔÚ×ÓÏß³ÌÖĞ
+     * åˆ©ç”¨ContentProvideræ‰«ææ‰‹æœºä¸­çš„å›¾ç‰‡ï¼Œæ­¤æ–¹æ³•åœ¨è¿è¡Œåœ¨å­çº¿ç¨‹ä¸­
      */
     public void scanVideo(final ScanCompleteCallBack callback) {
         final Handler mHandler = new Handler() {
@@ -38,7 +38,7 @@ public class VideoScanner {
             @Override
             public void run() {
                 getData();
-                //ÀûÓÃHandlerÍ¨Öªµ÷ÓÃÏß³Ì
+                //åˆ©ç”¨Handleré€šçŸ¥è°ƒç”¨çº¿ç¨‹
                 Message msg = mHandler.obtainMessage();
                 msg.obj = mediaGridItemList;
                 mHandler.sendMessage(msg);
@@ -53,7 +53,7 @@ public class VideoScanner {
     }
 
     private void getData() {
-        /* É¨Ãè½ØÍ¼Ä¿Â¼£¬´Ó½ØÍ¼Ä¿Â¼ÖĞ»ñÈ¡Ïà¹ØµÄ */
+        /* æ‰«ææˆªå›¾ç›®å½•ï¼Œä»æˆªå›¾ç›®å½•ä¸­è·å–ç›¸å…³çš„ */
         String videoDir = Global.getVideoDir() + "/";
         //File[] files = new File(videoDir).listFiles();
         List<File> files = getAllVideoFile(videoDir);
@@ -68,7 +68,7 @@ public class VideoScanner {
         }
     }
 
-    /* µİ¹é»ñÈ¡ÊÓÆµÄ¿Â¼ÏÂµÄËùÓĞÊÓÆµÎÄ¼ş */
+    /* é€’å½’è·å–è§†é¢‘ç›®å½•ä¸‹çš„æ‰€æœ‰è§†é¢‘æ–‡ä»¶ */
     List<File> videoFile = new ArrayList<>();
     private List<File> getAllVideoFile(String videoDir) {
         File[] files = new File(videoDir).listFiles();

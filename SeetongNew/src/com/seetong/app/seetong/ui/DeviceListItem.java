@@ -2,8 +2,6 @@ package com.seetong.app.seetong.ui;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import com.example.AsymmetricGridView.library.model.AsymmetricItem;
 
 /**

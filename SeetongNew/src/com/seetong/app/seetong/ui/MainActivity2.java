@@ -29,8 +29,8 @@ import java.util.List;
 
 
 /**
- * MainActivity Ö÷ÒªÓÃÓÚÖ÷½çÃæÏÔÊ¾£¬Ëü°üº¬Ò»¸ö TabHost£¬ÆäÖĞº¬ÓĞÈı¸ö Fragment,·Ö±ğÊÇ
- * DeviceFragment, MediaFragment ºÍ MoreFragment.
+ * MainActivity ä¸»è¦ç”¨äºä¸»ç•Œé¢æ˜¾ç¤ºï¼Œå®ƒåŒ…å«ä¸€ä¸ª TabHostï¼Œå…¶ä¸­å«æœ‰ä¸‰ä¸ª Fragment,åˆ†åˆ«æ˜¯
+ * DeviceFragment, MediaFragment å’Œ MoreFragment.
  *
  * Created by gmk on 2015/9/13.
  */
@@ -128,7 +128,7 @@ public class MainActivity2 extends BaseActivity {
     }
 
     /**
-     * ³õÊ¼»¯´Ë Activity µÄ»ù±¾×é¼ş.
+     * åˆå§‹åŒ–æ­¤ Activity çš„åŸºæœ¬ç»„ä»¶.
      */
     private void initWidget() {
         tabHost = (TabHost) findViewById(R.id.main_tab_host);
@@ -245,8 +245,8 @@ public class MainActivity2 extends BaseActivity {
     }
 
     /**
-     * ÔÚ DeviceFragment ÖĞµã»÷Ä³¸ö Item µÄ²¥·Å Button Ö®ºó£¬»áµ÷ÓÃ´Ë·½·¨½øÈë PlayerActivity È¥²¥·Å
-     * ´ËÉè±¸¼à¿ØÏÂµÄÊÓÆµ.
+     * åœ¨ DeviceFragment ä¸­ç‚¹å‡»æŸä¸ª Item çš„æ’­æ”¾ Button ä¹‹åï¼Œä¼šè°ƒç”¨æ­¤æ–¹æ³•è¿›å…¥ PlayerActivity å»æ’­æ”¾
+     * æ­¤è®¾å¤‡ç›‘æ§ä¸‹çš„è§†é¢‘.
      */
     public void playVideo(String devId) {
         Intent intent = new Intent(MainActivity2.this, PlayerActivity.class);
@@ -255,7 +255,7 @@ public class MainActivity2 extends BaseActivity {
     }
 
     /**
-     * ÔÚ DeviceFragment ÖĞ³¤°´Ä³¸öÉè±¸»áµ¯³ö¶Ô»°¿ò£¬Ñ¯ÎÊÓÃ»§ÊÇ·ñÉ¾³ı´ËÉè±¸.
+     * åœ¨ DeviceFragment ä¸­é•¿æŒ‰æŸä¸ªè®¾å¤‡ä¼šå¼¹å‡ºå¯¹è¯æ¡†ï¼Œè¯¢é—®ç”¨æˆ·æ˜¯å¦åˆ é™¤æ­¤è®¾å¤‡.
      * @param devId
      */
     public void deleteDevice(String devId) {
@@ -301,7 +301,7 @@ public class MainActivity2 extends BaseActivity {
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            /* É¾³ıIPCÉè±¸Ö®ºó¸üĞÂÉè±¸ÁĞ±í */
+                                            /* åˆ é™¤IPCè®¾å¤‡ä¹‹åæ›´æ–°è®¾å¤‡åˆ—è¡¨ */
                                             sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, null);
                                             mTipDlg.dismiss();
                                             toast(R.string.device_delete_success);
@@ -326,7 +326,7 @@ public class MainActivity2 extends BaseActivity {
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                /* É¾³ıNVRÉè±¸Ö®ºó¸üĞÂÉè±¸ÁĞ±í */
+                                                /* åˆ é™¤NVRè®¾å¤‡ä¹‹åæ›´æ–°è®¾å¤‡åˆ—è¡¨ */
                                                 sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, null);
                                                 mTipDlg.dismiss();
                                                 toast(R.string.device_delete_success);
@@ -359,7 +359,7 @@ public class MainActivity2 extends BaseActivity {
                         }
                     });
                     if (cb != null) cb.onResult(Global.getSelfDeviceList());
-                    /*TODO: ¸æËßDeviceFragment2ÒÑ¾­»ñÈ¡µ½Éè±¸ÁĞ±í */
+                    /*TODO: å‘Šè¯‰DeviceFragment2å·²ç»è·å–åˆ°è®¾å¤‡åˆ—è¡¨ */
                     deviceFragment.updateDeviceFragment(Global.getDeviceList().size());
                     sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, null);
                 } catch (Exception e) {
@@ -582,7 +582,7 @@ public class MainActivity2 extends BaseActivity {
 //				mNetworkChangeBr = null;NetWorkChangeBroadcastReceiver.mNetChangeCallback = null;sNetTipDialog = null;
                     if (m_ui.mExitTipDlg != null) m_ui.mExitTipDlg.dismiss();
                     m_ui.finish();
-                    if (m_ui.m_kill_process) android.os.Process.killProcess(android.os.Process.myPid());    //Dalvik VMµÄ±¾µØ·½·¨
+                    if (m_ui.m_kill_process) android.os.Process.killProcess(android.os.Process.myPid());    //Dalvik VMçš„æœ¬åœ°æ–¹æ³•
                     break;
                 default:
                     break;
