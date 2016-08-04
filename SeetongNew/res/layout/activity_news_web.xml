@@ -52,11 +52,58 @@
             android:layout_width="match_parent"
             android:layout_height="3dp"/>
 
-    <WebView
-            android:id="@+id/news_web"
-            android:visibility="gone"
+    <com.seetong.app.seetong.ui.MyScrollView
+            android:id="@+id/news_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-    </WebView>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <WebView
+                    android:id="@+id/news_web"
+                    android:visibility="gone"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+            </WebView>
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/news_test"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <Button android:text="Ok"
+                        android:visibility="visible"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"/>
+
+                <Button android:text="Ok"
+                        android:visibility="visible"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"/>
+
+                <Button android:text="Ok"
+                        android:visibility="visible"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"/>
+
+                <Button android:text="Ok"
+                        android:visibility="visible"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.seetong.app.seetong.ui.MyScrollView>
 
 </LinearLayout>

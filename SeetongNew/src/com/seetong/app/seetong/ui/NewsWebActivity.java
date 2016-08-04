@@ -11,6 +11,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import cn.sharesdk.framework.ShareSDK;
@@ -31,6 +32,8 @@ public class NewsWebActivity extends BaseActivity {
     private ImageButton backButton;
     private TextView newsTitleView;
     private ImageButton shareButton;
+    private LinearLayout layout;
+    private MyScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,17 @@ public class NewsWebActivity extends BaseActivity {
         });
 
         progressBar = (ProgressBar) findViewById(R.id.progress_web);
+
+        scrollView = (MyScrollView) findViewById(R.id.news_scroll_view);
+        layout = (LinearLayout) findViewById(R.id.news_test);
+        scrollView.setScrollViewListener(new MyScrollView.ScrollViewListener() {
+            @Override
+            public void onScrollChanged(MyScrollView scrollView, int x, int y, int oldx, int oldy) {
+                if (layout.getVisibility() == View.GONE) {
+                    layout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         webView = (WebView) findViewById(R.id.news_web);
         WebSettings webSettings = webView.getSettings();
