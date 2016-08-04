@@ -101,6 +101,7 @@ public class NewsListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(context, NewsWebActivity.class);
                 intent.putExtra("news_url", data.get(position).getNewsGoUrl());
+                intent.putExtra("news_title", data.get(position).getNewsTitle());
                 context.startActivity(intent);
             }
         });

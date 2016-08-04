@@ -319,6 +319,14 @@
             </intent-filter>
         </activity>
 
+        <!--微信分享回调 -->
+        <activity
+                android:name="com.seetong.app.seetong.wxapi.WXEntryActivity"
+                android:theme="@android:style/Theme.Translucent.NoTitleBar"
+                android:configChanges="keyboardHidden|orientation|screenSize"
+                android:exported="true"
+                android:screenOrientation="portrait"/>
+
         <receiver
                 android:name="com.umeng.message.NotificationProxyBroadcastReceiver"
                 android:exported="false">
