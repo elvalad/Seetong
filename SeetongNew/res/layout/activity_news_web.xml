@@ -72,38 +72,40 @@
 
             <LinearLayout
                     android:orientation="vertical"
-                    android:id="@+id/news_test"
+                    android:id="@+id/news_comment"
                     android:visibility="gone"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                <Button android:text="Ok"
-                        android:visibility="visible"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"/>
+                <EditText
+                        android:id="@+id/comment_content"
+                        android:hint="@string/comment_content_hint"
+                        android:textSize="15sp"
+                        android:singleLine="false"
+                        android:scrollHorizontally="false"
+                        android:gravity="top"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:inputType="textMultiLine"/>
 
-                <Button android:text="Ok"
-                        android:visibility="visible"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"/>
+                <Button
+                        android:id="@+id/post_comment"
+                        android:text="@string/post_comment"
+                        android:textSize="20sp"
+                        android:textColor="#ffffff"
+                        android:background="@drawable/tps_login_btn"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp" />
 
-                <Button android:text="Ok"
-                        android:visibility="visible"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"/>
-
-                <Button android:text="Ok"
-                        android:visibility="visible"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"/>
             </LinearLayout>
-
         </LinearLayout>
-
     </com.seetong.app.seetong.ui.MyScrollView>
 
 </LinearLayout>

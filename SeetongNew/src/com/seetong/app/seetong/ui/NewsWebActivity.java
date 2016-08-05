@@ -10,10 +10,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.*;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.sina.weibo.SinaWeibo;
@@ -34,6 +31,8 @@ public class NewsWebActivity extends BaseActivity {
     private ImageButton shareButton;
     private LinearLayout layout;
     private MyScrollView scrollView;
+    private Button postButton;
+    private EditText commentText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +67,7 @@ public class NewsWebActivity extends BaseActivity {
         progressBar = (ProgressBar) findViewById(R.id.progress_web);
 
         scrollView = (MyScrollView) findViewById(R.id.news_scroll_view);
-        layout = (LinearLayout) findViewById(R.id.news_test);
+        layout = (LinearLayout) findViewById(R.id.news_comment);
         scrollView.setScrollViewListener(new MyScrollView.ScrollViewListener() {
             @Override
             public void onScrollChanged(MyScrollView scrollView, int x, int y, int oldx, int oldy) {
@@ -93,6 +92,19 @@ public class NewsWebActivity extends BaseActivity {
         });
         webView.setWebChromeClient(new MyChromeWebViewClient(NewsWebActivity.this));
         webView.loadUrl(newsUrl);
+
+        commentText = (EditText) findViewById(R.id.comment_content);
+        postButton = (Button) findViewById(R.id.post_comment);
+        postButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (commentText.length() == 0) {
+                    toast(R.string.comment_can_not_null);
+                } else {
+                    toast(R.string.post_comment);
+                }
+            }
+        });
     }
 
     private void showShare() {

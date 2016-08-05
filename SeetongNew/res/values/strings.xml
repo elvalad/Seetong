@@ -879,6 +879,8 @@
     <string name="feedback_failure">Submitted unsuccessfully</string>
 
     <string name="news">Seetong news</string>
-
     <string name="network_traffic_warning">Mobile traffic warning</string>
+    <string name="comment_content_hint">Leave a message…</string>
+    <string name="post_comment">Post comment</string>
+    <string name="comment_can_not_null">Comment can not be null</string>
 </resources>
