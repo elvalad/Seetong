@@ -872,6 +872,7 @@
     <string name="feedback_content_info">Contact info</string>
     <string name="feedback_content_hint">Please describe your feedback information (up to 128 characters)</string>
     <string name="feedback_contact_null">Contact info can not be empty</string>
+    <string name="feedback_contact_too_long">Contact info is too long</string>
     <string name="feedback_content_null">Feedback info can not be empty</string>
     <string name="feedback_content_too_long">Feedback info is too long</string>
     <string name="feedback_is_submit">Submitting feedback…</string>
@@ -883,4 +884,6 @@
     <string name="comment_content_hint">Leave a message…</string>
     <string name="post_comment">Post comment</string>
     <string name="comment_can_not_null">Comment can not be null</string>
+    <string name="comment_prev">Prev</string>
+    <string name="comment_next">Next</string>
 </resources>

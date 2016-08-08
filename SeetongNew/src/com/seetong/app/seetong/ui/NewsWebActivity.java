@@ -33,6 +33,8 @@ public class NewsWebActivity extends BaseActivity {
     private MyScrollView scrollView;
     private Button postButton;
     private EditText commentText;
+    private Button prevButton;
+    private Button nextButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +105,22 @@ public class NewsWebActivity extends BaseActivity {
                 } else {
                     toast(R.string.post_comment);
                 }
+            }
+        });
+
+        prevButton = (Button) findViewById(R.id.comment_prev);
+        prevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toast(R.string.comment_prev);
+            }
+        });
+
+        nextButton = (Button) findViewById(R.id.comment_next);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toast(R.string.comment_next);
             }
         });
     }

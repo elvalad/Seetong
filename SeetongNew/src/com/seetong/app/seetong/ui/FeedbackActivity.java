@@ -47,6 +47,11 @@ public class FeedbackActivity extends BaseActivity {
         feedbackContact = gStr(R.id.feedback_contact);
         feedbackContent = gStr(R.id.feedback_content);
 
+        if (feedbackContact.length() > 32) {
+            toast(R.string.feedback_contact_too_long);
+            return false;
+        }
+
         if (isNullStr(feedbackContent)) {
             toast(R.string.feedback_content_null);
             return false;

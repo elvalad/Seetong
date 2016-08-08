@@ -104,6 +104,48 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp" />
 
+
+                <ListView
+                        android:id="@+id/comment_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                </ListView>
+
+                <LinearLayout
+                        android:id="@+id/comment_page"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <Button
+                            android:id="@+id/comment_prev"
+                            android:text="@string/comment_prev"
+                            android:textSize="20sp"
+                            android:textColor="#ffffff"
+                            android:background="@drawable/tps_login_btn"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"/>
+
+                    <Button
+                            android:id="@+id/comment_next"
+                            android:text="@string/comment_next"
+                            android:textSize="20sp"
+                            android:textColor="#ffffff"
+                            android:background="@drawable/tps_login_btn"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"/>
+
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
     </com.seetong.app.seetong.ui.MyScrollView>
