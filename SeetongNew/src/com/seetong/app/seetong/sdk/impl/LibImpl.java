@@ -2137,6 +2137,17 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                 }
                 sendMessage(nMsgType, 0, 0, msgObj);
                 return 0;
+            case SDK_CONSTANT.TPS_MSG_RSP_GET_SERVICE_MSG_COMMENT_LIST:
+                if (null != pData && pData.length > 0) {
+                    String xml = new String(pData).trim();
+                    Log.d(TAG, "get service msg comment list xml[" + xml + "]");
+                    msgObj.recvObj = xml;
+                    Global.setCommentListXML(xml);
+                } else {
+                    Log.e(TAG, "doMsgRspCB:get service msg comment list xml fail...");
+                }
+                sendMessage(nMsgType, 0, 0, msgObj);
+                return 0;
             default:
                 break;
         }
@@ -2874,6 +2885,11 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             Log.i(TAG, "DecThreadProc:decDataCB:data is fail");
         }
 
+        return 0;
+    }
+
+    @Override
+    public int eventCallBack(int i, int i1, String s, int i2) {
         return 0;
     }
 

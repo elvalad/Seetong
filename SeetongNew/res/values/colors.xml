@@ -129,4 +129,7 @@
     <color name="device_list_header_text">#ff858585</color>
 
     <color name="news_tip_text">#ff858585</color>
+    <color name="comment_user_name">#81C784</color>
+    <color name="comment_time">#BDBAB5</color>
+    <color name="page_index">#BDBAB5</color>
 </resources>

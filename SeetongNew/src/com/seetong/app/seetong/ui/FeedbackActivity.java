@@ -3,6 +3,7 @@ package com.seetong.app.seetong.ui;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
 
@@ -77,7 +78,7 @@ public class FeedbackActivity extends BaseActivity {
                         e.printStackTrace();
                     }
 
-                    final int ret = LibImpl.getInstance().getFuncLib().AddFeedback(feedbackContent, feedbackContact);
+                    final int ret = LibImpl.getInstance().getFuncLib().AddFeedback(feedbackContent, feedbackContact, Global.m_pkg_info.versionName);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

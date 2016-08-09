@@ -881,7 +881,12 @@
     <string name="network_traffic_warning">正在使用移动网络</string>
     <string name="comment_content_hint">快来留言吧…</string>
     <string name="post_comment">发表评论</string>
+    <string name="post_comment_success">发表评论成功，等待审核通过</string>
+    <string name="post_comment_failure">发表评论失败</string>
     <string name="comment_can_not_null">评论内容不能为空</string>
+    <string name="comment_too_long">评论内容太长</string>
     <string name="comment_prev">上一页</string>
     <string name="comment_next">下一页</string>
+    <string name="comment_first_page">已经是第一页</string>
+    <string name="comment_last_page">已经是最后一页</string>
 </resources>

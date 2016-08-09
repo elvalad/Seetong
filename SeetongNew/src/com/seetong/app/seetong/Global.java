@@ -67,6 +67,7 @@ public class Global {
     public static boolean m_firmware_version_detect = false;
 
     private static String newsListXML = "";
+    private static String commentListXML = "";
 
     public static FriendList m_friends = new FriendList();
     public static FriendMessageList m_messges = new FriendMessageList();
@@ -291,6 +292,14 @@ public class Global {
 
     synchronized public static void setNewsListXML(String xml) {
         newsListXML = xml;
+    }
+
+    synchronized public static String getCommentListXML() {
+        return commentListXML;
+    }
+
+    synchronized public static void setCommentListXML(String xml) {
+        commentListXML = xml;
     }
 
     public static void sortChatMessageByMsgId(List<FriendMessageList.Message> list) {

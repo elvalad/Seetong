@@ -883,7 +883,12 @@
     <string name="network_traffic_warning">Mobile traffic warning</string>
     <string name="comment_content_hint">Leave a message…</string>
     <string name="post_comment">Post comment</string>
+    <string name="post_comment_success">Comment on the success, waiting for the approval</string>
+    <string name="post_comment_failure">Comment on the failure</string>
     <string name="comment_can_not_null">Comment can not be null</string>
+    <string name="comment_too_long">Comment too long</string>
     <string name="comment_prev">Prev</string>
     <string name="comment_next">Next</string>
+    <string name="comment_first_page">It is the first page</string>
+    <string name="comment_last_page">It is the last page</string>
 </resources>

@@ -3,6 +3,8 @@ package com.seetong.app.seetong.ui;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Xml;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -15,17 +17,30 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.wechat.favorite.WechatFavorite;
+import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
+import com.seetong.app.seetong.model.Comment;
+import com.seetong.app.seetong.sdk.impl.LibImpl;
+import ipc.android.sdk.com.SDK_CONSTANT;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/7/19.
  */
 public class NewsWebActivity extends BaseActivity {
 
+    private static final String TAG = NewsWebActivity.class.getName();
     private WebView webView;
     private ProgressBar progressBar;
     private String newsUrl = "";
     private String newsTitle = "";
+    private String newsId = "";
     private ImageButton backButton;
     private TextView newsTitleView;
     private ImageButton shareButton;
@@ -33,8 +48,17 @@ public class NewsWebActivity extends BaseActivity {
     private MyScrollView scrollView;
     private Button postButton;
     private EditText commentText;
+    private LinearLayout commentPageLayout;
+    private TextView pageIndexView;
     private Button prevButton;
     private Button nextButton;
+    private ListViewForScroll listView;
+    private CommentListAdapter adapter;
+    private List<Comment> data = new ArrayList<>();
+    private int pageIndex = 0;
+    private int allCount = 0;
+    private int allPage = 0;
+    private final static int COMMENT_COUNT_IN_ONE_PAGE = 8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +66,34 @@ public class NewsWebActivity extends BaseActivity {
         setContentView(R.layout.activity_news_web);
         newsUrl = getIntent().getStringExtra("news_url");
         newsTitle = getIntent().getStringExtra("news_title");
+        newsId = getIntent().getStringExtra("news_id");
         initWidget();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LibImpl.getInstance().addHandler(m_handler);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LibImpl.getInstance().removeHandler(m_handler);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private void initWidget() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int ret = LibImpl.getInstance().getFuncLib().GetCommentInfo(newsId, pageIndex, COMMENT_COUNT_IN_ONE_PAGE);
+                if (0 != ret) {
+                    Log.d(TAG, "get comment info err : " + ret);
+                }
+            }
+        }).start();
+
         backButton = (ImageButton) findViewById(R.id.news_web_back);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,25 +149,56 @@ public class NewsWebActivity extends BaseActivity {
             public void onClick(View v) {
                 if (commentText.length() == 0) {
                     toast(R.string.comment_can_not_null);
+                } else if (commentText.length() > 128) {
+                    toast(R.string.comment_too_long);
                 } else {
-                    toast(R.string.post_comment);
+                    int ret = LibImpl.getInstance().getFuncLib().AddCommentInfo(commentText.getText().toString(), newsId);
+                    if (ret == 0) {
+                        toast(R.string.post_comment_success);
+                        commentText.setText("");
+                    } else {
+                        toast(R.string.post_comment_failure);
+                        Log.d(TAG, "add comment info err : " + ret);
+                    }
+
                 }
             }
         });
 
+        commentPageLayout = (LinearLayout) findViewById(R.id.comment_page);
+        pageIndexView = (TextView) findViewById(R.id.pageIndex);
+        listView = (ListViewForScroll) findViewById(R.id.comment_list);
+        getData();
+        adapter = new CommentListAdapter(NewsWebActivity.this, data);
+        listView.setAdapter(adapter);
         prevButton = (Button) findViewById(R.id.comment_prev);
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toast(R.string.comment_prev);
+                if (pageIndex == 0) {
+                    toast(R.string.comment_first_page);
+                } else {
+                    pageIndex = pageIndex - 1;
+                    int ret = LibImpl.getInstance().getFuncLib().GetCommentInfo(newsId, pageIndex, COMMENT_COUNT_IN_ONE_PAGE);
+                    if (0 != ret) {
+                        Log.d(TAG, "get comment info err : " + ret);
+                    }
+                }
             }
         });
-
         nextButton = (Button) findViewById(R.id.comment_next);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toast(R.string.comment_next);
+                if (pageIndex == allPage - 1) {
+                    toast(R.string.comment_last_page);
+                } else {
+                    pageIndex = pageIndex + 1;
+                    int ret = LibImpl.getInstance().getFuncLib().GetCommentInfo(newsId, pageIndex, COMMENT_COUNT_IN_ONE_PAGE);
+                    if (0 != ret) {
+                        Log.d(TAG, "get comment info err : " + ret);
+                    }
+                }
             }
         });
     }
@@ -157,6 +235,64 @@ public class NewsWebActivity extends BaseActivity {
         oks.show(this);
     }
 
+    private void getData() {
+        String xml = Global.getCommentListXML();
+        data.clear();
+        if (!xml.equals("")) {
+            parseCommentXML(xml);
+        }
+    }
+
+    private void parseCommentXML(String xml) {
+        try {
+            XmlPullParser parser = Xml.newPullParser();
+            Comment comment = null;
+            parser.setInput(new ByteArrayInputStream(xml.getBytes()), "UTF-8");
+            int eventType = parser.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                switch (eventType) {
+                    case XmlPullParser.START_DOCUMENT:
+                        break;
+                    case XmlPullParser.START_TAG:
+                        if (parser.getName().equals("allpage")) {
+                            allPage = Integer.parseInt(parser.nextText());
+                            if (allPage == 1) {
+                                commentPageLayout.setVisibility(View.GONE);
+                            } else if (allPage > 1) {
+                                commentPageLayout.setVisibility(View.VISIBLE);
+                            }
+                            pageIndexView.setText((pageIndex + 1) + "/" + allPage);
+                            Log.e(TAG, "all page : " + allPage);
+                        } else if (parser.getName().equals("allcount")) {
+                            allCount = Integer.parseInt(parser.nextText());
+                            Log.e(TAG, "all count : " + allCount);
+                        } else if (parser.getName().equals("ls")) {
+                            comment = new Comment();
+                        } else if (comment != null) {
+                            if (parser.getName().equals("UserName")) {
+                                comment.setUserName(parser.nextText());
+                            } else if (parser.getName().equals("Msg")) {
+                                comment.setCommentInfo(parser.nextText());
+                            } else if (parser.getName().equals("AddTM")) {
+                                comment.setCommentTime(parser.nextText());
+                            }
+                        }
+                        break;
+                    case XmlPullParser.END_TAG:
+                        if (parser.getName().equals("ls") && comment != null) {
+                            data.add(comment);
+                            comment = null;
+                        }
+                        break;
+                }
+
+                eventType = parser.next();
+            }
+        } catch (XmlPullParserException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     class MyChromeWebViewClient extends WebChromeClient {
 
         private Activity activity;
@@ -181,6 +317,19 @@ public class NewsWebActivity extends BaseActivity {
                 progressBar.setVisibility(View.GONE);
                 webView.setVisibility(View.VISIBLE);
             }
+        }
+    }
+
+    @Override
+    public void handleMessage(android.os.Message msg) {
+        switch (msg.what) {
+            case SDK_CONSTANT.TPS_MSG_RSP_GET_SERVICE_MSG_COMMENT_LIST:
+                LibImpl.MsgObject msgObj = (LibImpl.MsgObject) msg.obj;
+                String xml = (String) msgObj.recvObj;
+                Log.e(TAG, xml);
+                getData();
+                adapter.notifyDataSetChanged();
+                break;
         }
     }
 }
