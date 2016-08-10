@@ -1568,6 +1568,9 @@ public class PlayMultiVideoFragment extends BaseFragment {
             case SDK_CONSTANT.TPS_MSG_NOTIFY_LOGIN_FAILED:
                 onLoginFailed((PlayerDevice) msg.obj);
                 return true;
+            case SDK_CONSTANT.TPS_MSG_NOTIFY_AUTH_FAILED:
+                onAuthFailed((PlayerDevice) msg.obj);
+                return true;
             case LibImpl.MSG_VIDEO_SET_STATUS_INFO:
                 onSetStatusInfo(msg);
                 return true;
@@ -2177,6 +2180,13 @@ public class PlayMultiVideoFragment extends BaseFragment {
                     }
                 }).create();
         d.show();
+    }
+
+    private void onAuthFailed(PlayerDevice dev) {
+        int index = getIndexByDeviceID(dev);
+        ProgressBar liveVideoWaiting = (ProgressBar) layoutMap.get(index).findViewById(R.id.liveVideoWaiting);
+        liveVideoWaiting.setVisibility(View.GONE);
+        setTipText(dev.m_devId, R.string.dlg_login_fail_user_pwd_incorrect_tip);
     }
 
     private void onSetStatusInfo(android.os.Message msg) {

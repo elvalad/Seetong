@@ -455,7 +455,7 @@ public class PlayerSettingActivity extends BaseActivity {
     }
 
     private void onModifyUserPwd() {
-        Intent it = new Intent(this, DeviceFragment.class);
+        Intent it = new Intent(this, PlayMultiVideoFragment.class);
         it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
         it.putExtra(Constant.EXTRA_DEVICE_CONFIG_TYPE, Constant.DEVICE_CONFIG_ITEM_MODIFY_USER_PWD);
         this.setResult(RESULT_OK, it);
