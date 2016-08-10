@@ -54,6 +54,7 @@ public class DeviceFragment2 extends BaseFragment {
     public boolean bShowSearchText = false;
     private ImageButton newsButton;
     private ImageView newsPrompt;
+    private boolean bShowPrompt = false;
     private List<Integer> newsId = new ArrayList<>();
 
     @Override
@@ -134,6 +135,18 @@ public class DeviceFragment2 extends BaseFragment {
             }
         });
 
+        newsPrompt = (ImageView) view.findViewById(R.id.news_prompt);
+        newsButton = (ImageButton) view.findViewById(R.id.device_news);
+        newsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DeviceFragment2.this.getActivity(), NewsActivity.class);
+                startActivity(intent);
+                newsPrompt.setVisibility(View.GONE);
+                bShowPrompt = false;
+            }
+        });
+
         searchText = (ClearEditText) view.findViewById(R.id.etSearchDevice);
         deviceText = (TextView) view.findViewById(R.id.device_list_text);
         searchButton = (ImageButton) view.findViewById(R.id.device_search);
@@ -143,6 +156,8 @@ public class DeviceFragment2 extends BaseFragment {
                 searchText.setVisibility(View.VISIBLE);
                 deviceText.setVisibility(View.GONE);
                 searchButton.setVisibility(View.GONE);
+                newsPrompt.setVisibility(View.GONE);
+                newsButton.setVisibility(View.GONE);
                 bShowSearchText = true;
             }
         });
@@ -161,17 +176,6 @@ public class DeviceFragment2 extends BaseFragment {
             @Override
             public void afterTextChanged(Editable s) {
 
-            }
-        });
-
-        newsPrompt = (ImageView) view.findViewById(R.id.news_prompt);
-        newsButton = (ImageButton) view.findViewById(R.id.device_news);
-        newsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DeviceFragment2.this.getActivity(), NewsActivity.class);
-                startActivity(intent);
-                newsPrompt.setVisibility(View.GONE);
             }
         });
     }
@@ -216,6 +220,10 @@ public class DeviceFragment2 extends BaseFragment {
             searchText.setVisibility(View.GONE);
             deviceText.setVisibility(View.VISIBLE);
             searchButton.setVisibility(View.VISIBLE);
+            newsButton.setVisibility(View.VISIBLE);
+            if (bShowPrompt) {
+                newsPrompt.setVisibility(View.VISIBLE);
+            }
             MainActivity2.m_this.hideInputPanel(null);
             bShowSearchText = false;
         }
@@ -329,6 +337,7 @@ public class DeviceFragment2 extends BaseFragment {
                     parseNewsXML(Global.getNewsListXML());
                     if (Collections.max(newsId) > maxNewsId) {
                         newsPrompt.setVisibility(View.VISIBLE);
+                        bShowPrompt = true;
                     }
                     break;
                 default:
