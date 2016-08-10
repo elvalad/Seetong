@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.model.Comment;
+import com.seetong.app.seetong.ui.utils.DataCheckUtil;
 
 import java.util.List;
 
@@ -61,7 +62,14 @@ public class CommentListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.commentUsername.setText(data.get(position).getUserName());
+        String userName = data.get(position).getUserName();
+        if (DataCheckUtil.isRightPhone(userName)) {
+            userName = userName.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+        } else if (DataCheckUtil.isRightEmail(userName)) {
+            userName = userName.replaceAll("(\\w?)(\\w+)(\\w)(@\\w+\\.[a-z]+(\\.[a-z]+)?)", "$1****$3$4");
+        }
+
+        viewHolder.commentUsername.setText(userName);
         viewHolder.commentInfo.setText(data.get(position).getCommentInfo());
         viewHolder.commentTime.setText(data.get(position).getCommentTime());
 

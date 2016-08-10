@@ -179,10 +179,16 @@ public class NewsWebActivity extends BaseActivity {
                     toast(R.string.comment_first_page);
                 } else {
                     pageIndex = pageIndex - 1;
-                    int ret = LibImpl.getInstance().getFuncLib().GetCommentInfo(newsId, pageIndex, COMMENT_COUNT_IN_ONE_PAGE);
-                    if (0 != ret) {
-                        Log.d(TAG, "get comment info err : " + ret);
-                    }
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            int ret = LibImpl.getInstance().getFuncLib().GetCommentInfo(newsId, pageIndex, COMMENT_COUNT_IN_ONE_PAGE);
+                            if (0 != ret) {
+                                Log.d(TAG, "get comment info err : " + ret);
+                                pageIndex = pageIndex + 1;
+                            }
+                        }
+                    }).start();
                 }
             }
         });
@@ -194,10 +200,16 @@ public class NewsWebActivity extends BaseActivity {
                     toast(R.string.comment_last_page);
                 } else {
                     pageIndex = pageIndex + 1;
-                    int ret = LibImpl.getInstance().getFuncLib().GetCommentInfo(newsId, pageIndex, COMMENT_COUNT_IN_ONE_PAGE);
-                    if (0 != ret) {
-                        Log.d(TAG, "get comment info err : " + ret);
-                    }
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            int ret = LibImpl.getInstance().getFuncLib().GetCommentInfo(newsId, pageIndex, COMMENT_COUNT_IN_ONE_PAGE);
+                            if (0 != ret) {
+                                Log.d(TAG, "get comment info err : " + ret);
+                                pageIndex = pageIndex - 1;
+                            }
+                        }
+                    }).start();
                 }
             }
         });
@@ -262,10 +274,10 @@ public class NewsWebActivity extends BaseActivity {
                                 commentPageLayout.setVisibility(View.VISIBLE);
                             }
                             pageIndexView.setText((pageIndex + 1) + "/" + allPage);
-                            Log.e(TAG, "all page : " + allPage);
+                            //Log.e(TAG, "all page : " + allPage);
                         } else if (parser.getName().equals("allcount")) {
                             allCount = Integer.parseInt(parser.nextText());
-                            Log.e(TAG, "all count : " + allCount);
+                            //Log.e(TAG, "all count : " + allCount);
                         } else if (parser.getName().equals("ls")) {
                             comment = new Comment();
                         } else if (comment != null) {
@@ -324,9 +336,9 @@ public class NewsWebActivity extends BaseActivity {
     public void handleMessage(android.os.Message msg) {
         switch (msg.what) {
             case SDK_CONSTANT.TPS_MSG_RSP_GET_SERVICE_MSG_COMMENT_LIST:
-                LibImpl.MsgObject msgObj = (LibImpl.MsgObject) msg.obj;
+                /*LibImpl.MsgObject msgObj = (LibImpl.MsgObject) msg.obj;
                 String xml = (String) msgObj.recvObj;
-                Log.e(TAG, xml);
+                Log.e(TAG, xml);*/
                 getData();
                 adapter.notifyDataSetChanged();
                 break;

@@ -2129,7 +2129,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             case SDK_CONSTANT.TPS_MSG_RSP_GET_SERVICE_MSG_LIST:
                 if (null != pData && pData.length > 0) {
                     String xml = new String(pData).trim();
-                    Log.d(TAG, "get service msg xml[" + xml + "]");
+                    //Log.d(TAG, "get service msg xml[" + xml + "]");
                     msgObj.recvObj = xml;
                     Global.setNewsListXML(xml);
                 } else {
@@ -2140,7 +2140,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             case SDK_CONSTANT.TPS_MSG_RSP_GET_SERVICE_MSG_COMMENT_LIST:
                 if (null != pData && pData.length > 0) {
                     String xml = new String(pData).trim();
-                    Log.d(TAG, "get service msg comment list xml[" + xml + "]");
+                    //Log.d(TAG, "get service msg comment list xml[" + xml + "]");
                     msgObj.recvObj = xml;
                     Global.setCommentListXML(xml);
                 } else {
