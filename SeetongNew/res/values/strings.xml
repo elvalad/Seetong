@@ -356,6 +356,8 @@
     <string name="tv_minute">Minute</string>
     <string name="tv_second">Second</string>
 
+    <string name="tv_modify_osd">Modify the OSD</string>
+
     <!-- helpUI -->
     <!-- <string name="tv_help_wizard">Seetong V1.0 User Manual</string> -->
     <!-- ipc errorTip -->

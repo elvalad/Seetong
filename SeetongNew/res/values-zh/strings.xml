@@ -356,6 +356,8 @@
     <string name="tv_minute">分</string>
     <string name="tv_second">秒</string>
 
+    <string name="tv_modify_osd">修改OSD</string>
+
     <!-- helpUI -->
     <!-- <string name="tv_help_wizard">Seetong V1.0使用说明</string> -->
     <!-- ipc errorTip -->

@@ -5,7 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.*;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,7 +14,10 @@ import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
@@ -23,7 +27,9 @@ import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
 import com.seetong.app.seetong.ui.aid.ClearEditText;
 import com.seetong.app.seetong.ui.ext.MyTipDialog;
+import ipc.android.sdk.com.NetSDK_Media_Video_Config;
 import ipc.android.sdk.com.SDK_CONSTANT;
+import ipc.android.sdk.impl.FunclibAgent;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -49,6 +55,7 @@ public class PlayerSettingActivity extends BaseActivity {
     private int fwUpdateState = 0;
     private boolean bStopQueryUpdateState = true;
     private boolean bShowIpcDialog = true;
+    private NetSDK_Media_Video_Config m_video_config;
 
     class SettingContent {
         Integer settingOptionR;
@@ -155,6 +162,9 @@ public class PlayerSettingActivity extends BaseActivity {
                 break;
             case R.string.dev_list_tip_title_modify_media_parameter:
                 onModifyMediaParameter();
+                break;
+            case R.string.tv_modify_osd:
+                onModifyOsd();
                 break;
             case R.string.title_play_setting:
                 //onPlaySetting();
@@ -469,6 +479,15 @@ public class PlayerSettingActivity extends BaseActivity {
         finish();
     }
 
+    private void onModifyOsd() {
+        toast(R.string.tv_modify_osd);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FunclibAgent.getInstance().GetP2PDevConfig(deviceId, 501);
+            }
+        }).start();
+    }
 
     private void onImageFlip() {
         Intent it = new Intent(this, ImageFlipUI.class);
@@ -738,7 +757,7 @@ public class PlayerSettingActivity extends BaseActivity {
             data.add(settingContents[3]);
             settingContents[4] = new SettingContent(R.string.motion_detect, R.drawable.tps_device_setting_motion);
             data.add(settingContents[4]);
-            //settingContents[5] = new SettingContent(R.string.tv_alarm_setting, R.drawable.tps_device_setting_alarm);
+            //settingContents[5] = new SettingContent(R.string.tv_modify_osd, R.drawable.tps_device_setting_alais);
             //data.add(settingContents[5]);
             settingContents[6] = new SettingContent(R.string.tv_storage_setting, R.drawable.tps_device_setting_storage);
             data.add(settingContents[6]);
@@ -971,6 +990,19 @@ public class PlayerSettingActivity extends BaseActivity {
         }
     }
 
+    private void onGetVideoParam(int flag, NetSDK_Media_Video_Config cfg) {
+        if (flag != 0 || null == cfg) {
+            toast(R.string.dlg_get_media_param_fail_tip);
+            return;
+        }
+
+        m_video_config = cfg;
+        Log.e(TAG, m_video_config.getOverlayXMLString());
+        if (cfg.encode.EncodeList.size() < 2) {
+            toast(R.string.dlg_get_media_param_format_incorrect_tip);
+        }
+    }
+
     @Override
     public void handleMessage(android.os.Message msg) {
         int flag = msg.arg1;
@@ -983,6 +1015,10 @@ public class PlayerSettingActivity extends BaseActivity {
                 if (this.isFinishing()) return;
                 onGetUpdateProgress();
                 adapter.notifyDataSetChanged();
+                break;
+            case 501: // 读取视频参数配置
+                NetSDK_Media_Video_Config cfg = (NetSDK_Media_Video_Config) msg.obj;
+                onGetVideoParam(flag, cfg);
                 break;
             case 1002:
                 onRestoreFactory(flag);
