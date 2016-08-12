@@ -111,7 +111,17 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content" 
             android:layout_height="wrap_content">
-        
+
+        <TextView
+                android:id="@+id/prepareRecord"
+                android:layout_gravity="center_vertical"
+                android:text="@string/player_prepare_record"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"/>
+
         <ImageView
                 android:id="@+id/imgRecord"
                 android:layout_width="25dp"

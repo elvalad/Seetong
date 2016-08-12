@@ -902,6 +902,8 @@ public class PlayMultiVideoFragment extends BaseFragment {
         }
 
         chosenPlayerDevice.m_record = true;
+        TextView prepareRecord = (TextView) layoutMap.get(currentIndex).findViewById(R.id.prepareRecord);
+        prepareRecord.setVisibility(View.VISIBLE);
         showRecordIcon(chosenPlayerDevice.m_devId, true);
 
         return true;

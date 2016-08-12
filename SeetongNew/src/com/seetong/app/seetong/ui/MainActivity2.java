@@ -364,7 +364,7 @@ public class MainActivity2 extends BaseActivity {
                     sendMessage(Define.MSG_UPDATE_DEV_LIST, 0, 0, null);
                 } catch (Exception e) {
                     Log.e(TAG, "parse device list error," + e.toString());
-                    toast(R.string.dlg_get_list_fail_tip);
+                    //toast(R.string.dlg_get_list_fail_tip);
                 }
             }
         }).start();
@@ -404,7 +404,7 @@ public class MainActivity2 extends BaseActivity {
             LibImpl.getInstance().initAutoRecvAlarm();
         } else {
             Log.e(TAG, "Get device data is error...");
-            toast(R.string.dlg_get_list_fail_tip);
+            //toast(R.string.dlg_get_list_fail_tip);
         }
     }
 

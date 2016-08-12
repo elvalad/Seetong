@@ -335,7 +335,7 @@ public class LoginActivity extends BaseActivity {
             case SDK_CONSTANT.TPS_MSG_NOTIFY_LOGIN_FAILED: {
                 mTipDlg.dismiss();
                 //toast(T(R.string.dlg_login_fail_tip));
-//				MyTipDialog.popDialog(mContext, R.string.dlg_tip,SDK_CONSTANT.getTPSErrText(mLoginState, mContext),R.string.close);
+                //MyTipDialog.popDialog(mContext, R.string.dlg_tip,SDK_CONSTANT.getTPSErrText(mLoginState, mContext),R.string.close);
             }
             break;
             case SDK_CONSTANT.TPS_MSG_NOTIFY_DEV_DATA:

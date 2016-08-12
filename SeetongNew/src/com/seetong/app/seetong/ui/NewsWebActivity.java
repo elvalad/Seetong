@@ -268,12 +268,14 @@ public class NewsWebActivity extends BaseActivity {
                     case XmlPullParser.START_TAG:
                         if (parser.getName().equals("allpage")) {
                             allPage = Integer.parseInt(parser.nextText());
-                            if (allPage == 1) {
+                            if (allPage == 1 || allPage == 0) {
                                 commentPageLayout.setVisibility(View.GONE);
+                                pageIndexView.setVisibility(View.GONE);
                             } else if (allPage > 1) {
                                 commentPageLayout.setVisibility(View.VISIBLE);
+                                pageIndexView.setVisibility(View.VISIBLE);
+                                pageIndexView.setText((pageIndex + 1) + "/" + allPage);
                             }
-                            pageIndexView.setText((pageIndex + 1) + "/" + allPage);
                             //Log.e(TAG, "all page : " + allPage);
                         } else if (parser.getName().equals("allcount")) {
                             allCount = Integer.parseInt(parser.nextText());
