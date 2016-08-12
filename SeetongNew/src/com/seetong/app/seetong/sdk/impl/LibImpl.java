@@ -2148,6 +2148,12 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                 }
                 sendMessage(nMsgType, 0, 0, msgObj);
                 return 0;
+            case SDK_CONSTANT.TPS_MSG_NOTIFY_BEGIN_RECORD:
+                sendMessage(nMsgType, 0, 0, null);
+                return 0;
+            case SDK_CONSTANT.TPS_MSG_NOTIFY_END_RECORD:
+                sendMessage(nMsgType, 0, 0, null);
+                return 0;
             default:
                 break;
         }

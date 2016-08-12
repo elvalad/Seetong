@@ -904,7 +904,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
         chosenPlayerDevice.m_record = true;
         TextView prepareRecord = (TextView) layoutMap.get(currentIndex).findViewById(R.id.prepareRecord);
         prepareRecord.setVisibility(View.VISIBLE);
-        showRecordIcon(chosenPlayerDevice.m_devId, true);
 
         return true;
     }
@@ -948,6 +947,8 @@ public class PlayMultiVideoFragment extends BaseFragment {
         imageView.setVisibility(bShow ? View.VISIBLE : View.INVISIBLE);
         timer[currentIndex] = (Chronometer) layoutMap.get(currentIndex).findViewById(R.id.recordChronometer);
         timer[currentIndex].setVisibility(bShow ? View.VISIBLE : View.INVISIBLE);
+        TextView prepareRecord = (TextView) layoutMap.get(currentIndex).findViewById(R.id.prepareRecord);
+        prepareRecord.setVisibility(View.GONE);
         if (bShow) {
             timer[currentIndex].setBase(SystemClock.elapsedRealtime());
             timer[currentIndex].start();
@@ -1642,6 +1643,9 @@ public class PlayMultiVideoFragment extends BaseFragment {
             case 1012:
                 xml = (String) msg.obj;
                 if (Global.m_firmware_version_detect) onGetDevVersionInfo(xml);
+                return true;
+            case SDK_CONSTANT.TPS_MSG_NOTIFY_BEGIN_RECORD:
+                showRecordIcon(chosenPlayerDevice.m_devId, true);
                 return true;
         }
 
