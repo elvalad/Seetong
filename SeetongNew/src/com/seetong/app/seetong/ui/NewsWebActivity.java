@@ -255,11 +255,11 @@ public class NewsWebActivity extends BaseActivity {
         // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
         //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-        oks.setTitle(getString(R.string.share));
+        oks.setTitle(newsTitle);
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
         oks.setTitleUrl(newsUrl);
         // text是分享文本，所有平台都需要这个字段
-        oks.setText(newsTitle + "\n" +newsUrl);
+        oks.setText(newsTitle);
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
         oks.setImagePath(getSeetongImgPath());//确保SDcard下面存在此张图片
         // url仅在微信（包括好友和朋友圈）中使用
