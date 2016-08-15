@@ -208,8 +208,8 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
         findViewById(R.id.btn_h_sound_max).setOnClickListener(this);
         findViewById(R.id.btn_calendar).setOnClickListener(this);
 
-        findViewById(R.id.nvr_record).setOnClickListener(this);
-        findViewById(R.id.nvr_capture).setOnClickListener(this);
+        findViewById(R.id.btn_nvr_record).setOnClickListener(this);
+        findViewById(R.id.btn_nvr_capture).setOnClickListener(this);
 
         recordView = (ImageView) findViewById(R.id.imgRecord);
         timer = (Chronometer) findViewById(R.id.recordChronometer);
@@ -590,7 +590,7 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
             case R.id.btn_calendar:
                 onBtnCalendar();
                 break;
-            case R.id.nvr_record:
+            case R.id.btn_nvr_record:
                 PlayerDevice dev = Global.getDeviceById(m_device_id);
                 if (null == dev) return;
                 if (dev.m_record) {
@@ -599,7 +599,7 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
                     onBtnNvrRecord();
                 }
                 break;
-            case R.id.nvr_capture:
+            case R.id.btn_nvr_capture:
                 onBtnNvrCapture();
                 break;
             default: break;

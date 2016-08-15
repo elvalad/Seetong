@@ -2,7 +2,10 @@ package com.seetong.app.seetong.ui;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.util.Xml;
 import android.view.View;
@@ -19,14 +22,14 @@ import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.wechat.favorite.WechatFavorite;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
+import com.seetong.app.seetong.comm.Define;
 import com.seetong.app.seetong.model.Comment;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
 import ipc.android.sdk.com.SDK_CONSTANT;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -215,6 +218,31 @@ public class NewsWebActivity extends BaseActivity {
         });
     }
 
+    private String getSeetongImgPath() {
+        String fileName = "seetong_logo.png";
+        File dir = new File(Define.RootDirPath + "/default/images/");
+        if (!(dir.exists())) {
+            dir.mkdirs();
+        }
+        File file = new File(dir, fileName);
+        if (file.exists()) {
+            return file.getAbsolutePath();
+        }
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ico_launcher);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+            MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(), fileName, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return file.getAbsolutePath();
+    }
+
     private void showShare() {
         ShareSDK.initSDK(this);
         OnekeyShare oks = new OnekeyShare();
@@ -233,7 +261,7 @@ public class NewsWebActivity extends BaseActivity {
         // text是分享文本，所有平台都需要这个字段
         oks.setText(newsTitle + "\n" +newsUrl);
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+        oks.setImagePath(getSeetongImgPath());//确保SDcard下面存在此张图片
         // url仅在微信（包括好友和朋友圈）中使用
         oks.setUrl(newsUrl);
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用

@@ -36,13 +36,20 @@
                     android:id="@+id/livePreview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@android:color/darker_gray"/>
+                    android:background="@android:color/black"/>
             <Button
                     android:id="@+id/btn_play"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@drawable/play"/>
+
+            <include layout="@layout/timeline"
+                     android:layout_gravity="bottom"
+                     android:id="@+id/timeline_layout"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"/>
+
         </FrameLayout>
 
         <LinearLayout
@@ -180,52 +187,6 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <Button
-            android:id="@+id/nvr_record"
-            android:text="@string/player_record"
-            android:textColor="@color/dark_gray"
-            android:background="@drawable/tps_play_record_off"
-            android:gravity="bottom|center"
-            android:paddingBottom="12dp"
-            android:layout_width="80dp"
-            android:layout_height="80dp"/>
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <Button
-            android:id="@+id/nvr_capture"
-            android:text="@string/player_capture"
-            android:textColor="@color/dark_gray"
-            android:background="@drawable/tps_play_capture_off"
-            android:gravity="bottom|center"
-            android:paddingBottom="12dp"
-            android:layout_width="80dp"
-            android:layout_height="80dp"/>
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-    </LinearLayout>
-
-    <include layout="@layout/timeline" android:id="@+id/timeline_layout"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"/>
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@color/transparent"
             android:visibility="gone">
@@ -262,7 +223,7 @@
                     android:orientation="horizontal"
                     android:background="@color/transparent">
                 <Button
-                        android:id="@+id/btn_play"
+                        android:id="@+id/btn_play_"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
