@@ -1,21 +1,28 @@
 package com.seetong.app.seetong.ui;
 
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.net.TrafficStats;
-import android.os.*;
+import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
+import android.text.InputFilter;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.OrientationEventListener;
 import android.view.View;
-
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import com.seetong.app.seetong.Config;
 import com.seetong.app.seetong.Global;
@@ -23,10 +30,13 @@ import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
+import com.seetong.app.seetong.ui.aid.ClearEditText;
 import com.seetong.app.seetong.ui.ext.MyTipDialog;
 import ipc.android.sdk.com.NetSDK_CMD_TYPE;
 import ipc.android.sdk.impl.DeviceInfo;
+import ipc.android.sdk.impl.FunclibAgent;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 public class PlayerActivity extends BaseActivity {
@@ -1080,5 +1090,113 @@ public class PlayerActivity extends BaseActivity {
             updatePromptView.setVisibility(View.GONE);
             bFirmwareUpdatePrompt = false;
         }
+    }
+
+    private void modifyNewPwd(final PlayerDevice dev) {
+        final ClearEditText etUser = new ClearEditText(this);
+        etUser.setHint(R.string.dev_list_hint_input_user_name);
+        etUser.setPadding(10, 10, 10, 10);
+        etUser.setSingleLine(true);
+        etUser.setInputType(EditorInfo.TYPE_CLASS_TEXT|EditorInfo.TYPE_TEXT_VARIATION_FILTER|EditorInfo.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+        etUser.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Define.DEVICE_NAEM_LENGTH)});
+
+        final ClearEditText etPwd = new ClearEditText(this);
+        etPwd.setHint(R.string.dev_list_hint_input_password);
+        etPwd.setPadding(10, 10, 10, 10);
+        etPwd.setSingleLine(true);
+        etPwd.setInputType(EditorInfo.TYPE_CLASS_TEXT| EditorInfo.TYPE_TEXT_VARIATION_PASSWORD);
+        etPwd.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Define.DEVICE_PWD_LENGTH)});
+
+        LinearLayout layout = new LinearLayout(m_this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(5, 0, 5, 0);
+        layout.setBackgroundColor(Color.rgb(207, 232, 179));
+        layout.addView(etUser);
+        layout.addView(etPwd);
+
+        new AlertDialog.Builder(this).setTitle(R.string.dev_list_tip_title_input_dev_alias)
+                .setView(layout)
+                .setNegativeButton(this.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setPositiveButton(this.getString(R.string.sure), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String userName = etUser.getText().toString();
+                        String password = etPwd.getText().toString();
+                        if ("".equals(userName) || "".equals(password)) {
+                            try {
+                                Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                                field.setAccessible(true);
+                                field.set(dialog, false);
+                            } catch (NoSuchFieldException | IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+                            return;
+                        }
+
+                        try {
+                            Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                            field.setAccessible(true);
+                            field.set(dialog, true);
+                        } catch (NoSuchFieldException | IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+
+                        m_this.hideInputPanel(etUser);
+                        dialog.dismiss();
+
+                        mTipDlg.setTitle(R.string.dlg_set_user_list_tip);
+                        mTipDlg.setCancelable(false);
+                        mTipDlg.show();
+                        int ret = FunclibAgent.getInstance().ModifyDevPassword(dev.m_dev.getDevId(), userName, password);
+                        if (0 != ret) {
+                            mTipDlg.dismiss();
+                            return;
+                        }
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    mTipDlg.dismiss();
+                                    toast(R.string.dlg_set_user_info_succeed_tip);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+                    }
+                }).create().show();
+    }
+
+    public void showEditPassNotification(final PlayerDevice dev) {
+        final RelativeLayout playerTitleLayout = (RelativeLayout) findViewById(R.id.player_title);
+        final TextView textView = (TextView) findViewById(R.id.txt_prompt);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toast("Modify password");
+                modifyNewPwd(dev);
+            }
+        });
+
+        playerTitleLayout.setVisibility(View.GONE);
+        textView.setVisibility(View.VISIBLE);
+        Animation animation = AnimationUtils.loadAnimation(m_this, R.anim.my_slide_in_from_top);
+        textView.startAnimation(animation);
+        textView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Animation animation = AnimationUtils.loadAnimation(m_this, R.anim.my_slide_out_to_top);
+                textView.startAnimation(animation);
+                textView.setVisibility(View.GONE);
+                playerTitleLayout.setVisibility(View.VISIBLE);
+            }
+        }, 5000);
     }
 }

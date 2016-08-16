@@ -856,6 +856,7 @@
     <string name="player_fw_update_state_5">Download failed</string>
     <string name="player_fw_get_update_fail">Get update info failed</string>
     <string name="player_prepare_record">Ready to record…</string>
+    <string name="player_prompt_modify_password">Click on to modify the device password</string>
 
     <string name="about_update_delay">Seetong 5.0 update delay</string>
     <string name="about_upload_log_success">Upload log file success</string>
