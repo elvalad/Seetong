@@ -1165,6 +1165,7 @@ public class PlayerActivity extends BaseActivity {
                                     Thread.sleep(2000);
                                     mTipDlg.dismiss();
                                     toast(R.string.dlg_set_user_info_succeed_tip);
+                                    PlayerActivity.this.finish();
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -1180,7 +1181,6 @@ public class PlayerActivity extends BaseActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toast("Modify password");
                 modifyNewPwd(dev);
             }
         });
