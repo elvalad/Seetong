@@ -373,38 +373,37 @@ public class MainActivity2 extends BaseActivity {
     private void parseDevList(String xml) {
         if (TextUtils.isEmpty(xml)) return;
         List<Device> lst = (List<Device>) new Device().fromXML(xml.getBytes(), "DeviceList");
-        if (lst != null && lst.size() > 0) {
-            Global.uniqueDeviceList(lst);
+        synchronized (Global.m_device_list_lock) {
+            if (lst != null && lst.size() > 0) {
+                Global.uniqueDeviceList(lst);
 
-            for (Device dev : lst) {
-                PlayerDevice d = Global.getDeviceById(dev.getDevId());
-                if (null == d) {
-                    d = new PlayerDevice();
-                    Global.addDevice(d);
+                for (Device dev : lst) {
+                    PlayerDevice d = Global.getDeviceById(dev.getDevId());
+                    if (null == d) {
+                        d = new PlayerDevice();
+                        Global.addDevice(d);
+                    }
+
+                    d.m_devId = dev.getDevId();
+                    d.m_dev = dev;
+                    d.m_capacity_set = LibImpl.getInstance().getCapacitySet(d);
+                    d.m_net_type = LibImpl.getInstance().getDeviceNetType(d);
+                    DeviceSetting ds = DeviceSetting.findByDeviceId(d.m_devId);
+                    if (null != ds) {
+                        d.m_force_forward = ds.is_force_forward();
+                    }
                 }
 
-                d.m_devId = dev.getDevId();
-                d.m_dev = dev;
-                d.m_capacity_set = LibImpl.getInstance().getCapacitySet(d);
-                d.m_net_type = LibImpl.getInstance().getDeviceNetType(d);
-                DeviceSetting ds = DeviceSetting.findByDeviceId(d.m_devId);
-                if (null != ds) {
-                    d.m_force_forward = ds.is_force_forward();
-                }
+                Log.d(TAG, "device list size=" + Global.getDeviceList().size());
+                Device dev = lst.get(0);
+                Log.i(TAG, "doMsgRspCB:get device is success..." + dev.toString());
+                //sendMyToast(R.string.dlg_get_list_success_tip);
+                LibImpl.getInstance().generateSnaphost(Global.getDeviceList());
+                LibImpl.getInstance().initAutoRecvAlarm();
+            } else {
+                Log.e(TAG, "Get device data is error...");
+                //toast(R.string.dlg_get_list_fail_tip);
             }
-
-            //Global.sortDeviceListByGroupName(Global.m_deviceList);
-            LibImpl.putDeviceList(Global.getDeviceList());
-            Log.d(TAG, "device list size=" + Global.getDeviceList().size());
-
-            Device dev = lst.get(0);
-            Log.i(TAG, "doMsgRspCB:get device is success..." + dev.toString());
-            //sendMyToast(R.string.dlg_get_list_success_tip);
-            LibImpl.getInstance().generateSnaphost(Global.getDeviceList());
-            LibImpl.getInstance().initAutoRecvAlarm();
-        } else {
-            Log.e(TAG, "Get device data is error...");
-            //toast(R.string.dlg_get_list_fail_tip);
         }
     }
 

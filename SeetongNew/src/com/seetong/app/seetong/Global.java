@@ -94,6 +94,8 @@ public class Global {
     public static final String OSS_ACCESS_KEY = "qei5UGYum10sYezHFiS6OTLSjdSk8i";
     //public static OSSClient m_oss;
 
+    public static final String m_device_list_lock = "lock";
+
     public static boolean m_clean_tags = true;
     public static List<String> m_pushTags = new ArrayList<>();
 

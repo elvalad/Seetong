@@ -37,6 +37,7 @@ import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -808,21 +809,23 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
 
     public static synchronized PlayerDevice findDeviceByID(String devId) {
         PlayerDevice device = null;
-        if ((!BaseActivity.isNullStr(devId)) && (mDeviceListMap != null && mDeviceListMap.size() > 0)) {
-            Set<String> keys = mDeviceListMap.keySet();
-            for (String key : keys) {
-                if (BaseActivity.isNullStr(key)) continue;
-                List<PlayerDevice> devAry = mDeviceListMap.get(key);
-                if (devAry == null || devAry.size() < 1) continue;
+        synchronized (Global.m_device_list_lock) {
+            if ((!BaseActivity.isNullStr(devId)) && (mDeviceListMap != null && mDeviceListMap.size() > 0)) {
+                Set<String> keys = mDeviceListMap.keySet();
+                for (String key : keys) {
+                    if (BaseActivity.isNullStr(key)) continue;
+                    List<PlayerDevice> devAry = mDeviceListMap.get(key);
+                    if (devAry == null || devAry.size() < 1) continue;
 
-                for (PlayerDevice dev : devAry) {
-                    String tmpDevId = (dev != null) ? dev.m_dev.getDevId() : "";
-                    if (devId.compareToIgnoreCase(tmpDevId) == 0) {
-                        device = dev;
-                        break;
+                    for (PlayerDevice dev : devAry) {
+                        String tmpDevId = (dev != null) ? dev.m_dev.getDevId() : "";
+                        if (devId.compareToIgnoreCase(tmpDevId) == 0) {
+                            device = dev;
+                            break;
+                        }
                     }
+                    if (device != null) break;
                 }
-                if (device != null) break;
             }
         }
 
@@ -887,7 +890,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
     public static final String DEFAULT_P2P_URL = EtcInfo.DEFAULT_P2P_URL;
     private static String mCurLoginIP = DEFAULT_P2P_URL;
     public static Map<String, Boolean> mLoginStateMap = new HashMap<String, Boolean>();
-    public static Map<String, List<PlayerDevice>> mDeviceListMap = new HashMap<String, List<PlayerDevice>>(); //设备列表
+    public static Map<String, List<PlayerDevice>> mDeviceListMap = new ConcurrentHashMap<>(); //设备列表
     public static Map<String, TPS_NotifyInfo> mDeviceNotifyInfo = new HashMap<String, TPS_NotifyInfo>(); //设备消息提示信息
 
     public static Map<String, Boolean> mIsFirstFrameMap = new HashMap<String, Boolean>();    //是否为第一帧
