@@ -1114,7 +1114,7 @@ public class PlayerActivity extends BaseActivity {
         layout.addView(etUser);
         layout.addView(etPwd);
 
-        new AlertDialog.Builder(this).setTitle(R.string.dev_list_tip_title_input_dev_alias)
+        new AlertDialog.Builder(this).setTitle(R.string.player_modify_user_pwd)
                 .setView(layout)
                 .setNegativeButton(this.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
@@ -1178,18 +1178,21 @@ public class PlayerActivity extends BaseActivity {
     public void showEditPassNotification(final PlayerDevice dev) {
         final RelativeLayout playerTitleLayout = (RelativeLayout) findViewById(R.id.player_title);
         final TextView textView = (TextView) findViewById(R.id.txt_prompt);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                modifyNewPwd(dev);
-            }
-        });
 
         playerTitleLayout.setVisibility(View.GONE);
         textView.setVisibility(View.VISIBLE);
         Animation animation = AnimationUtils.loadAnimation(m_this, R.anim.my_slide_in_from_top);
         textView.startAnimation(animation);
-        textView.postDelayed(new Runnable() {
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                modifyNewPwd(dev);
+                textView.setVisibility(View.GONE);
+                playerTitleLayout.setVisibility(View.VISIBLE);
+            }
+        });
+
+        /*textView.postDelayed(new Runnable() {
             @Override
             public void run() {
                 Animation animation = AnimationUtils.loadAnimation(m_this, R.anim.my_slide_out_to_top);
@@ -1197,6 +1200,6 @@ public class PlayerActivity extends BaseActivity {
                 textView.setVisibility(View.GONE);
                 playerTitleLayout.setVisibility(View.VISIBLE);
             }
-        }, 5000);
+        }, 5000);*/
     }
 }

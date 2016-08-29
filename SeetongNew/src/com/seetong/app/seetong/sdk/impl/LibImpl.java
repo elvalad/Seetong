@@ -1746,10 +1746,9 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                         notifyNextSnapshot(devId);
                         return 0;
                     }
-
-                    PlayerDevice device = getPlayerDevice(devId);
-                    if (null == device) return 0;
-                    sendMessage(nMsgType, 0, 0, device);
+                    //PlayerDevice device = getPlayerDevice(devId);
+                    //if (null == device) return 0;
+                    sendMessage(nMsgType, 0, 0, dev);
                 }
                 return 0;
             case SDK_CONSTANT.TPS_MSG_NOTIFY_DEV_DATA: {//8195-返回xml格式设备数据
