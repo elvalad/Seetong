@@ -1674,7 +1674,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
     }
 
     public int doMsgRspCB(int nMsgType, byte[] pData, int nDataLen) {
-        Log.i(TAG, "[doMsgRspCB:nMsgType=" + nMsgType + ",pData=" + ((pData == null) ? "null" : new String(pData).trim()) + ",nDataLen=" + nDataLen + ", exit=]" + m_exit);
+        //Log.i(TAG, "[doMsgRspCB:nMsgType=" + nMsgType + ",pData=" + ((pData == null) ? "null" : new String(pData).trim()) + ",nDataLen=" + nDataLen + ", exit=]" + m_exit);
         if (m_exit) return 0;
 
         MsgObject msgObj = new MsgObject();
@@ -2814,7 +2814,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
 
     @Override
     public int fcLogCallBack(int i, String s) {
-        Log.d("SDSD", s);
+        //Log.d("SDSD", s);
         return 0;
     }
 

@@ -391,7 +391,7 @@ public class PlayerSettingActivity extends BaseActivity {
         etAddGroup.setSingleLine(true);
         etAddGroup.setText("");
         etAddGroup.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Define.DEVICE_NAEM_LENGTH)});
-        new AlertDialog.Builder(self).setTitle(R.string.dev_list_hint_input_nvr_chn_alias)
+        new AlertDialog.Builder(self).setTitle(R.string.dev_list_tip_title_input_nvr_chn_alias)
                 .setView(etAddGroup)
                 .setNegativeButton(mResources.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
