@@ -2190,10 +2190,10 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
     private void onAuthFailed(PlayerDevice dev) {
         int index = getIndexByDeviceID(dev);
-        if (index != currentIndex) return;
         ProgressBar liveVideoWaiting = (ProgressBar) layoutMap.get(index).findViewById(R.id.liveVideoWaiting);
         liveVideoWaiting.setVisibility(View.GONE);
         setTipText(dev.m_devId, R.string.dlg_login_fail_user_pwd_incorrect_tip);
+        if (index != currentIndex) return;
         PlayerActivity.m_this.showEditPassNotification(dev);
     }
 

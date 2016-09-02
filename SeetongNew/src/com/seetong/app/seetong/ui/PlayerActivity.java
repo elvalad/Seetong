@@ -1187,12 +1187,10 @@ public class PlayerActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 modifyNewPwd(dev);
-                textView.setVisibility(View.GONE);
-                playerTitleLayout.setVisibility(View.VISIBLE);
             }
         });
 
-        /*textView.postDelayed(new Runnable() {
+        textView.postDelayed(new Runnable() {
             @Override
             public void run() {
                 Animation animation = AnimationUtils.loadAnimation(m_this, R.anim.my_slide_out_to_top);
@@ -1200,6 +1198,6 @@ public class PlayerActivity extends BaseActivity {
                 textView.setVisibility(View.GONE);
                 playerTitleLayout.setVisibility(View.VISIBLE);
             }
-        }, 5000);*/
+        }, 8000);
     }
 }

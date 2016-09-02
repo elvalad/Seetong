@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_asymmetricgridview" default="compile.module.asymmetricgridview">
+  <dirname property="module.asymmetricgridview.basedir" file="${ant.file.module_asymmetricgridview}"/>
+  
+  <property name="module.jdk.home.asymmetricgridview" value="${jdk.home.android_api_19_platform}"/>
+  <property name="module.jdk.bin.asymmetricgridview" value="${jdk.bin.android_api_19_platform}"/>
+  <property name="module.jdk.classpath.asymmetricgridview" value="jdk.classpath.android_api_19_platform"/>
+  
+  <property name="compiler.args.asymmetricgridview" value="-encoding GBK -source 1.7 ${compiler.args}"/>
+  
+  <property name="asymmetricgridview.output.dir" value="${module.asymmetricgridview.basedir}/../../../SeetongNew/output/production/AsymmetricGridView"/>
+  <property name="asymmetricgridview.testoutput.dir" value="${module.asymmetricgridview.basedir}/../../../SeetongNew/output/test/AsymmetricGridView"/>
+  
+  <path id="asymmetricgridview.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="asymmetricgridview.module.production.classpath">
+    <path refid="${module.jdk.classpath.asymmetricgridview}"/>
+    <path refid="library.libs.classpath"/>
+  </path>
+  
+  <path id="asymmetricgridview.runtime.production.module.classpath">
+    <pathelement location="${asymmetricgridview.output.dir}"/>
+    <path refid="library.libs.classpath"/>
+  </path>
+  
+  <path id="asymmetricgridview.module.classpath">
+    <path refid="${module.jdk.classpath.asymmetricgridview}"/>
+    <pathelement location="${asymmetricgridview.output.dir}"/>
+    <path refid="library.libs.classpath"/>
+  </path>
+  
+  <path id="asymmetricgridview.runtime.module.classpath">
+    <pathelement location="${asymmetricgridview.testoutput.dir}"/>
+    <pathelement location="${asymmetricgridview.output.dir}"/>
+    <path refid="library.libs.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.asymmetricgridview">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.asymmetricgridview">
+    <patternset refid="excluded.from.module.asymmetricgridview"/>
+  </patternset>
+  
+  <path id="asymmetricgridview.module.sourcepath">
+    <dirset dir="${module.asymmetricgridview.basedir}">
+      <include name="src"/>
+      <include name="gen"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.asymmetricgridview" depends="compile.module.asymmetricgridview.production,compile.module.asymmetricgridview.tests" description="Compile module AsymmetricGridView"/>
+  
+  <target name="compile.module.asymmetricgridview.production" depends="register.custom.compilers" description="Compile module AsymmetricGridView; production classes">
+    <mkdir dir="${asymmetricgridview.output.dir}"/>
+    <javac2 destdir="${asymmetricgridview.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.asymmetricgridview}/javac">
+      <compilerarg line="${compiler.args.asymmetricgridview}"/>
+      <bootclasspath refid="asymmetricgridview.module.bootclasspath"/>
+      <classpath refid="asymmetricgridview.module.production.classpath"/>
+      <src refid="asymmetricgridview.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.asymmetricgridview"/>
+    </javac2>
+    
+    <copy todir="${asymmetricgridview.output.dir}">
+      <fileset dir="${module.asymmetricgridview.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.asymmetricgridview.basedir}/gen">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.asymmetricgridview.tests" depends="register.custom.compilers,compile.module.asymmetricgridview.production" description="compile module AsymmetricGridView; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.asymmetricgridview" description="cleanup module">
+    <delete dir="${asymmetricgridview.output.dir}"/>
+    <delete dir="${asymmetricgridview.testoutput.dir}"/>
+  </target>
+</project>

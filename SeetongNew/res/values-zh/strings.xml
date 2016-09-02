@@ -855,7 +855,7 @@
     <string name="player_fw_get_update_fail">获取版本信息失败</string>
     <string name="player_prepare_record">准备录像…</string>
     <string name="player_prompt_modify_password">点击重新输入用户名密码</string>
-    <string name="player_modify_user_pwd">修改设备用户名和密码</string>
+    <string name="player_modify_user_pwd">设备用户名和密码</string>
 
     <string name="about_update_delay">暂时不能更新</string>
     <string name="about_upload_log_success">上传日志文件成功</string>
