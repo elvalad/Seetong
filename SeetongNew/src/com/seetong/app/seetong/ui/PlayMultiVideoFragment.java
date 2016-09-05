@@ -339,6 +339,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             fullCurrentWindow();
             bFullScreen = true;
             bSinglePlay = true;
+            stopHiddenPlayList();
         } else {
             resetCurrentWindow();
             bFullScreen = false;
