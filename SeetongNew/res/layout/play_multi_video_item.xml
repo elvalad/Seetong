@@ -146,7 +146,7 @@
             android:layout_alignParentRight="true"
             android:paddingTop="20dp"
             android:paddingRight="10dp"
-            android:text="0 kb/s"
+            android:text="0 K/s"
             android:textSize="10sp"
             android:visibility="gone"
             android:textColor="@color/white"

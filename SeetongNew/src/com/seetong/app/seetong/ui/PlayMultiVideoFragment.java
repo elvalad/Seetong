@@ -265,6 +265,8 @@ public class PlayMultiVideoFragment extends BaseFragment {
                     setCurrentWindow(e);
                     fullCurrentWindow();
                     bFullScreen = true;
+                    bSinglePlay = true;
+                    stopHiddenPlayList();
                     PlayerActivity.m_this.setSwitchWindowState(true);
                 }
             }
@@ -1174,6 +1176,12 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
         for (int i = 0; i < MAX_WINDOW; i++) {
             if (i > Global.getDeviceList().size() - 1) break;
+            if (bFullScreen) {
+                if (i != currentIndex) {
+                    continue;
+                }
+            }
+
             layout = layoutMap.get(i);
             devList.get(i).m_video = renderMap.get(i);
             devList.get(i).m_video.mIsStopVideo = false;
@@ -1181,14 +1189,6 @@ public class PlayMultiVideoFragment extends BaseFragment {
             if (!devList.get(i).m_play) {
                 ProgressBar liveVideoWaiting = (ProgressBar) layout.findViewById(R.id.liveVideoWaiting);
                 liveVideoWaiting.setVisibility(View.VISIBLE);
-                /*ImageView liveVideoBackground = (ImageView) layout.findViewById(R.id.liveVideoBackground);
-                addBitmapToCache(Global.getSnapshotDir() + "/" + devList.get(i).m_dev.getDevId() + ".jpg");
-                Bitmap bitmap = getBitmapByPath(Global.getSnapshotDir() + "/" + devList.get(i).m_dev.getDevId() + ".jpg");
-                //Bitmap bitmap = BitmapFactory.decodeFile(Global.getSnapshotDir() + "/" + devList.get(i).m_dev.getDevId() + ".jpg");
-                if (bitmap != null) {
-                    liveVideoBackground.setVisibility(View.VISIBLE);
-                    liveVideoBackground.setImageBitmap(convertColorIntoBlackAndWhiteImage(bitmap));
-                }*/
 
                 int ret = LibImpl.startPlay(i, devList.get(i), devList.get(i).m_stream_type, devList.get(i).m_frame_type);
                 if (ret == 0) {
@@ -1279,6 +1279,22 @@ public class PlayMultiVideoFragment extends BaseFragment {
             view.setBackgroundColor(Color.BLACK);
             setVideoInfo(i, T(R.string.tv_video_stop_tip));
             setVideoInfo2(i, "");
+        }
+    }
+
+    public void stopHiddenPlayList() {
+        RelativeLayout layout;
+        View view;
+        for (int i = 0; i < MAX_WINDOW; i++) {
+            if (i > Global.getDeviceList().size() - 1) break;
+            if (i != currentIndex) {
+                LibImpl.stopPlay(i, this.deviceList.get(i));
+                layout = layoutMap.get(i);
+                view = layout.findViewById(R.id.liveVideoView);
+                view.setBackgroundColor(Color.BLACK);
+                setVideoInfo(i, T(R.string.tv_video_stop_tip));
+                setVideoInfo2(i, "");
+            }
         }
     }
 

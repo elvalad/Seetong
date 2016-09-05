@@ -1042,7 +1042,7 @@ public class PlayerActivity extends BaseActivity {
         lastTotalRxBytes = nowTotalRxBytes;
         Message msg = m_handler.obtainMessage();
         msg.what = Define.MSG_UPDATE_NET_SPEED;
-        msg.obj = String.valueOf(speed) + " kb/s";
+        msg.obj = String.valueOf(speed) + " K/s";
         m_handler.sendMessage(msg);
     }
 
