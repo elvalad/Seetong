@@ -1377,12 +1377,20 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
         /* 停止当前正在播放的设备列表 */
         RelativeLayout layout;
-        for (int i = 0; i < MAX_WINDOW; i++) {
-            LibImpl.stopPlay(i, this.deviceList.get(i));
-            layout = layoutMap.get(i);
+        if (bFullScreen) {
+            LibImpl.stopPlay(currentIndex, this.deviceList.get(currentIndex));
+            layout = layoutMap.get(currentIndex);
             layout.findViewById(R.id.liveVideoView).setVisibility(View.GONE);
-            this.deviceList.get(i).m_video.mIsStopVideo = true;
-            this.deviceList.get(i).m_video = null;
+            this.deviceList.get(currentIndex).m_video.mIsStopVideo = true;
+            this.deviceList.get(currentIndex).m_video = null;
+        } else {
+            for (int i = 0; i < MAX_WINDOW; i++) {
+                LibImpl.stopPlay(i, this.deviceList.get(i));
+                layout = layoutMap.get(i);
+                layout.findViewById(R.id.liveVideoView).setVisibility(View.GONE);
+                this.deviceList.get(i).m_video.mIsStopVideo = true;
+                this.deviceList.get(i).m_video = null;
+            }
         }
 
         for (int i = 0; i < list.size(); i++) {
@@ -1434,12 +1442,20 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
         /* 停止当前正在播放的设备列表 */
         RelativeLayout layout;
-        for (int i = 0; i < MAX_WINDOW; i++) {
-            LibImpl.stopPlay(i, this.deviceList.get(i));
-            layout = layoutMap.get(i);
+        if (bFullScreen) {
+            LibImpl.stopPlay(currentIndex, this.deviceList.get(currentIndex));
+            layout = layoutMap.get(currentIndex);
             layout.findViewById(R.id.liveVideoView).setVisibility(View.GONE);
-            this.deviceList.get(i).m_video.mIsStopVideo = true;
-            this.deviceList.get(i).m_video = null;
+            this.deviceList.get(currentIndex).m_video.mIsStopVideo = true;
+            this.deviceList.get(currentIndex).m_video = null;
+        } else {
+            for (int i = 0; i < MAX_WINDOW; i++) {
+                LibImpl.stopPlay(i, this.deviceList.get(i));
+                layout = layoutMap.get(i);
+                layout.findViewById(R.id.liveVideoView).setVisibility(View.GONE);
+                this.deviceList.get(i).m_video.mIsStopVideo = true;
+                this.deviceList.get(i).m_video = null;
+            }
         }
 
         for (int i = list.size() - 1; i >= 0; i--) {
