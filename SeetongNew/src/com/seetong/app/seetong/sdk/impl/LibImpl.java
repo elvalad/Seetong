@@ -2209,7 +2209,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         if (m_exit) return 0;
         int flag = nMsgType & 0xff000000;
         int nType = nMsgType & 0xffffff;
-        Log.i(TAG, "[cmdRspCB:nMsgType=" + nMsgType + ",devId=" + devId + ",flag=" + flag + ",xml=" + xml + ",nType" + nType + "]");
+        Log.i(TAG, "[cmdRspCB:nMsgType=" + nMsgType + ",devId=" + devId + ",flag=" + flag + ",xml=" + xml + ",nType=" + nType + "]");
         nMsgType = nType;
         MsgObject msgObject = new MsgObject();
         switch (nMsgType) {
