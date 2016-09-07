@@ -18,6 +18,7 @@ public class Config {
     public static boolean m_show_video_info = false;
     public static boolean m_show_alias = false;
     public static boolean m_show_devid = true;
+    public static boolean m_video_fill_preview = true;
     public static int m_polling_time = 5;
     public static int m_frame_buffer_size = 50;
 
@@ -36,6 +37,7 @@ public class Config {
         m_show_video_info = spu.loadBooleanSharedPreference(Define.CFG_SHOW_VIDEO_INFO);
         m_show_alias = spu.loadBooleanSharedPreference(Define.CFG_SHOW_ALIAS);
         m_show_devid = spu.loadBooleanSharedPreference(Define.CFG_SHOW_DEVID, true);
+        m_video_fill_preview = spu.loadBooleanSharedPreference(Define.CFG_VIDEO_PREVIEW, true);
         m_polling_time = spu.loadIntSharedPreference(Define.POLLING_TIME);
         if (m_polling_time < 1 || m_polling_time > 10) m_polling_time = 5;
         m_frame_buffer_size = spu.loadIntSharedPreference(Define.CFG_FRAME_BUFFER_SIZE);
@@ -54,6 +56,7 @@ public class Config {
         spu.saveSharedPreferences(Define.CFG_SHOW_VIDEO_INFO, m_show_video_info);
         spu.saveSharedPreferences(Define.CFG_SHOW_ALIAS, m_show_alias);
         spu.saveSharedPreferences(Define.CFG_SHOW_DEVID, m_show_devid);
+        spu.saveSharedPreferences(Define.CFG_VIDEO_PREVIEW, m_video_fill_preview);
         spu.saveSharedPreferences(Define.POLLING_TIME, m_polling_time);
         spu.saveSharedPreferences(Define.CFG_FRAME_BUFFER_SIZE, m_frame_buffer_size);
     }

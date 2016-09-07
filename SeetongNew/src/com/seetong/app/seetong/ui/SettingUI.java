@@ -27,6 +27,7 @@ public class SettingUI extends BaseActivity {
     ToggleButton m_tb_show_video_info;
     ToggleButton m_tb_show_alias;
     ToggleButton m_tb_show_devid;
+    ToggleButton m_tb_video_preview;
     ArrayList<String> m_soundAry = new ArrayList<>();
     ArrayAdapter<String> m_adpAry;
 
@@ -113,6 +114,7 @@ public class SettingUI extends BaseActivity {
         m_tb_show_video_info = (ToggleButton) findViewById(R.id.tb_show_video_info);
         m_tb_show_alias = (ToggleButton) findViewById(R.id.tb_show_alias);
         m_tb_show_devid = (ToggleButton) findViewById(R.id.tb_show_devid);
+        m_tb_video_preview = (ToggleButton) findViewById(R.id.tb_preview_mode);
 
         String[] ls = getResources().getStringArray(R.array.string_ary_alarm_sound_name);
         Collections.addAll(m_soundAry, ls);
@@ -165,6 +167,7 @@ public class SettingUI extends BaseActivity {
         m_tb_show_video_info.setChecked(Config.m_show_video_info);
         m_tb_show_alias.setChecked(Config.m_show_alias);
         m_tb_show_devid.setChecked(Config.m_show_devid);
+        m_tb_video_preview.setChecked(Config.m_video_fill_preview);
         mPollingTimeBar.setProgress(Config.m_polling_time);
         mPollingTimeValue.setText((mPollingTimeBar.getProgress() + 5) + "/" + (mPollingTimeBar.getMax() + 5));
     }
@@ -181,6 +184,7 @@ public class SettingUI extends BaseActivity {
         Config.m_show_video_info = m_tb_show_video_info.isChecked();
         Config.m_show_alias = m_tb_show_alias.isChecked();
         Config.m_show_devid = m_tb_show_devid.isChecked();
+        Config.m_video_fill_preview = m_tb_video_preview.isChecked();
         Config.m_polling_time = (mPollingTimeBar.getProgress() < 1) ? 1 : mPollingTimeBar.getProgress();
         Config.saveData();
     }

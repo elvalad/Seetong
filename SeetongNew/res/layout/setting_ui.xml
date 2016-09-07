@@ -403,5 +403,35 @@
                         android:textOn="" />
             </RelativeLayout>
 
+            <RelativeLayout
+                    android:id="@+id/layout_preview_mode"
+                    style="@style/linearTitle"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/small_interval"
+                    android:layout_marginTop="@dimen/big_interval"
+                    android:background="@color/clear"
+                    android:tag="007">
+
+                <TextView
+                        android:id="@+id/tv_preview_mode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/tv_preview_mode"
+                        android:textColor="#008214"
+                        android:textSize="@dimen/tvNodeSettingFontSize" />
+
+                <ToggleButton
+                        android:id="@+id/tb_preview_mode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/n_sel_tb_autoplay"
+                        android:checked="true"
+                        android:textOff=""
+                        android:textOn="" />
+            </RelativeLayout>
+
         </LinearLayout>
 </RelativeLayout>
