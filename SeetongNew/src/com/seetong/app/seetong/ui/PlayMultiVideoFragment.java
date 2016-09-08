@@ -2226,7 +2226,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
         ProgressBar liveVideoWaiting = (ProgressBar) layoutMap.get(index).findViewById(R.id.liveVideoWaiting);
         liveVideoWaiting.setVisibility(View.GONE);
         setTipText(dev.m_devId, R.string.dlg_login_fail_user_pwd_incorrect_tip);
-        if (index != currentIndex) return;
+        if (!dev.m_devId.equals(chosenPlayerDevice.m_devId)) return;
         PlayerActivity.m_this.showEditPassNotification(dev);
     }
 
