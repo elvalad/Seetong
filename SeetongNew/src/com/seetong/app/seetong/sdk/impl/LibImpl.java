@@ -1254,7 +1254,13 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         byteBuffer.put(pData, 0, nDataLen);
         byteBuffer.rewind();
         TPS_ReplayDevFileRsp data = (TPS_ReplayDevFileRsp) TPS_ReplayDevFileRsp.createObjectByByteBuffer(byteBuffer);
-        Log.i(TAG, "onNvrReplayResp, act=" + data.getnActionType() + ",have audio=" + data.getbHaveAudio());
+        Log.i(TAG, "onNvrReplayResp, act=" + data.getnActionType() + ",have audio=" + data.getbHaveAudio()
+                + ",video codec=" + data.getVideoParam().getCodec());
+
+        if (data.getVideoParam().getCodec().equals("H265")) {
+            sendMessage(nMsgType, -42, 0, null);
+            return;
+        }
 
         String devId = data.getSzDevId();
         int result = data.getnResult();

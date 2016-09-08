@@ -194,6 +194,7 @@
     <string name="err_session_stream_full">本会话流数量已满</string>
     <string name="err_get_video_cfg_fail">获取视频配置失败</string>
     <string name="err_get_stream_fail">取流启动预览失败</string>
+    <string name="err_not_support_h265_nvr_record">不支持H265录像回放</string>
     <string name="dlg_login_fail_addr_error_tip">登录失败，客户端地址获取错误</string>
     <string name="dlg_get_list_success_tip">设备列表获取成功.</string>
     <string name="dlg_get_list_fail_tip">设备列表为空.</string>

@@ -194,6 +194,7 @@
     <string name="err_session_stream_full">This session flow quantity is full</string>
     <string name="err_get_video_cfg_fail">Failed to get video configuration</string>
     <string name="err_get_stream_fail">Take the flow is started preview failed</string>
+    <string name="err_not_support_h265_nvr_record">Not support h265 nvr record</string>
     <string name="dlg_login_fail_addr_error_tip">Login failed, client address access error</string>
     <string name="dlg_get_list_success_tip">Get device list successfully.</string>
     <string name="dlg_login_recv_list_fail_tip">Receive list data error</string>

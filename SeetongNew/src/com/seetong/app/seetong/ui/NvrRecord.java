@@ -1013,6 +1013,8 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
                 toast(T(R.string.nvr_record_replay_failed) + "-" + T(R.string.err_get_video_cfg_fail));
             } else if (-10 == flag) {
                 toast(T(R.string.nvr_record_replay_failed) + "-" + T(R.string.err_get_stream_fail));
+            } else if (-42 == flag) {
+                toast(T(R.string.nvr_record_replay_failed) + "-" + T(R.string.err_not_support_h265_nvr_record));
             } else {
                 toast(T(R.string.nvr_record_replay_failed) + "-" + flag);
             }
