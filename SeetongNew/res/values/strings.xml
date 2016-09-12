@@ -359,6 +359,18 @@
     <string name="tv_second">Second</string>
 
     <string name="tv_modify_osd">Modify the OSD information</string>
+    <string name="tv_time_position">Time position</string>
+    <string name="tv_time_format">Time format</string>
+    <string name="tv_title_position">Title position</string>
+    <string name="tv_title_info">Title information</string>
+    <string name="tv_time_lt">Left and top</string>
+    <string name="tv_time_rt">Right and top</string>
+    <string name="tv_time_lb">Left and bottom</string>
+    <string name="tv_time_rb">Right and bottom</string>
+    <string name="tv_title_lt">Left and top</string>
+    <string name="tv_title_rt">Right and top</string>
+    <string name="tv_title_lb">Left and bottom</string>
+    <string name="tv_title_rb">Right and bottom</string>
 
     <!-- helpUI -->
     <!-- <string name="tv_help_wizard">Seetong V1.0 User Manual</string> -->

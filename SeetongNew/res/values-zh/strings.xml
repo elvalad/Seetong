@@ -359,6 +359,18 @@
     <string name="tv_second">秒</string>
 
     <string name="tv_modify_osd">修改OSD信息</string>
+    <string name="tv_time_position">时间位置</string>
+    <string name="tv_time_format">时间格式</string>
+    <string name="tv_title_position">标题位置</string>
+    <string name="tv_title_info">标题信息</string>
+    <string name="tv_time_lt">左上</string>
+    <string name="tv_time_rt">右上</string>
+    <string name="tv_time_lb">左下</string>
+    <string name="tv_time_rb">右下</string>
+    <string name="tv_title_lt">左上</string>
+    <string name="tv_title_rt">右上</string>
+    <string name="tv_title_lb">左下</string>
+    <string name="tv_title_rb">右下</string>
 
     <!-- helpUI -->
     <!-- <string name="tv_help_wizard">Seetong V1.0使用说明</string> -->

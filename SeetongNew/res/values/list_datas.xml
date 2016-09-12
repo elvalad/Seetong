@@ -62,6 +62,16 @@
         <!--<item>9</item>
         <item>16</item>-->
     </string-array>
+    <string-array name="time_format">
+        <item>yyyy-mm-dd hh:mm:ss</item>
+        <item>yyyy/mm/dd hh:mm:ss</item>
+        <item>yy-mm-dd hh:mm:ss</item>
+        <item>yy/mm/dd hh:mm:ss</item>
+        <item>hh:mm:ss dd/mm/yyyy</item>
+        <item>hh:mm:ss dd-mm-yyyy</item>
+        <item>hh:mm:ss mm/dd/yyyy</item>
+        <item>hh:mm:ss mm-dd-yyyy</item>
+    </string-array>
     <string-array name="string_ary_alarm_sound_name">
         <item>alarm sound 1</item>
         <item>alarm sound 2</item>
