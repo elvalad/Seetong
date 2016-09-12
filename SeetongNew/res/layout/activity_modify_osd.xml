@@ -28,29 +28,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
                     android:gravity="center_horizontal">
                 <RadioButton
                         android:id="@+id/btn_time_lt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tv_time_lt"/>
+                        android:text="@string/tv_time_lt"
+                        android:textSize="10sp"/>
                 <RadioButton
                         android:id="@+id/btn_time_rt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tv_time_rt"/>
+                        android:text="@string/tv_time_rt"
+                        android:textSize="10sp"/>
                 <RadioButton
                         android:id="@+id/btn_time_lb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tv_time_lb"/>
+                        android:text="@string/tv_time_lb"
+                        android:textSize="10sp"/>
                 <RadioButton
                         android:id="@+id/btn_time_rb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tv_time_rb"/>
+                        android:text="@string/tv_time_rb"
+                        android:textSize="10sp"/>
             </RadioGroup>
         </TableRow>
         <TableRow>
@@ -80,29 +83,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
                     android:gravity="center_horizontal">
                 <RadioButton
                         android:id="@+id/btn_title_lt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tv_title_lt"/>
+                        android:text="@string/tv_title_lt"
+                        android:textSize="10sp"/>
                 <RadioButton
                         android:id="@+id/btn_title_rt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tv_title_rt"/>
+                        android:text="@string/tv_title_rt"
+                        android:textSize="10sp"/>
                 <RadioButton
                         android:id="@+id/btn_title_lb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tv_title_lb"/>
+                        android:text="@string/tv_title_lb"
+                        android:textSize="10sp"/>
                 <RadioButton
                         android:id="@+id/btn_title_rb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tv_title_rb"/>
+                        android:text="@string/tv_title_rb"
+                        android:textSize="10sp"/>
             </RadioGroup>
         </TableRow>
         <TableRow>
