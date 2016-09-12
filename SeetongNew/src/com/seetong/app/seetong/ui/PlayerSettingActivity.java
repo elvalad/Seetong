@@ -29,7 +29,6 @@ import com.seetong.app.seetong.ui.aid.ClearEditText;
 import com.seetong.app.seetong.ui.ext.MyTipDialog;
 import ipc.android.sdk.com.NetSDK_Media_Video_Config;
 import ipc.android.sdk.com.SDK_CONSTANT;
-import ipc.android.sdk.impl.FunclibAgent;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -480,13 +479,10 @@ public class PlayerSettingActivity extends BaseActivity {
     }
 
     private void onModifyOsd() {
-        toast(R.string.tv_modify_osd);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                FunclibAgent.getInstance().GetP2PDevConfig(deviceId, 501);
-            }
-        }).start();
+        Intent it = new Intent(this, ModifyOsdActivity.class);
+        it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
+        this.startActivity(it);
+        finish();
     }
 
     private void onImageFlip() {
@@ -770,7 +766,7 @@ public class PlayerSettingActivity extends BaseActivity {
             settingContents[10] = new SettingContent(R.string.ipc_firmware_update, R.drawable.tps_device_setting_factory);
             data.add(settingContents[10]);
         } else if (200 == devType) { // NVR
-            SettingContent[] settingContents = new SettingContent[4];
+            SettingContent[] settingContents = new SettingContent[5];
             settingContents[0] = new SettingContent(R.string.dev_list_tip_title_input_nvr_alias, R.drawable.tps_device_setting_alais);
             data.add(settingContents[0]);
             settingContents[1] = new SettingContent(R.string.dev_list_tip_title_input_nvr_chn_alias, R.drawable.tps_device_setting_alais);
@@ -779,8 +775,10 @@ public class PlayerSettingActivity extends BaseActivity {
             data.add(settingContents[2]);
             settingContents[3] = new SettingContent(R.string.nvr_firmware_update, R.drawable.tps_device_setting_factory);
             data.add(settingContents[3]);
+            settingContents[4] = new SettingContent(R.string.tv_modify_osd, R.drawable.tps_device_setting_alais);
+            data.add(settingContents[4]);
         } else if (201 == devType) { // NVR4.0
-            SettingContent[] settingContents = new SettingContent[4];
+            SettingContent[] settingContents = new SettingContent[5];
             settingContents[0] = new SettingContent(R.string.dev_list_tip_title_input_nvr_alias, R.drawable.tps_device_setting_alais);
             data.add(settingContents[0]);
             settingContents[1] = new SettingContent(R.string.dev_list_tip_title_input_nvr_chn_alias, R.drawable.tps_device_setting_alais);
@@ -789,6 +787,8 @@ public class PlayerSettingActivity extends BaseActivity {
             data.add(settingContents[2]);
             settingContents[3] = new SettingContent(R.string.nvr_firmware_update, R.drawable.tps_device_setting_factory);
             data.add(settingContents[3]);
+            settingContents[4] = new SettingContent(R.string.tv_modify_osd, R.drawable.tps_device_setting_alais);
+            data.add(settingContents[4]);
         }
     }
 
