@@ -2249,6 +2249,9 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
             case 524: // 设置视频采集参数配置
                 sendMessageToMediaParamUI(nMsgType, flag, 0, null);
                 break;
+            case 525:
+                sendMessageToMediaParamUI(nMsgType, flag, 0, null);
+                break;
             case 1031: // 读取媒体编码能力
                 NetSDK_Media_Capability cap = null;
                 if (!"".equals(xml)) cap = (NetSDK_Media_Capability) new NetSDK_Media_Capability().fromXML(xml);
