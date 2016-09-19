@@ -48,7 +48,7 @@ public class MotionDetectUI extends BaseActivity implements View.OnClickListener
     }
 
     public void loadData() {
-        int ret = FunclibAgent.getInstance().GetP2PDevConfig(m_device_id, 802);
+        int ret = FunclibAgent.getInstance().GetP2PDevConfig(m_device_id, 802, "");
         if (0 != ret) {
             toast(R.string.dlg_get_motion_detect_alarm_param_fail_tip);
             finish();

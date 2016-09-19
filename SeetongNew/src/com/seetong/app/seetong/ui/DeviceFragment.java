@@ -524,7 +524,7 @@ public class DeviceFragment extends BaseFragment implements View.OnClickListener
         if (null == dev) return;
         m_modifyUserPwdDev = dev;
         showTipDlg(R.string.dlg_get_user_list_tip, 20000, R.string.dlg_get_user_list_timeout_tip);
-        int ret = LibImpl.getInstance().getFuncLib().GetP2PDevConfig(dev.m_dev.getDevId(), NetSDK_CMD_TYPE.CMD_GET_SYSTEM_USER_CONFIG);
+        int ret = LibImpl.getInstance().getFuncLib().GetP2PDevConfig(dev.m_dev.getDevId(), NetSDK_CMD_TYPE.CMD_GET_SYSTEM_USER_CONFIG, "");
         if (0 == ret) return;
         toast(R.string.dlg_get_user_list_fail_tip);
     }
@@ -565,7 +565,7 @@ public class DeviceFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void run() {
                 // 已经设置新的用户信息，再次发送获取请求并验证
-                int ret = FunclibAgent.getInstance().GetP2PDevConfig(dev.m_dev.getDevId(), NetSDK_CMD_TYPE.CMD_GET_SYSTEM_USER_CONFIG);
+                int ret = FunclibAgent.getInstance().GetP2PDevConfig(dev.m_dev.getDevId(), NetSDK_CMD_TYPE.CMD_GET_SYSTEM_USER_CONFIG, "");
                 if (0 != ret) {
                     MainActivity.m_this.sendMessage(Define.MSG_SHOW_TOAST, R.string.dlg_set_user_info_fail_tip, 0, null);
                 }
@@ -625,7 +625,7 @@ public class DeviceFragment extends BaseFragment implements View.OnClickListener
 
                     // 获取视频参数，取消修改默认密码字幕
                     LibImpl.m_change_default_pwd_dev = dev;
-                    FunclibAgent.getInstance().GetP2PDevConfig(dev.m_devId, 501);
+                    FunclibAgent.getInstance().GetP2PDevConfig(dev.m_devId, 501, "");
 
                     if (0 != ret) {
                         MainActivity.m_this.sendMessage(Define.MSG_SHOW_TOAST, R.string.dlg_set_user_info_fail_tip, 0, null);

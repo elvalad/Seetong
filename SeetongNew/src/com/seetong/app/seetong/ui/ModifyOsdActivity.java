@@ -5,8 +5,10 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
+import com.seetong.app.seetong.sdk.impl.PlayerDevice;
 import com.seetong.app.seetong.ui.ext.RegexpEditText;
 import ipc.android.sdk.com.NetSDK_Media_Video_Config;
 import ipc.android.sdk.impl.FunclibAgent;
@@ -18,6 +20,8 @@ public class ModifyOsdActivity extends BaseActivity implements View.OnClickListe
     String m_device_id;
     NetSDK_Media_Video_Config m_video_config;
     NetSDK_Media_Video_Config m_new_video_config;
+
+    private PlayerDevice playerDevice;
 
     private RadioGroup mTimeGroup;
     private RadioButton mTimePositionLT;
@@ -47,6 +51,7 @@ public class ModifyOsdActivity extends BaseActivity implements View.OnClickListe
         mTipDlg = new ProgressDialog(this, R.string.dlg_login_server_tip);
         mTipDlg.setCancelable(false);
         m_device_id = getIntent().getStringExtra(Constant.EXTRA_DEVICE_ID);
+        playerDevice = Global.getDeviceById(m_device_id);
 
         mTimeGroup = (RadioGroup) findViewById(R.id.btn_group_time_position);
         mTimePositionLT = (RadioButton) findViewById(R.id.btn_time_lt);
@@ -71,7 +76,14 @@ public class ModifyOsdActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void loadData() {
-        int ret = FunclibAgent.getInstance().GetP2PDevConfig(m_device_id, 501);
+        String xml = "";
+        if (playerDevice == null) return;
+        if (playerDevice.isNVR()) {
+            int channelId = Integer.parseInt(playerDevice.m_devId.substring(playerDevice.m_devId.lastIndexOf("-") + 1)) - 1;
+            xml = "<REQUEST_PARAM ChannelId=\"" + channelId + "\"/>";
+        }
+
+        int ret = FunclibAgent.getInstance().GetP2PDevConfig(m_device_id, 501, xml);
         if (0 != ret) {
             toast(R.string.dlg_get_media_param_fail_tip);
             finish();

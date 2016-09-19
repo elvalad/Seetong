@@ -1892,7 +1892,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
 
                     // 获取视频参数，取消修改默认密码字幕
                     LibImpl.m_change_default_pwd_dev = playerDevice;
-                    FunclibAgent.getInstance().GetP2PDevConfig(playerDevice.m_devId, 501);
+                    FunclibAgent.getInstance().GetP2PDevConfig(playerDevice.m_devId, 501, "");
 
                     if (0 != ret) {
                         PlayerActivity.m_this.mTipDlg.dismiss();
@@ -2132,7 +2132,7 @@ public class PlayMultiVideoFragment extends BaseFragment {
             @Override
             public void run() {
                 // 已经设置新的用户信息，再次发送获取请求并验证
-                FunclibAgent.getInstance().GetP2PDevConfig(dev.m_dev.getDevId(), NetSDK_CMD_TYPE.CMD_GET_SYSTEM_USER_CONFIG);
+                FunclibAgent.getInstance().GetP2PDevConfig(dev.m_dev.getDevId(), NetSDK_CMD_TYPE.CMD_GET_SYSTEM_USER_CONFIG, "");
             }
         }).start();
     }

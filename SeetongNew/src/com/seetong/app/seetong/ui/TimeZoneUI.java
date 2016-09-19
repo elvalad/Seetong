@@ -230,7 +230,7 @@ public class TimeZoneUI extends BaseActivity implements View.OnClickListener {
             return;
         }*/
 
-        int ret = FunclibAgent.getInstance().GetP2PDevConfig(m_device_id, NetSDK_CMD_TYPE.CMD_GET_SYSTEM_TIME_CONFIG);
+        int ret = FunclibAgent.getInstance().GetP2PDevConfig(m_device_id, NetSDK_CMD_TYPE.CMD_GET_SYSTEM_TIME_CONFIG, "");
         if (0 != ret) {
             toast(R.string.dlg_get_config_info_failed_tip);
             finish();

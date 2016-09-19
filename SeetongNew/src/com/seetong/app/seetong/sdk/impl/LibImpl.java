@@ -584,7 +584,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                 for (PlayerDevice dev : lst) {
                     if (m_exit) return;
                     if (dev.m_dev.getOnLine() == Device.OFFLINE) continue;
-                    int ret = FunclibAgent.getInstance().GetP2PDevConfig(dev.m_devId, 501);
+                    int ret = FunclibAgent.getInstance().GetP2PDevConfig(dev.m_devId, 501, "");
                     if (0 != ret) {
                         Log.d("default password", "get media param config failed, devId=" + dev.m_devId);
                         continue;
@@ -2974,6 +2974,6 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
 
     public int getMediaParam(PlayerDevice dev) {
         if (null == dev) return -1;
-        return FunclibAgent.getInstance().GetP2PDevConfig(dev.m_devId, 501);
+        return FunclibAgent.getInstance().GetP2PDevConfig(dev.m_devId, 501, "");
     }
 }

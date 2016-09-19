@@ -50,7 +50,7 @@ public class ImageFlipUI extends BaseActivity implements View.OnClickListener {
     }
 
     public void loadData() {
-        int ret = FunclibAgent.getInstance().GetP2PDevConfig(m_device_id, 501);
+        int ret = FunclibAgent.getInstance().GetP2PDevConfig(m_device_id, 501, "");
         if (0 != ret) {
             toast(R.string.dlg_get_media_param_fail_tip);
             finish();
