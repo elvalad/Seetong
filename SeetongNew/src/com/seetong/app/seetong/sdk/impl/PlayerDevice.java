@@ -259,4 +259,8 @@ public class PlayerDevice {
     public boolean is_fw_update_v1_support() {
         return m_capacity_set.contains("fw_update_v1");
     }
+
+    public boolean is_osd_setting_support() {
+        return m_capacity_set.contains("channel_osd_setting");
+    }
 }

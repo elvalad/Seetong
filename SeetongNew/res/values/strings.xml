@@ -872,6 +872,8 @@
     <string name="player_prepare_record">Ready to record…</string>
     <string name="player_prompt_modify_password">Click on to modify the device username and password</string>
     <string name="player_modify_user_pwd">The device username and password</string>
+    <string name="player_not_support_osd_setting">Not support OSD setting</string>
+    <string name="player_not_support_timezone_setting">Not support timezone setting in current mode</string>
 
     <string name="about_update_delay">Seetong 5.0 update delay</string>
     <string name="about_upload_log_success">Upload log file success</string>

@@ -27,8 +27,11 @@ import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.sdk.impl.PlayerDevice;
 import com.seetong.app.seetong.ui.aid.ClearEditText;
 import com.seetong.app.seetong.ui.ext.MyTipDialog;
+import ipc.android.sdk.com.NetSDK_CMD_TYPE;
 import ipc.android.sdk.com.NetSDK_Media_Video_Config;
+import ipc.android.sdk.com.NetSDK_TimeZone_DST_Config;
 import ipc.android.sdk.com.SDK_CONSTANT;
+import ipc.android.sdk.impl.FunclibAgent;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -55,6 +58,7 @@ public class PlayerSettingActivity extends BaseActivity {
     private boolean bStopQueryUpdateState = true;
     private boolean bShowIpcDialog = true;
     private NetSDK_Media_Video_Config m_video_config;
+    private String timeMode = "";
 
     class SettingContent {
         Integer settingOptionR;
@@ -479,6 +483,11 @@ public class PlayerSettingActivity extends BaseActivity {
     }
 
     private void onModifyOsd() {
+        if (!playerDevice.is_osd_setting_support()) {
+            toast(R.string.player_not_support_osd_setting);
+            return;
+        }
+
         Intent it = new Intent(this, ModifyOsdActivity.class);
         it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
         this.startActivity(it);
@@ -514,6 +523,11 @@ public class PlayerSettingActivity extends BaseActivity {
     }
 
     private void onTimezoneSetting() {
+        if (!timeMode.equals("MANUAL")) {
+            toast(R.string.player_not_support_timezone_setting);
+            return;
+        }
+
         Intent it = new Intent(this, TimeZoneUI.class);
         it.putExtra(Constant.EXTRA_DEVICE_ID, deviceId);
         this.startActivity(it);
@@ -730,6 +744,7 @@ public class PlayerSettingActivity extends BaseActivity {
         deviceId = getIntent().getStringExtra("device_setting_id");
         bFirmwarePrompt = getIntent().getBooleanExtra("device_setting_firmware_prompt", false);
         playerDevice = Global.getDeviceById(deviceId);
+        FunclibAgent.getInstance().GetP2PDevConfig(deviceId, NetSDK_CMD_TYPE.CMD_GET_SYSTEM_TIME_CONFIG, "");
         initWidget();
     }
 
@@ -1048,6 +1063,10 @@ public class PlayerSettingActivity extends BaseActivity {
                 } else if (!bShowIpcDialog && playerDevice.bNvrUpdate) {
                     showNvrTipDialog();
                 }
+                break;
+            case NetSDK_CMD_TYPE.CMD_GET_SYSTEM_TIME_CONFIG:
+                NetSDK_TimeZone_DST_Config timeZoneCfg = (NetSDK_TimeZone_DST_Config) msg.obj;
+                timeMode = timeZoneCfg.TimeMode;
                 break;
         }
     }

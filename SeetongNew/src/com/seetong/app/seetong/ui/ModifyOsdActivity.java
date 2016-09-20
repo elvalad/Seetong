@@ -1,8 +1,7 @@
 package com.seetong.app.seetong.ui;
 
-import android.os.*;
+import android.os.Bundle;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.seetong.app.seetong.Global;
@@ -148,10 +147,8 @@ public class ModifyOsdActivity extends BaseActivity implements View.OnClickListe
         m_new_video_config.overlay.titleOverlay.Title = mTitleInfo.getText().toString();
 
         String xml = m_new_video_config.getOverlayXMLString();
-        Log.e("OSD", xml);
         int ret = LibImpl.getInstance().getFuncLib().SetP2PDevConfig(m_device_id, 525, xml);
         if (0 != ret) {
-            Log.e("OSD", "525 cmd ret : " + ret);
             toast(R.string.dlg_set_media_param_fail_tip);
             return;
         }
@@ -221,8 +218,6 @@ public class ModifyOsdActivity extends BaseActivity implements View.OnClickListe
         String titleInfo;
 
         String overlayXml = videoCfg.getOverlayXMLString();
-        Log.e("OSD", "X : " + videoCfg.overlay.timeOverlay.PosX + " Y : " + videoCfg.overlay.timeOverlay.PosY + " format : " + videoCfg.overlay.timeOverlay.Format);
-        Log.e("OSD", "X : " + videoCfg.overlay.titleOverlay.PosX + " Y : " + videoCfg.overlay.titleOverlay.PosY + " info : " + videoCfg.overlay.titleOverlay.Title);
         timePositionX = videoCfg.overlay.timeOverlay.PosX;
         timePositionY = videoCfg.overlay.timeOverlay.PosY;
         timeFormat = videoCfg.overlay.timeOverlay.Format;
