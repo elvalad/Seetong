@@ -2890,7 +2890,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                 //buf.fData = new byte[nSize];
                 buf.fData = pDecData;
                 //System.arraycopy(pDecData, 0, buf.fData, 0, buf.fData.length);
-                if (Config.m_video_fill_preview) {
+                if (Config.m_video_fill_preview && !dev.m_replaying) {
                     _glRender.setVideoMode(OpenglesRender.VIDEO_MODE_FILL);
                 } else {
                     _glRender.setVideoMode(OpenglesRender.VIDEO_MODE_FIT);
