@@ -2222,11 +2222,16 @@ public class PlayMultiVideoFragment extends BaseFragment {
     }
 
     private void onAuthFailed(PlayerDevice dev) {
-        int index = getIndexByDeviceID(dev);
-        ProgressBar liveVideoWaiting = (ProgressBar) layoutMap.get(index).findViewById(R.id.liveVideoWaiting);
-        liveVideoWaiting.setVisibility(View.GONE);
-        setTipText(dev.m_devId, R.string.dlg_login_fail_user_pwd_incorrect_tip);
-        if (!dev.m_devId.equals(chosenPlayerDevice.m_devId)) return;
+        ProgressBar liveVideoWaiting;
+        for (int i = 0; i < MAX_WINDOW; i++) {
+            if (deviceList.get(i).getNvrId().equals(dev.getNvrId())) {
+                liveVideoWaiting = (ProgressBar) layoutMap.get(i).findViewById(R.id.liveVideoWaiting);
+                liveVideoWaiting.setVisibility(View.GONE);
+                setTipText(deviceList.get(i).m_devId, R.string.dlg_login_fail_user_pwd_incorrect_tip);
+            }
+        }
+
+        if (!dev.getNvrId().equals(chosenPlayerDevice.getNvrId())) return;
         PlayerActivity.m_this.showEditPassNotification(dev);
     }
 
