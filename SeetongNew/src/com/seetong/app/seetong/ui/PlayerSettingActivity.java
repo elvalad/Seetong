@@ -483,6 +483,7 @@ public class PlayerSettingActivity extends BaseActivity {
     }
 
     private void onModifyOsd() {
+        playerDevice.m_capacity_set = LibImpl.getInstance().getCapacitySet(playerDevice);
         if (!playerDevice.is_osd_setting_support()) {
             toast(R.string.player_not_support_osd_setting);
             return;

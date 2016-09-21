@@ -1257,7 +1257,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         Log.i(TAG, "onNvrReplayResp, act=" + data.getnActionType() + ",have audio=" + data.getbHaveAudio()
                 + ",video codec=" + data.getVideoParam().getCodec());
 
-        if (data.getVideoParam().getCodec().equals("H265")) {
+        if (data.getVideoParam().getCodec().equals("H265") && !s_pca.IsHardwareDecode()) {
             sendMessage(nMsgType, -42, 0, null);
             return;
         }

@@ -232,6 +232,14 @@ public class ModifyOsdActivity extends BaseActivity implements View.OnClickListe
             mTimePositionRB.setChecked(true);
         }
 
+        String[] ls = getResources().getStringArray(R.array.time_format);
+        for (int i = 0; i < ls.length; i++) {
+            if (timeFormat.equals(ls[i])) {
+                mTimeFormat.setSelection(i);
+                break;
+            }
+        }
+
         titlePositionX = videoCfg.overlay.titleOverlay.PosX;
         titlePositionY = videoCfg.overlay.titleOverlay.PosY;
         titleInfo = videoCfg.overlay.titleOverlay.Title;
