@@ -82,6 +82,7 @@ public class Define {
     public static final String CFG_SHOW_ALIAS = "cfg_show_alias";
     public static final String CFG_SHOW_DEVID = "cfg_show_devid";
     public static final String CFG_VIDEO_PREVIEW = "cfg_video_preview";
+    public static final String CFG_ENABLE_HARDWARE_DECODE = "cfg_enable_hardware_decode";
     public static final String POLLING_TIME = "polling_time";
     public static final String CFG_FRAME_BUFFER_SIZE = "frame_buffer_size";
     public static final String IS_SAVE_DEV_LIST = "is_save_dev_list";

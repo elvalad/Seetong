@@ -9,6 +9,7 @@ import com.seetong.app.seetong.Config;
 import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
+import com.seetong.app.seetong.sdk.impl.LibImpl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,6 +29,8 @@ public class SettingUI extends BaseActivity {
     ToggleButton m_tb_show_alias;
     ToggleButton m_tb_show_devid;
     ToggleButton m_tb_video_preview;
+    ToggleButton m_tb_enable_hardware_decode;
+    RelativeLayout m_layout_hardware_decode;
     ArrayList<String> m_soundAry = new ArrayList<>();
     ArrayAdapter<String> m_adpAry;
 
@@ -115,6 +118,20 @@ public class SettingUI extends BaseActivity {
         m_tb_show_alias = (ToggleButton) findViewById(R.id.tb_show_alias);
         m_tb_show_devid = (ToggleButton) findViewById(R.id.tb_show_devid);
         m_tb_video_preview = (ToggleButton) findViewById(R.id.tb_preview_mode);
+        m_tb_enable_hardware_decode = (ToggleButton) findViewById(R.id.tb_enable_hardware_decode);
+        m_layout_hardware_decode = (RelativeLayout) findViewById(R.id.layout_enable_hardware_decode);
+        if (LibImpl.getInstance().hasHardwareDecode()) {
+            m_layout_hardware_decode.setVisibility(View.VISIBLE);
+            m_tb_enable_hardware_decode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean bEnableHardwareDecode = m_tb_enable_hardware_decode.isChecked();
+                    LibImpl.getInstance().enableHardwareDecode(bEnableHardwareDecode);
+                }
+            });
+        } else {
+            m_layout_hardware_decode.setVisibility(View.GONE);
+        }
 
         String[] ls = getResources().getStringArray(R.array.string_ary_alarm_sound_name);
         Collections.addAll(m_soundAry, ls);
@@ -168,6 +185,10 @@ public class SettingUI extends BaseActivity {
         m_tb_show_alias.setChecked(Config.m_show_alias);
         m_tb_show_devid.setChecked(Config.m_show_devid);
         m_tb_video_preview.setChecked(Config.m_video_fill_preview);
+        m_tb_enable_hardware_decode.setChecked(Config.m_enable_hardware_decode);
+        if (LibImpl.getInstance().hasHardwareDecode()) {
+            LibImpl.getInstance().enableHardwareDecode(Config.m_enable_hardware_decode);
+        }
         mPollingTimeBar.setProgress(Config.m_polling_time);
         mPollingTimeValue.setText((mPollingTimeBar.getProgress() + 5) + "/" + (mPollingTimeBar.getMax() + 5));
     }
@@ -185,6 +206,7 @@ public class SettingUI extends BaseActivity {
         Config.m_show_alias = m_tb_show_alias.isChecked();
         Config.m_show_devid = m_tb_show_devid.isChecked();
         Config.m_video_fill_preview = m_tb_video_preview.isChecked();
+        Config.m_enable_hardware_decode = m_tb_enable_hardware_decode.isChecked();
         Config.m_polling_time = (mPollingTimeBar.getProgress() < 1) ? 1 : mPollingTimeBar.getProgress();
         Config.saveData();
     }

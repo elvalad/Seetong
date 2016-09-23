@@ -313,6 +313,7 @@
     <string name="tv_polling_time">Polling Time:</string>
     <string name="tv_show_devid">Show ID:</string>
     <string name="tv_preview_mode">Video Fill Mode:</string>
+    <string name="tv_enable_hardware_decode">Enable hardware decode:</string>
 
     <string name="tv_stream">Stream:</string>
     <string name="tv_main_stream">Main</string>

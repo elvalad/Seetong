@@ -19,6 +19,7 @@ public class Config {
     public static boolean m_show_alias = false;
     public static boolean m_show_devid = true;
     public static boolean m_video_fill_preview = true;
+    public static boolean m_enable_hardware_decode = true;
     public static int m_polling_time = 5;
     public static int m_frame_buffer_size = 50;
 
@@ -38,6 +39,7 @@ public class Config {
         m_show_alias = spu.loadBooleanSharedPreference(Define.CFG_SHOW_ALIAS);
         m_show_devid = spu.loadBooleanSharedPreference(Define.CFG_SHOW_DEVID, true);
         m_video_fill_preview = spu.loadBooleanSharedPreference(Define.CFG_VIDEO_PREVIEW, true);
+        m_enable_hardware_decode = spu.loadBooleanSharedPreference(Define.CFG_ENABLE_HARDWARE_DECODE, true);
         m_polling_time = spu.loadIntSharedPreference(Define.POLLING_TIME);
         if (m_polling_time < 1 || m_polling_time > 10) m_polling_time = 5;
         m_frame_buffer_size = spu.loadIntSharedPreference(Define.CFG_FRAME_BUFFER_SIZE);
@@ -57,6 +59,7 @@ public class Config {
         spu.saveSharedPreferences(Define.CFG_SHOW_ALIAS, m_show_alias);
         spu.saveSharedPreferences(Define.CFG_SHOW_DEVID, m_show_devid);
         spu.saveSharedPreferences(Define.CFG_VIDEO_PREVIEW, m_video_fill_preview);
+        spu.saveSharedPreferences(Define.CFG_ENABLE_HARDWARE_DECODE, m_enable_hardware_decode);
         spu.saveSharedPreferences(Define.POLLING_TIME, m_polling_time);
         spu.saveSharedPreferences(Define.CFG_FRAME_BUFFER_SIZE, m_frame_buffer_size);
     }

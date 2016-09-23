@@ -3,6 +3,7 @@ package com.seetong.app.seetong.sdk.impl;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.opengl.GLSurfaceView;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -2975,5 +2976,13 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
     public int getMediaParam(PlayerDevice dev) {
         if (null == dev) return -1;
         return FunclibAgent.getInstance().GetP2PDevConfig(dev.m_devId, 501, "");
+    }
+
+    public boolean hasHardwareDecode() {
+        return Build.VERSION.SDK_INT >= 21;
+    }
+
+    public void enableHardwareDecode(boolean bHardwareDecode) {
+        s_pca.EnableHardwareDecode(bHardwareDecode);
     }
 }
