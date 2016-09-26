@@ -79,7 +79,7 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
     int m_play_status = REPLAY_NVR_ACTION.NVR_ACTION_STOP;
     int m_record_pos = 0;
 
-    AudioManager m_audioManage;
+    //AudioManager m_audioManage;
 
     int m_type = 0;
     Date m_find_date = new Date();
@@ -179,13 +179,14 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
         m_seekbar_sound.setOnSeekBarChangeListener(osbcl_sound);
         m_seekbar_h_sound.setOnSeekBarChangeListener(osbcl_sound);
 
-        m_audioManage = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-        int maxVolume = m_audioManage.getStreamMaxVolume(AudioManager.STREAM_MUSIC);  //获取系统最大音量
-        m_seekbar_sound.setMax(maxVolume);
-        m_seekbar_h_sound.setMax(maxVolume);
-        int currentVolume = m_audioManage.getStreamVolume(AudioManager.STREAM_MUSIC);  //获取当前值
-        m_seekbar_sound.setProgress(currentVolume);
-        m_seekbar_h_sound.setProgress(currentVolume);
+        //m_audioManage = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        //int maxVolume = m_audioManage.getStreamMaxVolume(AudioManager.STREAM_MUSIC);  //获取系统最大音量
+        //m_seekbar_sound.setMax(maxVolume);
+        //m_seekbar_h_sound.setMax(maxVolume);
+        //int currentVolume = m_audioManage.getStreamVolume(AudioManager.STREAM_MUSIC);  //获取当前值
+        //m_seekbar_sound.setProgress(currentVolume);
+        //m_seekbar_h_sound.setProgress(currentVolume);
+        Global.m_audioManage.setMode(AudioManager.MODE_NORMAL);
 
         View v = findViewById(R.id.layout_h_play_control);
         v.setVisibility(View.GONE);
@@ -256,10 +257,10 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
     private SeekBar.OnSeekBarChangeListener osbcl_sound = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            m_audioManage.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
-            int currentVolume = m_audioManage.getStreamVolume(AudioManager.STREAM_MUSIC);  //获取当前值
-            m_seekbar_sound.setProgress(currentVolume);
-            m_seekbar_h_sound.setProgress(currentVolume);
+            //m_audioManage.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+            //int currentVolume = m_audioManage.getStreamVolume(AudioManager.STREAM_MUSIC);  //获取当前值
+            //m_seekbar_sound.setProgress(currentVolume);
+            //m_seekbar_h_sound.setProgress(currentVolume);
         }
 
         @Override
