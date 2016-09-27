@@ -41,7 +41,10 @@ import ipc.android.sdk.com.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NvrRecord extends BaseActivity implements GestureDetector.OnGestureListener, View.OnClickListener, View.OnTouchListener {
     String m_device_id;
@@ -186,6 +189,8 @@ public class NvrRecord extends BaseActivity implements GestureDetector.OnGesture
         //int currentVolume = m_audioManage.getStreamVolume(AudioManager.STREAM_MUSIC);  //获取当前值
         //m_seekbar_sound.setProgress(currentVolume);
         //m_seekbar_h_sound.setProgress(currentVolume);
+        //Global.m_audioManage.setMicrophoneMute(false);
+        //Global.m_audioManage.setSpeakerphoneOn(true);
         Global.m_audioManage.setMode(AudioManager.MODE_NORMAL);
 
         View v = findViewById(R.id.layout_h_play_control);
