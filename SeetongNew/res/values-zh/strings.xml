@@ -873,6 +873,9 @@
     <string name="player_modify_user_pwd">设备用户名和密码</string>
     <string name="player_not_support_osd_setting">不支持OSD设置</string>
     <string name="player_not_support_timezone_setting">当前模式不支持时间时区设置</string>
+    <string name="player_osd_position_conflict">时间和标题必须为一上一下</string>
+    <string name="player_osd_title_length_can_not_null">标题长度不能为空</string>
+    <string name="player_osd_title_length_too_long">标题长度过长</string>
 
     <string name="about_update_delay">暂时不能更新</string>
     <string name="about_upload_log_success">上传日志文件成功</string>

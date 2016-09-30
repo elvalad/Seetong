@@ -80,6 +80,9 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         m_exit = false;
         m_stop_play = false;
         m_stop_snapshot = false;
+        if (hasHardwareDecode()) {
+            enableHardwareDecode(Config.m_enable_hardware_decode);
+        }
     }
 
     public void logoff(boolean exit) {

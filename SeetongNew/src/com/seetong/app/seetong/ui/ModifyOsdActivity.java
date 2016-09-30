@@ -146,6 +146,21 @@ public class ModifyOsdActivity extends BaseActivity implements View.OnClickListe
         }
         m_new_video_config.overlay.titleOverlay.Title = mTitleInfo.getText().toString();
 
+        if (m_new_video_config.overlay.timeOverlay.PosY.equals(m_new_video_config.overlay.titleOverlay.PosY)) {
+            toast(R.string.player_osd_position_conflict);
+            return;
+        }
+
+        if (m_new_video_config.overlay.titleOverlay.Title.length() == 0) {
+            toast(R.string.player_osd_title_length_can_not_null);
+            return;
+        }
+
+        if (m_new_video_config.overlay.titleOverlay.Title.length() > 64) {
+            toast(R.string.player_osd_title_length_too_long);
+            return;
+        }
+
         String xml = m_new_video_config.getOverlayXMLString();
         int ret = LibImpl.getInstance().getFuncLib().SetP2PDevConfig(m_device_id, 525, xml);
         if (0 != ret) {

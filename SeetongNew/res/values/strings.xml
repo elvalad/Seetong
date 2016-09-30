@@ -875,6 +875,9 @@
     <string name="player_modify_user_pwd">The device username and password</string>
     <string name="player_not_support_osd_setting">Not support OSD setting</string>
     <string name="player_not_support_timezone_setting">Not support timezone setting in current mode</string>
+    <string name="player_osd_position_conflict">Time position and title position are conflict</string>
+    <string name="player_osd_title_length_can_not_null">Title can not be null</string>
+    <string name="player_osd_title_length_too_long">Title is too long</string>
 
     <string name="about_update_delay">Seetong 5.0 update delay</string>
     <string name="about_upload_log_success">Upload log file success</string>
