@@ -2243,6 +2243,10 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                 break;
             case 501: // 读取视频参数配置
                 if (TextUtils.isEmpty(xml)) return 0;
+                if (flag == -33554432) {
+                    sendMessageToMediaParamUI(nMsgType, flag, 0, null);
+                    return 0;
+                }
                 NetSDK_Media_Video_Config cfg = (NetSDK_Media_Video_Config) new NetSDK_Media_Video_Config().fromXML(xml);
                 sendMessageToMediaParamUI(nMsgType, flag, 0, cfg);
                 onGetVideoParamConfig(devId, cfg);

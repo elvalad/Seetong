@@ -203,7 +203,11 @@ public class ModifyOsdActivity extends BaseActivity implements View.OnClickListe
     private void onGetVideoParam(int flag, NetSDK_Media_Video_Config cfg) {
         mTipDlg.dismiss();
         if (flag != 0 || null == cfg) {
-            toast(R.string.dlg_get_media_param_fail_tip);
+            if (flag == -33554432) {
+                toast(R.string.player_not_support_osd_setting);
+            } else {
+                toast(R.string.dlg_get_media_param_fail_tip);
+            }
             finish();
             return;
         }
