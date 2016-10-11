@@ -157,6 +157,17 @@ public class PictureFragment extends BaseFragment {
         adapter.notifyDataSetChanged();
     }
 
+    public List<String> getChoosenFileList() {
+        List<String> choosenFileList = new ArrayList<>();
+        for (MediaGridItem item : mGridList) {
+            if (item.getIsChoosed()) {
+                choosenFileList.add(item.getPath());
+            }
+        }
+
+        return choosenFileList;
+    }
+
     public void setChoosenMode(boolean choosenMode) {
         for (int i = 0; i < mGridList.size(); i++) {
             mGridList.get(i).setIsChoosed(false);

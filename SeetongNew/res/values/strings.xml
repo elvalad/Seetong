@@ -848,6 +848,9 @@
     <string name="media_no_choosen_file">Please select one picture</string>
     <string name="media_first_pic">First</string>
     <string name="media_last_pic">Last</string>
+    <string name="media_can_not_share_video">Can not support share video</string>
+    <string name="media_no_share_pic">Please select one picture</string>
+    <string name="media_too_more_pic">You can only share one picture</string>
 
     <string name="player_resolution">HD</string>
     <string name="player_high_resolution">SD</string>

@@ -846,6 +846,9 @@
     <string name="media_no_choosen_file">请选中文件</string>
     <string name="media_first_pic">第一张</string>
     <string name="media_last_pic">最后一张</string>
+    <string name="media_can_not_share_video">不支持分享视频</string>
+    <string name="media_no_share_pic">请选中一张图片</string>
+    <string name="media_too_more_pic">只能分享一张图片</string>
 
     <string name="player_resolution">标清</string>
     <string name="player_high_resolution">高清</string>

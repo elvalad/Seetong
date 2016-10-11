@@ -7,11 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.wechat.favorite.WechatFavorite;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
+
+import java.util.List;
 
 public class MediaFragment2 extends BaseFragment {
     private PictureFragment pictureFragment;
@@ -28,6 +34,9 @@ public class MediaFragment2 extends BaseFragment {
     private Button editButton;
     private Button chooseAllButton;
     private ImageButton deleteButton;
+    private ImageView operateBlankView;
+    private ImageButton shareButton;
+    private LinearLayout operateLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,7 +54,10 @@ public class MediaFragment2 extends BaseFragment {
         videoButton = (Button) fragmentView.findViewById(R.id.media_video);
         editButton = (Button) fragmentView.findViewById(R.id.media_edit);
         chooseAllButton = (Button) fragmentView.findViewById(R.id.media_choose_all);
+        operateLayout = (LinearLayout) fragmentView.findViewById(R.id.media_operate_layout);
         deleteButton = (ImageButton) fragmentView.findViewById(R.id.media_delete);
+        operateBlankView = (ImageView) fragmentView.findViewById(R.id.media_operate_blank);
+        shareButton = (ImageButton) fragmentView.findViewById(R.id.media_share);
         picturebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +123,24 @@ public class MediaFragment2 extends BaseFragment {
             }
         });
 
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentFragmentName.equals("picture")) {
+                    List<String> picList = pictureFragment.getChoosenFileList();
+                    if (picList.size() == 0) {
+                        toast(R.string.media_no_share_pic);
+                    } else if (picList.size() > 1) {
+                        toast(R.string.media_too_more_pic);
+                    } else {
+                        showShare(picList.get(0));
+                    }
+                } else if (currentFragmentName.equals("video")) {
+                    toast(R.string.media_can_not_share_video);
+                }
+            }
+        });
+
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,7 +153,8 @@ public class MediaFragment2 extends BaseFragment {
                     choosenMode = false;
                     layout.setVisibility(View.VISIBLE);
                     chooseAllButton.setVisibility(View.GONE);
-                    deleteButton.setVisibility(View.GONE);
+                    operateLayout.setVisibility(View.GONE);
+                    //deleteButton.setVisibility(View.GONE);
                     editButton.setText(R.string.edit);
                 } else {
                     if (currentFragmentName.equals("picture")) {
@@ -134,7 +165,8 @@ public class MediaFragment2 extends BaseFragment {
                     choosenMode = true;
                     layout.setVisibility(View.GONE);
                     chooseAllButton.setVisibility(View.VISIBLE);
-                    deleteButton.setVisibility(View.VISIBLE);
+                    operateLayout.setVisibility(View.VISIBLE);
+                    //deleteButton.setVisibility(View.VISIBLE);
                     editButton.setText(R.string.media_edit_ok);
                 }
             }
@@ -197,5 +229,15 @@ public class MediaFragment2 extends BaseFragment {
                 showPictureFragment();
                 break;
         }
+    }
+
+    private void showShare(String filePath) {
+        ShareSDK.initSDK(this.getActivity());
+        OnekeyShare oks = new OnekeyShare();
+        oks.disableSSOWhenAuthorize();
+        oks.addHiddenPlatform(SinaWeibo.NAME);
+        oks.addHiddenPlatform(WechatFavorite.NAME);
+        oks.setImagePath(filePath);
+        oks.show(this.getActivity());
     }
 }
