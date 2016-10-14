@@ -234,4 +234,43 @@
 
         </RelativeLayout>
 
+        <ImageView
+                android:id="@+id/device_wifi_cfg_line"
+                android:src="@drawable/line"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/mix_device_wifi_cfg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        <RelativeLayout
+                android:id="@+id/lan_search_device"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_below="@+id/device_wifi_cfg_line"
+                android:background="@drawable/tps_register_loginbtn"
+                android:layout_width="match_parent"
+                android:layout_height="35dp">
+
+            <ImageView
+                    android:src="@drawable/tps_device_lan_search"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="60dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"/>
+
+            <Button
+                    android:id="@+id/device_lan_search"
+                    android:text="@string/device_lan_search"
+                    android:background="#00000000"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp"
+                    android:layout_centerVertical="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"/>
+
+        </RelativeLayout>
+
 </LinearLayout>

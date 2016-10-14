@@ -37,6 +37,7 @@ public class AddDeviceActivity extends BaseActivity {
     private Button scanQRCodeButton;
     private Button addDeviceButton;
     private Button wifiCfgButton;
+    private Button lanSearchButton;
     private ImageButton addDeviceBackButton;
 
     public static MyHandler mhHandler;
@@ -166,6 +167,14 @@ public class AddDeviceActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 searchWifi();
+            }
+        });
+
+        lanSearchButton = (Button) findViewById(R.id.device_lan_search);
+        lanSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lanSearchDevice();
             }
         });
 
@@ -355,5 +364,10 @@ public class AddDeviceActivity extends BaseActivity {
         } else {
             toast(T(R.string.dlg_network_check_WIFI_tip));
         }
+    }
+
+    private void lanSearchDevice() {
+        Intent intent = new Intent(AddDeviceActivity.this, LanSearchActivity.class);
+        startActivity(intent);
     }
 }

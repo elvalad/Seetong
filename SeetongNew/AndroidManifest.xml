@@ -132,6 +132,10 @@
                   android:screenOrientation="portrait">
         </activity>
 
+        <activity android:name="com.seetong.app.seetong.ui.LanSearchActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+
         <activity
                 android:name="com.seetong.app.seetong.ui.LoginUI2"
                 android:screenOrientation="portrait"
