@@ -4,8 +4,47 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+    <RelativeLayout
+            android:id="@+id/lansearch_tabbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/tps_register_tabbar"
+            android:layout_gravity="center_horizontal">
+
+        <Button
+                android:id="@+id/device_choose_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:background="#00000000"
+                android:text="@string/lan_choose_all"
+                android:textColor="@color/green"
+                android:layout_marginLeft="25dp"
+                android:layout_centerVertical="true" />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lan_search_device"
+                android:textSize="20sp"
+                android:textColor="@color/green"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+        <ImageButton
+                android:id="@+id/lan_device_add"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:scaleType="fitXY"
+                android:background="#00000000"
+                android:src="@drawable/tps_lan_device_add"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="25dp"
+                android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
     <TextView
-            android:text="Lan search device"
+            android:text="@string/lan_search_device"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

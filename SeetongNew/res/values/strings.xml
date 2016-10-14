@@ -920,4 +920,9 @@
     <string name="comment_next">Next</string>
     <string name="comment_first_page">It is the first page</string>
     <string name="comment_last_page">It is the last page</string>
+
+    <string name="lan_search_device">Lan device</string>
+    <string name="lan_choose_all">All</string>
+    <string name="lan_choose_none">None</string>
+    <string name="lan_search_add">Add</string>
 </resources>

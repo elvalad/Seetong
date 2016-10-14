@@ -918,4 +918,9 @@
     <string name="comment_next">下一页</string>
     <string name="comment_first_page">已经是第一页</string>
     <string name="comment_last_page">已经是最后一页</string>
+
+    <string name="lan_search_device">局域网设备</string>
+    <string name="lan_choose_all">全选</string>
+    <string name="lan_choose_none">取消</string>
+    <string name="lan_search_add">添加</string>
 </resources>
