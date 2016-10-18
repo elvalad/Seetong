@@ -2901,7 +2901,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
                 if (Config.m_video_fill_preview && !dev.m_replaying) {
                     _glRender.setVideoMode(OpenglesRender.VIDEO_MODE_FILL);
                 } else {
-                    _glRender.setVideoMode(OpenglesRender.VIDEO_MODE_FIT);
+                    //_glRender.setVideoMode(OpenglesRender.VIDEO_MODE_FIT);
                 }
                 _glRender.updateView(buf);
                 dev.m_playing = true;

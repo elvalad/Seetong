@@ -45,7 +45,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"/>
 
-        <EditText
+        <com.seetong.app.seetong.ui.ext.EmailAutoCompleteTextView
                 android:id="@+id/register_user"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"

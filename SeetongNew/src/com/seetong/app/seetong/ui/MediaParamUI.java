@@ -396,7 +396,10 @@ public class MediaParamUI extends BaseActivity implements View.OnClickListener {
 
             if (Integer.parseInt(videoCap.stream_type) != streamType) continue;
             if (videoCap.resolution.compareTo("5MP") == 0) continue;
-            m_resolution_list.add(videoCap.resolution);
+            if (!m_resolution_list.contains(videoCap.resolution)) {
+                m_resolution_list.add(videoCap.resolution);
+            }
+
             if (-1 == min_frame_rate) min_frame_rate = Integer.parseInt(videoCap.min_frame_rate);
             if (-1 == max_frame_rate) max_frame_rate = Integer.parseInt(videoCap.max_frame_rate);
             if (-1 == min_bit_rate) min_bit_rate = Integer.parseInt(videoCap.min_bit_rate);
