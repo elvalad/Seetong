@@ -44,7 +44,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * Created by csw on 2014/5/5.
  */
-public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPlayCtrlAgentCB, FunclibAgent.ILogCB {
+public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPlayCtrlAgentCB, FunclibAgent.ILogCB, FunclibAgent.IDirectConnectCB {
     private static String TAG = "LibImpl";
     private static LibImpl m_impl = null;
 
@@ -57,6 +57,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         s_func = FunclibAgent.getInstance();
         s_pca = PlayCtrlAgent.getInstance();
         s_func.setIFunclibAgentCB(this);
+        s_func.setIDirectConnectCB(this);
         s_func.setILogCB(this);
         s_pca.setIPlayCtrlAgentCB(this);
         m_mediaDataThread.start();
@@ -104,6 +105,7 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         if (0 != ret) ret = s_func.initExAgent(Global.m_mobile_net_sub_type_2);
         if (0 != ret) ret = s_func.initExAgent(Global.m_mobile_net_sub_type_2);
         m_fc_inited = (0 == ret);
+        s_func.setDirectConnectCallbackFunc();
         return ret;
     }
 
@@ -481,6 +483,62 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
         }
 
         return ret;
+    }
+
+    @Override
+    public long SearchIPC(long l, long l1, NetSDK_IPC_ENTRY netSDK_ipc_entry) {
+        Global.addLanSearchEntry(netSDK_ipc_entry);
+        return 0;
+    }
+
+    @Override
+    public long StatusEvent(long l, long l1, String s) {
+        return 0;
+    }
+
+    @Override
+    public long AUXResponse(long l, long l1, String s) {
+        return 0;
+    }
+
+    @Override
+    public long VoiceData(long l, String s, long l1, byte b, FRAME_EXTDATA frame_extdata) {
+        return 0;
+    }
+
+    @Override
+    public long RealData(long l, long l1, byte[] bytes, long l2, FRAME_EXTDATA frame_extdata) {
+        return 0;
+    }
+
+    @Override
+    public long ReplayData(long l, long l1, byte[] bytes, long l2, FRAME_EXTDATA frame_extdata) {
+        return 0;
+    }
+
+    @Override
+    public long PlayActionEvent(long l, long l1, long l2, String s) {
+        return 0;
+    }
+
+    @Override
+    public long Exception(long l, long l1, long l2) {
+        return 0;
+    }
+
+    @Override
+    public long EncodeAudio(long l, long l1, long l2) {
+        return 0;
+    }
+
+    @Override
+    public long SerialData(long l, byte[] bytes, long l1) {
+        return 0;
+    }
+
+    @Override
+    public long RecFileName(long l, byte[] bytes, long l1) {
+        return 0;
     }
 
     /**

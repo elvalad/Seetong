@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:paddingTop="5dp"
+              android:paddingBottom="5dp"
+              android:paddingLeft="20dp"
+              android:paddingRight="20dp"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <TextView
+            android:id="@+id/dev_id"
+            android:textSize="18sp"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:id="@+id/dev_ip"
+            android:textSize="18sp"
+            android:layout_toRightOf="@+id/dev_id"
+            android:paddingLeft="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <Button
+            android:id="@+id/dev_check"
+            android:background="@drawable/lan_dev_checkbox"
+            android:layout_alignParentRight="true"
+            android:scaleType="fitXY"
+            android:layout_centerVertical="true"
+            android:layout_width="20dp"
+            android:layout_height="20dp"/>
+
+</RelativeLayout>

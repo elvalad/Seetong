@@ -23,6 +23,7 @@ public class Define {
     public static final int MSG_UPDATE_NET_SPEED = 115;
     public static final int MSG_GET_DEV_VERSION_INFO = 116;
     public static final int MSG_SHOW_FW_UPDATE_PROGRESS = 117;
+    public static final int MSG_UPDATE_LAN_SEARCH_DEV_LIST = 118;
     public static final int MSG_DEVICE_CONFIG = 60004;
 
 

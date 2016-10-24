@@ -29,6 +29,7 @@ import com.umeng.update.UmengUpdateListener;
 import com.umeng.update.UpdateResponse;
 import com.umeng.update.UpdateStatus;
 import ipc.android.sdk.com.Device;
+import ipc.android.sdk.com.NetSDK_IPC_ENTRY;
 import ipc.android.sdk.com.TPS_AlarmInfo;
 import ipc.android.sdk.impl.DeviceInfo;
 
@@ -60,6 +61,7 @@ public class Global {
     private static List<PlayerDevice> m_deviceList = new ArrayList<>();
     public static DeviceInfo m_devInfo = new DeviceInfo();
     public static List<DeviceInfo> m_devInfoList = new ArrayList<>();
+    public static List<NetSDK_IPC_ENTRY> m_lanSearchList = new ArrayList<>();
     public static int m_loginType = Define.LOGIN_TYPE_NONE;
     public static boolean m_guide_finished = false;
     public static boolean m_firmware_update = false;
@@ -108,6 +110,14 @@ public class Global {
 
     synchronized public static void setDeviceList(List<PlayerDevice> list) {
         m_deviceList = list;
+    }
+
+    synchronized public static void addLanSearchEntry(NetSDK_IPC_ENTRY entry) {
+        m_lanSearchList.add(entry);
+    }
+
+    synchronized public static List<NetSDK_IPC_ENTRY> getLanSearchList() {
+        return m_lanSearchList;
     }
 
     synchronized public static List<PlayerDevice> getDeviceList() {

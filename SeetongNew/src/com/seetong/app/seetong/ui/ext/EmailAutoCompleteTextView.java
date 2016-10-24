@@ -13,7 +13,7 @@ import com.seetong.app.seetong.R;
 public class EmailAutoCompleteTextView extends AutoCompleteTextView {
     private static final String TAG = "EmailAutoCompleteTextView";
 
-    private String[] emailSufixs = new String[] {
+    private String[] emailSuffixs = new String[] {
             "@qq.com",
             "@126.com",
             "@163.com",
@@ -43,12 +43,12 @@ public class EmailAutoCompleteTextView extends AutoCompleteTextView {
 
     public void setAdapterString(String[] es) {
         if(es != null && es.length > 0)
-            this.emailSufixs = es;
+            this.emailSuffixs = es;
     }
 
     private void init(final Context context) {
         //adapter中使用默认的emailSufixs中的数据，可以通过setAdapterString来更改
-        this.setAdapter(new EmailAutoCompleteAdapter(context, R.layout.auto_complete_item, emailSufixs));
+        this.setAdapter(new EmailAutoCompleteAdapter(context, R.layout.auto_complete_item, emailSuffixs));
 
         //使得在输入1个字符之后便开启自动完成
         this.setThreshold(1);
