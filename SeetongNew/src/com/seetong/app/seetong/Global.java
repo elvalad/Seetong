@@ -120,6 +120,10 @@ public class Global {
         return m_lanSearchList;
     }
 
+    synchronized public static void clearLanSearchList() {
+        m_lanSearchList.clear();
+    }
+
     synchronized public static List<PlayerDevice> getDeviceList() {
         return m_deviceList;
     }

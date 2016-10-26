@@ -44,6 +44,7 @@ public class AddDeviceActivity extends BaseActivity {
     private ProgressDialog mTipDlg;
     private int mAddState = 0;
     private DeviceInfo mDevInfo = new DeviceInfo();
+    private boolean bAddFromLanSearch = false;
 
     public static final int WIFI_ETC_REQ_ID = 0x1010;
 
@@ -287,6 +288,7 @@ public class AddDeviceActivity extends BaseActivity {
                         it.putExtra(Constant.DEVICE_INFO_KEY, m_ui.mDevInfo.getDevId());
                         it.putExtra(Constant.DEVICE_LIST_CONTENT_KEY, xml);
                         m_ui.setResult(RESULT_OK, it);
+                        if (m_ui.bAddFromLanSearch) return;
                         m_ui.finish();
                     } else {
                         m_ui.toast(T(R.string.dlg_login_recv_list_fail_tip));
@@ -369,5 +371,6 @@ public class AddDeviceActivity extends BaseActivity {
     private void lanSearchDevice() {
         Intent intent = new Intent(AddDeviceActivity.this, LanSearchActivity.class);
         startActivity(intent);
+        bAddFromLanSearch = true;
     }
 }

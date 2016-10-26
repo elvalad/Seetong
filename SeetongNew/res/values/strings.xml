@@ -925,4 +925,7 @@
     <string name="lan_choose_all">All</string>
     <string name="lan_choose_none">None</string>
     <string name="lan_search_add">Add</string>
+    <string name="lan_choose_valid_dev">Please choose the lan search device</string>
+    <string name="lan_choose_get_cloud_id">Please get the cloud id</string>
+    <string name="lan_search_add_success">Add success from lan search</string>
 </resources>

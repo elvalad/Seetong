@@ -1,7 +1,6 @@
 package com.seetong.app.seetong.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -9,7 +8,9 @@ import com.seetong.app.seetong.Global;
 import com.seetong.app.seetong.R;
 import com.seetong.app.seetong.comm.Define;
 import com.seetong.app.seetong.model.LanDeviceInfo;
+import com.seetong.app.seetong.sdk.impl.ConstantImpl;
 import com.seetong.app.seetong.sdk.impl.LibImpl;
+import com.seetong.app.seetong.ui.ext.MyTipDialog;
 import ipc.android.sdk.com.NetSDK_IPC_ENTRY;
 
 import java.util.ArrayList;
@@ -31,6 +32,13 @@ public class LanSearchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lan_search);
         initWidget();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        data.clear();
+        Global.clearLanSearchList();
     }
 
     private void initWidget() {
@@ -60,22 +68,72 @@ public class LanSearchActivity extends BaseActivity {
         addLanDevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //mTipDlg.show();
-                adapter.addLanDevList();
+                mTipDlg.show();
+                addLanDevList();
             }
         });
     }
 
     private void getData() {
         data.clear();
-
         for (NetSDK_IPC_ENTRY entry : Global.getLanSearchList()) {
             LanDeviceInfo devInfo = new LanDeviceInfo();
             devInfo.setEntry(entry);
-            Log.e("DDD", "user : " + devInfo.getEntry().getUserCfg().getAccounts()[0].getUserName()
-                    + " pass : " + devInfo.getEntry().getUserCfg().getAccounts()[0].getPassword());
             data.add(devInfo);
         }
+    }
+
+    private void addLanDevList() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int i = 0;
+                for (LanDeviceInfo info : data) {
+                    if (!info.getChecked()) {
+                        i++;
+                    }
+
+                    if (info.getChecked() && info.getEntry().getCloudId().equals("")) {
+                        // 修改云ID为空的设备
+                        mTipDlg.dismiss();
+                        toast(R.string.lan_choose_get_cloud_id);
+                        return;
+                    }
+                }
+
+                if (i == data.size()) {
+                    mTipDlg.dismiss();
+                    toast(R.string.lan_choose_valid_dev);
+                    return;
+                }
+
+                for (LanDeviceInfo info : data) {
+                    if (info.getChecked() && !info.getEntry().getCloudId().equals("")) {
+                        try {
+                            Thread.sleep(1000);
+                            final int addDevRet = LibImpl.getInstance().getFuncLib().AddDeviceAgent(info.getEntry().getCloudId(),
+                                    info.getEntry().getUserCfg().getAccounts()[0].getUserName(),
+                                    info.getEntry().getUserCfg().getAccounts()[0].getPassword());
+                            if (0 != addDevRet) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mTipDlg.dismiss();
+                                        MyTipDialog.popDialog(LanSearchActivity.this, R.string.dlg_tip, ConstantImpl.getAddDevErrText(addDevRet, false), R.string.close);
+                                    }
+                                });
+                            }
+                        } catch (InterruptedException e) {
+                            mTipDlg.dismiss();
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                mTipDlg.dismiss();
+                toast(R.string.lan_search_add_success);
+                finish();
+            }
+        }).start();
     }
 
     public void sendMessage(int what, int arg1, int arg2, Object obj) {

@@ -17,8 +17,8 @@
     <TextView
             android:id="@+id/dev_ip"
             android:textSize="18sp"
-            android:layout_toRightOf="@+id/dev_id"
-            android:paddingLeft="40dp"
+            android:layout_toLeftOf="@+id/dev_check"
+            android:paddingRight="60dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -26,6 +26,7 @@
             android:id="@+id/dev_check"
             android:background="@drawable/lan_dev_checkbox"
             android:layout_alignParentRight="true"
+            android:clickable="false"
             android:scaleType="fitXY"
             android:layout_centerVertical="true"
             android:layout_width="20dp"

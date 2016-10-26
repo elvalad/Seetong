@@ -67,7 +67,7 @@ public class LanSearchListAdapter extends BaseAdapter {
         }
 
         if (data.get(position).getEntry().getCloudId().equals("")) {
-            viewHolder.devId.setText("9999999");
+            viewHolder.devId.setText("null");
         } else {
             viewHolder.devId.setText(data.get(position).getEntry().getCloudId());
         }
@@ -79,6 +79,12 @@ public class LanSearchListAdapter extends BaseAdapter {
                     viewHolder.checkBtn.setBackgroundResource(R.drawable.lan_dev_checkbox);
                     data.get(position).setChecked(false);
                 } else {
+                    if (data.get(position).getEntry().getCloudId().equals("")) {
+                        String ipAddress = "";
+                        LibImpl.getInstance().getFuncLib().GetOneIPAddress(ipAddress);
+                        Log.e("DDD", "null -> ipAddress :::" + ipAddress);
+                        return;
+                    }
                     viewHolder.checkBtn.setBackgroundResource(R.drawable.lan_dev_checkbox_select);
                     data.get(position).setChecked(true);
                 }
@@ -86,22 +92,5 @@ public class LanSearchListAdapter extends BaseAdapter {
         });
 
         return convertView;
-    }
-
-    public void addLanDevList() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (LanDeviceInfo info : data) {
-                    if (info.getChecked() && !info.getEntry().getCloudId().equals("")) {
-                        int addDevRet = LibImpl.getInstance().getFuncLib().AddDeviceAgent(info.getEntry().getCloudId(),
-                                info.getEntry().getUserCfg().getAccounts()[0].getUserName(),
-                                info.getEntry().getUserCfg().getAccounts()[0].getPassword());
-                    } else {
-                        Log.e("DDD", "add dev info is incorrect");
-                    }
-                }
-            }
-        }).start();
     }
 }
