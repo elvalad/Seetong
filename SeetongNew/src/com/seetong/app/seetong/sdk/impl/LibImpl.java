@@ -487,7 +487,11 @@ public class LibImpl implements FunclibAgent.IFunclibAgentCB, PlayCtrlAgent.IPla
 
     @Override
     public long SearchIPC(long l, long l1, NetSDK_IPC_ENTRY netSDK_ipc_entry) {
-        Global.addLanSearchEntry(netSDK_ipc_entry);
+        Log.e("DDD", "id : " + netSDK_ipc_entry.getCloudId() + " ip : " + netSDK_ipc_entry.getLanCfg().getIPAddress());
+        LanDeviceInfo info = new LanDeviceInfo();
+        info.setIndex(l1);
+        info.setEntry(netSDK_ipc_entry);
+        Global.addLanSearchEntry(info);
         return 0;
     }
 

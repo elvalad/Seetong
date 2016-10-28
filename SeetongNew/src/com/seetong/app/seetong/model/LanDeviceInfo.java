@@ -9,6 +9,8 @@ public class LanDeviceInfo {
 
     private NetSDK_IPC_ENTRY entry;
 
+    private long index;
+
     private boolean bChecked;
 
     public NetSDK_IPC_ENTRY getEntry() {
@@ -17,6 +19,14 @@ public class LanDeviceInfo {
 
     public void setEntry(NetSDK_IPC_ENTRY entry) {
         this.entry = entry;
+    }
+
+    public long getIndex() {
+        return index;
+    }
+
+    public void setIndex(long index) {
+        this.index = index;
     }
 
     public boolean getChecked() {

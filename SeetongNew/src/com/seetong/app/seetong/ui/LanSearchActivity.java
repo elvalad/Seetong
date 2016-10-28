@@ -1,6 +1,7 @@
 package com.seetong.app.seetong.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -13,6 +14,7 @@ import com.seetong.app.seetong.sdk.impl.LibImpl;
 import com.seetong.app.seetong.ui.ext.MyTipDialog;
 import ipc.android.sdk.com.NetSDK_IPC_ENTRY;
 
+import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,9 +78,7 @@ public class LanSearchActivity extends BaseActivity {
 
     private void getData() {
         data.clear();
-        for (NetSDK_IPC_ENTRY entry : Global.getLanSearchList()) {
-            LanDeviceInfo devInfo = new LanDeviceInfo();
-            devInfo.setEntry(entry);
+        for (LanDeviceInfo devInfo : Global.getLanSearchList()) {
             data.add(devInfo);
         }
     }
@@ -126,6 +126,7 @@ public class LanSearchActivity extends BaseActivity {
                         } catch (InterruptedException e) {
                             mTipDlg.dismiss();
                             e.printStackTrace();
+                            return;
                         }
                     }
                 }
@@ -134,6 +135,33 @@ public class LanSearchActivity extends BaseActivity {
                 finish();
             }
         }).start();
+    }
+
+    public void showGetIdTipDialog(final NetSDK_IPC_ENTRY entry, final long index) {
+        final String ipAddr = entry.getLanCfg().getIPAddress();
+        String cloudId = entry.getCloudId();
+        if (cloudId.equals("")) {
+            toast(R.string.lan_search_cloud_id_null);
+            return;
+        }
+
+        MyTipDialog.popDialog(this, R.string.lan_search_modify_dev_ip, R.string.sure, R.string.cancel,
+                new MyTipDialog.IDialogMethod() {
+                    @Override
+                    public void sure() {
+                        toast("ip : " + ipAddr);
+                        mTipDlg.show();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                int ret = LibImpl.getInstance().getFuncLib().ModifyIPC((int)index,
+                                        entry.objectToByteBuffer(ByteOrder.nativeOrder()).array());
+                                Log.e("DDD", "modify ipc ret : " + ret);
+                            }
+                        }).start();
+                    }
+                }
+        );
     }
 
     public void sendMessage(int what, int arg1, int arg2, Object obj) {

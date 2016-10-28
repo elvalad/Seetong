@@ -928,4 +928,6 @@
     <string name="lan_choose_valid_dev">Please choose the lan search device</string>
     <string name="lan_choose_get_cloud_id">Please get the cloud id</string>
     <string name="lan_search_add_success">Add success from lan search</string>
+    <string name="lan_search_modify_dev_ip">Sure you want to modify the dev ip?</string>
+    <string name="lan_search_cloud_id_null">Cloud id is null</string>
 </resources>
