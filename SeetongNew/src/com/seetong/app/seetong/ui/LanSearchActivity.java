@@ -126,6 +126,7 @@ public class LanSearchActivity extends BaseActivity {
                                         MyTipDialog.popDialog(LanSearchActivity.this, R.string.dlg_tip, ConstantImpl.getAddDevErrText(addDevRet, false), R.string.close);
                                     }
                                 });
+                                return;
                             }
                         } catch (InterruptedException e) {
                             mTipDlg.dismiss();
@@ -171,6 +172,8 @@ public class LanSearchActivity extends BaseActivity {
                                     Thread.sleep(1000);
                                     wifiManager.setWifiEnabled(true);
                                     Global.clearLanSearchList();
+                                    sendMessage(Define.MSG_UPDATE_LAN_SEARCH_DEV_LIST, 0, 0, null);
+                                    Thread.sleep(1000);
                                     LibImpl.getInstance().getFuncLib().StartSearchDev();
                                     Thread.sleep(30000);
                                     LibImpl.getInstance().getFuncLib().StopSearchDev();
