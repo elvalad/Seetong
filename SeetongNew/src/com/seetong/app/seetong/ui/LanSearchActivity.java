@@ -1,7 +1,8 @@
 package com.seetong.app.seetong.ui;
 
+import android.app.Service;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -28,6 +29,7 @@ public class LanSearchActivity extends BaseActivity {
     private ListView lanDevList;
     private LanSearchListAdapter adapter;
     private List<LanDeviceInfo> data = new ArrayList<>();
+    private WifiManager wifiManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class LanSearchActivity extends BaseActivity {
     private void initWidget() {
         mTipDlg = new ProgressDialog(this, R.string.dlg_login_recv_list_tip);
         mTipDlg.setCancelable(false);
+        wifiManager =(WifiManager) getSystemService(Service.WIFI_SERVICE);
         LibImpl.getInstance().getFuncLib().StartSearchDev();
         mTipDlg.setCallback(new ProgressDialog.ICallback() {
             @Override
@@ -71,6 +74,7 @@ public class LanSearchActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 mTipDlg.show();
+                mTipDlg.setTitle(R.string.lan_search_add_dev);
                 addLanDevList();
             }
         });
@@ -156,7 +160,25 @@ public class LanSearchActivity extends BaseActivity {
                             public void run() {
                                 int ret = LibImpl.getInstance().getFuncLib().ModifyIPC((int)index,
                                         entry.objectToByteBuffer(ByteOrder.nativeOrder()).array());
-                                Log.e("DDD", "modify ipc ret : " + ret);
+                                if (0 != ret) {
+                                    toast(R.string.lan_search_modify_dev_ip_err);
+                                    return;
+                                }
+
+                                try {
+                                    Thread.sleep(1000);
+                                    wifiManager.setWifiEnabled(false);
+                                    Thread.sleep(1000);
+                                    wifiManager.setWifiEnabled(true);
+                                    Global.clearLanSearchList();
+                                    LibImpl.getInstance().getFuncLib().StartSearchDev();
+                                    Thread.sleep(30000);
+                                    LibImpl.getInstance().getFuncLib().StopSearchDev();
+                                    sendMessage(Define.MSG_UPDATE_LAN_SEARCH_DEV_LIST, 0, 0, null);
+                                    mTipDlg.dismiss();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }).start();
                     }

@@ -927,5 +927,7 @@
     <string name="lan_choose_get_cloud_id">请获取正确的设备ID</string>
     <string name="lan_search_add_success">从局域网添加成功</string>
     <string name="lan_search_modify_dev_ip">确定要修改设备IP？</string>
+    <string name="lan_search_modify_dev_ip_err">修改设备IP失败</string>
     <string name="lan_search_cloud_id_null">云ID为空，不能添加</string>
+    <string name="lan_search_add_dev">正在添加局域网设备</string>
 </resources>
