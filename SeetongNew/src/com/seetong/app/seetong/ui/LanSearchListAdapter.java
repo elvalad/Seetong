@@ -95,7 +95,32 @@ public class LanSearchListAdapter extends BaseAdapter {
             }
         });
 
+        if (data.get(position).getChecked()) {
+            viewHolder.checkBtn.setBackgroundResource(R.drawable.lan_dev_checkbox_select);
+        } else {
+            viewHolder.checkBtn.setBackgroundResource(R.drawable.lan_dev_checkbox);
+        }
+
         return convertView;
+    }
+
+    public void chooseAll(boolean bChooseAll) {
+        StringBuffer ipAddress = new StringBuffer();
+        LibImpl.getInstance().getFuncLib().GetOneIPAddress(ipAddress);
+        int mask = getIpV4Value("255.255.255.0");
+        if (bChooseAll) {
+            for (LanDeviceInfo info : data) {
+                if (checkSameSegment(info.getEntry().getLanCfg().getIPAddress(), ipAddress.toString(), mask) &&
+                        !info.getEntry().getCloudId().equals("")) {
+                    info.setChecked(true);
+                }
+            }
+        } else {
+            for (LanDeviceInfo info : data) {
+                info.setChecked(false);
+            }
+        }
+        notifyDataSetChanged();
     }
 
     public static boolean ipV4Validate(String ipv4)

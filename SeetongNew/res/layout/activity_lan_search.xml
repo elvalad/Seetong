@@ -18,7 +18,7 @@
                 android:textSize="15sp"
                 android:background="#00000000"
                 android:text="@string/lan_choose_all"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:textColor="@color/green"
                 android:layout_marginLeft="25dp"
                 android:layout_centerVertical="true" />

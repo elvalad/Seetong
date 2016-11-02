@@ -4,6 +4,7 @@ import android.app.Service;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import com.seetong.app.seetong.Global;
@@ -30,6 +31,8 @@ public class LanSearchActivity extends BaseActivity {
     private LanSearchListAdapter adapter;
     private List<LanDeviceInfo> data = new ArrayList<>();
     private WifiManager wifiManager;
+    private Button chooseAllBtn;
+    private boolean bChooseAll = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,20 @@ public class LanSearchActivity extends BaseActivity {
         getData();
         adapter = new LanSearchListAdapter(LanSearchActivity.this, data);
         lanDevList.setAdapter(adapter);
+
+        chooseAllBtn = (Button) findViewById(R.id.device_choose_all);
+        chooseAllBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (bChooseAll) {
+                    adapter.chooseAll(false);
+                    bChooseAll = false;
+                } else {
+                    adapter.chooseAll(true);
+                    bChooseAll = true;
+                }
+            }
+        });
 
         addLanDevBtn = (ImageButton) findViewById(R.id.lan_device_add);
         addLanDevBtn.setOnClickListener(new View.OnClickListener() {
