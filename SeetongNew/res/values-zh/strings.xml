@@ -929,6 +929,7 @@
     <string name="lan_search_add_fail">从局域网添加设备失败</string>
     <string name="lan_search_modify_dev_ip">确定要修改设备IP？</string>
     <string name="lan_search_modify_dev_ip_err">修改设备IP失败</string>
-    <string name="lan_search_cloud_id_null">云ID为空，不能添加</string>
+    <string name="lan_search_cloud_id_null">设备固件版本过低，请升级固件或手动添加</string>
     <string name="lan_search_add_dev">正在添加局域网设备</string>
+    <string name="lan_search_no_device">抱歉,当前网络下找不到设备</string>
 </resources>

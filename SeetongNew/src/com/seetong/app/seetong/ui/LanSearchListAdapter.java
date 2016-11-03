@@ -123,8 +123,7 @@ public class LanSearchListAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public static boolean ipV4Validate(String ipv4)
-    {
+    public static boolean ipV4Validate(String ipv4) {
         final String IPV4_REGEX = "((\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3})";
         return ipv4Validate(ipv4, IPV4_REGEX);
     }
@@ -133,8 +132,7 @@ public class LanSearchListAdapter extends BaseAdapter {
         return addr != null && Pattern.matches(regex, addr.trim());
     }
 
-    public static int getIpV4Value(String ipOrMask)
-    {
+    public static int getIpV4Value(String ipOrMask) {
         byte[] addr = getIpV4Bytes(ipOrMask);
         int address1  = addr[3] & 0xFF;
         address1 |= ((addr[2] << 8) & 0xFF00);

@@ -68,7 +68,6 @@ public class LanSearchActivity extends BaseActivity {
         mTipDlg.show(15000);
 
         lanDevList = (ListView) findViewById(R.id.lanSearchList);
-        getData();
         adapter = new LanSearchListAdapter(LanSearchActivity.this, data);
         lanDevList.setAdapter(adapter);
 
@@ -101,6 +100,10 @@ public class LanSearchActivity extends BaseActivity {
         data.clear();
         for (LanDeviceInfo devInfo : Global.getLanSearchList()) {
             data.add(devInfo);
+        }
+
+        if (data.size() == 0) {
+            toast(R.string.lan_search_no_device);
         }
     }
 
